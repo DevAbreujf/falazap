@@ -23,35 +23,34 @@ const steps = [
 
 export function Steps() {
   return (
-    <section id="how-it-works" className="py-20 bg-secondary">
+    <section id="how-it-works" className="py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Como Funciona</h2>
-          <p className="text-muted-foreground">O passo-a-passo é simples</p>
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl font-bold">
+            O FalaZAP transforma os resultados dos seus funis de venda
+          </h2>
+          <p className="text-xl text-muted-foreground">O passo-a-passo é simples:</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {steps.map((step, index) => (
             <div 
               key={step.number}
-              className="relative"
+              className="relative animate-fade-up"
               style={{
                 animationDelay: `${index * 0.1}s`,
               }}
             >
-              <div className="glass-card p-6 h-full">
-                <span className="text-primary text-4xl font-bold mb-4 block">
-                  {step.number}
+              <div className="glass-card p-6 h-full border-t-2 border-t-primary">
+                <span className="text-primary text-2xl font-bold mb-4 block">
+                  Passo {step.number}
                 </span>
-                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                <p className="text-muted-foreground">{step.description}</p>
+                <p className="text-lg text-foreground/90">{step.description}</p>
               </div>
               
-              {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                  <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+              {index < steps.length - 1 && index % 2 === 0 && (
+                <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                  <div className="w-8 h-0.5 bg-primary"></div>
                 </div>
               )}
             </div>
