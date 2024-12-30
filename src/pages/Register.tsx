@@ -8,24 +8,32 @@ import * as z from "zod";
 import { toast } from "sonner";
 
 const formSchema = z.object({
+  name: z.string().min(2, "Nome deve ter no mínimo 2 caracteres"),
   email: z.string().email("Email inválido"),
   password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "As senhas não coincidem",
+  path: ["confirmPassword"],
 });
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Aqui você implementaria a lógica de login
+    // Aqui você implementaria a lógica de registro
     console.log(values);
-    toast.success("Login realizado com sucesso!");
+    toast.success("Conta criada com sucesso!");
+    navigate("/login");
   }
 
   return (
@@ -44,11 +52,25 @@ export default function Login() {
               <span className="text-2xl font-bold text-primary">Fala</span>
               <span className="text-2xl font-bold">ZAP</span>
             </div>
-            <p className="text-muted-foreground">Faça login para acessar sua conta</p>
+            <p className="text-muted-foreground">Crie sua conta para começar</p>
           </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nome</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Seu nome" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="email"
@@ -77,8 +99,22 @@ export default function Login() {
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirmar Senha</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="••••••••" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <Button type="submit" className="w-full">
-                Entrar
+                Criar Conta
               </Button>
             </form>
           </Form>
@@ -95,14 +131,14 @@ export default function Login() {
 
             <div className="space-y-2 text-center">
               <p className="text-sm text-muted-foreground">
-                Ainda não tem uma conta?
+                Já tem uma conta?
               </p>
               <Button
                 variant="outline"
                 className="w-full"
-                onClick={() => navigate("/register")}
+                onClick={() => navigate("/login")}
               >
-                Criar Conta
+                Fazer Login
               </Button>
             </div>
           </div>

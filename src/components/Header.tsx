@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Header() {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export function Header() {
               Acessar
             </Button>
           </Link>
-          <Button onClick={scrollToPricing}>
+          <Button onClick={() => navigate("/register")}>
             Começar Agora
           </Button>
         </div>
