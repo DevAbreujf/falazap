@@ -17,8 +17,8 @@ export function PricingDialog() {
           Upgrade de Plano
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-6xl w-[95vw] p-0 gap-0 bg-[#1A1F2C] backdrop-blur-sm border border-primary/10">
-        <DialogHeader className="p-6 pb-0 bg-transparent">
+      <DialogContent className="max-w-6xl w-[95vw] p-0 gap-0 bg-[#1A1F2C]/95 backdrop-blur-sm border border-primary/10">
+        <DialogHeader className="p-6 pb-0">
           <DialogTitle className="text-3xl font-bold text-gradient-primary">
             Escolha seu plano
           </DialogTitle>
@@ -26,7 +26,7 @@ export function PricingDialog() {
             Selecione o plano ideal para o seu negócio
           </DialogDescription>
         </DialogHeader>
-        <div className="overflow-y-auto max-h-[80vh] p-6 pt-0 bg-transparent">
+        <div className="overflow-y-auto max-h-[80vh] p-6 pt-0">
           <Pricing />
         </div>
       </DialogContent>
