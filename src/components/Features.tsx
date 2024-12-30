@@ -53,7 +53,7 @@ export function Features() {
     Autoplay({
       delay: 3000,
       stopOnInteraction: false,
-      stopOnMouseEnter: true,
+      stopOnMouseEnter: false,
     })
   );
 
@@ -97,14 +97,14 @@ export function Features() {
             <CarouselContent>
               {features.map((feature, index) => (
                 <CarouselItem key={feature.title} className="md:basis-1/1 lg:basis-1/1">
-                  <div className="glass-card p-8 h-full min-h-[300px] transform-gpu transition-all duration-500 hover:scale-[1.02] relative group overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  <div className="glass-card p-8 h-full min-h-[300px] relative overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-5 transition-opacity duration-500`}></div>
                     <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/30 to-transparent z-20"></div>
                     
                     <div className="relative z-10">
                       <div className="flex justify-center mb-8">
                         <div className="relative">
-                          <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl transform group-hover:scale-110 transition-transform duration-500"></div>
+                          <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl"></div>
                           <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 rounded-full backdrop-blur-sm border border-white/5">
                             <feature.icon className="w-12 h-12 text-primary" />
                           </div>
