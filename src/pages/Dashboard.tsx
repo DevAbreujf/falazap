@@ -173,33 +173,31 @@ export default function Dashboard() {
               <CardHeader>
                 <CardTitle>Análise Comparativa</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-[400px] w-full">
-                  <ChartContainer config={config}>
-                    <AreaChart data={mockData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Area
-                        type="monotone"
-                        dataKey="messages"
-                        name="messages"
-                        stroke="hsl(var(--primary))"
-                        fill="hsl(var(--primary))"
-                        fillOpacity={0.2}
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="leads"
-                        name="leads"
-                        stroke="hsl(var(--secondary))"
-                        fill="hsl(var(--secondary))"
-                        fillOpacity={0.2}
-                      />
-                    </AreaChart>
-                  </ChartContainer>
-                </div>
+              <CardContent className="h-[450px]">
+                <ChartContainer config={config}>
+                  <AreaChart data={mockData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Area
+                      type="monotone"
+                      dataKey="messages"
+                      name="messages"
+                      stroke="hsl(var(--primary))"
+                      fill="hsl(var(--primary))"
+                      fillOpacity={0.2}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="leads"
+                      name="leads"
+                      stroke="hsl(var(--secondary))"
+                      fill="hsl(var(--secondary))"
+                      fillOpacity={0.2}
+                    />
+                  </AreaChart>
+                </ChartContainer>
               </CardContent>
             </Card>
           </main>
