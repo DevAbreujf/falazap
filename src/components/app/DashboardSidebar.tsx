@@ -48,7 +48,7 @@ export function DashboardSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    active={location.pathname === item.url}
+                    isActive={location.pathname === item.url}
                   >
                     <a href={item.url}>
                       <item.icon />
