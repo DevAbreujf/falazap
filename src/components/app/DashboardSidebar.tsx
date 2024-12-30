@@ -66,13 +66,13 @@ export function DashboardSidebar() {
     <Sidebar>
       <SidebarHeader className="p-6">
         <div className="flex items-center space-x-2">
-          <span className="text-3xl font-bold text-primary">Fala</span>
-          <span className="text-3xl font-bold text-foreground">ZAP</span>
+          <span className="text-4xl font-bold text-primary">Fala</span>
+          <span className="text-4xl font-bold text-foreground">ZAP</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-lg px-6">Menu</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xl px-6">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -83,8 +83,8 @@ export function DashboardSidebar() {
                     className="hover:bg-primary/10 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                   >
                     <a href={item.url} className="flex items-center gap-4 px-6 py-3">
-                      <item.icon className="h-6 w-6" />
-                      <span className="text-lg font-medium">{item.title}</span>
+                      <item.icon className="h-7 w-7" />
+                      <span className="text-xl font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -94,8 +94,8 @@ export function DashboardSidebar() {
                   onClick={handleLogout}
                   className="flex items-center gap-4 px-6 py-3 text-destructive hover:bg-destructive/10"
                 >
-                  <LogOut className="h-6 w-6" />
-                  <span className="text-lg font-medium">Sair</span>
+                  <LogOut className="h-7 w-7" />
+                  <span className="text-xl font-medium">Sair</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
