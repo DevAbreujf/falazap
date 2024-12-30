@@ -19,9 +19,9 @@ export function MetricCard({ title, value, trend, icon: Icon, iconColor = "text-
         </CardTitle>
         <ArrowUpRight className="h-4 w-4 text-emerald-500" />
       </CardHeader>
-      <CardContent>
-        <div className="text-3xl font-bold mb-2">{value}</div>
-        <div className="min-h-[24px] flex items-center">
+      <CardContent className="flex flex-col justify-between h-[100px]">
+        <div className="text-3xl font-bold">{value}</div>
+        <div className="flex items-center">
           <p className="text-sm text-emerald-500 flex items-center gap-1">
             <TrendingUp className="h-4 w-4" />
             {trend}
