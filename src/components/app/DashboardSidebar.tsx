@@ -64,17 +64,17 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-6">
+      <SidebarHeader className="p-8">
         <div className="flex items-center space-x-2">
-          <span className="text-4xl font-bold text-primary">Fala</span>
-          <span className="text-4xl font-bold text-foreground">ZAP</span>
+          <span className="text-5xl font-bold text-primary">Fala</span>
+          <span className="text-5xl font-bold text-foreground">ZAP</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xl px-6">Menu</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-2xl px-8 mb-4">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-3">
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
@@ -82,9 +82,9 @@ export function DashboardSidebar() {
                     isActive={location.pathname === item.url}
                     className="hover:bg-primary/10 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                   >
-                    <a href={item.url} className="flex items-center gap-4 px-6 py-3">
-                      <item.icon className="h-7 w-7" />
-                      <span className="text-xl font-medium">{item.title}</span>
+                    <a href={item.url} className="flex items-center gap-4 px-8 py-4">
+                      <item.icon className="h-8 w-8" />
+                      <span className="text-2xl font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -92,10 +92,10 @@ export function DashboardSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={handleLogout}
-                  className="flex items-center gap-4 px-6 py-3 text-destructive hover:bg-destructive/10"
+                  className="flex items-center gap-4 px-8 py-4 text-destructive hover:bg-destructive/10"
                 >
-                  <LogOut className="h-7 w-7" />
-                  <span className="text-xl font-medium">Sair</span>
+                  <LogOut className="h-8 w-8" />
+                  <span className="text-2xl font-medium">Sair</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
