@@ -180,9 +180,9 @@ export default function Dashboard() {
               <CardHeader>
                 <CardTitle>Análise Comparativa</CardTitle>
               </CardHeader>
-              <CardContent className="h-[450px] p-4">
-                <ChartContainer config={config}>
-                  <AreaChart data={mockData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <CardContent className="h-[450px]">
+                <ChartContainer config={config} className="w-full h-full">
+                  <AreaChart data={mockData} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
                     <defs>
                       <linearGradient id="mensagensGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#1cd8b6" stopOpacity={0.3}/>
@@ -202,10 +202,12 @@ export default function Dashboard() {
                       dataKey="name" 
                       stroke="hsl(var(--muted-foreground))"
                       tick={{ fill: "hsl(var(--muted-foreground))" }}
+                      dy={10}
                     />
                     <YAxis 
                       stroke="hsl(var(--muted-foreground))"
                       tick={{ fill: "hsl(var(--muted-foreground))" }}
+                      dx={-10}
                     />
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <Area
