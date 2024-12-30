@@ -34,9 +34,10 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    background: radial-gradient(circle at top center, rgba(28, 216, 182, 0.15), transparent 60%),
+    background: radial-gradient(circle at top center, rgba(28, 216, 182, 0.15), transparent 120%),
                 linear-gradient(180deg, hsl(222.2 84% 4.9%) 0%, hsl(222.2 84% 4.9%) 100%);
     background-attachment: fixed;
+    min-height: 100vh;
   }
 }
 
