@@ -6,6 +6,7 @@ import { HighScale } from "@/components/HighScale";
 import { Functionalities } from "@/components/Functionalities";
 import { Pricing } from "@/components/Pricing";
 import { FAQ } from "@/components/FAQ";
+import { SalesCTA } from "@/components/SalesCTA";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
@@ -20,6 +21,7 @@ const Index = () => {
         <Functionalities />
         <Pricing />
         <FAQ />
+        <SalesCTA />
       </main>
       <Footer />
     </div>
