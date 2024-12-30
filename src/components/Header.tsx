@@ -13,6 +13,11 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById('pricing');
+    pricingSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/80 backdrop-blur-sm border-b border-border" : ""}`}>
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
@@ -25,7 +30,6 @@ export function Header() {
           <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">Recursos</a>
           <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors">Como Funciona</a>
           <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">Planos</a>
-          <a href="#faq" className="text-sm font-medium hover:text-primary transition-colors">FAQ</a>
         </nav>
 
         <div className="flex items-center space-x-4">
@@ -34,7 +38,7 @@ export function Header() {
               Acessar
             </Button>
           </Link>
-          <Button>
+          <Button onClick={scrollToPricing}>
             Começar Agora
           </Button>
         </div>
