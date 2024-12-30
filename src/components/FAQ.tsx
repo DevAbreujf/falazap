@@ -33,27 +33,30 @@ export function FAQ() {
     <section id="faq" className="py-24 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background/80"></div>
       <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-16 animate-fade-up">
-          <h2 className="text-4xl font-bold mb-4 text-gradient-primary">
-            Perguntas Frequentes
-          </h2>
+        <div className="text-center mb-16">
+          <div className="inline-block">
+            <h2 className="text-4xl font-bold mb-6 leading-tight">
+              <span className="text-gradient-primary">Perguntas</span>{" "}
+              <span className="text-foreground">Frequentes</span>
+            </h2>
+          </div>
           <p className="text-xl text-muted-foreground">
             Tire suas dúvidas sobre o FalaZAP
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="space-y-6">
+          <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={faq.question}
                 value={`item-${index}`}
-                className="group border-none"
+                className="border-none"
               >
-                <AccordionTrigger className="glass-card px-6 py-4 rounded-xl text-lg font-semibold hover:no-underline data-[state=open]:rounded-b-none transition-all duration-300 group-data-[state=open]:bg-primary/5">
-                  {faq.question}
+                <AccordionTrigger className="glass-card px-6 py-4 rounded-xl text-lg hover:no-underline data-[state=open]:rounded-b-none transition-all duration-300">
+                  <span className="text-left pr-8">{faq.question}</span>
                 </AccordionTrigger>
-                <AccordionContent className="glass-card px-6 py-4 mt-px rounded-b-xl bg-primary/5 text-base text-muted-foreground">
+                <AccordionContent className="glass-card border-t border-primary/10 px-6 py-4 mt-px rounded-b-xl text-base text-muted-foreground leading-relaxed">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

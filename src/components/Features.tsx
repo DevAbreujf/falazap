@@ -1,4 +1,11 @@
 import { Bookmark, Zap, MessageSquare, PiggyBank, Clock, Sparkles } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const features = [
   {
@@ -41,7 +48,7 @@ export function Features() {
       
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-20 animate-fade-up">
-          <span className="inline-block px-4 py-2 rounded-full glass-card text-primary text-sm font-medium mb-4 transition-transform duration-300 hover:scale-105">
+          <span className="inline-block px-4 py-2 rounded-full glass-card text-primary text-sm font-medium mb-4">
             RECURSOS PRINCIPAIS
           </span>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -56,37 +63,44 @@ export function Features() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div 
-              key={feature.title}
-              className="group relative perspective-1000"
-              style={{
-                animationDelay: `${index * 0.1}s`,
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/3 to-transparent rounded-2xl transition-opacity duration-500 opacity-0 group-hover:opacity-100"></div>
-              
-              <div className="glass-card relative h-full p-8 transition-all duration-500 hover:translate-y-[-8px] hover:shadow-xl hover:shadow-primary/10">
-                <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/50 to-transparent rounded-t-2xl"></div>
-                
-                <div className="relative z-10">
-                  <div className="mb-6 relative transition-transform duration-500 group-hover:scale-105">
-                    <div className="absolute inset-0 bg-primary/10 rounded-full blur-md transition-all duration-500 group-hover:scale-110"></div>
-                    <feature.icon className="w-12 h-12 text-primary relative z-10 transition-transform duration-500 group-hover:rotate-3" />
+        <div className="max-w-5xl mx-auto px-8">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {features.map((feature, index) => (
+                <CarouselItem key={feature.title}>
+                  <div className="glass-card p-8 h-full transition-all duration-300 hover:translate-y-[-4px]">
+                    <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/30 to-transparent rounded-t-2xl"></div>
+                    
+                    <div className="flex flex-col items-center text-center gap-6">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-primary/10 rounded-full blur-lg"></div>
+                        <feature.icon className="w-16 h-16 text-primary relative z-10" />
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <h3 className="text-2xl font-semibold text-gradient">
+                          {feature.title}
+                        </h3>
+                        <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  
-                  <h3 className="text-xl font-semibold mb-4 transition-colors duration-300 group-hover:text-primary">
-                    {feature.title}
-                  </h3>
-                  
-                  <p className="text-muted-foreground leading-relaxed transition-colors duration-300 group-hover:text-foreground">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="mt-8 flex justify-center gap-4">
+              <CarouselPrevious className="relative static" />
+              <CarouselNext className="relative static" />
             </div>
-          ))}
+          </Carousel>
         </div>
       </div>
     </section>
