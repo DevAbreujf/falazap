@@ -7,19 +7,6 @@ import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from "recharts";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -28,33 +15,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Pricing } from "@/components/Pricing";
-
-const mockData = [
-  { name: "Jan", messages: 400, leads: 240 },
-  { name: "Fev", messages: 300, leads: 139 },
-  { name: "Mar", messages: 200, leads: 980 },
-  { name: "Abr", messages: 278, leads: 390 },
-  { name: "Mai", messages: 189, leads: 480 },
-  { name: "Jun", messages: 239, leads: 380 },
-  { name: "Jul", messages: 349, leads: 430 },
-];
-
-const config = {
-  messages: {
-    label: "Mensagens",
-    theme: {
-      light: "hsl(var(--primary))",
-      dark: "hsl(var(--primary))",
-    },
-  },
-  leads: {
-    label: "Leads",
-    theme: {
-      light: "hsl(var(--secondary))",
-      dark: "hsl(var(--secondary))",
-    },
-  },
-};
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -168,38 +128,6 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
             </div>
-
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle>Análise Comparativa</CardTitle>
-              </CardHeader>
-              <CardContent className="h-[450px]">
-                <ChartContainer config={config}>
-                  <AreaChart data={mockData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Area
-                      type="monotone"
-                      dataKey="messages"
-                      name="messages"
-                      stroke="hsl(var(--primary))"
-                      fill="hsl(var(--primary))"
-                      fillOpacity={0.2}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="leads"
-                      name="leads"
-                      stroke="hsl(var(--secondary))"
-                      fill="hsl(var(--secondary))"
-                      fillOpacity={0.2}
-                    />
-                  </AreaChart>
-                </ChartContainer>
-              </CardContent>
-            </Card>
           </main>
         </div>
       </div>
