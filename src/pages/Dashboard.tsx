@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Toaster } from "@/components/ui/toaster";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -93,14 +93,16 @@ export default function Dashboard() {
                   <DialogTrigger asChild>
                     <Button size="sm">Upgrade de Plano</Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+                  <DialogContent className="max-w-6xl scrollbar-hide">
                     <DialogHeader>
                       <DialogTitle>Escolha seu plano</DialogTitle>
                       <DialogDescription>
                         Selecione o plano ideal para o seu negócio
                       </DialogDescription>
                     </DialogHeader>
-                    <Pricing />
+                    <div className="overflow-y-auto scrollbar-hide">
+                      <Pricing />
+                    </div>
                   </DialogContent>
                 </Dialog>
               </div>
@@ -171,8 +173,8 @@ export default function Dashboard() {
                 <CardTitle>Análise Comparativa</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-[400px] w-full">
-                  <ChartContainer config={config}>
+                <div style={{ width: '100%', height: '400px' }}>
+                  <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={mockData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
@@ -195,7 +197,7 @@ export default function Dashboard() {
                         fillOpacity={0.2}
                       />
                     </AreaChart>
-                  </ChartContainer>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
