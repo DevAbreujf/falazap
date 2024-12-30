@@ -18,6 +18,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Pricing } from "@/components/Pricing";
 
 const mockData = [
   { name: "Jan", messages: 400, leads: 240 },
@@ -80,7 +89,20 @@ export default function Dashboard() {
                 <p className="text-sm text-muted-foreground mb-2">
                   Plano atual: <span className="font-medium">Pro</span>
                 </p>
-                <Button size="sm">Upgrade de Plano</Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button size="sm">Upgrade de Plano</Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Escolha seu plano</DialogTitle>
+                      <DialogDescription>
+                        Selecione o plano ideal para o seu negócio
+                      </DialogDescription>
+                    </DialogHeader>
+                    <Pricing />
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
 
@@ -149,9 +171,9 @@ export default function Dashboard() {
                 <CardTitle>Análise Comparativa</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-[400px]">
+                <div className="h-[400px] w-full">
                   <ChartContainer config={config}>
-                    <AreaChart data={mockData}>
+                    <AreaChart data={mockData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
