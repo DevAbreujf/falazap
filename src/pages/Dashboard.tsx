@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Toaster } from "@/components/ui/toaster";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -64,28 +62,14 @@ const config = {
 };
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const [timeRange, setTimeRange] = useState<"day" | "week" | "month">("week");
 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
         <DashboardSidebar />
-        <div className="flex-1">
-          <header className="border-b border-border">
-            <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <SidebarTrigger />
-                <span className="text-2xl font-bold text-primary">Fala</span>
-                <span className="text-2xl font-bold">ZAP</span>
-              </div>
-              <Button variant="ghost" onClick={() => navigate("/")}>
-                Sair
-              </Button>
-            </div>
-          </header>
-
-          <main className="container mx-auto px-4 py-8">
+        <div className="flex-1 overflow-auto">
+          <main className="container mx-auto px-6 py-8">
             <div className="flex justify-between items-center mb-8">
               <div>
                 <h1 className="text-3xl font-bold">Olá, João!</h1>
@@ -99,7 +83,7 @@ export default function Dashboard() {
                 </p>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button size="sm">Upgrade de Plano</Button>
+                    <Button size="sm" className="hover-glow">Upgrade de Plano</Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-6xl scrollbar-hide">
                     <DialogHeader>
@@ -119,7 +103,7 @@ export default function Dashboard() {
             <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
 
             <div className="grid gap-6 md:grid-cols-4 mt-6">
-              <Card>
+              <Card className="hover-glow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Mensagens Enviadas
@@ -133,7 +117,7 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-glow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Novos Leads
@@ -147,7 +131,7 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-glow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Taxa de Conversão
@@ -161,7 +145,7 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover-glow">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Funis Ativos
@@ -176,7 +160,7 @@ export default function Dashboard() {
               </Card>
             </div>
 
-            <Card className="mt-6">
+            <Card className="mt-6 hover-glow">
               <CardHeader>
                 <CardTitle>Análise Comparativa</CardTitle>
               </CardHeader>

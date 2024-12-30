@@ -24,6 +24,12 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 167 84% 48%;
     --radius: 0.75rem;
+    
+    --sidebar-background: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-muted: 215 20.2% 65.1%;
+    --sidebar-primary: 167 84% 48%;
+    --sidebar-border: 217.2 32.6% 17.5%;
   }
 }
 

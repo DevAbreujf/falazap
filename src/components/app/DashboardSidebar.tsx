@@ -1,5 +1,5 @@
-import { BarChart3, Users, MessageSquare, FolderGit2 } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { BarChart3, MessageSquare, Users, FolderGit2, LogOut } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarHeader,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
@@ -18,27 +19,58 @@ const menuItems = [
     icon: BarChart3,
   },
   {
+    title: "Funis",
+    url: "/dashboard/funnels",
+    icon: FolderGit2,
+  },
+  {
+    title: "SMS",
+    url: "/dashboard/sms",
+    icon: MessageSquare,
+  },
+  {
     title: "Contatos",
     url: "/dashboard/contacts",
     icon: Users,
   },
   {
-    title: "Mensagens",
-    url: "/dashboard/messages",
-    icon: MessageSquare,
-  },
-  {
-    title: "Funis",
-    url: "/dashboard/funnels",
-    icon: FolderGit2,
+    title: "Conexão",
+    url: "/dashboard/connection",
+    icon: (props: any) => (
+      <svg
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        {...props}
+      >
+        <path d="M3 21l1.9-5.7a8.5 8.5 0 113.4 3.4z" />
+      </svg>
+    ),
   },
 ];
 
 export function DashboardSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Aqui você pode adicionar a lógica de logout
+    navigate("/");
+  };
 
   return (
     <Sidebar>
+      <SidebarHeader className="p-4">
+        <div className="flex items-center space-x-2">
+          <span className="text-2xl font-bold text-primary">Fala</span>
+          <span className="text-2xl font-bold text-foreground">ZAP</span>
+        </div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
@@ -49,14 +81,24 @@ export function DashboardSidebar() {
                   <SidebarMenuButton
                     asChild
                     isActive={location.pathname === item.url}
+                    className="hover:bg-primary/10 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                   >
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                    <a href={item.url} className="flex items-center gap-3 px-4 py-2">
+                      <item.icon className="h-5 w-5" />
+                      <span className="font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={handleLogout}
+                  className="flex items-center gap-3 px-4 py-2 text-destructive hover:bg-destructive/10"
+                >
+                  <LogOut className="h-5 w-5" />
+                  <span className="font-medium">Sair</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
