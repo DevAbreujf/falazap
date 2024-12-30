@@ -5,7 +5,7 @@ import {
   Settings,
   Upload,
   Image,
-  Audio,
+  AudioLines,
   MousePointer,
   FormInput,
   Webhook,
@@ -38,7 +38,7 @@ const tools = [
     items: [
       { type: "file", label: "Upload de Arquivo", icon: Upload },
       { type: "image", label: "Imagem", icon: Image },
-      { type: "audio", label: "Áudio", icon: Audio },
+      { type: "audio", label: "Áudio", icon: AudioLines },
     ],
   },
   {
