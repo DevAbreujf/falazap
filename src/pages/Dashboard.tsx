@@ -19,7 +19,6 @@ import {
   YAxis,
 } from "recharts";
 import { TrendingUp, Users, MessageSquare, Target } from "lucide-react";
-import { PricingDialog } from "@/components/app/PricingDialog";
 
 const mockData = [
   { name: "Jan", mensagens: 2345, leads: 345, conversao: 14.2 },
@@ -78,7 +77,6 @@ export default function Dashboard() {
                 <p className="text-sm text-muted-foreground mb-2">
                   Plano atual: <span className="font-medium text-primary">Pro</span>
                 </p>
-                <PricingDialog />
               </div>
             </div>
 
