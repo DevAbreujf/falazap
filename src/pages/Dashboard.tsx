@@ -93,7 +93,7 @@ export default function Dashboard() {
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-6xl w-[95vw] p-0 gap-0 bg-background/95 backdrop-blur-sm border border-primary/10">
-                    <DialogHeader className="p-6 pb-0">
+                    <DialogHeader className="p-6 pb-0 bg-transparent">
                       <DialogTitle className="text-3xl font-bold text-gradient-primary">
                         Escolha seu plano
                       </DialogTitle>
@@ -101,7 +101,7 @@ export default function Dashboard() {
                         Selecione o plano ideal para o seu negócio
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="overflow-y-auto max-h-[80vh] p-6 pt-0 scrollbar-hide">
+                    <div className="overflow-y-auto max-h-[80vh] p-6 pt-0 bg-transparent">
                       <Pricing />
                     </div>
                   </DialogContent>
