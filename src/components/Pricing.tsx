@@ -53,6 +53,7 @@ const plans = [
 export function Pricing() {
   return (
     <section className="py-8 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
       <div className="container mx-auto px-4 relative">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
           {plans.map((plan, index) => (
