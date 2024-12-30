@@ -84,13 +84,13 @@ export function Pricing() {
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 flex items-center">
                     <div className="flex items-center gap-2">
-                      <div className="w-[120px] h-[1px] bg-primary"></div>
-                      <div className="bg-primary px-6 py-1.5 rounded-full">
+                      <div className="w-[120px] h-[1px] bg-primary -z-10"></div>
+                      <div className="bg-primary px-6 py-1.5 rounded-full relative z-10">
                         <span className="text-sm font-medium text-primary-foreground whitespace-nowrap">
                           Mais Popular
                         </span>
                       </div>
-                      <div className="w-[120px] h-[1px] bg-primary"></div>
+                      <div className="w-[120px] h-[1px] bg-primary -z-10"></div>
                     </div>
                   </div>
                 )}
