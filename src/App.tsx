@@ -5,27 +5,33 @@ import Funnels from "@/pages/Funnels";
 import FunnelEditor from "@/pages/FunnelEditor";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/dashboard",
     element: <Dashboard />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/funnels",
     element: <Funnels />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/funnels/editor/:id?",
     element: <FunnelEditor />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/login",
     element: <Login />,
+    errorElement: <ErrorBoundary />,
   },
 ]);
 
