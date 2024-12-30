@@ -59,7 +59,7 @@ export function Features() {
   }, [api]);
 
   const plugin = useMemo(
-    () => Autoplay({ delay: 3000, stopOnInteraction: true, loop: true }),
+    () => Autoplay({ delay: 3000, stopOnInteraction: true }),
     []
   );
 
