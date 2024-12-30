@@ -26,6 +26,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Pricing } from "@/components/Pricing";
+import { ArrowUpRight, TrendingUp, Users, MessageSquare, Target } from "lucide-react";
 
 const mockData = [
   { name: "Jan", mensagens: 2345, leads: 345, conversao: 14.2 },
@@ -69,21 +70,25 @@ export default function Dashboard() {
       <div className="min-h-screen flex w-full bg-background">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
-          <main className="container mx-auto px-6 py-8">
-            <div className="flex justify-between items-center mb-8">
+          <main className="container mx-auto px-8 py-10">
+            <div className="flex justify-between items-center mb-10">
               <div>
-                <h1 className="text-3xl font-bold">Olá, João!</h1>
-                <p className="text-muted-foreground">
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                  Olá, João!
+                </h1>
+                <p className="text-muted-foreground text-lg mt-2">
                   Bem-vindo ao seu painel de controle
                 </p>
               </div>
               <div className="text-right">
                 <p className="text-sm text-muted-foreground mb-2">
-                  Plano atual: <span className="font-medium">Pro</span>
+                  Plano atual: <span className="font-medium text-primary">Pro</span>
                 </p>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button size="sm" className="hover-glow">Upgrade de Plano</Button>
+                    <Button size="lg" className="hover-glow bg-primary/90 hover:bg-primary transition-all duration-300">
+                      Upgrade de Plano
+                    </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-6xl scrollbar-hide">
                     <DialogHeader>
@@ -102,71 +107,89 @@ export default function Dashboard() {
 
             <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
 
-            <div className="grid gap-6 md:grid-cols-4 mt-6">
-              <Card className="hover-glow">
+            <div className="grid gap-6 md:grid-cols-4 mt-8">
+              <Card className="hover-glow transition-all duration-300 hover:translate-y-[-2px]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
+                  <CardTitle className="text-base font-medium flex items-center gap-2">
+                    <MessageSquare className="h-5 w-5 text-primary" />
                     Mensagens Enviadas
                   </CardTitle>
+                  <ArrowUpRight className="h-4 w-4 text-emerald-500" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">2,345</div>
-                  <p className="text-xs text-muted-foreground">
+                  <div className="text-3xl font-bold">2,345</div>
+                  <p className="text-sm text-emerald-500 flex items-center gap-1 mt-1">
+                    <TrendingUp className="h-4 w-4" />
                     +20.1% em relação ao período anterior
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="hover-glow">
+              <Card className="hover-glow transition-all duration-300 hover:translate-y-[-2px]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
+                  <CardTitle className="text-base font-medium flex items-center gap-2">
+                    <Users className="h-5 w-5 text-primary" />
                     Novos Leads
                   </CardTitle>
+                  <ArrowUpRight className="h-4 w-4 text-emerald-500" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">345</div>
-                  <p className="text-xs text-muted-foreground">
+                  <div className="text-3xl font-bold">345</div>
+                  <p className="text-sm text-emerald-500 flex items-center gap-1 mt-1">
+                    <TrendingUp className="h-4 w-4" />
                     +10.5% em relação ao período anterior
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="hover-glow">
+              <Card className="hover-glow transition-all duration-300 hover:translate-y-[-2px]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
+                  <CardTitle className="text-base font-medium flex items-center gap-2">
+                    <Target className="h-5 w-5 text-primary" />
                     Taxa de Conversão
                   </CardTitle>
+                  <ArrowUpRight className="h-4 w-4 text-emerald-500" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">14.2%</div>
-                  <p className="text-xs text-muted-foreground">
+                  <div className="text-3xl font-bold">14.2%</div>
+                  <p className="text-sm text-emerald-500 flex items-center gap-1 mt-1">
+                    <TrendingUp className="h-4 w-4" />
                     +2.3% em relação ao período anterior
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="hover-glow">
+              <Card className="hover-glow transition-all duration-300 hover:translate-y-[-2px]">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
+                  <CardTitle className="text-base font-medium flex items-center gap-2">
+                    <Target className="h-5 w-5 text-primary" />
                     Funis Ativos
                   </CardTitle>
+                  <ArrowUpRight className="h-4 w-4 text-emerald-500" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">3</div>
-                  <p className="text-xs text-muted-foreground">
+                  <div className="text-3xl font-bold">3</div>
+                  <p className="text-sm text-emerald-500 flex items-center gap-1 mt-1">
+                    <TrendingUp className="h-4 w-4" />
                     +1 em relação ao período anterior
                   </p>
                 </CardContent>
               </Card>
             </div>
 
-            <Card className="mt-6 hover-glow">
+            <Card className="mt-8 hover-glow transition-all duration-300">
               <CardHeader>
-                <CardTitle>Análise Comparativa</CardTitle>
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <TrendingUp className="h-6 w-6 text-primary" />
+                  Análise Comparativa
+                </CardTitle>
               </CardHeader>
-              <CardContent className="h-[450px]">
+              <CardContent className="h-[450px] p-4">
                 <ChartContainer config={config} className="w-full h-full">
-                  <AreaChart data={mockData} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+                  <AreaChart 
+                    data={mockData} 
+                    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                  >
                     <defs>
                       <linearGradient id="mensagensGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#1cd8b6" stopOpacity={0.3}/>
@@ -181,7 +204,11 @@ export default function Dashboard() {
                         <stop offset="95%" stopColor="#39f18e" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.2} />
+                    <CartesianGrid 
+                      strokeDasharray="3 3" 
+                      stroke="hsl(var(--border))" 
+                      opacity={0.2} 
+                    />
                     <XAxis 
                       dataKey="name" 
                       stroke="hsl(var(--muted-foreground))"
