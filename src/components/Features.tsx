@@ -95,7 +95,7 @@ export function Features() {
             <CarouselContent>
               {features.map((feature, index) => (
                 <CarouselItem key={feature.title} className="md:basis-1/1 lg:basis-1/1">
-                  <div className="glass-card p-8 h-full min-h-[300px] transform-gpu transition-all duration-500 hover:translate-y-0 hover:scale-[1.02] relative group overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
+                  <div className="glass-card p-8 h-full min-h-[300px] transform-gpu transition-all duration-500 hover:-translate-y-2 relative group overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
                     <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
                     <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/30 to-transparent z-20"></div>
                     
