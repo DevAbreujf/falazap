@@ -1,21 +1,30 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Funnels from "./pages/Funnels";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
+import Dashboard from "@/pages/Dashboard";
+import Funnels from "@/pages/Funnels";
+import FunnelEditor from "@/pages/FunnelEditor";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Dashboard />,
+  },
+  {
+    path: "/funnels",
+    element: <Funnels />,
+  },
+  {
+    path: "/funnels/editor/:id?",
+    element: <FunnelEditor />,
+  },
+]);
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/funnels" element={<Funnels />} />
-      </Routes>
-    </Router>
+    <>
+      <RouterProvider router={router} />
+      <Toaster />
+    </>
   );
 }
 

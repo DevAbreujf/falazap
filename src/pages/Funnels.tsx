@@ -39,8 +39,7 @@ export default function Funnels() {
   };
 
   const handleEditFunnel = (id: number) => {
-    console.log("Editing funnel:", id);
-    // Implementation for editing funnel
+    window.location.href = `/funnels/editor/${id}`;
   };
 
   const handleDuplicateFunnel = (id: number) => {
