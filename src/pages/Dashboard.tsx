@@ -18,7 +18,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { TrendingUp, Users, MessageSquare, Target } from "lucide-react";
+import { TrendingUp, Users, MessageSquare, Target, Circle } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 
 const mockData = [
@@ -57,6 +57,7 @@ const config = {
 
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState<"day" | "week" | "month">("week");
+  const [isConnected] = useState(false); // This would be managed by your connection logic
 
   return (
     <SidebarProvider>
@@ -65,7 +66,7 @@ export default function Dashboard() {
         <div className="flex-1 overflow-auto">
           <main className="container mx-auto px-8 py-10">
             {/* Header section */}
-            <div className="flex justify-between items-center mb-10">
+            <div className="flex justify-between items-start mb-10">
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                   Olá, João!
@@ -73,6 +74,28 @@ export default function Dashboard() {
                 <p className="text-muted-foreground text-lg mt-2">
                   Bem-vindo ao seu painel de controle
                 </p>
+                <div className="flex items-center gap-3 mt-3">
+                  <div className="flex items-center gap-2">
+                    <Circle
+                      className={`h-3 w-3 fill-current ${
+                        isConnected ? "text-emerald-500" : "text-red-500"
+                      }`}
+                    />
+                    <span className="text-sm text-muted-foreground">
+                      {isConnected ? "Conectado" : "Não conectado"}
+                    </span>
+                  </div>
+                  {!isConnected && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-sm"
+                      onClick={() => console.log("Conectar número")}
+                    >
+                      Conectar número
+                    </Button>
+                  )}
+                </div>
               </div>
               <div className="text-right">
                 <p className="text-sm text-muted-foreground mb-2">
