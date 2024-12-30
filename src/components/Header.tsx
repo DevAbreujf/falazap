@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,9 +29,11 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" className="hidden md:inline-flex">
-            Acessar
-          </Button>
+          <Link to="/login">
+            <Button variant="ghost" className="hidden md:inline-flex">
+              Acessar
+            </Button>
+          </Link>
           <Button>
             Começar Agora
           </Button>
