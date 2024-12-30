@@ -4,9 +4,6 @@ import { ArrowRight, Users, TrendingUp, Clock } from "lucide-react";
 export function HighScale() {
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-primary/5"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/80"></div>
-      
       <div className="container mx-auto px-4 relative">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/2 space-y-8 animate-fade-up">
