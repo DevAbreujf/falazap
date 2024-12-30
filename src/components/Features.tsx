@@ -98,15 +98,16 @@ export function Features() {
             <CarouselContent>
               {features.map((feature, index) => (
                 <CarouselItem key={feature.title} className="md:basis-1/1 lg:basis-1/1">
-                  <div className={`glass-card p-8 h-full transition-all duration-500 hover:translate-y-[-8px] relative group overflow-hidden`}>
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                  <div className="glass-card p-8 h-full transition-all duration-500 hover:translate-y-[-8px] relative group overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
                     <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/30 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/20"></div>
                     
                     <div className="relative z-10">
                       <div className="flex justify-center mb-8">
                         <div className="relative">
                           <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl transform group-hover:scale-110 transition-transform duration-500"></div>
-                          <div className="relative bg-gradient-to-br from-primary/20 to-primary/10 p-6 rounded-full">
+                          <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 rounded-full backdrop-blur-sm border border-white/5">
                             <feature.icon className="w-12 h-12 text-primary" />
                           </div>
                         </div>
@@ -116,7 +117,7 @@ export function Features() {
                         <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
                           {feature.title}
                         </h3>
-                        <p className="text-lg text-muted-foreground leading-relaxed">
+                        <p className="text-lg text-muted-foreground/90 leading-relaxed">
                           {feature.description}
                         </p>
                       </div>
@@ -126,7 +127,6 @@ export function Features() {
               ))}
             </CarouselContent>
             
-            {/* Navigation Dots */}
             <div className="mt-8 flex items-center justify-center">
               <div className="flex gap-2">
                 {features.map((_, index) => (
