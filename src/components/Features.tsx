@@ -4,7 +4,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 
 const features = [
@@ -49,6 +49,13 @@ const features = [
 export function Features() {
   const [api, setApi] = useState<any>();
   const [current, setCurrent] = useState(0);
+  const [autoplayPlugin] = useState(() =>
+    Autoplay({
+      delay: 3000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: true,
+    })
+  );
 
   useEffect(() => {
     if (!api) return;
@@ -57,11 +64,6 @@ export function Features() {
       setCurrent(api.selectedScrollSnap());
     });
   }, [api]);
-
-  const plugin = useMemo(
-    () => Autoplay({ delay: 3000, stopOnInteraction: true }),
-    []
-  );
 
   return (
     <section id="features" className="py-32 relative">
@@ -88,7 +90,7 @@ export function Features() {
               align: "start",
               loop: true,
             }}
-            plugins={[plugin]}
+            plugins={[autoplayPlugin]}
             setApi={setApi}
             className="w-full"
           >
