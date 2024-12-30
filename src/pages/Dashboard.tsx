@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
+import { MetricCard } from "@/components/app/MetricCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -26,7 +27,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Pricing } from "@/components/Pricing";
-import { ArrowUpRight, TrendingUp, Users, MessageSquare, Target } from "lucide-react";
+import { TrendingUp, Users, MessageSquare, Target } from "lucide-react";
 
 const mockData = [
   { name: "Jan", mensagens: 2345, leads: 345, conversao: 14.2 },
@@ -71,6 +72,7 @@ export default function Dashboard() {
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
           <main className="container mx-auto px-8 py-10">
+            {/* Header section */}
             <div className="flex justify-between items-center mb-10">
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
@@ -107,76 +109,35 @@ export default function Dashboard() {
 
             <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
 
+            {/* Metrics Grid */}
             <div className="grid gap-6 md:grid-cols-4 mt-8">
-              <Card className="hover-glow transition-all duration-300 hover:translate-y-[-2px]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-base font-medium flex items-center gap-2">
-                    <MessageSquare className="h-5 w-5 text-primary" />
-                    Mensagens Enviadas
-                  </CardTitle>
-                  <ArrowUpRight className="h-4 w-4 text-emerald-500" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">2,345</div>
-                  <p className="text-sm text-emerald-500 flex items-center gap-1 mt-1">
-                    <TrendingUp className="h-4 w-4" />
-                    +20.1% em relação ao período anterior
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="hover-glow transition-all duration-300 hover:translate-y-[-2px]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-base font-medium flex items-center gap-2">
-                    <Users className="h-5 w-5 text-primary" />
-                    Novos Leads
-                  </CardTitle>
-                  <ArrowUpRight className="h-4 w-4 text-emerald-500" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">345</div>
-                  <p className="text-sm text-emerald-500 flex items-center gap-1 mt-1">
-                    <TrendingUp className="h-4 w-4" />
-                    +10.5% em relação ao período anterior
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="hover-glow transition-all duration-300 hover:translate-y-[-2px]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-base font-medium flex items-center gap-2">
-                    <Target className="h-5 w-5 text-primary" />
-                    Taxa de Conversão
-                  </CardTitle>
-                  <ArrowUpRight className="h-4 w-4 text-emerald-500" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">14.2%</div>
-                  <p className="text-sm text-emerald-500 flex items-center gap-1 mt-1">
-                    <TrendingUp className="h-4 w-4" />
-                    +2.3% em relação ao período anterior
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="hover-glow transition-all duration-300 hover:translate-y-[-2px]">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-base font-medium flex items-center gap-2">
-                    <Target className="h-5 w-5 text-primary" />
-                    Funis Ativos
-                  </CardTitle>
-                  <ArrowUpRight className="h-4 w-4 text-emerald-500" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">3</div>
-                  <p className="text-sm text-emerald-500 flex items-center gap-1 mt-1">
-                    <TrendingUp className="h-4 w-4" />
-                    +1 em relação ao período anterior
-                  </p>
-                </CardContent>
-              </Card>
+              <MetricCard
+                title="Mensagens Enviadas"
+                value="2,345"
+                trend="+20.1% em relação ao período anterior"
+                icon={MessageSquare}
+              />
+              <MetricCard
+                title="Novos Leads"
+                value="345"
+                trend="+10.5% em relação ao período anterior"
+                icon={Users}
+              />
+              <MetricCard
+                title="Taxa de Conversão"
+                value="14.2%"
+                trend="+2.3% em relação ao período anterior"
+                icon={Target}
+              />
+              <MetricCard
+                title="Funis Ativos"
+                value="3"
+                trend="+1 em relação ao período anterior"
+                icon={Target}
+              />
             </div>
 
+            {/* Chart Card */}
             <Card className="mt-8 hover-glow transition-all duration-300">
               <CardHeader>
                 <CardTitle className="text-xl flex items-center gap-2">
