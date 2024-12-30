@@ -39,8 +39,8 @@ const menuItems = [
     icon: (props: any) => (
       <svg
         viewBox="0 0 24 24"
-        width="24"
-        height="24"
+        width="28"
+        height="28"
         stroke="currentColor"
         strokeWidth="2"
         fill="none"
@@ -59,21 +59,20 @@ export function DashboardSidebar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Aqui você pode adicionar a lógica de logout
     navigate("/");
   };
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4">
+      <SidebarHeader className="p-6">
         <div className="flex items-center space-x-2">
-          <span className="text-2xl font-bold text-primary">Fala</span>
-          <span className="text-2xl font-bold text-foreground">ZAP</span>
+          <span className="text-3xl font-bold text-primary">Fala</span>
+          <span className="text-3xl font-bold text-foreground">ZAP</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-lg px-6">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -83,9 +82,9 @@ export function DashboardSidebar() {
                     isActive={location.pathname === item.url}
                     className="hover:bg-primary/10 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
                   >
-                    <a href={item.url} className="flex items-center gap-3 px-4 py-2">
-                      <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.title}</span>
+                    <a href={item.url} className="flex items-center gap-4 px-6 py-3">
+                      <item.icon className="h-6 w-6" />
+                      <span className="text-lg font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -93,10 +92,10 @@ export function DashboardSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={handleLogout}
-                  className="flex items-center gap-3 px-4 py-2 text-destructive hover:bg-destructive/10"
+                  className="flex items-center gap-4 px-6 py-3 text-destructive hover:bg-destructive/10"
                 >
-                  <LogOut className="h-5 w-5" />
-                  <span className="font-medium">Sair</span>
+                  <LogOut className="h-6 w-6" />
+                  <span className="text-lg font-medium">Sair</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
