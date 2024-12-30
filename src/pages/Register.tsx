@@ -140,6 +140,13 @@ export default function Register() {
               >
                 Fazer Login
               </Button>
+              <Button
+                variant="ghost"
+                className="w-full"
+                onClick={() => navigate("/#pricing")}
+              >
+                Ver Planos Disponíveis
+              </Button>
             </div>
           </div>
         </div>
