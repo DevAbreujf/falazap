@@ -3,10 +3,15 @@ import { Toaster } from "@/components/ui/toaster";
 import Dashboard from "@/pages/Dashboard";
 import Funnels from "@/pages/Funnels";
 import FunnelEditor from "@/pages/FunnelEditor";
+import Index from "@/pages/Index";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Index />,
+  },
+  {
+    path: "/dashboard",
     element: <Dashboard />,
   },
   {
