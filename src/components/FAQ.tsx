@@ -46,18 +46,29 @@ export function FAQ() {
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion type="single" collapsible className="space-y-6">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={faq.question}
                 value={`item-${index}`}
-                className="border-none"
+                className="border-none group"
               >
-                <AccordionTrigger className="glass-card px-6 py-4 rounded-xl text-lg hover:no-underline data-[state=open]:rounded-b-none transition-all duration-300">
-                  <span className="text-left pr-8">{faq.question}</span>
+                <AccordionTrigger className="glass-card px-8 py-6 rounded-2xl text-lg hover:no-underline data-[state=open]:rounded-b-none transition-all duration-300 group-data-[state=open]:bg-primary/10">
+                  <div className="flex items-center text-left gap-4">
+                    <span className="text-primary opacity-60 font-mono">
+                      {(index + 1).toString().padStart(2, '0')}
+                    </span>
+                    <span className="pr-8 font-medium group-data-[state=open]:text-primary">
+                      {faq.question}
+                    </span>
+                  </div>
                 </AccordionTrigger>
-                <AccordionContent className="glass-card border-t border-primary/10 px-6 py-4 mt-px rounded-b-xl text-base text-muted-foreground leading-relaxed">
-                  {faq.answer}
+                <AccordionContent className="glass-card border-t-0 px-8 py-6 mt-px rounded-b-2xl text-base leading-relaxed bg-primary/5 data-[state=open]:animate-accordion-down">
+                  <div className="pl-14">
+                    <p className="text-muted-foreground">
+                      {faq.answer}
+                    </p>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             ))}
