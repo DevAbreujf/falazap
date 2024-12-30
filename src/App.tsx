@@ -4,6 +4,7 @@ import Dashboard from "@/pages/Dashboard";
 import Funnels from "@/pages/Funnels";
 import FunnelEditor from "@/pages/FunnelEditor";
 import Index from "@/pages/Index";
+import Login from "@/pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/funnels/editor/:id?",
     element: <FunnelEditor />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 
