@@ -92,14 +92,16 @@ export default function Dashboard() {
                       Upgrade de Plano
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-6xl scrollbar-hide">
-                    <DialogHeader>
-                      <DialogTitle>Escolha seu plano</DialogTitle>
-                      <DialogDescription>
+                  <DialogContent className="max-w-6xl w-[95vw] p-0 gap-0 bg-background/95 backdrop-blur-sm border border-primary/10">
+                    <DialogHeader className="p-6 pb-0">
+                      <DialogTitle className="text-3xl font-bold text-gradient-primary">
+                        Escolha seu plano
+                      </DialogTitle>
+                      <DialogDescription className="text-lg text-muted-foreground">
                         Selecione o plano ideal para o seu negócio
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="overflow-y-auto scrollbar-hide">
+                    <div className="overflow-y-auto max-h-[80vh] p-6 pt-0 scrollbar-hide">
                       <Pricing />
                     </div>
                   </DialogContent>
