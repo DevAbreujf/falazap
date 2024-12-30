@@ -83,7 +83,7 @@ export function Pricing() {
               <div className={`glass-card h-full p-8 relative transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-primary/20 animate-fade-up flex flex-col ${plan.popular ? 'border-primary' : ''}`}>
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap">
                       Mais Popular
                     </span>
                   </div>
