@@ -5,6 +5,7 @@ import Funnels from "@/pages/Funnels";
 import FunnelEditor from "@/pages/FunnelEditor";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
+import Register from "@/pages/Register";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 const router = createBrowserRouter([
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
     errorElement: <ErrorBoundary />,
   },
 ]);
