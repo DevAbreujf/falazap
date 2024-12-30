@@ -6,7 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Autoplay from "embla-carousel-autoplay";
 
 const features = [
@@ -60,7 +60,7 @@ export function Features() {
     });
   }, [api]);
 
-  const plugin = React.useMemo(
+  const plugin = useMemo(
     () => Autoplay({ delay: 4000, stopOnInteraction: true }),
     []
   );
