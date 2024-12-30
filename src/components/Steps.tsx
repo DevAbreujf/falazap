@@ -30,7 +30,7 @@ export function Steps() {
     <section id="how-it-works" className="py-24 bg-gradient-to-b from-background to-background/80">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 space-y-6">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold text-gradient">
             O FalaZAP transforma os resultados dos seus funis de venda
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -42,32 +42,27 @@ export function Steps() {
           {steps.map((step, index) => (
             <div 
               key={step.number}
-              className="relative group perspective-1000"
-              style={{
-                animationDelay: `${index * 0.1}s`,
-              }}
+              className="relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/3 to-transparent rounded-2xl transition-opacity duration-500 opacity-0 group-hover:opacity-100"></div>
-              
-              <div className="glass-card p-8 h-full transition-all duration-500 hover:translate-y-[-8px] hover:shadow-xl hover:shadow-primary/10">
-                <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/50 to-transparent rounded-t-2xl"></div>
+              <div className="glass-card p-8 h-full transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg hover:shadow-primary/10">
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/30 to-transparent rounded-t-2xl"></div>
                 
-                <div className="flex items-start gap-4 relative z-10">
-                  <div className="relative transition-transform duration-500 group-hover:scale-105">
-                    <div className="absolute inset-0 bg-primary/10 rounded-full blur-md transition-all duration-500 group-hover:scale-110"></div>
+                <div className="flex items-start gap-4">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-primary/5 rounded-full blur-sm"></div>
                     <span className="text-4xl relative z-10">{step.icon}</span>
                   </div>
                   
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                      <span className="text-primary text-2xl font-bold transition-colors duration-300 group-hover:text-primary/90">
+                      <span className="text-primary/90 text-xl font-semibold">
                         Passo {step.number}
                       </span>
-                      <h3 className="text-xl font-semibold text-foreground/90 transition-colors duration-300 group-hover:text-primary">
+                      <h3 className="text-xl font-semibold text-foreground/90">
                         {step.title}
                       </h3>
                     </div>
-                    <p className="text-lg text-foreground/80 leading-relaxed transition-colors duration-300 group-hover:text-foreground">
+                    <p className="text-base text-foreground/70 leading-relaxed">
                       {step.description}
                     </p>
                   </div>
@@ -76,7 +71,7 @@ export function Steps() {
               
               {index < steps.length - 1 && index % 2 === 0 && (
                 <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                  <div className="w-8 h-0.5 bg-gradient-to-r from-primary/50 to-transparent"></div>
+                  <div className="w-8 h-0.5 bg-gradient-to-r from-primary/30 to-transparent"></div>
                 </div>
               )}
             </div>
