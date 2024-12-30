@@ -82,10 +82,12 @@ export function Pricing() {
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl blur-xl transition-all duration-500 group-hover:scale-110 opacity-0 group-hover:opacity-100"></div>
               <div className={`glass-card h-full p-8 relative transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-primary/20 animate-fade-up flex flex-col ${plan.popular ? 'border-primary' : ''}`}>
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-full flex items-center justify-center">
+                    <div className="h-[1px] flex-1 bg-primary max-w-[80px] mr-2"></div>
+                    <span className="bg-primary text-primary-foreground px-6 py-1.5 rounded-full text-sm font-medium whitespace-nowrap">
                       Mais Popular
                     </span>
+                    <div className="h-[1px] flex-1 bg-primary max-w-[80px] ml-2"></div>
                   </div>
                 )}
                 
