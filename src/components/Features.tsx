@@ -3,8 +3,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useEffect, useState, useMemo } from "react";
 import Autoplay from "embla-carousel-autoplay";
@@ -101,15 +99,10 @@ export function Features() {
               {features.map((feature, index) => (
                 <CarouselItem key={feature.title} className="md:basis-1/1 lg:basis-1/1">
                   <div className={`glass-card p-8 h-full transition-all duration-500 hover:translate-y-[-8px] relative group overflow-hidden`}>
-                    {/* Gradient Background */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
-                    
-                    {/* Top Border Gradient */}
                     <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/30 to-transparent"></div>
                     
-                    {/* Content Container */}
                     <div className="relative z-10">
-                      {/* Icon Container */}
                       <div className="flex justify-center mb-8">
                         <div className="relative">
                           <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl transform group-hover:scale-110 transition-transform duration-500"></div>
@@ -119,7 +112,6 @@ export function Features() {
                         </div>
                       </div>
                       
-                      {/* Text Content */}
                       <div className="space-y-6 text-center">
                         <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
                           {feature.title}
@@ -134,11 +126,8 @@ export function Features() {
               ))}
             </CarouselContent>
             
-            {/* Navigation */}
-            <div className="mt-8 flex items-center justify-center gap-6">
-              <CarouselPrevious className="relative static hover:bg-primary hover:text-white transition-colors" />
-              
-              {/* Dots */}
+            {/* Navigation Dots */}
+            <div className="mt-8 flex items-center justify-center">
               <div className="flex gap-2">
                 {features.map((_, index) => (
                   <button
@@ -152,8 +141,6 @@ export function Features() {
                   />
                 ))}
               </div>
-              
-              <CarouselNext className="relative static hover:bg-primary hover:text-white transition-colors" />
             </div>
           </Carousel>
         </div>
