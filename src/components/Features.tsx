@@ -64,7 +64,9 @@ export function Features() {
   );
 
   return (
-    <section id="features" className="py-32 relative">      
+    <section id="features" className="py-32 relative overflow-hidden bg-background">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(28,216,182,0.15),rgba(255,255,255,0))]"></div>
+      
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-20 animate-fade-up">
           <span className="inline-block px-4 py-2 rounded-full glass-card text-primary text-sm font-medium mb-4">
