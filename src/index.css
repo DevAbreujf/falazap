@@ -37,6 +37,16 @@
   }
 }
 
+/* Background principal */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(28,216,182,0.15), transparent 80%),
+              linear-gradient(180deg, var(--background) 0%, var(--background) 100%);
+  z-index: -1;
+}
+
 .gradient-primary {
   background: linear-gradient(95.27deg, #1cd8b6 -0.85%, #4df1b5 39.07%, #39f18e 89.32%);
 }
