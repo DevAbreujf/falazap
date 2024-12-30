@@ -7,6 +7,10 @@ import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
   Area,
   AreaChart,
   CartesianGrid,
@@ -169,7 +173,7 @@ export default function Dashboard() {
                 <CardTitle>Análise Comparativa</CardTitle>
               </CardHeader>
               <CardContent>
-                <div style={{ width: '100%', height: '400px' }}>
+                <div className="h-[400px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={mockData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" />
