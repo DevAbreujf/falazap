@@ -64,7 +64,9 @@ export function Features() {
   );
 
   return (
-    <section id="features" className="py-32 relative">
+    <section id="features" className="py-32 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(28,216,182,0.08),rgba(255,255,255,0))]"></div>
+      
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-20 animate-fade-up">
           <span className="inline-block px-4 py-2 rounded-full glass-card text-primary text-sm font-medium mb-4">
@@ -95,9 +97,10 @@ export function Features() {
             <CarouselContent>
               {features.map((feature, index) => (
                 <CarouselItem key={feature.title} className="md:basis-1/1 lg:basis-1/1">
-                  <div className="glass-card p-8 h-full min-h-[300px] transition-all duration-500 hover:translate-y-[-8px] relative group overflow-hidden">
+                  <div className="glass-card p-8 h-full min-h-[300px] transition-all duration-500 hover:translate-y-[-8px] relative group overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
                     <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/30 to-transparent"></div>
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/30 to-transparent z-20"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/20"></div>
                     
                     <div className="relative z-10">
                       <div className="flex justify-center mb-8">
