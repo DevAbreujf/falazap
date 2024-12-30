@@ -7,6 +7,7 @@ import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
@@ -174,7 +175,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="h-[400px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ChartContainer config={config}>
                     <AreaChart data={mockData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
@@ -197,7 +198,7 @@ export default function Dashboard() {
                         fillOpacity={0.2}
                       />
                     </AreaChart>
-                  </ResponsiveContainer>
+                  </ChartContainer>
                 </div>
               </CardContent>
             </Card>
