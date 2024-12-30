@@ -1,101 +1,80 @@
-import { BarChart3, MessageSquare, Users, FolderGit2, LogOut } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  BarChart3,
+  Filter,
+  MessageSquare,
+  Users,
+  LogOut,
+  Phone,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarHeader,
 } from "@/components/ui/sidebar";
-
-const menuItems = [
-  {
-    title: "Métricas",
-    url: "/dashboard",
-    icon: BarChart3,
-  },
-  {
-    title: "Funis",
-    url: "/dashboard/funnels",
-    icon: FolderGit2,
-  },
-  {
-    title: "SMS",
-    url: "/dashboard/sms",
-    icon: MessageSquare,
-  },
-  {
-    title: "Contatos",
-    url: "/dashboard/contacts",
-    icon: Users,
-  },
-  {
-    title: "Conexão",
-    url: "/dashboard/connection",
-    icon: (props: any) => (
-      <svg
-        viewBox="0 0 24 24"
-        width="28"
-        height="28"
-        stroke="currentColor"
-        strokeWidth="2"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        {...props}
-      >
-        <path d="M3 21l1.9-5.7a8.5 8.5 0 113.4 3.4z" />
-      </svg>
-    ),
-  },
-];
+import { useNavigate } from "react-router-dom";
 
 export function DashboardSidebar() {
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate("/");
-  };
+  const menuItems = [
+    {
+      icon: BarChart3,
+      label: "Métricas",
+      onClick: () => navigate("/dashboard"),
+    },
+    {
+      icon: Filter,
+      label: "Funis",
+      onClick: () => navigate("/funnels"),
+    },
+    {
+      icon: MessageSquare,
+      label: "SMS",
+      onClick: () => console.log("SMS clicked"),
+    },
+    {
+      icon: Users,
+      label: "Contatos",
+      onClick: () => console.log("Contatos clicked"),
+    },
+    {
+      icon: Phone,
+      label: "Conexão",
+      onClick: () => console.log("Conexão clicked"),
+    },
+  ];
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-6">
-        <div className="flex items-center space-x-2">
-          <span className="text-4xl font-bold text-primary">Fala</span>
-          <span className="text-4xl font-bold text-foreground">ZAP</span>
-        </div>
-      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xl px-6">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={location.pathname === item.url}
-                    className="hover:bg-primary/10 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-                  >
-                    <a href={item.url} className="flex items-center gap-4 px-6 py-3">
-                      <item.icon className="h-7 w-7" />
-                      <span className="text-xl font-medium">{item.title}</span>
-                    </a>
+                <SidebarMenuItem key={item.label}>
+                  <SidebarMenuButton onClick={item.onClick}>
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.label}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  onClick={handleLogout}
-                  className="flex items-center gap-4 px-6 py-3 text-destructive hover:bg-destructive/10"
+                  onClick={() => console.log("Logout clicked")}
+                  className="text-destructive"
                 >
-                  <LogOut className="h-7 w-7" />
-                  <span className="text-xl font-medium">Sair</span>
+                  <LogOut className="h-5 w-5" />
+                  <span>Sair</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
