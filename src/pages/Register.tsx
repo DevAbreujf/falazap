@@ -33,7 +33,7 @@ export default function Register() {
     // Aqui você implementaria a lógica de registro
     console.log(values);
     toast.success("Conta criada com sucesso!");
-    navigate("/login");
+    navigate("/dashboard");
   }
 
   return (

@@ -26,6 +26,7 @@ export default function Login() {
     // Aqui você implementaria a lógica de login
     console.log(values);
     toast.success("Login realizado com sucesso!");
+    navigate("/dashboard");
   }
 
   return (
