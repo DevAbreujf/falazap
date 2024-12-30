@@ -18,16 +18,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Pricing } from "@/components/Pricing";
 import { TrendingUp, Users, MessageSquare, Target } from "lucide-react";
+import { PricingDialog } from "@/components/app/PricingDialog";
 
 const mockData = [
   { name: "Jan", mensagens: 2345, leads: 345, conversao: 14.2 },
@@ -86,26 +78,7 @@ export default function Dashboard() {
                 <p className="text-sm text-muted-foreground mb-2">
                   Plano atual: <span className="font-medium text-primary">Pro</span>
                 </p>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button size="lg" className="hover-glow bg-primary/90 hover:bg-primary transition-all duration-300">
-                      Upgrade de Plano
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-6xl w-[95vw] p-0 gap-0 bg-background/95 backdrop-blur-sm border border-primary/10">
-                    <DialogHeader className="p-6 pb-0 bg-transparent">
-                      <DialogTitle className="text-3xl font-bold text-gradient-primary">
-                        Escolha seu plano
-                      </DialogTitle>
-                      <DialogDescription className="text-lg text-muted-foreground">
-                        Selecione o plano ideal para o seu negócio
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="overflow-y-auto max-h-[80vh] p-6 pt-0 bg-transparent">
-                      <Pricing />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <PricingDialog />
               </div>
             </div>
 
