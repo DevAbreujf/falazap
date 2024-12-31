@@ -44,7 +44,7 @@ export function DashboardSidebar() {
       icon: Users,
       label: "Contatos",
       description: "Gerencie seus contatos",
-      onClick: () => console.log("Contatos clicked"),
+      onClick: () => navigate("/contacts"),
     },
     {
       icon: Phone,
