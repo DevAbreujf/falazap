@@ -11,19 +11,26 @@ interface PhoneInputProps {
 
 export function PhoneInput({ value, onChange, selectedCountry, onCountryChange }: PhoneInputProps) {
   const formatPhoneNumber = (value: string) => {
+    // Remove todos os caracteres não numéricos
     const numbers = value.replace(/\D/g, '');
+    
+    // Aplica a máscara conforme a quantidade de números
     if (numbers.length <= 2) {
       return numbers;
-    } else if (numbers.length <= 7) {
+    } else if (numbers.length <= 3) {
       return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    } else if (numbers.length <= 7) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 3)} ${numbers.slice(3)}`;
+    } else if (numbers.length <= 11) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 3)} ${numbers.slice(3, 7)}-${numbers.slice(7)}`;
     } else {
-      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+      // Limita a 11 dígitos (2 DDD + 9 + 8 números)
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 3)} ${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
     }
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const numericValue = e.target.value.replace(/\D/g, '');
-    const formattedValue = formatPhoneNumber(numericValue);
+    const formattedValue = formatPhoneNumber(e.target.value);
     onChange(formattedValue);
   };
 
@@ -35,12 +42,13 @@ export function PhoneInput({ value, onChange, selectedCountry, onCountryChange }
       />
       <Input
         type="tel"
-        placeholder="(00) 00000-0000"
+        placeholder="(00) 9 0000-0000"
         value={value}
         onChange={handlePhoneChange}
         className="flex-1"
         inputMode="numeric"
         pattern="[0-9]*"
+        maxLength={17} // (00) 9 0000-0000
       />
     </div>
   );
