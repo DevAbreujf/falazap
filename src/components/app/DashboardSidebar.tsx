@@ -1,77 +1,8 @@
-import {
-  BarChart3,
-  Filter,
-  Users,
-  Phone,
-  Send,
-  Bell,
-  CalendarCheck,
-} from "lucide-react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
-  SidebarMenuSubButton,
-} from "@/components/ui/sidebar";
-import { useNavigate } from "react-router-dom";
+import { Sidebar, SidebarHeader } from "@/components/ui/sidebar";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
-import { SidebarMenuItemComponent } from "./dashboard/SidebarMenuItem";
-import { SidebarLogout } from "./dashboard/SidebarLogout";
+import { SidebarContent } from "./dashboard/SidebarContent";
 
 export function DashboardSidebar() {
-  const navigate = useNavigate();
-
-  const menuItems = [
-    {
-      icon: BarChart3,
-      label: "Métricas",
-      description: "Visualize suas estatísticas",
-      onClick: () => navigate("/dashboard"),
-    },
-    {
-      icon: Filter,
-      label: "Funis",
-      description: "Gerencie seus funis",
-      onClick: () => navigate("/funnels"),
-    },
-    {
-      icon: Send,
-      label: "Disparos",
-      description: "Gerencie seus disparos",
-      onClick: () => navigate("/broadcasts"),
-    },
-    {
-      icon: Bell,
-      label: "Lembretes",
-      description: "Gerencie seus lembretes",
-      onClick: () => navigate("/reminders"),
-      subItems: [
-        {
-          icon: CalendarCheck,
-          label: "Agendamentos",
-          onClick: () => navigate("/schedules"),
-        },
-      ],
-    },
-    {
-      icon: Users,
-      label: "Contatos",
-      description: "Gerencie seus contatos",
-      onClick: () => navigate("/contacts"),
-    },
-    {
-      icon: Phone,
-      label: "Conexão",
-      description: "Configure seu WhatsApp",
-      onClick: () => console.log("Conexão clicked"),
-    },
-  ];
-
   return (
     <Sidebar>
       <SidebarHeader className="p-3">
@@ -86,46 +17,7 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu className="px-2">
-              {menuItems.map((item) => (
-                <SidebarMenuItemComponent
-                  key={item.label}
-                  icon={item.icon}
-                  label={item.label}
-                  description={item.description}
-                  onClick={item.onClick}
-                >
-                  {item.subItems && (
-                    <SidebarMenuSub>
-                      {item.subItems.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.label}>
-                          <SidebarMenuSubButton
-                            onClick={subItem.onClick}
-                            className="flex items-center gap-2"
-                          >
-                            <subItem.icon className="h-4 w-4" />
-                            <span>{subItem.label}</span>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  )}
-                </SidebarMenuItemComponent>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup className="mt-auto">
-          <SidebarGroupContent>
-            <SidebarMenu className="px-2">
-              <SidebarLogout />
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+      <SidebarContent />
     </Sidebar>
   );
 }
