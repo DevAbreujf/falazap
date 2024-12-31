@@ -1,19 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Search, FileSpreadsheet } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useState } from "react";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
+import { useState } from "react";
+import { Contact } from "@/types/contacts";
+import { CategoryManagement } from "@/components/contacts/CategoryManagement";
+import { ContactsTable } from "@/components/contacts/ContactsTable";
 
 export default function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
@@ -21,12 +15,10 @@ export default function Contacts() {
   const [newCategory, setNewCategory] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
-  
-  // Temporary mock data
-  const contacts = [
+  const [contacts, setContacts] = useState<Contact[]>([
     { id: 1, phone: "+55 11 99999-9999", name: "João Silva", date: "2024-03-20", category: "Geral" },
     { id: 2, phone: "+55 11 98888-8888", name: "Maria Santos", date: "2024-03-19", category: "Geral" },
-  ];
+  ]);
 
   const handleExportCSV = () => {
     const selectedData = contacts.filter(contact => selectedContacts.includes(contact.id));
@@ -53,12 +45,21 @@ export default function Contacts() {
   };
 
   const handleBulkCategoryUpdate = (newCategory: string) => {
-    // In a real application, you would update this in your backend
-    contacts.forEach(contact => {
+    setContacts(contacts.map(contact => {
       if (selectedContacts.includes(contact.id)) {
-        contact.category = newCategory;
+        return { ...contact, category: newCategory };
       }
-    });
+      return contact;
+    }));
+  };
+
+  const handleContactCategoryChange = (contactId: number, newCategory: string) => {
+    setContacts(contacts.map(contact => {
+      if (contact.id === contactId) {
+        return { ...contact, category: newCategory };
+      }
+      return contact;
+    }));
   };
 
   const toggleContactSelection = (contactId: number) => {
@@ -112,93 +113,23 @@ export default function Contacts() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="mb-6 flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0">
-                  <div className="flex items-center gap-2">
-                    <Input
-                      placeholder="Nova categoria..."
-                      value={newCategory}
-                      onChange={(e) => setNewCategory(e.target.value)}
-                      className="w-full md:w-48"
-                    />
-                    <Button onClick={handleAddCategory}>Adicionar</Button>
-                  </div>
-                  {selectedContacts.length > 0 && (
-                    <div className="flex items-center gap-2">
-                      <Select onValueChange={handleBulkCategoryUpdate}>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Mover para categoria" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {categories.map((category) => (
-                            <SelectItem key={category} value={category}>
-                              {category}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2">
-                    <Select 
-                      value={selectedCategory} 
-                      onValueChange={setSelectedCategory}
-                    >
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Filtrar por categoria" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Todas as categorias</SelectItem>
-                        {categories.map((category) => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-12">Selecionar</TableHead>
-                        <TableHead>Nome</TableHead>
-                        <TableHead>Telefone</TableHead>
-                        <TableHead>Data de Entrada</TableHead>
-                        <TableHead>Categoria</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredContacts.map((contact) => (
-                        <TableRow key={contact.id}>
-                          <TableCell>
-                            <Checkbox
-                              checked={selectedContacts.includes(contact.id)}
-                              onCheckedChange={() => toggleContactSelection(contact.id)}
-                            />
-                          </TableCell>
-                          <TableCell className="font-medium">{contact.name}</TableCell>
-                          <TableCell>{contact.phone}</TableCell>
-                          <TableCell>{new Date(contact.date).toLocaleDateString('pt-BR')}</TableCell>
-                          <TableCell>
-                            <Select defaultValue={contact.category}>
-                              <SelectTrigger className="w-32 md:w-40">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {categories.map((category) => (
-                                  <SelectItem key={category} value={category}>
-                                    {category}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+                <CategoryManagement
+                  categories={categories}
+                  selectedContacts={selectedContacts}
+                  newCategory={newCategory}
+                  selectedCategory={selectedCategory}
+                  onAddCategory={handleAddCategory}
+                  onNewCategoryChange={setNewCategory}
+                  onBulkCategoryUpdate={handleBulkCategoryUpdate}
+                  onCategoryFilterChange={setSelectedCategory}
+                />
+                <ContactsTable
+                  contacts={filteredContacts}
+                  categories={categories}
+                  selectedContacts={selectedContacts}
+                  onContactSelect={toggleContactSelection}
+                  onContactCategoryChange={handleContactCategoryChange}
+                />
               </CardContent>
             </Card>
           </div>
