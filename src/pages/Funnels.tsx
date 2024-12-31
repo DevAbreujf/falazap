@@ -1,20 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
-import { MoreVertical, Copy, Pencil, Trash2, BarChart2, Clock, Calendar } from "lucide-react";
-import { Toggle } from "@/components/ui/toggle";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { Separator } from "@/components/ui/separator";
+import { FunnelCard } from "@/components/app/FunnelCard";
 
 const mockFunnels = [
   {
@@ -110,95 +100,15 @@ export default function Funnels() {
               }
             >
               {funnels.map((funnel) => (
-                <Card
+                <FunnelCard
                   key={funnel.id}
-                  className="glass-card border-primary/20 hover:border-primary/40 transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  <CardContent className="pt-6 space-y-4">
-                    <div className="flex justify-between items-start">
-                      <h3 className="text-2xl font-bold text-gradient-primary">{funnel.name}</h3>
-                      <Toggle
-                        pressed={funnel.isActive}
-                        onPressedChange={() => handleToggleFunnel(funnel.id)}
-                        className={`${
-                          funnel.isActive ? 'bg-primary/20' : 'bg-muted'
-                        } hover:bg-primary/30`}
-                        aria-label="Toggle funnel status"
-                      >
-                        <span className="sr-only">
-                          {funnel.isActive ? 'Desativar funil' : 'Ativar funil'}
-                        </span>
-                        <div className="h-4 w-4">
-                          {funnel.isActive ? '✓' : '×'}
-                        </div>
-                      </Toggle>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex flex-col space-y-2 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4 text-primary" />
-                          <span>Criado em: {" "}
-                            {format(funnel.createdAt, "dd 'de' MMMM 'de' yyyy", {
-                              locale: ptBR,
-                            })}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4 text-primary" />
-                          <span>Última modificação: {" "}
-                            {format(funnel.updatedAt, "dd 'de' MMMM 'de' yyyy", {
-                              locale: ptBR,
-                            })}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="justify-between pt-2 pb-4">
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEditFunnel(funnel.id)}
-                        className="hover:bg-primary/10"
-                      >
-                        <Pencil className="h-4 w-4 mr-2" />
-                        Editar
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleMetrics(funnel.id)}
-                        className="hover:bg-primary/10"
-                      >
-                        <BarChart2 className="h-4 w-4 mr-2" />
-                        Métricas
-                      </Button>
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => handleDuplicateFunnel(funnel.id)}
-                        >
-                          <Copy className="h-4 w-4 mr-2" />
-                          Duplicar
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleDeleteFunnel(funnel.id)}
-                          className="text-destructive"
-                        >
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          Excluir
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </CardFooter>
-                </Card>
+                  funnel={funnel}
+                  onEdit={handleEditFunnel}
+                  onMetrics={handleMetrics}
+                  onDuplicate={handleDuplicateFunnel}
+                  onDelete={handleDeleteFunnel}
+                  onToggle={handleToggleFunnel}
+                />
               ))}
             </div>
           </main>
