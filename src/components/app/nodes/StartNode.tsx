@@ -55,15 +55,15 @@ function StartNode({ data }: StartNodeProps) {
   };
 
   return (
-    <div className="p-4 rounded-lg bg-[#1A1F2C] text-white min-w-[300px]">
+    <div className="p-6 rounded-xl bg-sidebar border border-border/50 text-sidebar-foreground min-w-[320px] shadow-lg">
       <div className="space-y-4">
         <div>
-          <h3 className="font-semibold text-lg">{data.label}</h3>
-          <p className="text-sm text-gray-400">{data.description}</p>
+          <h3 className="font-semibold text-xl text-primary">{data.label}</h3>
+          <p className="text-sm text-sidebar-foreground/70">{data.description}</p>
         </div>
 
         <div className="space-y-2">
-          <Label>Tempo mínimo</Label>
+          <Label className="text-sidebar-foreground">Tempo mínimo</Label>
           <div className="flex gap-2">
             <Input
               type="number"
@@ -72,7 +72,7 @@ function StartNode({ data }: StartNodeProps) {
               value={data.timeValue ?? 0}
               onChange={handleTimeValueChange}
               onKeyDown={handleKeyDown}
-              className="w-24 bg-transparent border-gray-700"
+              className="w-24 bg-transparent border-border/50 text-sidebar-foreground"
               onWheel={(e) => e.currentTarget.blur()}
             />
             <Select
@@ -81,7 +81,7 @@ function StartNode({ data }: StartNodeProps) {
                 data.onTimeUnitChange?.(value)
               }
             >
-              <SelectTrigger className="w-32 bg-transparent border-gray-700">
+              <SelectTrigger className="w-32 bg-transparent border-border/50">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
@@ -94,12 +94,12 @@ function StartNode({ data }: StartNodeProps) {
         </div>
 
         <div className="space-y-2">
-          <Label>Condição</Label>
+          <Label className="text-sidebar-foreground">Condição</Label>
           <Select
             value={data.condition}
             onValueChange={(value) => data.onConditionChange?.(value)}
           >
-            <SelectTrigger className="w-full bg-transparent border-gray-700">
+            <SelectTrigger className="w-full bg-transparent border-border/50">
               <SelectValue placeholder="Selecione a condição" />
             </SelectTrigger>
             <SelectContent>
@@ -110,12 +110,12 @@ function StartNode({ data }: StartNodeProps) {
         </div>
 
         <div className="space-y-2">
-          <Label>Termo</Label>
+          <Label className="text-sidebar-foreground">Termo</Label>
           <Input
             value={data.term}
             onChange={(e) => data.onTermChange?.(e.target.value)}
             placeholder="Digite o termo para disparo"
-            className="w-full bg-transparent border-gray-700"
+            className="w-full bg-transparent border-border/50"
           />
         </div>
       </div>
@@ -123,7 +123,7 @@ function StartNode({ data }: StartNodeProps) {
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!bg-orange-500 !w-3 !h-3 !border-2 !border-orange-600"
+        className="!bg-primary !w-3 !h-3 !border-2 !border-primary/50"
       />
     </div>
   );
