@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Separator } from "@/components/ui/separator";
 
 const mockFunnels = [
   {
@@ -56,18 +57,20 @@ export default function Funnels() {
         <div className="flex-1 overflow-auto">
           <main className="container mx-auto px-8 py-10">
             <div className="flex justify-between items-center mb-8">
-              <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                  Funis
-                </h1>
-                <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
-                <p className="text-muted-foreground text-lg mt-4">
+              <div className="space-y-6">
+                <div>
+                  <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                    Funis
+                  </h1>
+                  <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
+                </div>
+                <p className="text-muted-foreground text-lg">
                   Crie fluxos de conversas para serem disparados automaticamente quando um cliente entrar em contato com você.
                 </p>
-                <p className="text-muted-foreground mt-2">
+                <p className="text-muted-foreground">
                   Exibindo {mockFunnels.length} funis criados
                 </p>
-                <p className="text-muted-foreground mt-2">
+                <p className="text-muted-foreground">
                   Clique em '+ Novo Funil' para criar um novo fluxo.
                 </p>
               </div>
@@ -79,6 +82,8 @@ export default function Funnels() {
                 + Novo Funil
               </Button>
             </div>
+
+            <Separator className="my-8" />
 
             <div
               className={
