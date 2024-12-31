@@ -16,19 +16,37 @@ import { ArrowLeft, Bolt, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import StartNode from "@/components/app/nodes/StartNode";
+
+const nodeTypes = {
+  start: StartNode,
+};
 
 const initialNodes = [
   {
     id: "inicio",
-    type: "input",
-    data: { 
+    type: "start",
+    data: {
       label: "Início",
       description: "Defina tempo mínimo para o funil ser disparado novamente",
-      condition: "Exata",
-      term: ""
+      condition: "exact",
+      term: "",
+      timeValue: 0,
+      timeUnit: "minutes",
+      onConditionChange: (value: string) => {
+        console.log("Condition changed:", value);
+      },
+      onTermChange: (value: string) => {
+        console.log("Term changed:", value);
+      },
+      onTimeValueChange: (value: number) => {
+        console.log("Time value changed:", value);
+      },
+      onTimeUnitChange: (value: "seconds" | "minutes" | "hours") => {
+        console.log("Time unit changed:", value);
+      },
     },
     position: { x: 250, y: 50 },
-    className: "dark-node !bg-[#1A1F2C] border-none text-white",
   },
 ];
 
@@ -190,6 +208,7 @@ export default function FunnelEditor() {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            nodeTypes={nodeTypes}
             fitView
           >
             <Background />
