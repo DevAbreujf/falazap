@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
-import { LayoutGrid, List, MoreVertical, Copy, Pencil, Trash2 } from "lucide-react";
+import { MoreVertical, Copy, Pencil, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,11 +27,10 @@ const mockFunnels = [
     createdAt: new Date("2024-02-20"),
     updatedAt: new Date("2024-03-08"),
   },
-  // Add more mock funnels as needed
 ];
 
 export default function Funnels() {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode] = useState<"grid" | "list">("grid");
   const navigate = useNavigate();
   
   const handleCreateFunnel = () => {
@@ -44,12 +43,10 @@ export default function Funnels() {
 
   const handleDuplicateFunnel = (id: number) => {
     console.log("Duplicating funnel:", id);
-    // Implementation for duplicating funnel
   };
 
   const handleDeleteFunnel = (id: number) => {
     console.log("Deleting funnel:", id);
-    // Implementation for deleting funnel
   };
 
   return (
@@ -83,24 +80,6 @@ export default function Funnels() {
               </Button>
             </div>
 
-            <div className="flex justify-end mb-6 gap-2">
-              <Button
-                variant={viewMode === "grid" ? "default" : "outline"}
-                size="icon"
-                onClick={() => setViewMode("grid")}
-              >
-                <LayoutGrid className="h-4 w-4" />
-              </Button>
-              <Button
-                variant={viewMode === "list" ? "default" : "outline"}
-                size="icon"
-                onClick={() => setViewMode("list")}
-              >
-                <List className="h-4 w-4" />
-              </Button>
-            </div>
-
-            {/* Funnels grid/list */}
             <div
               className={
                 viewMode === "grid"
