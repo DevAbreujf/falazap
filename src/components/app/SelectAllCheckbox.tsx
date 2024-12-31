@@ -23,7 +23,7 @@ export function SelectAllCheckbox({ isChecked, onToggle, totalItems }: SelectAll
         </TooltipTrigger>
         <TooltipContent 
           side="top" 
-          className="bg-background border border-border"
+          className="bg-background border border-border z-50"
         >
           <p className="text-sm">
             {isChecked ? "Desmarcar todos" : "Selecionar todos"}
