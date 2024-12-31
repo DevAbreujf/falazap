@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, MessageSquare } from "lucide-react";
+import { MessageCircle, MessageSquare, Flag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,10 +22,24 @@ export default function Reminders() {
   const [manualPhone, setManualPhone] = useState("");
   const { toast } = useToast();
 
+  const formatPhoneNumber = (value: string) => {
+    // Remove all non-numeric characters
+    const numbers = value.replace(/\D/g, '');
+    
+    // Format the number as: +55 (XX) XXXXX-XXXX
+    if (numbers.length <= 2) {
+      return numbers;
+    } else if (numbers.length <= 7) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    } else {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+    }
+  };
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Remove any non-numeric characters
     const numericValue = e.target.value.replace(/\D/g, '');
-    setManualPhone(numericValue);
+    const formattedValue = formatPhoneNumber(numericValue);
+    setManualPhone(formattedValue);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -114,14 +128,21 @@ export default function Reminders() {
                   <Label className="text-sm font-medium text-foreground">
                     Digite o número
                   </Label>
-                  <Input
-                    type="tel"
-                    placeholder="(00) 00000-0000"
-                    value={manualPhone}
-                    onChange={handlePhoneChange}
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                  />
+                  <div className="relative">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-muted-foreground">
+                      <Flag className="w-4 h-4" />
+                      <span>+55</span>
+                    </div>
+                    <Input
+                      type="tel"
+                      placeholder="(00) 00000-0000"
+                      value={manualPhone}
+                      onChange={handlePhoneChange}
+                      className="pl-20"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                    />
+                  </div>
                 </div>
               )}
 
