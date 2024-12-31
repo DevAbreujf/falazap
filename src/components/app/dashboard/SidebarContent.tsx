@@ -12,41 +12,41 @@ interface MenuItem {
   onClick: () => void;
 }
 
-const menuItems: MenuItem[] = [
-  {
-    icon: Home,
-    label: "Início",
-    description: "Voltar para a página inicial",
-    onClick: () => navigate("/"),
-  },
-  {
-    icon: Calendar,
-    label: "Lembretes",
-    description: "Gerenciar seus lembretes",
-    onClick: () => navigate("/reminders"),
-  },
-  {
-    icon: Users,
-    label: "Contatos",
-    description: "Gerenciar seus contatos",
-    onClick: () => navigate("/contacts"),
-  },
-  {
-    icon: MessageSquare,
-    label: "Mensagens",
-    description: "Ver suas mensagens",
-    onClick: () => navigate("/messages"),
-  },
-  {
-    icon: Bell,
-    label: "Notificações",
-    description: "Ver suas notificações",
-    onClick: () => navigate("/notifications"),
-  },
-];
-
 export function SidebarContent() {
   const navigate = useNavigate();
+
+  const menuItems: MenuItem[] = [
+    {
+      icon: Home,
+      label: "Início",
+      description: "Voltar para a página inicial",
+      onClick: () => navigate("/"),
+    },
+    {
+      icon: Calendar,
+      label: "Lembretes",
+      description: "Gerenciar seus lembretes",
+      onClick: () => navigate("/reminders"),
+    },
+    {
+      icon: Users,
+      label: "Contatos",
+      description: "Gerenciar seus contatos",
+      onClick: () => navigate("/contacts"),
+    },
+    {
+      icon: MessageSquare,
+      label: "Mensagens",
+      description: "Ver suas mensagens",
+      onClick: () => navigate("/messages"),
+    },
+    {
+      icon: Bell,
+      label: "Notificações",
+      description: "Ver suas notificações",
+      onClick: () => navigate("/notifications"),
+    },
+  ];
 
   return (
     <div className="flex flex-col h-full">
