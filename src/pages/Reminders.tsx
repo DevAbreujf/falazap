@@ -9,10 +9,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, MessageSquare, Flag } from "lucide-react";
+import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import getCountries from 'react-phone-number-input/modules/getCountries'
+import en from 'react-phone-number-input/locale/en.json'
+import { getCountryCallingCode } from 'react-phone-number-input/input'
 
 export default function Reminders() {
   const [selectedContact, setSelectedContact] = useState("");
@@ -20,13 +23,14 @@ export default function Reminders() {
   const [message, setMessage] = useState("");
   const [contactType, setContactType] = useState<"existing" | "manual">("existing");
   const [manualPhone, setManualPhone] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("BR");
   const { toast } = useToast();
 
+  const countries = getCountries();
+
   const formatPhoneNumber = (value: string) => {
-    // Remove all non-numeric characters
     const numbers = value.replace(/\D/g, '');
     
-    // Format the number as: +55 (XX) XXXXX-XXXX
     if (numbers.length <= 2) {
       return numbers;
     } else if (numbers.length <= 7) {
@@ -128,20 +132,49 @@ export default function Reminders() {
                   <Label className="text-sm font-medium text-foreground">
                     Digite o número
                   </Label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-muted-foreground">
-                      <Flag className="w-4 h-4" />
-                      <span>+55</span>
+                  <div className="space-y-2">
+                    <Select
+                      value={selectedCountry}
+                      onValueChange={setSelectedCountry}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue>
+                          <div className="flex items-center gap-2">
+                            <img
+                              src={`https://flagcdn.com/${selectedCountry.toLowerCase()}.svg`}
+                              alt={en[selectedCountry]}
+                              className="w-4 h-3"
+                            />
+                            <span>+{getCountryCallingCode(selectedCountry)}</span>
+                          </div>
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {countries.map((country) => (
+                          <SelectItem key={country} value={country}>
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={`https://flagcdn.com/${country.toLowerCase()}.svg`}
+                                alt={en[country]}
+                                className="w-4 h-3"
+                              />
+                              <span>{en[country]} (+{getCountryCallingCode(country)})</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <div className="relative">
+                      <Input
+                        type="tel"
+                        placeholder="(00) 00000-0000"
+                        value={manualPhone}
+                        onChange={handlePhoneChange}
+                        className="w-full"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                      />
                     </div>
-                    <Input
-                      type="tel"
-                      placeholder="(00) 00000-0000"
-                      value={manualPhone}
-                      onChange={handlePhoneChange}
-                      className="pl-20"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                    />
                   </div>
                 </div>
               )}
