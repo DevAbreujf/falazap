@@ -8,6 +8,7 @@ import Register from "@/pages/Register";
 import Contacts from "@/pages/Contacts";
 import Broadcasts from "@/pages/Broadcasts";
 import Reminders from "@/pages/Reminders";
+import Schedules from "@/pages/Schedules";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -40,6 +41,11 @@ const router = createBrowserRouter([
   {
     path: "/reminders",
     element: <Reminders />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/schedules",
+    element: <Schedules />,
     errorElement: <ErrorBoundary />,
   },
   {

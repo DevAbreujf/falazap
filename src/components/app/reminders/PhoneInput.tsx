@@ -8,18 +8,21 @@ interface PhoneInputProps {
 export function PhoneInput({ value, onChange }: PhoneInputProps) {
   const formatPhoneNumber = (value: string) => {
     const numbers = value.replace(/\D/g, '');
+    
+    // Format: (XX) XXXXX-XXXX
     if (numbers.length <= 2) {
-      return numbers;
+      return `(${numbers}`;
     } else if (numbers.length <= 7) {
       return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    } else if (numbers.length <= 11) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
     } else {
       return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
     }
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const numericValue = e.target.value.replace(/\D/g, '');
-    const formattedValue = formatPhoneNumber(numericValue);
+    const formattedValue = formatPhoneNumber(e.target.value);
     onChange(formattedValue);
   };
 
@@ -30,8 +33,7 @@ export function PhoneInput({ value, onChange }: PhoneInputProps) {
       value={value}
       onChange={handlePhoneChange}
       className="w-full"
-      inputMode="numeric"
-      pattern="[0-9]*"
+      maxLength={15} // (XX) XXXXX-XXXX format
     />
   );
 }
