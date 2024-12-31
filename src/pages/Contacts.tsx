@@ -19,6 +19,8 @@ export default function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
   const [categories, setCategories] = useState<string[]>(["Geral"]);
   const [newCategory, setNewCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState("");
   
   // Temporary mock data
   const contacts = [
@@ -50,6 +52,15 @@ export default function Contacts() {
     }
   };
 
+  const handleBulkCategoryUpdate = (newCategory: string) => {
+    // In a real application, you would update this in your backend
+    contacts.forEach(contact => {
+      if (selectedContacts.includes(contact.id)) {
+        contact.category = newCategory;
+      }
+    });
+  };
+
   const toggleContactSelection = (contactId: number) => {
     setSelectedContacts(prev =>
       prev.includes(contactId)
@@ -57,6 +68,13 @@ export default function Contacts() {
         : [...prev, contactId]
     );
   };
+
+  const filteredContacts = contacts.filter(contact => {
+    const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         contact.phone.includes(searchTerm);
+    const matchesCategory = selectedCategory === "all" || contact.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <SidebarProvider>
@@ -75,7 +93,12 @@ export default function Contacts() {
                 <div className="flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0">
                   <div className="relative w-full md:w-72">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input placeholder="Buscar contatos..." className="pl-8" />
+                    <Input 
+                      placeholder="Buscar contatos..." 
+                      className="pl-8" 
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                   </div>
                   <Button
                     variant="outline"
@@ -99,6 +122,40 @@ export default function Contacts() {
                     />
                     <Button onClick={handleAddCategory}>Adicionar</Button>
                   </div>
+                  {selectedContacts.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <Select onValueChange={handleBulkCategoryUpdate}>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Mover para categoria" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {categories.map((category) => (
+                            <SelectItem key={category} value={category}>
+                              {category}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <Select 
+                      value={selectedCategory} 
+                      onValueChange={setSelectedCategory}
+                    >
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Filtrar por categoria" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Todas as categorias</SelectItem>
+                        {categories.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
                 <div className="overflow-x-auto">
                   <Table>
@@ -112,7 +169,7 @@ export default function Contacts() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {contacts.map((contact) => (
+                      {filteredContacts.map((contact) => (
                         <TableRow key={contact.id}>
                           <TableCell>
                             <Checkbox
