@@ -69,12 +69,14 @@ export default function Funnels() {
               <p className="text-muted-foreground text-lg">
                 Crie fluxos de conversas para serem disparados automaticamente quando um cliente entrar em contato com você.
               </p>
-              <p className="text-lg font-medium text-primary">
-                Clique em '+ Novo Funil' para criar um novo fluxo.
-              </p>
             </div>
 
-            <div className="flex justify-end mt-6">
+            <Separator className="my-8" />
+
+            <div className="flex justify-between items-center mb-6">
+              <p className="text-lg font-medium text-primary">
+                Clique em '+ Novo Funil' para criar um novo fluxo
+              </p>
               <Button
                 onClick={handleCreateFunnel}
                 size="lg"
@@ -83,8 +85,6 @@ export default function Funnels() {
                 + Novo Funil
               </Button>
             </div>
-
-            <Separator className="my-8" />
 
             <div
               className={
