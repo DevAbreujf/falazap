@@ -63,6 +63,9 @@ export default function Funnels() {
                 </h1>
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
               </div>
+              <p className="text-xl font-semibold text-gradient-primary">
+                Exibindo {mockFunnels.length} funis criados
+              </p>
               <p className="text-muted-foreground text-lg">
                 Crie fluxos de conversas para serem disparados automaticamente quando um cliente entrar em contato com você.
               </p>
@@ -157,10 +160,6 @@ export default function Funnels() {
                 </Card>
               ))}
             </div>
-
-            <p className="text-xl font-semibold text-gradient-primary mt-8">
-              Exibindo {mockFunnels.length} funis criados
-            </p>
           </main>
         </div>
       </div>
