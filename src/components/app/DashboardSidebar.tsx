@@ -67,9 +67,9 @@ export function DashboardSidebar() {
         <SidebarLogo />
         <div className="mt-3 px-2">
           <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent" />
-          <div className="mt-3 text-center">
+          <div className="mt-3 flex items-center gap-2 justify-center">
             <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
-            <h3 className="text-lg font-semibold text-sidebar-foreground mt-1">
+            <h3 className="text-lg font-semibold text-sidebar-foreground">
               João Silva
             </h3>
           </div>
