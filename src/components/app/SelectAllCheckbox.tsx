@@ -12,12 +12,12 @@ export function SelectAllCheckbox({ isChecked, onToggle, totalItems }: SelectAll
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex items-center gap-3 group">
+          <div className="flex items-center gap-3 group relative">
             <Checkbox
               checked={isChecked && totalItems > 0}
               onCheckedChange={onToggle}
               id="select-all"
-              className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+              className="relative z-10 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
             />
           </div>
         </TooltipTrigger>
