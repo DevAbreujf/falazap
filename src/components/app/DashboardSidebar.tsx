@@ -11,6 +11,7 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -50,6 +51,12 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar>
+      <SidebarHeader className="p-4">
+        <div className="flex items-center space-x-2">
+          <span className="text-2xl font-bold text-primary">Fala</span>
+          <span className="text-2xl font-bold">ZAP</span>
+        </div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

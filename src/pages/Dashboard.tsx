@@ -3,61 +3,14 @@ import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
-import { MetricCard } from "@/components/app/MetricCard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from "recharts";
-import { TrendingUp, Users, MessageSquare, Target, Circle } from "lucide-react";
+import { Circle } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
-
-const mockData = [
-  { name: "Jan", mensagens: 2345, leads: 345, conversao: 14.2 },
-  { name: "Fev", mensagens: 1890, leads: 278, conversao: 12.8 },
-  { name: "Mar", mensagens: 2567, leads: 412, conversao: 15.6 },
-  { name: "Abr", mensagens: 2890, leads: 489, conversao: 16.9 },
-  { name: "Mai", mensagens: 2345, leads: 345, conversao: 14.2 },
-  { name: "Jun", mensagens: 2100, leads: 310, conversao: 13.5 },
-  { name: "Jul", mensagens: 2345, leads: 345, conversao: 14.2 },
-];
-
-const config = {
-  mensagens: {
-    label: "Mensagens Enviadas",
-    theme: {
-      light: "#1cd8b6",
-      dark: "#1cd8b6",
-    },
-  },
-  leads: {
-    label: "Novos Leads",
-    theme: {
-      light: "#4df1b5",
-      dark: "#4df1b5",
-    },
-  },
-  conversao: {
-    label: "Taxa de Conversão (%)",
-    theme: {
-      light: "#39f18e",
-      dark: "#39f18e",
-    },
-  },
-};
+import { MetricsGrid } from "@/components/app/dashboard/MetricsGrid";
+import { AnalyticsChart } from "@/components/app/dashboard/AnalyticsChart";
 
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState<"day" | "week" | "month">("week");
-  const [isConnected] = useState(false); // This would be managed by your connection logic
+  const [isConnected] = useState(false);
 
   return (
     <SidebarProvider>
@@ -108,106 +61,14 @@ export default function Dashboard() {
             <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
 
             {/* Metrics Grid */}
-            <div className="grid gap-6 md:grid-cols-4 mt-8">
-              <MetricCard
-                title="Mensagens Enviadas"
-                value="2,345"
-                trend="+20.1% em relação ao período anterior"
-                icon={MessageSquare}
-              />
-              <MetricCard
-                title="Novos Leads"
-                value="345"
-                trend="+10.5% em relação ao período anterior"
-                icon={Users}
-              />
-              <MetricCard
-                title="Taxa de Conversão"
-                value="14.2%"
-                trend="+2.3% em relação ao período anterior"
-                icon={Target}
-              />
-              <MetricCard
-                title="Funis Ativos"
-                value="3"
-                trend="+1 em relação ao período anterior"
-                icon={Target}
-              />
+            <div className="mt-8">
+              <MetricsGrid />
             </div>
 
-            {/* Chart Card */}
-            <Card className="mt-8 hover-glow transition-all duration-300">
-              <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <TrendingUp className="h-6 w-6 text-primary" />
-                  Análise Comparativa
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="h-[450px] p-4">
-                <ChartContainer config={config} className="w-full h-full">
-                  <AreaChart 
-                    data={mockData} 
-                    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-                  >
-                    <defs>
-                      <linearGradient id="mensagensGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#1cd8b6" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#1cd8b6" stopOpacity={0}/>
-                      </linearGradient>
-                      <linearGradient id="leadsGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#4df1b5" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#4df1b5" stopOpacity={0}/>
-                      </linearGradient>
-                      <linearGradient id="conversaoGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#39f18e" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#39f18e" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid 
-                      strokeDasharray="3 3" 
-                      stroke="hsl(var(--border))" 
-                      opacity={0.2} 
-                    />
-                    <XAxis 
-                      dataKey="name" 
-                      stroke="hsl(var(--muted-foreground))"
-                      tick={{ fill: "hsl(var(--muted-foreground))" }}
-                      dy={10}
-                    />
-                    <YAxis 
-                      stroke="hsl(var(--muted-foreground))"
-                      tick={{ fill: "hsl(var(--muted-foreground))" }}
-                      dx={-10}
-                    />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Area
-                      type="monotone"
-                      dataKey="mensagens"
-                      name="mensagens"
-                      stroke="#1cd8b6"
-                      fill="url(#mensagensGradient)"
-                      strokeWidth={2}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="leads"
-                      name="leads"
-                      stroke="#4df1b5"
-                      fill="url(#leadsGradient)"
-                      strokeWidth={2}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="conversao"
-                      name="conversao"
-                      stroke="#39f18e"
-                      fill="url(#conversaoGradient)"
-                      strokeWidth={2}
-                    />
-                  </AreaChart>
-                </ChartContainer>
-              </CardContent>
-            </Card>
+            {/* Chart */}
+            <div className="mt-8">
+              <AnalyticsChart />
+            </div>
           </main>
         </div>
       </div>
