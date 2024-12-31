@@ -61,6 +61,61 @@ export default function FunnelEditor() {
     [setEdges]
   );
 
+  const updateNodeData = useCallback((nodeId: string, updates: any) => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === nodeId) {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              ...updates,
+            },
+          };
+        }
+        return node;
+      })
+    );
+  }, [setNodes]);
+
+  // Update initial node handlers
+  const handleConditionChange = (value: string) => {
+    updateNodeData("inicio", { condition: value });
+  };
+
+  const handleTermChange = (value: string) => {
+    updateNodeData("inicio", { term: value });
+  };
+
+  const handleTimeValueChange = (value: number) => {
+    updateNodeData("inicio", { timeValue: value });
+  };
+
+  const handleTimeUnitChange = (value: "seconds" | "minutes" | "hours") => {
+    updateNodeData("inicio", { timeUnit: value });
+  };
+
+  // Update initial nodes with new handlers
+  useState(() => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === "inicio") {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              onConditionChange: handleConditionChange,
+              onTermChange: handleTermChange,
+              onTimeValueChange: handleTimeValueChange,
+              onTimeUnitChange: handleTimeUnitChange,
+            },
+          };
+        }
+        return node;
+      })
+    );
+  });
+
   const handleSave = () => {
     console.log("Saving funnel:", { title: funnelTitle, nodes, edges });
     navigate("/funnels");
