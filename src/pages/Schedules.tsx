@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Clock, Trash, CalendarCheck } from "lucide-react";
+import { Clock, Trash } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -11,33 +11,30 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
 
+interface Schedule {
+  id: number;
+  reminderName: string;
+  clientName: string;
+  phone: string;
+  message: string;
+  date: string;
+  time: string;
+}
+
 export default function Schedules() {
   const { toast } = useToast();
-  const [selectedSchedule, setSelectedSchedule] = useState<any>(null);
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(null);
   const [newDate, setNewDate] = useState<Date>();
   const [newTime, setNewTime] = useState("");
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
 
-  // Temporary mock data - replace with real data later
-  const schedules = [
-    {
-      id: 1,
-      reminderName: "Consulta Mensal",
-      clientName: "João Silva",
-      phone: "(11) 99999-9999",
-      message: "Consulta agendada",
-      date: "2024-04-20",
-      time: "14:30",
-    },
-    {
-      id: 2,
-      reminderName: "Retorno",
-      clientName: "Maria Santos",
-      phone: "(11) 98888-8888",
-      message: "Retorno marcado",
-      date: "2024-04-21",
-      time: "15:00",
-    },
-  ];
+  useEffect(() => {
+    // Load schedules from localStorage
+    const savedSchedules = localStorage.getItem("schedules");
+    if (savedSchedules) {
+      setSchedules(JSON.parse(savedSchedules));
+    }
+  }, []);
 
   const handleTimeChange = (scheduleId: number) => {
     if (!newDate || !newTime) {
@@ -49,7 +46,20 @@ export default function Schedules() {
       return;
     }
 
-    // Here you would typically update the schedule with the new date/time
+    const updatedSchedules = schedules.map(schedule => {
+      if (schedule.id === scheduleId) {
+        return {
+          ...schedule,
+          date: format(newDate, "yyyy-MM-dd"),
+          time: newTime
+        };
+      }
+      return schedule;
+    });
+
+    setSchedules(updatedSchedules);
+    localStorage.setItem("schedules", JSON.stringify(updatedSchedules));
+
     toast({
       title: "Horário alterado",
       description: "O horário foi atualizado com sucesso!",
@@ -58,6 +68,17 @@ export default function Schedules() {
     setSelectedSchedule(null);
     setNewDate(undefined);
     setNewTime("");
+  };
+
+  const handleDelete = (scheduleId: number) => {
+    const updatedSchedules = schedules.filter(schedule => schedule.id !== scheduleId);
+    setSchedules(updatedSchedules);
+    localStorage.setItem("schedules", JSON.stringify(updatedSchedules));
+
+    toast({
+      title: "Agendamento removido",
+      description: "O agendamento foi removido com sucesso!",
+    });
   };
 
   return (
@@ -140,12 +161,7 @@ export default function Schedules() {
                         <Button
                           variant="destructive"
                           size="sm"
-                          onClick={() => {
-                            toast({
-                              title: "Agendamento removido",
-                              description: "O agendamento foi removido com sucesso!",
-                            });
-                          }}
+                          onClick={() => handleDelete(schedule.id)}
                         >
                           <Trash className="w-4 h-4 mr-1" />
                           Apagar
