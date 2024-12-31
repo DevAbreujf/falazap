@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { WhatsApp, MessageSquare } from "lucide-react";
+import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function Reminders() {
@@ -67,7 +67,7 @@ export default function Reminders() {
                     className="flex-1 flex items-center justify-center gap-2"
                     onClick={() => setMessageType("whatsapp")}
                   >
-                    <WhatsApp className="w-4 h-4" />
+                    <MessageCircle className="w-4 h-4" />
                     WhatsApp
                   </Button>
                   <Button
