@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock, Filter, Plus } from "lucide-react";
+import { Clock, Plus } from "lucide-react";
 
 interface StartNodeProps {
   data: {

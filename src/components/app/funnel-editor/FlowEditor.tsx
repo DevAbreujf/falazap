@@ -44,11 +44,11 @@ export function FlowEditor({
           type: 'smoothstep',
         }}
       >
-        <Background color="#1E1E26" gap={16} />
-        <Controls className="!bg-[#1E1E26]/80 !backdrop-blur-sm !border-white/10" />
+        <Background color="#333" gap={16} />
+        <Controls className="!bg-black/20 !backdrop-blur-sm !border-white/10" />
         <MiniMap
-          className="!bg-[#1E1E26]/80 !backdrop-blur-sm !border-white/10"
-          nodeColor="#FFB800"
+          className="!bg-black/20 !backdrop-blur-sm !border-white/10"
+          nodeColor="#666"
           maskColor="rgba(0, 0, 0, 0.2)"
         />
       </ReactFlow>
