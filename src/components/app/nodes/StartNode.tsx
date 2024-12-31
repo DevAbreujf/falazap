@@ -30,7 +30,27 @@ function StartNode({ data }: StartNodeProps) {
     const value = e.target.value;
     // Only call if we have a valid number and the handler exists
     if (value && !isNaN(Number(value)) && data.onTimeValueChange) {
-      data.onTimeValueChange(Number(value));
+      // Ensure the value is not less than 0
+      const numValue = Math.max(0, Number(value));
+      data.onTimeValueChange(numValue);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Prevent the default behavior of arrow keys to stop continuous scrolling
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      
+      const currentValue = data.timeValue || 0;
+      let newValue = currentValue;
+
+      if (e.key === 'ArrowUp') {
+        newValue = currentValue + 1;
+      } else if (e.key === 'ArrowDown') {
+        newValue = Math.max(0, currentValue - 1);
+      }
+
+      data.onTimeValueChange?.(newValue);
     }
   };
 
@@ -48,8 +68,10 @@ function StartNode({ data }: StartNodeProps) {
             <Input
               type="number"
               min={0}
+              step={1}
               value={data.timeValue || 0}
               onChange={handleTimeValueChange}
+              onKeyDown={handleKeyDown}
               className="w-24 bg-transparent border-gray-700"
             />
             <Select
