@@ -24,6 +24,7 @@ export default function Dashboard() {
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                   Olá, João!
                 </h1>
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
                 <p className="text-muted-foreground text-lg mt-2">
                   Bem-vindo ao seu painel de controle
                 </p>
