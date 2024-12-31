@@ -36,10 +36,10 @@ export function FunnelCard({
 }: FunnelCardProps) {
   return (
     <Card className="glass-card border-primary/20 hover:border-primary/40 transition-all duration-300 transform hover:-translate-y-1">
-      <CardContent className="pt-6 space-y-4">
-        <div className="flex justify-between items-start">
+      <CardContent className="pt-8 pb-6 px-6 space-y-6">
+        <div className="flex justify-between items-start gap-4">
           <h3 className="text-2xl font-bold text-gradient-primary">{funnel.name}</h3>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span className="text-sm text-muted-foreground">
               {funnel.isActive ? 'Ativo' : 'Inativo'}
             </span>
@@ -50,9 +50,9 @@ export function FunnelCard({
             />
           </div>
         </div>
-        <div className="space-y-2">
-          <div className="flex flex-col space-y-2 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
+        <div className="space-y-3">
+          <div className="flex flex-col space-y-3 text-sm text-muted-foreground">
+            <div className="flex items-center gap-3">
               <Calendar className="h-4 w-4 text-primary" />
               <span>
                 Criado em:{" "}
@@ -61,7 +61,7 @@ export function FunnelCard({
                 })}
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Clock className="h-4 w-4 text-primary" />
               <span>
                 Última modificação:{" "}
@@ -73,8 +73,8 @@ export function FunnelCard({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="justify-between pt-2 pb-4">
-        <div className="flex gap-2">
+      <CardFooter className="justify-between pt-4 pb-6 px-6">
+        <div className="flex gap-3">
           <Button
             variant="outline"
             size="sm"
