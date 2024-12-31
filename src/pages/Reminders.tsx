@@ -1,19 +1,17 @@
 import { useState } from "react";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
-import { CountrySelector } from "@/components/app/reminders/CountrySelector";
-import { PhoneInput } from "@/components/app/reminders/PhoneInput";
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import type { Country } from 'react-phone-number-input';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ContactForm } from "@/components/app/reminders/ContactForm";
 
 export default function Reminders() {
   const [selectedContact, setSelectedContact] = useState("");
@@ -162,63 +160,16 @@ export default function Reminders() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-foreground">
-                  Tipo de contato
-                </Label>
-                <Select
-                  value={contactType}
-                  onValueChange={(value: "existing" | "manual") => {
-                    setContactType(value);
-                    setSelectedContact("");
-                    setManualPhone("");
-                  }}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o tipo de contato" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="existing">Contato existente</SelectItem>
-                    <SelectItem value="manual">Digitar número manualmente</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {contactType === "existing" ? (
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium text-foreground">
-                    Selecione o contato
-                  </Label>
-                  <Select value={selectedContact} onValueChange={setSelectedContact}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione um contato" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">João da Silva - (11) 99999-9999</SelectItem>
-                      <SelectItem value="2">Maria Santos - (11) 98888-8888</SelectItem>
-                      <SelectItem value="3">Pedro Oliveira - (11) 97777-7777</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium text-foreground">
-                    Digite o número
-                  </Label>
-                  <div className="space-y-2">
-                    <CountrySelector 
-                      selectedCountry={selectedCountry}
-                      onCountryChange={setSelectedCountry}
-                    />
-                    <div className="relative">
-                      <PhoneInput
-                        value={manualPhone}
-                        onChange={setManualPhone}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
+              <ContactForm
+                contactType={contactType}
+                onContactTypeChange={setContactType}
+                selectedContact={selectedContact}
+                onContactChange={setSelectedContact}
+                selectedCountry={selectedCountry}
+                onCountryChange={setSelectedCountry}
+                manualPhone={manualPhone}
+                onPhoneChange={setManualPhone}
+              />
 
               <div className="space-y-2">
                 <Label className="text-sm font-medium text-foreground">
