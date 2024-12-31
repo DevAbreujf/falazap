@@ -56,13 +56,13 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-2">
+      <SidebarHeader className="p-3">
         <SidebarLogo />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="px-1">
+            <SidebarMenu className="px-2">
               {menuItems.map((item) => (
                 <SidebarMenuItemComponent
                   key={item.label}
@@ -77,7 +77,7 @@ export function DashboardSidebar() {
         </SidebarGroup>
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
-            <SidebarMenu className="px-1">
+            <SidebarMenu className="px-2">
               <SidebarLogout />
             </SidebarMenu>
           </SidebarGroupContent>
