@@ -88,7 +88,7 @@ body::before {
 }
 
 .react-flow__edge-path {
-  stroke: hsl(var(--primary));
+  stroke: #FFB800;
   stroke-width: 2;
   opacity: 0.5;
 }
@@ -98,12 +98,12 @@ body::before {
 }
 
 .react-flow__controls {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 }
 
 .react-flow__controls button {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: hsl(var(--primary));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #FFB800;
 }
 
 .react-flow__controls button:hover {
@@ -133,7 +133,7 @@ body::before {
 }
 
 .dark .react-flow__minimap-node {
-  fill: hsl(var(--primary));
+  fill: #FFB800;
 }
 
 /* Custom node styling */
@@ -144,7 +144,7 @@ body::before {
 }
 
 .custom-handle {
-  background: hsl(var(--primary));
+  background: #FFB800;
   width: 8px;
   height: 8px;
   border-radius: 50%;

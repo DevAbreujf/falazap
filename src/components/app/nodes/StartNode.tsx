@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock, Filter } from "lucide-react";
+import { Clock, Filter, Plus } from "lucide-react";
 
 interface StartNodeProps {
   data: {
@@ -35,52 +35,26 @@ function StartNode({ data }: StartNodeProps) {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const currentValue = data.timeValue ?? 0;
-      let newValue = currentValue;
-      
-      if (e.key === 'ArrowUp') {
-        newValue = currentValue + 1;
-      } else if (e.key === 'ArrowDown') {
-        newValue = Math.max(0, currentValue - 1);
-      }
-
-      if (data.onTimeValueChange) {
-        data.onTimeValueChange(newValue);
-      }
-    }
-  };
-
   return (
-    <div className="glass-card p-6 min-w-[320px] shadow-xl border-primary/20">
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <h3 className="font-semibold text-2xl bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-            {data.label}
-          </h3>
-          <p className="text-sm text-muted-foreground">{data.description}</p>
+    <div className="min-w-[320px] bg-[#1E1E26] rounded-lg border border-white/5 shadow-xl">
+      <div className="p-4 space-y-4">
+        <div className="flex items-center gap-2 text-[#FFB800]">
+          <Clock className="h-4 w-4" />
+          <span className="text-sm font-medium">Início</span>
         </div>
 
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2 text-primary">
-              <Clock className="h-4 w-4" />
-              Tempo mínimo
+        <div className="space-y-3">
+          <div>
+            <Label className="text-xs text-zinc-400">
+              Define tempo mínimo para o funil ser disparado novamente
             </Label>
-            <div className="flex gap-2">
+            <div className="flex gap-2 mt-1.5">
               <Input
                 type="number"
                 min={0}
-                step={1}
                 value={data.timeValue ?? 0}
                 onChange={handleTimeValueChange}
-                onKeyDown={handleKeyDown}
-                className="w-24 bg-black/20 border-white/10 focus-visible:ring-primary"
-                onWheel={(e) => e.currentTarget.blur()}
+                className="w-20 bg-[#0B0B0F] border-white/5 text-zinc-300"
               />
               <Select
                 value={data.timeUnit}
@@ -88,7 +62,7 @@ function StartNode({ data }: StartNodeProps) {
                   data.onTimeUnitChange?.(value)
                 }
               >
-                <SelectTrigger className="w-32 bg-black/20 border-white/10">
+                <SelectTrigger className="w-32 bg-[#0B0B0F] border-white/5 text-zinc-300">
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
                 <SelectContent>
@@ -100,16 +74,13 @@ function StartNode({ data }: StartNodeProps) {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2 text-primary">
-              <Filter className="h-4 w-4" />
-              Condição
-            </Label>
+          <div>
+            <Label className="text-xs text-zinc-400">Condição</Label>
             <Select
               value={data.condition}
               onValueChange={(value) => data.onConditionChange?.(value)}
             >
-              <SelectTrigger className="w-full bg-black/20 border-white/10">
+              <SelectTrigger className="w-full bg-[#0B0B0F] border-white/5 text-zinc-300 mt-1.5">
                 <SelectValue placeholder="Selecione a condição" />
               </SelectTrigger>
               <SelectContent>
@@ -119,22 +90,27 @@ function StartNode({ data }: StartNodeProps) {
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label className="text-primary">Termo</Label>
+          <div>
+            <Label className="text-xs text-zinc-400">Termo</Label>
             <Input
               value={data.term}
               onChange={(e) => data.onTermChange?.(e.target.value)}
               placeholder="Digite o termo para disparo"
-              className="w-full bg-black/20 border-white/10 focus-visible:ring-primary"
+              className="w-full bg-[#0B0B0F] border-white/5 text-zinc-300 mt-1.5"
             />
           </div>
+
+          <button className="w-full h-9 flex items-center justify-center gap-2 rounded bg-[#0B0B0F] border border-white/5 text-zinc-300 text-xs hover:bg-[#0B0B0F]/80 transition-colors">
+            <Plus className="h-4 w-4" />
+            Adicionar gatilho
+          </button>
         </div>
       </div>
 
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!bg-primary !w-3 !h-3 !border-2 !border-primary/50"
+        className="!bg-[#FFB800] !w-3 !h-3 !border-2 !border-[#FFB800]/50"
       />
     </div>
   );

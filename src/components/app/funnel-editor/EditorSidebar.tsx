@@ -1,101 +1,98 @@
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { MessageSquare, Image, Music, Mic, Video, FileText, Navigation2, Timer, HelpCircle, Tag, Variable } from "lucide-react";
 
 export function EditorSidebar() {
   return (
-    <aside className="w-64 p-4 border-r border-border/50 bg-sidebar">
+    <aside className="w-64 p-4 bg-[#0B0B0F] border-r border-[#1E1E26]">
       <div className="space-y-6">
         <div>
-          <h2 className="text-lg font-semibold mb-3 text-sidebar-foreground">Mensagens</h2>
+          <h2 className="text-sm font-medium text-zinc-400 mb-3">Mensagens</h2>
           <div className="grid grid-cols-2 gap-2">
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">💬</span>
-              Texto
+              <MessageSquare className="h-5 w-5" />
+              <span className="text-xs">Texto</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">🖼️</span>
-              Imagem
+              <Image className="h-5 w-5" />
+              <span className="text-xs">Imagem</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">🎵</span>
-              Música
+              <Music className="h-5 w-5" />
+              <span className="text-xs">Música</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">🎤</span>
-              Áudio
+              <Mic className="h-5 w-5" />
+              <span className="text-xs">Áudio</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">🎥</span>
-              Vídeo
+              <Video className="h-5 w-5" />
+              <span className="text-xs">Vídeo</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">📄</span>
-              Documento
+              <FileText className="h-5 w-5" />
+              <span className="text-xs">Documento</span>
             </Button>
           </div>
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold mb-3 text-sidebar-foreground">Lógica</h2>
+          <h2 className="text-sm font-medium text-zinc-400 mb-3">Lógica</h2>
           <div className="grid grid-cols-2 gap-2">
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">🔀</span>
-              Caminhos
+              <Navigation2 className="h-5 w-5" />
+              <span className="text-xs">Caminhos</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">⏲️</span>
-              Esperar
+              <Timer className="h-5 w-5" />
+              <span className="text-xs">Esperar</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">❓</span>
-              Perguntar
+              <HelpCircle className="h-5 w-5" />
+              <span className="text-xs">Perguntar</span>
             </Button>
             <Button
               variant="outline"
-              className={cn(
-                "h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground",
-                "relative"
-              )}
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300 relative"
             >
-              <span className="text-lg">🏷️</span>
-              Tags
-              <span className="absolute -top-1 -right-1 bg-primary text-xs px-1.5 py-0.5 rounded-full">
+              <Tag className="h-5 w-5" />
+              <span className="text-xs">Tags</span>
+              <span className="absolute -top-1 -right-1 bg-[#FFB800] text-[10px] px-1.5 py-0.5 rounded-full text-black font-medium">
                 Novo
               </span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground"
+              className="h-[72px] flex flex-col items-center justify-center gap-2 bg-[#1E1E26] hover:bg-[#2E2E36] border-transparent text-zinc-300"
             >
-              <span className="text-lg">📝</span>
-              Variáveis
+              <Variable className="h-5 w-5" />
+              <span className="text-xs">Variáveis</span>
             </Button>
           </div>
         </div>

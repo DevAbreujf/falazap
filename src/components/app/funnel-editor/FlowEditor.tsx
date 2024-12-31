@@ -24,7 +24,7 @@ export function FlowEditor({
   onConnect,
 }: FlowEditorProps) {
   return (
-    <div className="flex-1 h-full bg-[#141414]">
+    <div className="flex-1 h-full bg-[#0B0B0F]">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -38,17 +38,17 @@ export function FlowEditor({
         maxZoom={1.5}
         defaultEdgeOptions={{
           style: {
-            stroke: 'hsl(var(--primary))',
+            stroke: '#FFB800',
             strokeWidth: 2,
           },
           type: 'smoothstep',
         }}
       >
-        <Background color="#333" gap={16} />
-        <Controls className="!bg-black/20 !backdrop-blur-sm !border-white/10" />
+        <Background color="#1E1E26" gap={16} />
+        <Controls className="!bg-[#1E1E26]/80 !backdrop-blur-sm !border-white/10" />
         <MiniMap
-          className="!bg-black/20 !backdrop-blur-sm !border-white/10"
-          nodeColor="#666"
+          className="!bg-[#1E1E26]/80 !backdrop-blur-sm !border-white/10"
+          nodeColor="#FFB800"
           maskColor="rgba(0, 0, 0, 0.2)"
         />
       </ReactFlow>
