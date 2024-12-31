@@ -75,13 +75,13 @@ export function FunnelCard({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="justify-between pt-4 pb-6 px-6">
-        <div className="flex gap-3">
+      <CardFooter className="flex items-center justify-between pt-4 pb-6 px-6 gap-4">
+        <div className="flex items-center gap-4">
           <Button
             variant="outline"
             size="sm"
             onClick={() => onEdit(funnel.id)}
-            className="hover:bg-primary/10"
+            className="hover:bg-primary/10 border-primary/20 hover:border-primary/40"
           >
             <Pencil className="h-4 w-4 mr-2" />
             Editar
@@ -90,7 +90,7 @@ export function FunnelCard({
             variant="outline"
             size="sm"
             onClick={() => onMetrics(funnel.id)}
-            className="hover:bg-primary/10"
+            className="hover:bg-primary/10 border-primary/20 hover:border-primary/40"
           >
             <BarChart2 className="h-4 w-4 mr-2" />
             Métricas
@@ -98,7 +98,11 @@ export function FunnelCard({
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="hover:bg-primary/10"
+            >
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
