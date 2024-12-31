@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import Dashboard from "@/pages/Dashboard";
 import Funnels from "@/pages/Funnels";
+import FunnelEditor from "@/pages/FunnelEditor";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
   {
     path: "/funnels",
     element: <Funnels />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/funnels/editor/:id?",
+    element: <FunnelEditor />,
     errorElement: <ErrorBoundary />,
   },
   {
