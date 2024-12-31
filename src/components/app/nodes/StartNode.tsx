@@ -73,6 +73,7 @@ function StartNode({ data }: StartNodeProps) {
               onChange={handleTimeValueChange}
               onKeyDown={handleKeyDown}
               className="w-24 bg-transparent border-gray-700"
+              onWheel={(e) => e.currentTarget.blur()}
             />
             <Select
               value={data.timeUnit}
