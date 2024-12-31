@@ -7,14 +7,14 @@ export function RemindersHeader() {
 
   return (
     <div className="flex items-center justify-between mb-8">
-      <h1 className="text-3xl font-bold text-gradient-primary">Lembretes</h1>
+      <h1 className="text-3xl font-bold text-gradient-primary">Agendamentos</h1>
       <Button
         onClick={() => navigate("/schedules")}
         variant="outline"
         className="flex items-center gap-2"
       >
         <Calendar className="w-4 h-4" />
-        Agendamentos
+        Lista de Agendamentos
       </Button>
     </div>
   );

@@ -74,7 +74,7 @@ export default function Schedules() {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold text-gradient-primary">
-              Agendamentos
+              Lista de Agendamentos
             </h1>
             <Button onClick={() => window.location.href = "/reminders"}>
               Novo Agendamento

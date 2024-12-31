@@ -44,8 +44,8 @@ export function DashboardSidebar() {
     },
     {
       icon: Bell,
-      label: "Lembretes",
-      description: "Gerencie seus lembretes",
+      label: "Agendamentos",
+      description: "Gerencie seus agendamentos",
       onClick: () => navigate("/reminders"),
     },
     {
