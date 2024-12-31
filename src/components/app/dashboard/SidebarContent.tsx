@@ -5,7 +5,6 @@ import {
   Phone,
   Send,
   Bell,
-  CalendarCheck,
 } from "lucide-react";
 import {
   SidebarContent as BaseSidebarContent,
@@ -44,13 +43,6 @@ export function SidebarContent() {
       label: "Lembretes",
       description: "Gerencie seus lembretes",
       onClick: () => navigate("/reminders"),
-      subItems: [
-        {
-          icon: CalendarCheck,
-          label: "Agendamentos",
-          onClick: () => navigate("/schedules"),
-        },
-      ],
     },
     {
       icon: Users,
