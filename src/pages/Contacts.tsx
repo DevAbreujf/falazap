@@ -146,22 +146,24 @@ export default function Contacts() {
               <CardContent>
                 <div className="overflow-x-auto">
                   <Table>
-
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-12">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-3 group">
                             <Checkbox
                               checked={selectedContacts.length === filteredContacts.length && filteredContacts.length > 0}
                               onCheckedChange={toggleSelectAll}
                               id="select-all"
+                              className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                             />
-                            <label 
-                              htmlFor="select-all" 
-                              className="text-sm text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+                            <span 
+                              className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 select-none cursor-pointer"
+                              onClick={() => toggleSelectAll()}
                             >
-                              Selecionar todos
-                            </label>
+                              {selectedContacts.length === filteredContacts.length && filteredContacts.length > 0
+                                ? "Desmarcar todos"
+                                : "Selecionar todos"}
+                            </span>
                           </div>
                         </TableHead>
                         <TableHead>Nome</TableHead>
