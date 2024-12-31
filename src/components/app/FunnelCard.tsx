@@ -75,13 +75,13 @@ export function FunnelCard({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex flex-col gap-4 pt-4 pb-6 px-6">
-        <div className="flex w-full gap-3">
+      <CardFooter className="justify-between pt-4 pb-6 px-6">
+        <div className="flex gap-3">
           <Button
             variant="outline"
             size="sm"
             onClick={() => onEdit(funnel.id)}
-            className="flex-1 hover:bg-primary/10 border-primary/20 hover:border-primary/40"
+            className="hover:bg-primary/10"
           >
             <Pencil className="h-4 w-4 mr-2" />
             Editar
@@ -90,34 +90,32 @@ export function FunnelCard({
             variant="outline"
             size="sm"
             onClick={() => onMetrics(funnel.id)}
-            className="flex-1 hover:bg-primary/10 border-primary/20 hover:border-primary/40"
+            className="hover:bg-primary/10"
           >
             <BarChart2 className="h-4 w-4 mr-2" />
             Métricas
           </Button>
         </div>
-        <div className="flex w-full justify-end">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onDuplicate(funnel.id)}>
-                <Copy className="h-4 w-4 mr-2" />
-                Duplicar
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => onDelete(funnel.id)}
-                className="text-destructive"
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Excluir
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <MoreVertical className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onDuplicate(funnel.id)}>
+              <Copy className="h-4 w-4 mr-2" />
+              Duplicar
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onDelete(funnel.id)}
+              className="text-destructive"
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Excluir
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </CardFooter>
     </Card>
   );
