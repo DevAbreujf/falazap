@@ -1,8 +1,73 @@
-import { Sidebar, SidebarHeader } from "@/components/ui/sidebar";
+import {
+  BarChart3,
+  Filter,
+  MessageSquare,
+  Users,
+  Phone,
+  Send,
+  Bell,
+} from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+} from "@/components/ui/sidebar";
+import { useNavigate } from "react-router-dom";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
-import { SidebarContent } from "./dashboard/SidebarContent";
+import { SidebarMenuItemComponent } from "./dashboard/SidebarMenuItem";
+import { SidebarLogout } from "./dashboard/SidebarLogout";
 
 export function DashboardSidebar() {
+  const navigate = useNavigate();
+
+  const menuItems = [
+    {
+      icon: BarChart3,
+      label: "Métricas",
+      description: "Visualize suas estatísticas",
+      onClick: () => navigate("/dashboard"),
+    },
+    {
+      icon: Filter,
+      label: "Funis",
+      description: "Gerencie seus funis",
+      onClick: () => navigate("/funnels"),
+    },
+    {
+      icon: Send,
+      label: "Disparos",
+      description: "Gerencie seus disparos",
+      onClick: () => navigate("/broadcasts"),
+    },
+    {
+      icon: Bell,
+      label: "Lembretes",
+      description: "Gerencie seus lembretes",
+      onClick: () => navigate("/reminders"),
+    },
+    {
+      icon: MessageSquare,
+      label: "SMS",
+      description: "Envie mensagens",
+      onClick: () => console.log("SMS clicked"),
+    },
+    {
+      icon: Users,
+      label: "Contatos",
+      description: "Gerencie seus contatos",
+      onClick: () => navigate("/contacts"),
+    },
+    {
+      icon: Phone,
+      label: "Conexão",
+      description: "Configure seu WhatsApp",
+      onClick: () => console.log("Conexão clicked"),
+    },
+  ];
+
   return (
     <Sidebar>
       <SidebarHeader className="p-3">
@@ -17,7 +82,30 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent />
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu className="px-2">
+              {menuItems.map((item) => (
+                <SidebarMenuItemComponent
+                  key={item.label}
+                  icon={item.icon}
+                  label={item.label}
+                  description={item.description}
+                  onClick={item.onClick}
+                />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu className="px-2">
+              <SidebarLogout />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
     </Sidebar>
   );
 }
