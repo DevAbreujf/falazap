@@ -3,7 +3,6 @@ import {
   Filter,
   MessageSquare,
   Users,
-  LogOut,
   Phone,
 } from "lucide-react";
 import {
@@ -13,10 +12,11 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
+import { SidebarLogo } from "./dashboard/SidebarLogo";
+import { SidebarMenuItemComponent } from "./dashboard/SidebarMenuItem";
+import { SidebarLogout } from "./dashboard/SidebarLogout";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
@@ -57,35 +57,20 @@ export function DashboardSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="p-6">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-3xl font-bold text-gradient-primary">Fala</span>
-            <span className="text-3xl font-bold text-white">ZAP</span>
-          </div>
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-        </div>
+        <SidebarLogo />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton
-                    onClick={item.onClick}
-                    className="group relative flex w-full flex-col items-start gap-1 p-4 transition-all duration-200 hover:bg-primary/10"
-                  >
-                    <div className="flex w-full items-center gap-3">
-                      <div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary/20">
-                        <item.icon className="h-5 w-5" />
-                      </div>
-                      <span className="font-medium text-white">{item.label}</span>
-                    </div>
-                    <span className="pl-12 text-sm text-muted-foreground/80">
-                      {item.description}
-                    </span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                <SidebarMenuItemComponent
+                  key={item.label}
+                  icon={item.icon}
+                  label={item.label}
+                  description={item.description}
+                  onClick={item.onClick}
+                />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -93,17 +78,7 @@ export function DashboardSidebar() {
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={() => console.log("Logout clicked")}
-                  className="group flex w-full items-center gap-3 p-4 text-destructive transition-all duration-200 hover:bg-destructive/10"
-                >
-                  <div className="rounded-lg bg-destructive/10 p-2 text-destructive transition-colors group-hover:bg-destructive/20">
-                    <LogOut className="h-5 w-5" />
-                  </div>
-                  <span className="font-medium">Sair</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <SidebarLogout />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
