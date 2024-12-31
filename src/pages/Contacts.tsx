@@ -8,21 +8,40 @@ import { useState } from "react";
 import { Contact } from "@/types/contacts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 export default function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [contacts, setContacts] = useState<Contact[]>([
-    { id: 1, phone: "+55 11 99999-9999", name: "João Silva", date: "2024-03-20" },
-    { id: 2, phone: "+55 11 98888-8888", name: "Maria Santos", date: "2024-03-19" },
+  const [currentPage, setCurrentPage] = useState(1);
+  const contactsPerPage = 20;
+
+  const [contacts] = useState<Contact[]>([
+    { 
+      id: 1, 
+      phone: "+55 11 99999-9999", 
+      name: "João Silva", 
+      date: "2024-03-20",
+      funnelName: "Funil de Vendas Principal",
+      funnelStatus: "in_progress"
+    },
+    { 
+      id: 2, 
+      phone: "+55 11 98888-8888", 
+      name: "Maria Santos", 
+      date: "2024-03-19",
+      funnelName: "Funil de Captação de Leads",
+      funnelStatus: "completed"
+    },
   ]);
 
   const handleExportCSV = () => {
     const selectedData = contacts.filter(contact => selectedContacts.includes(contact.id));
     const csvContent = "data:text/csv;charset=utf-8," 
-      + "Nome,Telefone,Data\n"
+      + "Nome,Telefone,Data,Funil,Status\n"
       + selectedData.map(contact => 
-          `${contact.name},${contact.phone},${contact.date}`
+          `${contact.name},${contact.phone},${contact.date},${contact.funnelName},${contact.funnelStatus === 'completed' ? 'Finalizado' : 'Em andamento'}`
         ).join("\n");
     
     const encodedUri = encodeURI(csvContent);
@@ -42,11 +61,25 @@ export default function Contacts() {
     );
   };
 
+  const toggleSelectAll = () => {
+    if (selectedContacts.length === filteredContacts.length) {
+      setSelectedContacts([]);
+    } else {
+      setSelectedContacts(filteredContacts.map(contact => contact.id));
+    }
+  };
+
   const filteredContacts = contacts.filter(contact => {
     const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          contact.phone.includes(searchTerm);
     return matchesSearch;
   });
+
+  // Paginação
+  const indexOfLastContact = currentPage * contactsPerPage;
+  const indexOfFirstContact = indexOfLastContact - contactsPerPage;
+  const currentContacts = filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
+  const totalPages = Math.ceil(filteredContacts.length / contactsPerPage);
 
   return (
     <SidebarProvider>
@@ -88,14 +121,21 @@ export default function Contacts() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-12">Selecionar</TableHead>
+                        <TableHead className="w-12">
+                          <Checkbox
+                            checked={selectedContacts.length === filteredContacts.length && filteredContacts.length > 0}
+                            onCheckedChange={toggleSelectAll}
+                          />
+                        </TableHead>
                         <TableHead>Nome</TableHead>
                         <TableHead>Telefone</TableHead>
                         <TableHead>Data de Entrada</TableHead>
+                        <TableHead>Funil</TableHead>
+                        <TableHead>Status</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredContacts.map((contact) => (
+                      {currentContacts.map((contact) => (
                         <TableRow key={contact.id}>
                           <TableCell>
                             <Checkbox
@@ -106,11 +146,47 @@ export default function Contacts() {
                           <TableCell className="font-medium">{contact.name}</TableCell>
                           <TableCell>{contact.phone}</TableCell>
                           <TableCell>{new Date(contact.date).toLocaleDateString('pt-BR')}</TableCell>
+                          <TableCell>{contact.funnelName}</TableCell>
+                          <TableCell>
+                            <Badge variant={contact.funnelStatus === 'completed' ? 'default' : 'secondary'}>
+                              {contact.funnelStatus === 'completed' ? 'Finalizado' : 'Em andamento'}
+                            </Badge>
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </div>
+                {totalPages > 1 && (
+                  <div className="mt-4">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                            className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={currentPage === page}
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+                        <PaginationItem>
+                          <PaginationNext 
+                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
