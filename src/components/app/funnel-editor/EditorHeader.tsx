@@ -1,34 +1,46 @@
-import { ArrowLeft, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, Bolt, Save } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-export function EditorHeader() {
+interface EditorHeaderProps {
+  funnelTitle: string;
+  setFunnelTitle: (title: string) => void;
+  onSave: () => void;
+}
+
+export function EditorHeader({ funnelTitle, setFunnelTitle, onSave }: EditorHeaderProps) {
+  const navigate = useNavigate();
+
   return (
-    <header className="flex items-center justify-between border-b border-border/50 bg-background/95 px-6 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="flex items-center justify-between p-4 border-b border-border/50 bg-sidebar">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => navigate("/funnels")}
+          className="text-sidebar-foreground hover:text-primary"
+        >
           <ArrowLeft className="h-5 w-5" />
         </Button>
-        <div className="flex items-center gap-2">
-          <h1 className="text-lg font-medium">Funil sem título</h1>
-          <Button size="sm" variant="ghost">
-            <Zap className="mr-2 h-4 w-4 text-yellow-500" />
-            Disparo Manual
-          </Button>
-        </div>
+        <Input
+          value={funnelTitle}
+          onChange={(e) => setFunnelTitle(e.target.value)}
+          className="text-xl font-semibold bg-transparent border-none h-auto p-0 focus-visible:ring-0 w-[300px] text-sidebar-foreground"
+        />
+        <Button variant="outline" size="sm" className="gap-2 text-sidebar-foreground">
+          <Bolt className="h-4 w-4" />
+          Disparo Manual
+        </Button>
       </div>
-
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-red-500" />
-          <span className="text-sm text-muted-foreground">Inativo</span>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <Button variant="outline">Importar</Button>
-          <Button variant="outline">Exportar</Button>
-          <Button>Salvar</Button>
-        </div>
+        <Button variant="outline" onClick={() => navigate("/funnels")} className="text-sidebar-foreground">
+          Cancelar
+        </Button>
+        <Button onClick={onSave} className="gap-2 bg-primary hover:bg-primary/90">
+          <Save className="h-4 w-4" />
+          Salvar
+        </Button>
       </div>
     </header>
   );

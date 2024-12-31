@@ -1,45 +1,30 @@
-import { useCallback } from "react";
-import {
-  ReactFlow,
-  MiniMap,
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-  Connection,
-  Edge,
-} from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
-
-import { StartNode } from "@/components/app/nodes/StartNode";
-import { TextNode } from "@/components/app/nodes/TextNode";
+import { ReactFlow, Background, Controls, MiniMap } from "@xyflow/react";
+import { Connection, Edge } from "@xyflow/react";
+import StartNode from "../nodes/StartNode";
+import TextNode from "../nodes/TextNode";
 
 const nodeTypes = {
   start: StartNode,
   text: TextNode,
 };
 
-const initialNodes = [
-  {
-    id: "start",
-    type: "start",
-    position: { x: 400, y: 100 },
-    data: {},
-  },
-];
+interface FlowEditorProps {
+  nodes: any[];
+  edges: Edge[];
+  onNodesChange: any;
+  onEdgesChange: any;
+  onConnect: (params: Connection | Edge) => void;
+}
 
-export function FlowEditor() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
-  const onConnect = useCallback(
-    (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
-
+export function FlowEditor({
+  nodes,
+  edges,
+  onNodesChange,
+  onEdgesChange,
+  onConnect,
+}: FlowEditorProps) {
   return (
-    <div className="flex-1 bg-background">
+    <div className="flex-1 h-full bg-[#0B0B0F]">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -47,12 +32,25 @@ export function FlowEditor() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        className="dark"
         fitView
+        className="dark"
+        minZoom={0.1}
+        maxZoom={1.5}
+        defaultEdgeOptions={{
+          style: {
+            stroke: '#FFB800',
+            strokeWidth: 2,
+          },
+          type: 'smoothstep',
+        }}
       >
-        <Controls />
-        <MiniMap />
-        <Background />
+        <Background color="#333" gap={16} />
+        <Controls className="!bg-black/20 !backdrop-blur-sm !border-white/10" />
+        <MiniMap
+          className="!bg-black/20 !backdrop-blur-sm !border-white/10"
+          nodeColor="#666"
+          maskColor="rgba(0, 0, 0, 0.2)"
+        />
       </ReactFlow>
     </div>
   );
