@@ -4,6 +4,7 @@ import {
   MessageSquare,
   Users,
   Phone,
+  Send,
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,6 +34,12 @@ export function DashboardSidebar() {
       label: "Funis",
       description: "Gerencie seus funis",
       onClick: () => navigate("/funnels"),
+    },
+    {
+      icon: Send,
+      label: "Disparos",
+      description: "Gerencie seus disparos",
+      onClick: () => navigate("/broadcasts"),
     },
     {
       icon: MessageSquare,

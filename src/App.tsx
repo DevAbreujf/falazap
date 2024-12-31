@@ -6,6 +6,7 @@ import Index from "@/pages/Index";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Contacts from "@/pages/Contacts";
+import Broadcasts from "@/pages/Broadcasts";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 const router = createBrowserRouter([
@@ -27,6 +28,11 @@ const router = createBrowserRouter([
   {
     path: "/contacts",
     element: <Contacts />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/broadcasts",
+    element: <Broadcasts />,
     errorElement: <ErrorBoundary />,
   },
   {
