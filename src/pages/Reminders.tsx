@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { countries } from 'react-phone-number-input/input'
-import en from 'react-phone-number-input/locale/en.json'
+import { CountrySelector } from "@/components/app/reminders/CountrySelector";
+import { PhoneInput } from "@/components/app/reminders/PhoneInput";
 
 export default function Reminders() {
   const [selectedContact, setSelectedContact] = useState("");
@@ -24,26 +17,6 @@ export default function Reminders() {
   const [manualPhone, setManualPhone] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("BR");
   const { toast } = useToast();
-
-  const countryList = Object.keys(countries);
-
-  const formatPhoneNumber = (value: string) => {
-    const numbers = value.replace(/\D/g, '');
-    
-    if (numbers.length <= 2) {
-      return numbers;
-    } else if (numbers.length <= 7) {
-      return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
-    } else {
-      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
-    }
-  };
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const numericValue = e.target.value.replace(/\D/g, '');
-    const formattedValue = formatPhoneNumber(numericValue);
-    setManualPhone(formattedValue);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,10 +85,7 @@ export default function Reminders() {
                   <Label className="text-sm font-medium text-foreground">
                     Selecione o contato
                   </Label>
-                  <Select
-                    value={selectedContact}
-                    onValueChange={setSelectedContact}
-                  >
+                  <Select value={selectedContact} onValueChange={setSelectedContact}>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione um contato" />
                     </SelectTrigger>
@@ -132,46 +102,14 @@ export default function Reminders() {
                     Digite o número
                   </Label>
                   <div className="space-y-2">
-                    <Select
-                      value={selectedCountry}
-                      onValueChange={setSelectedCountry}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue>
-                          <div className="flex items-center gap-2">
-                            <img
-                              src={`https://flagcdn.com/${selectedCountry.toLowerCase()}.svg`}
-                              alt={en[selectedCountry]}
-                              className="w-4 h-3"
-                            />
-                            <span>+{countries[selectedCountry as keyof typeof countries]}</span>
-                          </div>
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {countryList.map((country) => (
-                          <SelectItem key={country} value={country}>
-                            <div className="flex items-center gap-2">
-                              <img
-                                src={`https://flagcdn.com/${country.toLowerCase()}.svg`}
-                                alt={en[country]}
-                                className="w-4 h-3"
-                              />
-                              <span>{en[country]} (+{countries[country as keyof typeof countries]})</span>
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <CountrySelector 
+                      selectedCountry={selectedCountry}
+                      onCountryChange={setSelectedCountry}
+                    />
                     <div className="relative">
-                      <Input
-                        type="tel"
-                        placeholder="(00) 00000-0000"
+                      <PhoneInput
                         value={manualPhone}
-                        onChange={handlePhoneChange}
-                        className="w-full"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
+                        onChange={setManualPhone}
                       />
                     </div>
                   </div>
