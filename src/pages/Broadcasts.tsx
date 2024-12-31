@@ -12,6 +12,12 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { Play, Square } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Mock data para exemplo
 const mockBroadcasts = [
@@ -84,60 +90,75 @@ export default function Broadcasts() {
             </div>
 
             <div className="mt-8">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Nome</TableHead>
-                    <TableHead>Telefone</TableHead>
-                    <TableHead>Funil</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Data Início</TableHead>
-                    <TableHead>Ações</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {broadcasts.map((broadcast) => (
-                    <TableRow key={broadcast.id}>
-                      <TableCell>{broadcast.contactName}</TableCell>
-                      <TableCell>{broadcast.phone}</TableCell>
-                      <TableCell>{broadcast.funnelName}</TableCell>
-                      <TableCell>
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          broadcast.status === "em_andamento" 
-                            ? "bg-green-100 text-green-800" 
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}>
-                          {broadcast.status === "em_andamento" ? "Em andamento" : "Pausado"}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        {new Date(broadcast.startDate).toLocaleString()}
-                      </TableCell>
-                      <TableCell>
-                        {broadcast.status === "em_andamento" ? (
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => handleStop(broadcast.id)}
-                          >
-                            <Square className="w-4 h-4 mr-2" />
-                            Parar
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="default"
-                            size="sm"
-                            onClick={() => handleManualStart(broadcast.id)}
-                          >
-                            <Play className="w-4 h-4 mr-2" />
-                            Disparo Manual
-                          </Button>
-                        )}
-                      </TableCell>
+              <div className="glass-card overflow-hidden rounded-xl">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="hover:bg-transparent border-b border-primary/20">
+                      <TableHead className="text-primary">Nome</TableHead>
+                      <TableHead className="text-primary">Telefone</TableHead>
+                      <TableHead className="text-primary">Funil</TableHead>
+                      <TableHead className="text-primary">Status</TableHead>
+                      <TableHead className="text-primary">Data Início</TableHead>
+                      <TableHead className="text-primary">Ações</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {broadcasts.map((broadcast) => (
+                      <TableRow key={broadcast.id} className="hover:bg-primary/5 transition-colors">
+                        <TableCell className="font-medium">{broadcast.contactName}</TableCell>
+                        <TableCell>{broadcast.phone}</TableCell>
+                        <TableCell>{broadcast.funnelName}</TableCell>
+                        <TableCell>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${
+                                  broadcast.status === "em_andamento" 
+                                    ? "bg-primary/10 text-primary border border-primary/20" 
+                                    : "bg-yellow-100/10 text-yellow-500 border border-yellow-500/20"
+                                }`}>
+                                  {broadcast.status === "em_andamento" ? "Em andamento" : "Pausado"}
+                                </span>
+                              </TooltipTrigger>
+                              {broadcast.status === "em_andamento" && (
+                                <TooltipContent>
+                                  <p>Funil em execução: {broadcast.funnelName}</p>
+                                </TooltipContent>
+                              )}
+                            </Tooltip>
+                          </TooltipProvider>
+                        </TableCell>
+                        <TableCell>
+                          {new Date(broadcast.startDate).toLocaleString()}
+                        </TableCell>
+                        <TableCell>
+                          {broadcast.status === "em_andamento" ? (
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleStop(broadcast.id)}
+                              className="hover:bg-destructive/90"
+                            >
+                              <Square className="w-4 h-4 mr-2" />
+                              Parar
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="default"
+                              size="sm"
+                              onClick={() => handleManualStart(broadcast.id)}
+                              className="hover:bg-primary/90"
+                            >
+                              <Play className="w-4 h-4 mr-2" />
+                              Disparo Manual
+                            </Button>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
           </main>
         </div>
