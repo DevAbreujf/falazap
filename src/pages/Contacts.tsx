@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 
 export default function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
