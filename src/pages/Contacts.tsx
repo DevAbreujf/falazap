@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Search, FileSpreadsheet, CheckSquare } from "lucide-react";
+import { Search, FileSpreadsheet } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
@@ -11,7 +11,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
@@ -147,25 +146,23 @@ export default function Contacts() {
               <CardContent>
                 <div className="overflow-x-auto">
                   <Table>
+
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-12">
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <div className="flex items-center gap-2">
-                                  <Checkbox
-                                    checked={selectedContacts.length === filteredContacts.length && filteredContacts.length > 0}
-                                    onCheckedChange={toggleSelectAll}
-                                  />
-                                  <CheckSquare className="h-4 w-4 text-muted-foreground" />
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Selecionar todos os contatos</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              checked={selectedContacts.length === filteredContacts.length && filteredContacts.length > 0}
+                              onCheckedChange={toggleSelectAll}
+                              id="select-all"
+                            />
+                            <label 
+                              htmlFor="select-all" 
+                              className="text-sm text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+                            >
+                              Selecionar todos
+                            </label>
+                          </div>
                         </TableHead>
                         <TableHead>Nome</TableHead>
                         <TableHead>Telefone</TableHead>
@@ -174,6 +171,7 @@ export default function Contacts() {
                         <TableHead>Status</TableHead>
                       </TableRow>
                     </TableHeader>
+
                     <TableBody>
                       {currentContacts.map((contact) => (
                         <TableRow key={contact.id}>
