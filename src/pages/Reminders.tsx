@@ -27,7 +27,7 @@ export default function Reminders() {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen w-full">
       <DashboardSidebar />
       <main className="flex-1 p-8">
         <div className="max-w-2xl mx-auto">

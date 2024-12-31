@@ -9,6 +9,7 @@ import Contacts from "@/pages/Contacts";
 import Broadcasts from "@/pages/Broadcasts";
 import Reminders from "@/pages/Reminders";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const router = createBrowserRouter([
   {
@@ -55,10 +56,12 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-      <Toaster />
-    </>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <RouterProvider router={router} />
+        <Toaster />
+      </div>
+    </SidebarProvider>
   );
 }
 
