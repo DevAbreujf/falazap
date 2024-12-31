@@ -9,10 +9,10 @@ interface SelectAllCheckboxProps {
 
 export function SelectAllCheckbox({ isChecked, onToggle, totalItems }: SelectAllCheckboxProps) {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex items-center gap-3 group">
+          <div className="relative flex items-center gap-3">
             <Checkbox
               checked={isChecked && totalItems > 0}
               onCheckedChange={onToggle}
@@ -24,7 +24,8 @@ export function SelectAllCheckbox({ isChecked, onToggle, totalItems }: SelectAll
         <TooltipContent 
           side="top" 
           align="start"
-          className="bg-background border border-border z-[9999]"
+          className="fixed bg-background border border-border"
+          style={{ zIndex: 99999 }}
           sideOffset={5}
         >
           <p className="text-sm">
