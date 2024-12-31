@@ -24,7 +24,7 @@ export function SelectAllCheckbox({ isChecked, onToggle, totalItems }: SelectAll
         <TooltipContent 
           side="top" 
           align="start"
-          className="bg-background border border-border z-[100]"
+          className="bg-background border border-border z-[9999]"
           sideOffset={5}
         >
           <p className="text-sm">
