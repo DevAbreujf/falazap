@@ -22,8 +22,8 @@ export function SelectAllCheckbox({ isChecked, onToggle, totalItems }: SelectAll
           </div>
         </TooltipTrigger>
         <TooltipContent 
-          side="top" 
-          align="start"
+          side="right" 
+          align="center"
           className="bg-background border border-border"
           style={{ zIndex: 99999 }}
           sideOffset={5}
