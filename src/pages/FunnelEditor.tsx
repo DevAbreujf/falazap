@@ -14,6 +14,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import { ArrowLeft, Bolt, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 const initialNodes = [
@@ -22,15 +23,18 @@ const initialNodes = [
     type: "input",
     data: { 
       label: "Início",
-      description: "Defina tempo mínimo para o funil ser disparado novamente"
+      description: "Defina tempo mínimo para o funil ser disparado novamente",
+      condition: "Exata",
+      term: ""
     },
     position: { x: 250, y: 50 },
-    className: "glass-card !bg-black/40 !border-primary/20",
+    className: "dark-node !bg-[#1A1F2C] border-none text-white",
   },
 ];
 
 export default function FunnelEditor() {
   const navigate = useNavigate();
+  const [funnelTitle, setFunnelTitle] = useState("Funil sem título");
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
@@ -40,7 +44,7 @@ export default function FunnelEditor() {
   );
 
   const handleSave = () => {
-    console.log("Saving funnel:", { nodes, edges });
+    console.log("Saving funnel:", { title: funnelTitle, nodes, edges });
     navigate("/funnels");
   };
 
@@ -56,7 +60,11 @@ export default function FunnelEditor() {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-xl font-semibold">Funil sem título</h1>
+          <Input
+            value={funnelTitle}
+            onChange={(e) => setFunnelTitle(e.target.value)}
+            className="text-xl font-semibold bg-transparent border-none h-auto p-0 focus-visible:ring-0 w-[300px]"
+          />
           <Button variant="outline" size="sm" className="gap-2">
             <Bolt className="h-4 w-4" />
             Disparo Manual
@@ -175,7 +183,7 @@ export default function FunnelEditor() {
         </aside>
 
         {/* Flow Editor */}
-        <div className="flex-1 h-full">
+        <div className="flex-1 h-full bg-[#141414]">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -191,5 +199,3 @@ export default function FunnelEditor() {
         </div>
       </div>
     </div>
-  );
-}

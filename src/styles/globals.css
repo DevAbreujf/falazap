@@ -12,3 +12,24 @@
     display: none;
   }
 }
+
+.dark-node {
+  padding: 20px !important;
+  min-width: 300px;
+  border-radius: 12px !important;
+}
+
+.dark-node .react-flow__handle {
+  background: #F97316;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dark-node .react-flow__handle-right {
+  right: -4px;
+}
+
+.dark-node .react-flow__handle-left {
+  left: -4px;
+}
