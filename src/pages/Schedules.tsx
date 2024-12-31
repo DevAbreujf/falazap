@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Edit2, Trash2, Search, Calendar as CalendarIcon } from "lucide-react";
@@ -22,6 +23,10 @@ interface Schedule {
 export default function Schedules() {
   const [search, setSearch] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date>();
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingSchedule, setEditingSchedule] = useState<Schedule | null>(null);
+  const [newDate, setNewDate] = useState<Date>();
+  const [newTime, setNewTime] = useState("");
   const { toast } = useToast();
 
   // Mock data - replace with actual data storage later
@@ -44,11 +49,22 @@ export default function Schedules() {
     });
   };
 
-  const handleEdit = (id: string) => {
+  const handleEdit = (schedule: Schedule) => {
+    setEditingSchedule(schedule);
+    setNewDate(schedule.date);
+    setNewTime(schedule.time);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!editingSchedule || !newDate || !newTime) return;
+
+    // Here you would update the schedule in your backend
     toast({
-      title: "Editar agendamento",
-      description: "Funcionalidade em desenvolvimento"
+      title: "Agendamento atualizado",
+      description: "O horário foi alterado com sucesso!"
     });
+    setIsEditDialogOpen(false);
   };
 
   const filteredSchedules = schedules.filter(schedule => {
@@ -149,8 +165,9 @@ export default function Schedules() {
                           <Button
                             variant="outline"
                             size="icon"
-                            onClick={() => handleEdit(schedule.id)}
+                            onClick={() => handleEdit(schedule)}
                           >
+                            <span className="sr-only">Alterar horário</span>
                             <Edit2 className="h-4 w-4" />
                           </Button>
                           <Button
@@ -170,6 +187,42 @@ export default function Schedules() {
           </div>
         </div>
       </main>
+
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Alterar Horário</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Data</label>
+              <Calendar
+                mode="single"
+                selected={newDate}
+                onSelect={setNewDate}
+                locale={ptBR}
+                className="rounded-md border"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Horário</label>
+              <Input
+                type="time"
+                value={newTime}
+                onChange={(e) => setNewTime(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              Cancelar
+            </Button>
+            <Button onClick={handleSaveEdit}>
+              Salvar alterações
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
