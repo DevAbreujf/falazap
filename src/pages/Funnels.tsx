@@ -5,6 +5,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Separator } from "@/components/ui/separator";
 import { FunnelCard } from "@/components/app/FunnelCard";
+import { Plus } from "lucide-react";
 
 const mockFunnels = [
   {
@@ -99,6 +100,14 @@ export default function Funnels() {
                   : "flex flex-col gap-4"
               }
             >
+              <div className="glass-card border-primary/20 hover:border-primary/40 transition-all duration-300 flex flex-col items-center justify-center p-8 cursor-pointer min-h-[300px]"
+                   onClick={handleCreateFunnel}>
+                <div className="rounded-full bg-primary/10 p-4 mb-4">
+                  <Plus className="h-8 w-8 text-primary" />
+                </div>
+                <span className="text-xl font-semibold text-gradient-primary">Novo Funil</span>
+              </div>
+
               {funnels.map((funnel) => (
                 <FunnelCard
                   key={funnel.id}
