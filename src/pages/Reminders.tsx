@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
-import { CountrySelector } from "@/components/app/reminders/CountrySelector";
 import { PhoneInput } from "@/components/app/reminders/PhoneInput";
 import type { Country } from 'react-phone-number-input';
 
@@ -102,18 +101,12 @@ export default function Reminders() {
                   <Label className="text-sm font-medium text-foreground">
                     Digite o número
                   </Label>
-                  <div className="space-y-2">
-                    <CountrySelector 
-                      selectedCountry={selectedCountry}
-                      onCountryChange={setSelectedCountry}
-                    />
-                    <div className="relative">
-                      <PhoneInput
-                        value={manualPhone}
-                        onChange={setManualPhone}
-                      />
-                    </div>
-                  </div>
+                  <PhoneInput
+                    value={manualPhone}
+                    onChange={setManualPhone}
+                    selectedCountry={selectedCountry}
+                    onCountryChange={setSelectedCountry}
+                  />
                 </div>
               )}
 

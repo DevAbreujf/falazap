@@ -14,7 +14,7 @@ export function CountrySelector({ selectedCountry, onCountryChange }: CountrySel
 
   return (
     <Select value={selectedCountry} onValueChange={onCountryChange}>
-      <SelectTrigger className="w-full">
+      <SelectTrigger className="w-[120px]">
         <SelectValue>
           <div className="flex items-center gap-2">
             <img
