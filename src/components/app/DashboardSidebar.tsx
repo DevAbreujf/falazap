@@ -32,6 +32,12 @@ export function DashboardSidebar() {
       onClick: () => navigate("/dashboard"),
     },
     {
+      icon: Phone,
+      label: "Conexão",
+      description: "Configure seu WhatsApp",
+      onClick: () => console.log("Conexão clicked"),
+    },
+    {
       icon: Filter,
       label: "Funis",
       description: "Gerencie seus funis",
@@ -60,12 +66,6 @@ export function DashboardSidebar() {
       label: "Contatos",
       description: "Gerencie seus contatos",
       onClick: () => navigate("/contacts"),
-    },
-    {
-      icon: Phone,
-      label: "Conexão",
-      description: "Configure seu WhatsApp",
-      onClick: () => console.log("Conexão clicked"),
     },
   ];
 
