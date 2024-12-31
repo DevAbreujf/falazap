@@ -11,15 +11,40 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function Reminders() {
   const [selectedContact, setSelectedContact] = useState("");
   const [messageType, setMessageType] = useState<"whatsapp" | "sms">("whatsapp");
   const [message, setMessage] = useState("");
+  const [contactType, setContactType] = useState<"existing" | "manual">("existing");
+  const [manualPhone, setManualPhone] = useState("");
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const phoneNumber = contactType === "existing" ? selectedContact : manualPhone;
+    
+    if (!phoneNumber) {
+      toast({
+        title: "Erro",
+        description: "Por favor, selecione um contato ou digite um número",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!message) {
+      toast({
+        title: "Erro",
+        description: "Por favor, digite uma mensagem",
+        variant: "destructive",
+      });
+      return;
+    }
+
     toast({
       title: "Lembrete agendado",
       description: "Seu lembrete foi agendado com sucesso!",
@@ -38,28 +63,64 @@ export default function Reminders() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="glass-card p-6 space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
-                  Selecione o contato
-                </label>
+                <Label className="text-sm font-medium text-foreground">
+                  Tipo de contato
+                </Label>
                 <Select
-                  value={selectedContact}
-                  onValueChange={setSelectedContact}
+                  value={contactType}
+                  onValueChange={(value: "existing" | "manual") => {
+                    setContactType(value);
+                    setSelectedContact("");
+                    setManualPhone("");
+                  }}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione um contato" />
+                    <SelectValue placeholder="Selecione o tipo de contato" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">João da Silva</SelectItem>
-                    <SelectItem value="2">Maria Santos</SelectItem>
-                    <SelectItem value="3">Pedro Oliveira</SelectItem>
+                    <SelectItem value="existing">Contato existente</SelectItem>
+                    <SelectItem value="manual">Digitar número manualmente</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
+              {contactType === "existing" ? (
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-foreground">
+                    Selecione o contato
+                  </Label>
+                  <Select
+                    value={selectedContact}
+                    onValueChange={setSelectedContact}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione um contato" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">João da Silva - (11) 99999-9999</SelectItem>
+                      <SelectItem value="2">Maria Santos - (11) 98888-8888</SelectItem>
+                      <SelectItem value="3">Pedro Oliveira - (11) 97777-7777</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-foreground">
+                    Digite o número
+                  </Label>
+                  <Input
+                    type="tel"
+                    placeholder="(00) 00000-0000"
+                    value={manualPhone}
+                    onChange={(e) => setManualPhone(e.target.value)}
+                  />
+                </div>
+              )}
+
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
+                <Label className="text-sm font-medium text-foreground">
                   Tipo de mensagem
-                </label>
+                </Label>
                 <div className="flex gap-4">
                   <Button
                     type="button"
@@ -83,9 +144,9 @@ export default function Reminders() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
+                <Label className="text-sm font-medium text-foreground">
                   Mensagem do lembrete
-                </label>
+                </Label>
                 <Textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
