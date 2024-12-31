@@ -25,36 +25,44 @@ export function DashboardSidebar() {
     {
       icon: BarChart3,
       label: "Métricas",
+      description: "Visualize suas estatísticas",
       onClick: () => navigate("/dashboard"),
     },
     {
       icon: Filter,
       label: "Funis",
+      description: "Gerencie seus funis",
       onClick: () => navigate("/funnels"),
     },
     {
       icon: MessageSquare,
       label: "SMS",
+      description: "Envie mensagens",
       onClick: () => console.log("SMS clicked"),
     },
     {
       icon: Users,
       label: "Contatos",
+      description: "Gerencie seus contatos",
       onClick: () => console.log("Contatos clicked"),
     },
     {
       icon: Phone,
       label: "Conexão",
+      description: "Configure seu WhatsApp",
       onClick: () => console.log("Conexão clicked"),
     },
   ];
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4">
-        <div className="flex items-center space-x-2">
-          <span className="text-2xl font-bold text-primary">Fala</span>
-          <span className="text-2xl font-bold">ZAP</span>
+      <SidebarHeader className="p-6">
+        <div className="flex flex-col items-center space-y-2">
+          <div className="flex items-center space-x-2">
+            <span className="text-3xl font-bold text-gradient-primary">Fala</span>
+            <span className="text-3xl font-bold">ZAP</span>
+          </div>
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -63,9 +71,19 @@ export function DashboardSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton onClick={item.onClick}>
-                    <item.icon className="h-5 w-5" />
-                    <span>{item.label}</span>
+                  <SidebarMenuButton
+                    onClick={item.onClick}
+                    className="group relative flex flex-col items-start gap-1 p-4 hover:bg-primary/5"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="rounded-lg bg-primary/10 p-2 text-primary group-hover:bg-primary/20">
+                        <item.icon className="h-5 w-5" />
+                      </div>
+                      <span className="font-medium">{item.label}</span>
+                    </div>
+                    <span className="pl-12 text-sm text-muted-foreground">
+                      {item.description}
+                    </span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -78,9 +96,11 @@ export function DashboardSidebar() {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={() => console.log("Logout clicked")}
-                  className="text-destructive"
+                  className="group flex items-center gap-3 p-4 text-destructive hover:bg-destructive/5"
                 >
-                  <LogOut className="h-5 w-5" />
+                  <div className="rounded-lg bg-destructive/10 p-2 text-destructive group-hover:bg-destructive/20">
+                    <LogOut className="h-5 w-5" />
+                  </div>
                   <span>Sair</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
