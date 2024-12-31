@@ -7,6 +7,7 @@ import {
   Send,
   Bell,
   Calendar,
+  Settings,
 } from "lucide-react";
 import {
   Sidebar,
@@ -80,6 +81,14 @@ export function DashboardSidebar() {
             <h3 className="text-lg font-semibold text-sidebar-foreground">
               João Silva
             </h3>
+          </div>
+          <div className="mt-3">
+            <SidebarMenuItemComponent
+              icon={Settings}
+              label="Configurações"
+              description="Gerencie suas configurações"
+              onClick={() => navigate("/settings")}
+            />
           </div>
         </div>
       </SidebarHeader>
