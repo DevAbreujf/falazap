@@ -6,6 +6,7 @@ import {
   Phone,
   Send,
   Bell,
+  Calendar,
 } from "lucide-react";
 import {
   Sidebar,
@@ -14,6 +15,9 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
@@ -47,6 +51,12 @@ export function DashboardSidebar() {
       label: "Agendamentos",
       description: "Gerencie seus agendamentos",
       onClick: () => navigate("/reminders"),
+      subItems: [
+        {
+          label: "Lista de Agendamentos",
+          onClick: () => navigate("/schedules"),
+        },
+      ],
     },
     {
       icon: Users,
@@ -87,7 +97,19 @@ export function DashboardSidebar() {
                   label={item.label}
                   description={item.description}
                   onClick={item.onClick}
-                />
+                >
+                  {item.subItems && (
+                    <SidebarMenuSub>
+                      {item.subItems.map((subItem) => (
+                        <SidebarMenuSubItem key={subItem.label}>
+                          <SidebarMenuSubButton onClick={subItem.onClick}>
+                            {subItem.label}
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  )}
+                </SidebarMenuItemComponent>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>

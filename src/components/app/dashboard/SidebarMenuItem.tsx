@@ -9,6 +9,7 @@ interface SidebarMenuItemProps {
   label: string;
   description: string;
   onClick: () => void;
+  children?: React.ReactNode;
 }
 
 export function SidebarMenuItemComponent({
@@ -16,6 +17,7 @@ export function SidebarMenuItemComponent({
   label,
   description,
   onClick,
+  children,
 }: SidebarMenuItemProps) {
   return (
     <BaseSidebarMenuItem>
@@ -35,6 +37,7 @@ export function SidebarMenuItemComponent({
           </span>
         </div>
       </SidebarMenuButton>
+      {children}
     </BaseSidebarMenuItem>
   );
 }
