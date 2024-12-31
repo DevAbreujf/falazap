@@ -26,6 +26,14 @@ interface StartNodeProps {
 }
 
 function StartNode({ data }: StartNodeProps) {
+  const handleTimeValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Only call if we have a valid number and the handler exists
+    if (value && !isNaN(Number(value)) && data.onTimeValueChange) {
+      data.onTimeValueChange(Number(value));
+    }
+  };
+
   return (
     <div className="p-4 rounded-lg bg-[#1A1F2C] text-white min-w-[300px]">
       <div className="space-y-4">
@@ -40,8 +48,8 @@ function StartNode({ data }: StartNodeProps) {
             <Input
               type="number"
               min={0}
-              value={data.timeValue}
-              onChange={(e) => data.onTimeValueChange?.(Number(e.target.value))}
+              value={data.timeValue || 0}
+              onChange={handleTimeValueChange}
               className="w-24 bg-transparent border-gray-700"
             />
             <Select
