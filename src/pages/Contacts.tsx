@@ -2,7 +2,7 @@ import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Search, Download, FileSpreadsheet, FilePdf } from "lucide-react";
+import { Search, Download, FileSpreadsheet, FileText } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 
@@ -57,7 +57,7 @@ export default function Contacts() {
                       onClick={handleExportPDF}
                       className="flex items-center gap-2"
                     >
-                      <FilePdf className="h-4 w-4" />
+                      <FileText className="h-4 w-4" />
                       Exportar PDF
                     </Button>
                   </div>
