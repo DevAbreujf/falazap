@@ -8,17 +8,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Edit2, Trash2, Search, Calendar as CalendarIcon } from "lucide-react";
+import { Search, Calendar as CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-interface Schedule {
-  id: string;
-  reminderName: string;
-  clientName: string;
-  date: Date;
-  time: string;
-  phone: string;
-}
+import { Schedule } from "@/types/schedule";
+import { ScheduleActions } from "@/components/app/schedules/ScheduleActions";
 
 export default function Schedules() {
   const [search, setSearch] = useState("");
@@ -59,7 +52,6 @@ export default function Schedules() {
   const handleSaveEdit = () => {
     if (!editingSchedule || !newDate || !newTime) return;
 
-    // Here you would update the schedule in your backend
     toast({
       title: "Agendamento atualizado",
       description: "O horário foi alterado com sucesso!"
@@ -160,24 +152,12 @@ export default function Schedules() {
                       </TableCell>
                       <TableCell>{schedule.time}</TableCell>
                       <TableCell>{schedule.phone}</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handleEdit(schedule)}
-                          >
-                            <span className="sr-only">Alterar horário</span>
-                            <Edit2 className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handleDelete(schedule.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
+                      <TableCell>
+                        <ScheduleActions
+                          schedule={schedule}
+                          onEdit={handleEdit}
+                          onDelete={handleDelete}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
