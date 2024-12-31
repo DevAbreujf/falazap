@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -32,14 +33,14 @@ const mockFunnels = [
 
 export default function Funnels() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const navigate = useNavigate();
   
   const handleCreateFunnel = () => {
-    console.log("Creating new funnel");
-    // Implementation for creating new funnel
+    navigate("/funnels/editor");
   };
 
   const handleEditFunnel = (id: number) => {
-    window.location.href = `/funnels/editor/${id}`;
+    navigate(`/funnels/editor/${id}`);
   };
 
   const handleDuplicateFunnel = (id: number) => {
