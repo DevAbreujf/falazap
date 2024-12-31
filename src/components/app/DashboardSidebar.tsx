@@ -1,150 +1,112 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { useSidebar } from "@/components/ui/sidebar";
 import {
-  ChevronFirst,
-  ChevronLast,
-  LayoutDashboard,
+  BarChart3,
+  Filter,
   MessageSquare,
   Users,
-  Megaphone,
+  Phone,
+  Send,
   Bell,
   Calendar,
-  Link2,
-  Settings,
-  Share2,
 } from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+} from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
+import { SidebarLogo } from "./dashboard/SidebarLogo";
+import { SidebarMenuItemComponent } from "./dashboard/SidebarMenuItem";
+import { SidebarLogout } from "./dashboard/SidebarLogout";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
-  const { isCollapsed, toggleSidebar } = useSidebar();
+
+  const menuItems = [
+    {
+      icon: BarChart3,
+      label: "Métricas",
+      description: "Visualize suas estatísticas",
+      onClick: () => navigate("/dashboard"),
+    },
+    {
+      icon: Phone,
+      label: "Conexão",
+      description: "Configure seu WhatsApp",
+      onClick: () => navigate("/connection"),
+    },
+    {
+      icon: Filter,
+      label: "Funis",
+      description: "Gerencie seus funis",
+      onClick: () => navigate("/funnels"),
+    },
+    {
+      icon: Send,
+      label: "Disparos",
+      description: "Gerencie seus disparos",
+      onClick: () => navigate("/broadcasts"),
+    },
+    {
+      icon: Bell,
+      label: "Agendamentos",
+      description: "Gerencie seus agendamentos",
+      onClick: () => navigate("/reminders"),
+    },
+    {
+      icon: Calendar,
+      label: "Lista de Agendamentos",
+      description: "Visualize seus agendamentos",
+      onClick: () => navigate("/schedules"),
+    },
+    {
+      icon: Users,
+      label: "Contatos",
+      description: "Gerencie seus contatos",
+      onClick: () => navigate("/contacts"),
+    },
+  ];
 
   return (
-    <aside
-      className={cn(
-        "relative z-30 flex h-screen w-72 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground",
-        isCollapsed && "w-16"
-      )}
-    >
-      <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-3">
-        <div
-          className={cn(
-            "flex items-center gap-3 text-xl font-bold text-sidebar-primary",
-            isCollapsed && "hidden"
-          )}
-        >
-          <Share2 className="h-6 w-6" />
-          <span>Whats</span>
+    <Sidebar>
+      <SidebarHeader className="p-3">
+        <SidebarLogo />
+        <div className="mt-3 px-2">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent" />
+          <div className="mt-3 flex items-center gap-2 justify-center">
+            <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
+            <h3 className="text-lg font-semibold text-sidebar-foreground">
+              João Silva
+            </h3>
+          </div>
         </div>
-        <Button
-          onClick={toggleSidebar}
-          variant="ghost"
-          className="h-8 w-8 p-0 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-        >
-          {isCollapsed ? (
-            <ChevronLast className="h-5 w-5" />
-          ) : (
-            <ChevronFirst className="h-5 w-5" />
-          )}
-        </Button>
-      </div>
-
-      <nav className="flex-1 space-y-2 p-3">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/dashboard")}
-          className={cn(
-            "w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            !isCollapsed && "px-3"
-          )}
-        >
-          <LayoutDashboard className="h-5 w-5" />
-          {!isCollapsed && <span>Dashboard</span>}
-        </Button>
-
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/funnels")}
-          className={cn(
-            "w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            !isCollapsed && "px-3"
-          )}
-        >
-          <MessageSquare className="h-5 w-5" />
-          {!isCollapsed && <span>Funis</span>}
-        </Button>
-
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/contacts")}
-          className={cn(
-            "w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            !isCollapsed && "px-3"
-          )}
-        >
-          <Users className="h-5 w-5" />
-          {!isCollapsed && <span>Contatos</span>}
-        </Button>
-
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/broadcasts")}
-          className={cn(
-            "w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            !isCollapsed && "px-3"
-          )}
-        >
-          <Megaphone className="h-5 w-5" />
-          {!isCollapsed && <span>Broadcasts</span>}
-        </Button>
-
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/reminders")}
-          className={cn(
-            "w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            !isCollapsed && "px-3"
-          )}
-        >
-          <Bell className="h-5 w-5" />
-          {!isCollapsed && <span>Lembretes</span>}
-        </Button>
-
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/schedules")}
-          className={cn(
-            "w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            !isCollapsed && "px-3"
-          )}
-        >
-          <Calendar className="h-5 w-5" />
-          {!isCollapsed && <span>Agendamentos</span>}
-        </Button>
-      </nav>
-
-      <div className="mt-3 flex items-center gap-2 justify-center">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => navigate("/connection")}
-          className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-        >
-          <Link2 className="h-5 w-5" />
-        </Button>
-      </div>
-      
-      <div className="mt-2 flex items-center gap-2 justify-center">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => navigate("/settings")}
-          className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-        >
-          <Settings className="h-5 w-5" />
-        </Button>
-      </div>
-    </aside>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu className="px-2">
+              {menuItems.map((item) => (
+                <SidebarMenuItemComponent
+                  key={item.label}
+                  icon={item.icon}
+                  label={item.label}
+                  description={item.description}
+                  onClick={item.onClick}
+                />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu className="px-2">
+              <SidebarLogout />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
 }
