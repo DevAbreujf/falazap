@@ -2,142 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 167 84% 48%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 167 84% 48%;
-    --radius: 0.75rem;
-    
-    --sidebar-background: 222.2 84% 4.9%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-muted: 215 20.2% 65.1%;
-    --sidebar-primary: 167 84% 48%;
-    --sidebar-border: 217.2 32.6% 17.5%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
-/* Background principal */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at top, rgba(28,216,182,0.15), transparent 80%),
-              linear-gradient(180deg, var(--background) 0%, var(--background) 100%);
-  z-index: -1;
-}
-
-.gradient-primary {
-  background: linear-gradient(95.27deg, #1cd8b6 -0.85%, #4df1b5 39.07%, #39f18e 89.32%);
-}
-
-.text-gradient-primary {
-  background: linear-gradient(95.27deg, #1cd8b6 -0.85%, #4df1b5 39.07%, #39f18e 89.32%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 @layer utilities {
-  .glass-card {
-    @apply bg-black/20 backdrop-blur-sm border border-white/10 rounded-2xl;
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80;
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
 
-.animate-fade-up {
-  animation: fadeUp 0.5s ease-out forwards;
-  opacity: 0;
+/* React Flow Custom Styling */
+.react-flow__pane {
+  cursor: default;
+  background: transparent !important;
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.react-flow__background {
+  background: transparent !important;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-  opacity: 0;
+.react-flow__controls {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
+  padding: 4px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.react-flow__controls button {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 4px;
+  color: #fff !important;
+  width: 24px;
+  height: 24px;
+  margin: 2px;
 }
 
-.smooth-scroll {
-  scroll-behavior: smooth;
+.react-flow__controls button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Enhanced animations */
-.hover-scale {
-  @apply transition-transform duration-300 hover:scale-105;
+.react-flow__minimap {
+  background: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
 }
 
-.hover-glow {
-  @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/20;
+.react-flow__node {
+  @apply shadow-lg;
 }
 
-.text-glow {
-  text-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+.react-flow__edge-path {
+  stroke: hsl(var(--primary)) !important;
 }
 
-/* Gradient animations */
-.gradient-animate {
-  background-size: 200% 200%;
-  animation: gradient 15s ease infinite;
+.react-flow__handle {
+  background: hsl(var(--primary)) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  width: 10px !important;
+  height: 10px !important;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.react-flow__attribution {
+  display: none !important;
 }
