@@ -16,10 +16,17 @@ import { useNavigate } from "react-router-dom";
 import { SidebarMenuSection } from "./SidebarMenuSection";
 import { SidebarLogout } from "./SidebarLogout";
 
+interface MenuItem {
+  icon: LucideIcon;
+  label: string;
+  description: string;
+  onClick: () => void;
+}
+
 export function SidebarContent() {
   const navigate = useNavigate();
 
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     {
       icon: BarChart3,
       label: "Métricas",
@@ -70,7 +77,6 @@ export function SidebarContent() {
                 label={item.label}
                 description={item.description}
                 onClick={item.onClick}
-                subItems={item.subItems}
               />
             ))}
           </SidebarMenu>
