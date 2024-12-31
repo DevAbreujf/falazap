@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MoreVertical, Copy, Pencil, Trash2, BarChart2, Clock, Calendar } from "lucide-react";
+import { Toggle } from "@/components/ui/toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,17 +22,20 @@ const mockFunnels = [
     name: "Funil de Vendas Principal",
     createdAt: new Date("2024-01-15"),
     updatedAt: new Date("2024-03-10"),
+    isActive: true,
   },
   {
     id: 2,
     name: "Funil de Captação de Leads",
     createdAt: new Date("2024-02-20"),
     updatedAt: new Date("2024-03-08"),
+    isActive: false,
   },
 ];
 
 export default function Funnels() {
   const [viewMode] = useState<"grid" | "list">("grid");
+  const [funnels, setFunnels] = useState(mockFunnels);
   const navigate = useNavigate();
   
   const handleCreateFunnel = () => {
@@ -54,6 +58,14 @@ export default function Funnels() {
     console.log("Deleting funnel:", id);
   };
 
+  const handleToggleFunnel = (id: number) => {
+    setFunnels(prevFunnels =>
+      prevFunnels.map(funnel =>
+        funnel.id === id ? { ...funnel, isActive: !funnel.isActive } : funnel
+      )
+    );
+  };
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
@@ -71,7 +83,7 @@ export default function Funnels() {
                 Crie fluxos de conversas para serem disparados automaticamente quando um cliente entrar em contato com você.
               </p>
               <p className="text-xl font-semibold text-gradient-primary">
-                Exibindo {mockFunnels.length} funis criados
+                Exibindo {funnels.length} funis criados
               </p>
             </div>
 
@@ -97,14 +109,31 @@ export default function Funnels() {
                   : "flex flex-col gap-4"
               }
             >
-              {mockFunnels.map((funnel) => (
+              {funnels.map((funnel) => (
                 <Card
                   key={funnel.id}
                   className="glass-card border-primary/20 hover:border-primary/40 transition-all duration-300 transform hover:-translate-y-1"
                 >
                   <CardContent className="pt-6 space-y-4">
-                    <div className="space-y-2">
+                    <div className="flex justify-between items-start">
                       <h3 className="text-2xl font-bold text-gradient-primary">{funnel.name}</h3>
+                      <Toggle
+                        pressed={funnel.isActive}
+                        onPressedChange={() => handleToggleFunnel(funnel.id)}
+                        className={`${
+                          funnel.isActive ? 'bg-primary/20' : 'bg-muted'
+                        } hover:bg-primary/30`}
+                        aria-label="Toggle funnel status"
+                      >
+                        <span className="sr-only">
+                          {funnel.isActive ? 'Desativar funil' : 'Ativar funil'}
+                        </span>
+                        <div className="h-4 w-4">
+                          {funnel.isActive ? '✓' : '×'}
+                        </div>
+                      </Toggle>
+                    </div>
+                    <div className="space-y-2">
                       <div className="flex flex-col space-y-2 text-sm text-muted-foreground">
                         <div className="flex items-center gap-2">
                           <Calendar className="h-4 w-4 text-primary" />
