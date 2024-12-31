@@ -47,8 +47,7 @@ export function PhoneInput({ value, onChange, selectedCountry, onCountryChange }
         onChange={handlePhoneChange}
         className="flex-1"
         inputMode="numeric"
-        pattern="[0-9]*"
-        maxLength={17} // (00) 9 0000-0000
+        // Removendo o pattern para não conflitar com a máscara
       />
     </div>
   );
