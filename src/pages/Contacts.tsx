@@ -10,11 +10,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedFunnel, setSelectedFunnel] = useState<string>("all");
   const contactsPerPage = 20;
 
   const [contacts] = useState<Contact[]>([
@@ -36,8 +38,16 @@ export default function Contacts() {
     },
   ]);
 
+  const uniqueFunnels = Array.from(new Set(contacts.map(contact => contact.funnelName)));
+
   const handleExportCSV = () => {
-    const selectedData = contacts.filter(contact => selectedContacts.includes(contact.id));
+    let selectedData = contacts.filter(contact => selectedContacts.includes(contact.id));
+    
+    // Filtrar por funil selecionado se não for "all"
+    if (selectedFunnel !== "all") {
+      selectedData = selectedData.filter(contact => contact.funnelName === selectedFunnel);
+    }
+
     const csvContent = "data:text/csv;charset=utf-8," 
       + "Nome,Telefone,Data,Funil,Status\n"
       + selectedData.map(contact => 
@@ -72,7 +82,8 @@ export default function Contacts() {
   const filteredContacts = contacts.filter(contact => {
     const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          contact.phone.includes(searchTerm);
-    return matchesSearch;
+    const matchesFunnel = selectedFunnel === "all" || contact.funnelName === selectedFunnel;
+    return matchesSearch && matchesFunnel;
   });
 
   // Paginação
@@ -105,6 +116,22 @@ export default function Contacts() {
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
                   </div>
+                  <Select
+                    value={selectedFunnel}
+                    onValueChange={setSelectedFunnel}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Selecione o funil" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos os Funis</SelectItem>
+                      {uniqueFunnels.map((funnel) => (
+                        <SelectItem key={funnel} value={funnel}>
+                          {funnel}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <Button
                     variant="outline"
                     onClick={handleExportCSV}
