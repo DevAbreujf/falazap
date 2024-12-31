@@ -21,7 +21,7 @@ export function SidebarMenuItemComponent({
     <BaseSidebarMenuItem>
       <SidebarMenuButton
         onClick={onClick}
-        className="group relative flex w-full items-center gap-3 p-3 mb-2 transition-all duration-200 hover:bg-primary/10"
+        className="group relative flex w-full items-center gap-3 p-4 mb-3 transition-all duration-200 hover:bg-primary/10 rounded-lg"
       >
         <div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary/20">
           <Icon className="h-4 w-4" />
