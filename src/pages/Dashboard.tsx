@@ -17,7 +17,7 @@ export default function Dashboard() {
       <div className="min-h-screen flex w-full bg-background">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
-          <main className="container mx-auto px-8 pt-3">
+          <main className="container mx-auto px-8 py-10">
             {/* Header section */}
             <div className="flex justify-between items-start mb-10">
               <div>
