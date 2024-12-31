@@ -37,20 +37,19 @@ function StartNode({ data }: StartNodeProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Prevent the default behavior of arrow keys to stop continuous scrolling
+    // Prevent the default behavior of arrow keys
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
       e.preventDefault();
       
+      // Get current value, defaulting to 0 if undefined
       const currentValue = data.timeValue || 0;
-      let newValue = currentValue;
-
+      
+      // Calculate new value based on key pressed
       if (e.key === 'ArrowUp') {
-        newValue = currentValue + 1;
-      } else if (e.key === 'ArrowDown') {
-        newValue = Math.max(0, currentValue - 1);
+        data.onTimeValueChange?.(currentValue + 1);
+      } else if (e.key === 'ArrowDown' && currentValue > 0) {
+        data.onTimeValueChange?.(currentValue - 1);
       }
-
-      data.onTimeValueChange?.(newValue);
     }
   };
 
