@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { SelectAllCheckbox } from "@/components/app/SelectAllCheckbox";
 
 export default function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
@@ -43,7 +44,6 @@ export default function Contacts() {
   const handleExportCSV = () => {
     let selectedData = contacts.filter(contact => selectedContacts.includes(contact.id));
     
-    // Filtrar por funil selecionado se não for "all"
     if (selectedFunnel !== "all") {
       selectedData = selectedData.filter(contact => contact.funnelName === selectedFunnel);
     }
@@ -86,7 +86,6 @@ export default function Contacts() {
     return matchesSearch && matchesFunnel;
   });
 
-  // Paginação
   const indexOfLastContact = currentPage * contactsPerPage;
   const indexOfFirstContact = indexOfLastContact - contactsPerPage;
   const currentContacts = filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
@@ -149,22 +148,11 @@ export default function Contacts() {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-12">
-                          <div className="flex items-center gap-3 group">
-                            <Checkbox
-                              checked={selectedContacts.length === filteredContacts.length && filteredContacts.length > 0}
-                              onCheckedChange={toggleSelectAll}
-                              id="select-all"
-                              className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                            />
-                            <span 
-                              className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-200 select-none cursor-pointer"
-                              onClick={() => toggleSelectAll()}
-                            >
-                              {selectedContacts.length === filteredContacts.length && filteredContacts.length > 0
-                                ? "Desmarcar todos"
-                                : "Selecionar todos"}
-                            </span>
-                          </div>
+                          <SelectAllCheckbox
+                            isChecked={selectedContacts.length === filteredContacts.length}
+                            onToggle={toggleSelectAll}
+                            totalItems={filteredContacts.length}
+                          />
                         </TableHead>
                         <TableHead>Nome</TableHead>
                         <TableHead>Telefone</TableHead>
