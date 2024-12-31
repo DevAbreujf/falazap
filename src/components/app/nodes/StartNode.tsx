@@ -37,18 +37,24 @@ function StartNode({ data }: StartNodeProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Prevent the default behavior of arrow keys
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      // Prevent default to stop browser's native increment/decrement behavior
       e.preventDefault();
       
       // Get current value, defaulting to 0 if undefined
-      const currentValue = data.timeValue || 0;
+      const currentValue = data.timeValue ?? 0;
       
-      // Calculate new value based on key pressed
+      // Calculate new value
+      let newValue = currentValue;
       if (e.key === 'ArrowUp') {
-        data.onTimeValueChange?.(currentValue + 1);
+        newValue = currentValue + 1;
       } else if (e.key === 'ArrowDown' && currentValue > 0) {
-        data.onTimeValueChange?.(currentValue - 1);
+        newValue = currentValue - 1;
+      }
+
+      // Only update if the value changed and handler exists
+      if (newValue !== currentValue && data.onTimeValueChange) {
+        data.onTimeValueChange(newValue);
       }
     }
   };
@@ -68,7 +74,7 @@ function StartNode({ data }: StartNodeProps) {
               type="number"
               min={0}
               step={1}
-              value={data.timeValue || 0}
+              value={data.timeValue ?? 0}
               onChange={handleTimeValueChange}
               onKeyDown={handleKeyDown}
               className="w-24 bg-transparent border-gray-700"
