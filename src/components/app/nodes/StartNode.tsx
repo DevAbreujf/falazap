@@ -28,9 +28,7 @@ interface StartNodeProps {
 function StartNode({ data }: StartNodeProps) {
   const handleTimeValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Only call if we have a valid number and the handler exists
     if (value && !isNaN(Number(value)) && data.onTimeValueChange) {
-      // Ensure the value is not less than 0
       const numValue = Math.max(0, Number(value));
       data.onTimeValueChange(numValue);
     }
@@ -38,22 +36,19 @@ function StartNode({ data }: StartNodeProps) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-      // Prevent default to stop browser's native increment/decrement behavior
       e.preventDefault();
+      e.stopPropagation();
       
-      // Get current value, defaulting to 0 if undefined
       const currentValue = data.timeValue ?? 0;
-      
-      // Calculate new value
       let newValue = currentValue;
+      
       if (e.key === 'ArrowUp') {
         newValue = currentValue + 1;
-      } else if (e.key === 'ArrowDown' && currentValue > 0) {
-        newValue = currentValue - 1;
+      } else if (e.key === 'ArrowDown') {
+        newValue = Math.max(0, currentValue - 1);
       }
 
-      // Only update if the value changed and handler exists
-      if (newValue !== currentValue && data.onTimeValueChange) {
+      if (data.onTimeValueChange) {
         data.onTimeValueChange(newValue);
       }
     }
