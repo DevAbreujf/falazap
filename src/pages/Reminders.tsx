@@ -12,6 +12,7 @@ import { ptBR } from "date-fns/locale";
 import type { Country } from 'react-phone-number-input';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ContactForm } from "@/components/app/reminders/ContactForm";
+import { useSchedules } from "@/hooks/use-schedules";
 
 export default function Reminders() {
   const [selectedContact, setSelectedContact] = useState("");
@@ -24,6 +25,8 @@ export default function Reminders() {
   const [clientName, setClientName] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState("");
+
+  const { addSchedule } = useSchedules();
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -75,6 +78,17 @@ export default function Reminders() {
       });
       return;
     }
+
+    const newSchedule = {
+      id: crypto.randomUUID(),
+      reminderName,
+      clientName,
+      date: selectedDate,
+      time: selectedTime,
+      phone: phoneNumber,
+    };
+
+    addSchedule(newSchedule);
 
     toast({
       title: "Lembrete agendado",

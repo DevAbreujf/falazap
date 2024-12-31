@@ -12,6 +12,7 @@ import { Search, Calendar as CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Schedule } from "@/types/schedule";
 import { ScheduleActions } from "@/components/app/schedules/ScheduleActions";
+import { useSchedules } from "@/hooks/use-schedules";
 
 export default function Schedules() {
   const [search, setSearch] = useState("");
@@ -20,22 +21,12 @@ export default function Schedules() {
   const [editingSchedule, setEditingSchedule] = useState<Schedule | null>(null);
   const [newDate, setNewDate] = useState<Date>();
   const [newTime, setNewTime] = useState("");
+  
+  const { schedules, updateSchedule, deleteSchedule } = useSchedules();
   const { toast } = useToast();
 
-  // Mock data - replace with actual data storage later
-  const schedules: Schedule[] = [
-    {
-      id: "1",
-      reminderName: "Consulta Médica",
-      clientName: "João Silva",
-      date: new Date(2024, 3, 15),
-      time: "14:30",
-      phone: "(11) 99999-9999"
-    },
-    // Add more mock data as needed
-  ];
-
   const handleDelete = (id: string) => {
+    deleteSchedule(id);
     toast({
       title: "Agendamento removido",
       description: "O agendamento foi removido com sucesso!"
@@ -51,6 +42,11 @@ export default function Schedules() {
 
   const handleSaveEdit = () => {
     if (!editingSchedule || !newDate || !newTime) return;
+
+    updateSchedule(editingSchedule.id, {
+      date: newDate,
+      time: newTime
+    });
 
     toast({
       title: "Agendamento atualizado",
