@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { FunnelWorkspace } from "@/components/funnel/FunnelWorkspace";
 import { FunnelEditorSidebar } from "@/components/funnel/FunnelEditorSidebar";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 export default function FunnelEditor() {
   const { toast } = useToast();
@@ -24,12 +24,12 @@ export default function FunnelEditor() {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
-      <div className="border-b p-4">
+    <div className="flex min-h-screen w-full flex-col bg-[#0A0A0A]">
+      <div className="border-b border-[#333] bg-[#111] p-4">
         <Button
           variant="ghost"
           onClick={() => navigate("/funnels")}
-          className="gap-2"
+          className="gap-2 text-white hover:bg-[#252525] hover:text-white"
         >
           <ArrowLeft className="h-4 w-4" />
           Voltar aos Funis
