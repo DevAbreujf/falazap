@@ -7,6 +7,7 @@ import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { PhoneInput } from "@/components/app/reminders/PhoneInput";
+import { Input } from "@/components/ui/input";
 import type { Country } from 'react-phone-number-input';
 
 export default function Reminders() {
@@ -16,6 +17,7 @@ export default function Reminders() {
   const [contactType, setContactType] = useState<"existing" | "manual">("existing");
   const [manualPhone, setManualPhone] = useState("");
   const [selectedCountry, setSelectedCountry] = useState<Country>("BR");
+  const [clientName, setClientName] = useState("");
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -68,6 +70,7 @@ export default function Reminders() {
                     setContactType(value);
                     setSelectedContact("");
                     setManualPhone("");
+                    setClientName("");
                   }}
                 >
                   <SelectTrigger>
@@ -81,20 +84,32 @@ export default function Reminders() {
               </div>
 
               {contactType === "existing" ? (
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium text-foreground">
-                    Selecione o contato
-                  </Label>
-                  <Select value={selectedContact} onValueChange={setSelectedContact}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione um contato" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">João da Silva - (11) 99999-9999</SelectItem>
-                      <SelectItem value="2">Maria Santos - (11) 98888-8888</SelectItem>
-                      <SelectItem value="3">Pedro Oliveira - (11) 97777-7777</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-foreground">
+                      Nome do cliente
+                    </Label>
+                    <Input
+                      placeholder="Digite o nome do cliente"
+                      value={clientName}
+                      onChange={(e) => setClientName(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-foreground">
+                      Selecione o contato
+                    </Label>
+                    <Select value={selectedContact} onValueChange={setSelectedContact}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione um contato" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">João da Silva - (11) 99999-9999</SelectItem>
+                        <SelectItem value="2">Maria Santos - (11) 98888-8888</SelectItem>
+                        <SelectItem value="3">Pedro Oliveira - (11) 97777-7777</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-2">

@@ -1,7 +1,6 @@
 import {
   BarChart3,
   Filter,
-  MessageSquare,
   Users,
   Phone,
   Send,
@@ -47,12 +46,6 @@ export function DashboardSidebar() {
       label: "Lembretes",
       description: "Gerencie seus lembretes",
       onClick: () => navigate("/reminders"),
-    },
-    {
-      icon: MessageSquare,
-      label: "SMS",
-      description: "Envie mensagens",
-      onClick: () => console.log("SMS clicked"),
     },
     {
       icon: Users,
