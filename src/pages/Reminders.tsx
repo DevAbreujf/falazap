@@ -3,7 +3,7 @@ import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, CalendarCheck } from "lucide-react";
+import { MessageCircle, CalendarCheck, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { PhoneInput } from "@/components/app/reminders/PhoneInput";
@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 export default function Reminders() {
   const navigate = useNavigate();
   const [selectedContact, setSelectedContact] = useState("");
-  const [messageType, setMessageType] = useState<"whatsapp">("whatsapp");
+  const [messageType, setMessageType] = useState<"whatsapp" | "sms">("whatsapp");
   const [message, setMessage] = useState("");
   const [contactType, setContactType] = useState<"existing" | "manual">("existing");
   const [manualPhone, setManualPhone] = useState("");
