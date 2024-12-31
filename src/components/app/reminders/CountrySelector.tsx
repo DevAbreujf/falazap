@@ -1,11 +1,12 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import getCountries from 'react-phone-number-input/modules/getCountries';
+import { getCountries } from 'react-phone-number-input';
 import { getCountryCallingCode } from 'react-phone-number-input/input';
 import en from 'react-phone-number-input/locale/en.json';
+import type { Country } from 'react-phone-number-input';
 
 interface CountrySelectorProps {
-  selectedCountry: string;
-  onCountryChange: (country: string) => void;
+  selectedCountry: Country;
+  onCountryChange: (country: Country) => void;
 }
 
 export function CountrySelector({ selectedCountry, onCountryChange }: CountrySelectorProps) {
