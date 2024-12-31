@@ -49,12 +49,6 @@ export function DashboardSidebar() {
       onClick: () => navigate("/reminders"),
     },
     {
-      icon: MessageSquare,
-      label: "SMS",
-      description: "Envie mensagens",
-      onClick: () => console.log("SMS clicked"),
-    },
-    {
       icon: Users,
       label: "Contatos",
       description: "Gerencie seus contatos",
