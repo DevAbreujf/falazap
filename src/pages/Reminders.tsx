@@ -13,9 +13,8 @@ import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import getCountries from 'react-phone-number-input/modules/getCountries'
+import { countries } from 'react-phone-number-input/input'
 import en from 'react-phone-number-input/locale/en.json'
-import { getCountryCallingCode } from 'react-phone-number-input/input'
 
 export default function Reminders() {
   const [selectedContact, setSelectedContact] = useState("");
@@ -26,7 +25,7 @@ export default function Reminders() {
   const [selectedCountry, setSelectedCountry] = useState("BR");
   const { toast } = useToast();
 
-  const countries = getCountries();
+  const countryList = Object.keys(countries);
 
   const formatPhoneNumber = (value: string) => {
     const numbers = value.replace(/\D/g, '');
@@ -145,12 +144,12 @@ export default function Reminders() {
                               alt={en[selectedCountry]}
                               className="w-4 h-3"
                             />
-                            <span>+{getCountryCallingCode(selectedCountry)}</span>
+                            <span>+{countries[selectedCountry as keyof typeof countries]}</span>
                           </div>
                         </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
-                        {countries.map((country) => (
+                        {countryList.map((country) => (
                           <SelectItem key={country} value={country}>
                             <div className="flex items-center gap-2">
                               <img
@@ -158,7 +157,7 @@ export default function Reminders() {
                                 alt={en[country]}
                                 className="w-4 h-3"
                               />
-                              <span>{en[country]} (+{getCountryCallingCode(country)})</span>
+                              <span>{en[country]} (+{countries[country as keyof typeof countries]})</span>
                             </div>
                           </SelectItem>
                         ))}
