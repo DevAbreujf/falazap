@@ -52,7 +52,7 @@ export function SidebarMenuSection({
             <SidebarMenuSubItem key={subItem.label}>
               <SidebarMenuSubButton
                 onClick={subItem.onClick}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors"
               >
                 <subItem.icon className="h-4 w-4" />
                 <span>{subItem.label}</span>
