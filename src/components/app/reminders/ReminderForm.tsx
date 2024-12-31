@@ -13,6 +13,7 @@ import { ptBR } from "date-fns/locale";
 import { PhoneInput } from "./PhoneInput";
 import type { Country } from 'react-phone-number-input';
 import { useNavigate } from "react-router-dom";
+import { BasicFormFields } from "./BasicFormFields";
 
 export function ReminderForm() {
   const navigate = useNavigate();
@@ -69,7 +70,6 @@ export function ReminderForm() {
       return;
     }
 
-    // Save the reminder data and navigate to schedules
     const reminderData = {
       id: Date.now(),
       reminderName,
@@ -80,8 +80,6 @@ export function ReminderForm() {
       time: selectedTime,
     };
 
-    // Here you would typically save the data to your backend
-    // For now, we'll just store it in localStorage
     const existingSchedules = JSON.parse(localStorage.getItem("schedules") || "[]");
     localStorage.setItem("schedules", JSON.stringify([...existingSchedules, reminderData]));
 
@@ -96,17 +94,12 @@ export function ReminderForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="glass-card p-6 space-y-6">
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-foreground">
-            Nome do Lembrete
-          </Label>
-          <Input
-            placeholder="Digite um nome para identificar este lembrete"
-            value={reminderName}
-            onChange={(e) => setReminderName(e.target.value)}
-            className="w-full"
-          />
-        </div>
+        <BasicFormFields
+          reminderName={reminderName}
+          setReminderName={setReminderName}
+          clientName={clientName}
+          setClientName={setClientName}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
@@ -178,16 +171,6 @@ export function ReminderForm() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label className="text-sm font-medium text-foreground">
-                Nome do cliente
-              </Label>
-              <Input
-                placeholder="Digite o nome do cliente"
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground">
                 Selecione o contato
               </Label>
               <Select value={selectedContact} onValueChange={setSelectedContact}>
@@ -204,16 +187,6 @@ export function ReminderForm() {
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground">
-                Nome do cliente
-              </Label>
-              <Input
-                placeholder="Digite o nome do cliente"
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
-              />
-            </div>
             <div className="space-y-2">
               <Label className="text-sm font-medium text-foreground">
                 Digite o número

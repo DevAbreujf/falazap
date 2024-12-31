@@ -1,20 +1,9 @@
-import {
-  BarChart3,
-  Filter,
-  Users,
-  Phone,
-  Send,
-  Bell,
-} from "lucide-react";
-import {
-  SidebarContent as BaseSidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-} from "@/components/ui/sidebar";
+import { Bell, Calendar, Home, MessageSquare, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { SidebarLogo } from "./SidebarLogo";
 import { SidebarMenuSection } from "./SidebarMenuSection";
 import { SidebarLogout } from "./SidebarLogout";
+import type { LucideIcon } from 'lucide-react';
 
 interface MenuItem {
   icon: LucideIcon;
@@ -23,72 +12,57 @@ interface MenuItem {
   onClick: () => void;
 }
 
+const menuItems: MenuItem[] = [
+  {
+    icon: Home,
+    label: "Início",
+    description: "Voltar para a página inicial",
+    onClick: () => navigate("/"),
+  },
+  {
+    icon: Calendar,
+    label: "Lembretes",
+    description: "Gerenciar seus lembretes",
+    onClick: () => navigate("/reminders"),
+  },
+  {
+    icon: Users,
+    label: "Contatos",
+    description: "Gerenciar seus contatos",
+    onClick: () => navigate("/contacts"),
+  },
+  {
+    icon: MessageSquare,
+    label: "Mensagens",
+    description: "Ver suas mensagens",
+    onClick: () => navigate("/messages"),
+  },
+  {
+    icon: Bell,
+    label: "Notificações",
+    description: "Ver suas notificações",
+    onClick: () => navigate("/notifications"),
+  },
+];
+
 export function SidebarContent() {
   const navigate = useNavigate();
 
-  const menuItems: MenuItem[] = [
-    {
-      icon: BarChart3,
-      label: "Métricas",
-      description: "Visualize suas estatísticas",
-      onClick: () => navigate("/dashboard"),
-    },
-    {
-      icon: Filter,
-      label: "Funis",
-      description: "Gerencie seus funis",
-      onClick: () => navigate("/funnels"),
-    },
-    {
-      icon: Send,
-      label: "Disparos",
-      description: "Gerencie seus disparos",
-      onClick: () => navigate("/broadcasts"),
-    },
-    {
-      icon: Bell,
-      label: "Lembretes",
-      description: "Gerencie seus lembretes",
-      onClick: () => navigate("/reminders"),
-    },
-    {
-      icon: Users,
-      label: "Contatos",
-      description: "Gerencie seus contatos",
-      onClick: () => navigate("/contacts"),
-    },
-    {
-      icon: Phone,
-      label: "Conexão",
-      description: "Configure seu WhatsApp",
-      onClick: () => console.log("Conexão clicked"),
-    },
-  ];
-
   return (
-    <BaseSidebarContent>
-      <SidebarGroup>
-        <SidebarGroupContent>
-          <SidebarMenu className="px-2">
-            {menuItems.map((item) => (
-              <SidebarMenuSection
-                key={item.label}
-                icon={item.icon}
-                label={item.label}
-                description={item.description}
-                onClick={item.onClick}
-              />
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-      <SidebarGroup className="mt-auto">
-        <SidebarGroupContent>
-          <SidebarMenu className="px-2">
-            <SidebarLogout />
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    </BaseSidebarContent>
+    <div className="flex flex-col h-full">
+      <SidebarLogo />
+      <div className="flex-1 overflow-y-auto">
+        {menuItems.map((item) => (
+          <SidebarMenuSection
+            key={item.label}
+            icon={item.icon}
+            label={item.label}
+            description={item.description}
+            onClick={item.onClick}
+          />
+        ))}
+      </div>
+      <SidebarLogout />
+    </div>
   );
 }
