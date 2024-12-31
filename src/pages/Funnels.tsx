@@ -56,24 +56,22 @@ export default function Funnels() {
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
           <main className="container mx-auto px-8 py-10">
-            <div className="flex justify-between items-center mb-8">
-              <div className="space-y-6">
-                <div>
-                  <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                    Funis
-                  </h1>
-                  <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
-                </div>
-                <p className="text-muted-foreground text-lg">
-                  Crie fluxos de conversas para serem disparados automaticamente quando um cliente entrar em contato com você.
-                </p>
-                <p className="text-muted-foreground">
-                  Exibindo {mockFunnels.length} funis criados
-                </p>
-                <p className="text-muted-foreground">
-                  Clique em '+ Novo Funil' para criar um novo fluxo.
-                </p>
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                  Funis
+                </h1>
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
               </div>
+              <p className="text-muted-foreground text-lg">
+                Crie fluxos de conversas para serem disparados automaticamente quando um cliente entrar em contato com você.
+              </p>
+              <p className="text-lg font-medium text-primary">
+                Clique em '+ Novo Funil' para criar um novo fluxo.
+              </p>
+            </div>
+
+            <div className="flex justify-end mt-6">
               <Button
                 onClick={handleCreateFunnel}
                 size="lg"
@@ -159,6 +157,10 @@ export default function Funnels() {
                 </Card>
               ))}
             </div>
+
+            <p className="text-xl font-semibold text-gradient-primary mt-8">
+              Exibindo {mockFunnels.length} funis criados
+            </p>
           </main>
         </div>
       </div>
