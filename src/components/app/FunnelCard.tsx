@@ -36,22 +36,20 @@ export function FunnelCard({
 }: FunnelCardProps) {
   return (
     <Card className="glass-card border-primary/20 hover:border-primary/40 transition-all duration-300 transform hover:-translate-y-1">
-      <CardContent className="pt-8 pb-6 px-6 space-y-6">
-        <div className="flex flex-col gap-4">
-          <div className="flex justify-between items-center">
-            <div className="flex-1 pr-4">
-              <h3 className="text-2xl font-bold text-gradient-primary break-words">{funnel.name}</h3>
-            </div>
-            <div className="flex items-center gap-3 shrink-0">
-              <span className="text-sm text-muted-foreground whitespace-nowrap">
-                {funnel.isActive ? 'Ativo' : 'Inativo'}
-              </span>
-              <Switch
-                checked={funnel.isActive}
-                onCheckedChange={() => onToggle(funnel.id)}
-                className="data-[state=checked]:bg-primary"
-              />
-            </div>
+      <CardContent className="pt-8 pb-6 px-6 space-y-8">
+        <div className="flex flex-col gap-6">
+          <div className="flex-1">
+            <h3 className="text-2xl font-bold text-gradient-primary break-words">{funnel.name}</h3>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-muted-foreground whitespace-nowrap">
+              {funnel.isActive ? 'Ativo' : 'Inativo'}
+            </span>
+            <Switch
+              checked={funnel.isActive}
+              onCheckedChange={() => onToggle(funnel.id)}
+              className="data-[state=checked]:bg-primary"
+            />
           </div>
         </div>
         <div className="space-y-3">
