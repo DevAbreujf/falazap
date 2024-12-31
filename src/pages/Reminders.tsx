@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageCircle, MessageSquare } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -21,6 +21,12 @@ export default function Reminders() {
   const [contactType, setContactType] = useState<"existing" | "manual">("existing");
   const [manualPhone, setManualPhone] = useState("");
   const { toast } = useToast();
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Remove any non-numeric characters
+    const numericValue = e.target.value.replace(/\D/g, '');
+    setManualPhone(numericValue);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,7 +118,9 @@ export default function Reminders() {
                     type="tel"
                     placeholder="(00) 00000-0000"
                     value={manualPhone}
-                    onChange={(e) => setManualPhone(e.target.value)}
+                    onChange={handlePhoneChange}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                   />
                 </div>
               )}
