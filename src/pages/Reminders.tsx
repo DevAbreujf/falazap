@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { CountrySelector } from "@/components/app/reminders/CountrySelector";
 import { PhoneInput } from "@/components/app/reminders/PhoneInput";
+import type { Country } from 'react-phone-number-input';
 
 export default function Reminders() {
   const [selectedContact, setSelectedContact] = useState("");
@@ -15,7 +16,7 @@ export default function Reminders() {
   const [message, setMessage] = useState("");
   const [contactType, setContactType] = useState<"existing" | "manual">("existing");
   const [manualPhone, setManualPhone] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState("BR");
+  const [selectedCountry, setSelectedCountry] = useState<Country>("BR");
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
