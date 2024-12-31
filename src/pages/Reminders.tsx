@@ -3,16 +3,18 @@ import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, MessageSquare } from "lucide-react";
+import { MessageCircle, CalendarCheck } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { PhoneInput } from "@/components/app/reminders/PhoneInput";
 import { Input } from "@/components/ui/input";
 import type { Country } from 'react-phone-number-input';
+import { useNavigate } from "react-router-dom";
 
 export default function Reminders() {
+  const navigate = useNavigate();
   const [selectedContact, setSelectedContact] = useState("");
-  const [messageType, setMessageType] = useState<"whatsapp" | "sms">("whatsapp");
+  const [messageType, setMessageType] = useState<"whatsapp">("whatsapp");
   const [message, setMessage] = useState("");
   const [contactType, setContactType] = useState<"existing" | "manual">("existing");
   const [manualPhone, setManualPhone] = useState("");
@@ -54,9 +56,19 @@ export default function Reminders() {
       <DashboardSidebar />
       <main className="flex-1 p-8">
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold text-gradient-primary mb-8">
-            Lembretes
-          </h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold text-gradient-primary">
+              Lembretes
+            </h1>
+            <Button
+              onClick={() => navigate("/schedules")}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <CalendarCheck className="w-4 h-4" />
+              Agendamentos
+            </Button>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="glass-card p-6 space-y-6">

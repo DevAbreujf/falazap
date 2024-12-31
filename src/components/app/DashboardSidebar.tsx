@@ -5,6 +5,7 @@ import {
   Phone,
   Send,
   Bell,
+  CalendarCheck,
 } from "lucide-react";
 import {
   Sidebar,
@@ -13,6 +14,9 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
@@ -46,6 +50,13 @@ export function DashboardSidebar() {
       label: "Lembretes",
       description: "Gerencie seus lembretes",
       onClick: () => navigate("/reminders"),
+      subItems: [
+        {
+          icon: CalendarCheck,
+          label: "Agendamentos",
+          onClick: () => navigate("/schedules"),
+        },
+      ],
     },
     {
       icon: Users,
@@ -86,7 +97,23 @@ export function DashboardSidebar() {
                   label={item.label}
                   description={item.description}
                   onClick={item.onClick}
-                />
+                >
+                  {item.subItems && (
+                    <SidebarMenuSub>
+                      {item.subItems.map((subItem) => (
+                        <SidebarMenuSubItem key={subItem.label}>
+                          <SidebarMenuSubButton
+                            onClick={subItem.onClick}
+                            className="flex items-center gap-2"
+                          >
+                            <subItem.icon className="h-4 w-4" />
+                            <span>{subItem.label}</span>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  )}
+                </SidebarMenuItemComponent>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
