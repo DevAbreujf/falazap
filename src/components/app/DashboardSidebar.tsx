@@ -35,7 +35,7 @@ export function DashboardSidebar() {
       icon: Phone,
       label: "Conexão",
       description: "Configure seu WhatsApp",
-      onClick: () => console.log("Conexão clicked"),
+      onClick: () => navigate("/connection"),
     },
     {
       icon: Filter,

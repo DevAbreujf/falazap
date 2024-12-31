@@ -9,6 +9,7 @@ import Contacts from "@/pages/Contacts";
 import Broadcasts from "@/pages/Broadcasts";
 import Reminders from "@/pages/Reminders";
 import Schedules from "@/pages/Schedules";
+import Connection from "@/pages/Connection";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/connection",
+    element: <Connection />,
     errorElement: <ErrorBoundary />,
   },
   {
