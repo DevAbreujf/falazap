@@ -1,6 +1,5 @@
 import { Bell, Calendar, Home, MessageSquare, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { SidebarLogo } from "./SidebarLogo";
 import { SidebarMenuSection } from "./SidebarMenuSection";
 import { SidebarLogout } from "./SidebarLogout";
 import type { LucideIcon } from 'lucide-react';
@@ -50,7 +49,6 @@ export function SidebarContent() {
 
   return (
     <div className="flex flex-col h-full">
-      <SidebarLogo />
       <div className="flex-1 overflow-y-auto">
         {menuItems.map((item) => (
           <SidebarMenuSection
