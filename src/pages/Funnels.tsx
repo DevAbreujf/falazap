@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
-import { MoreVertical, Copy, Pencil, Trash2 } from "lucide-react";
+import { MoreVertical, Copy, Pencil, Trash2, BarChart2, Clock, Calendar } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,6 +40,10 @@ export default function Funnels() {
 
   const handleEditFunnel = (id: number) => {
     navigate(`/funnels/editor/${id}`);
+  };
+
+  const handleMetrics = (id: number) => {
+    navigate(`/funnels/metrics/${id}`);
   };
 
   const handleDuplicateFunnel = (id: number) => {
@@ -96,44 +100,52 @@ export default function Funnels() {
               {mockFunnels.map((funnel) => (
                 <Card
                   key={funnel.id}
-                  className={`${
-                    viewMode === "list" ? "flex justify-between items-center" : ""
-                  } hover-scale hover-glow`}
+                  className="glass-card border-primary/20 hover:border-primary/40 transition-all duration-300 transform hover:-translate-y-1"
                 >
-                  <CardContent
-                    className={`${
-                      viewMode === "list" ? "flex-1 flex items-center" : ""
-                    } pt-6`}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">{funnel.name}</h3>
-                    <div className="text-sm text-muted-foreground">
-                      <p>
-                        Criado em:{" "}
-                        {format(funnel.createdAt, "dd 'de' MMMM 'de' yyyy", {
-                          locale: ptBR,
-                        })}
-                      </p>
-                      <p>
-                        Última modificação:{" "}
-                        {format(funnel.updatedAt, "dd 'de' MMMM 'de' yyyy", {
-                          locale: ptBR,
-                        })}
-                      </p>
+                  <CardContent className="pt-6 space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-2xl font-bold text-gradient-primary">{funnel.name}</h3>
+                      <div className="flex flex-col space-y-2 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4 text-primary" />
+                          <span>Criado em: {" "}
+                            {format(funnel.createdAt, "dd 'de' MMMM 'de' yyyy", {
+                              locale: ptBR,
+                            })}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-primary" />
+                          <span>Última modificação: {" "}
+                            {format(funnel.updatedAt, "dd 'de' MMMM 'de' yyyy", {
+                              locale: ptBR,
+                            })}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
-                  <CardFooter
-                    className={`${
-                      viewMode === "list" ? "justify-end" : "justify-between"
-                    } pt-2`}
-                  >
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEditFunnel(funnel.id)}
-                    >
-                      <Pencil className="h-4 w-4 mr-2" />
-                      Editar
-                    </Button>
+                  <CardFooter className="justify-between pt-2 pb-4">
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditFunnel(funnel.id)}
+                        className="hover:bg-primary/10"
+                      >
+                        <Pencil className="h-4 w-4 mr-2" />
+                        Editar
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleMetrics(funnel.id)}
+                        className="hover:bg-primary/10"
+                      >
+                        <BarChart2 className="h-4 w-4 mr-2" />
+                        Métricas
+                      </Button>
+                    </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
