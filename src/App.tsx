@@ -7,6 +7,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Contacts from "@/pages/Contacts";
 import Broadcasts from "@/pages/Broadcasts";
+import Reminders from "@/pages/Reminders";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 const router = createBrowserRouter([
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
   {
     path: "/broadcasts",
     element: <Broadcasts />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/reminders",
+    element: <Reminders />,
     errorElement: <ErrorBoundary />,
   },
   {

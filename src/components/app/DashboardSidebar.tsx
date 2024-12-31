@@ -5,6 +5,7 @@ import {
   Users,
   Phone,
   Send,
+  Bell,
 } from "lucide-react";
 import {
   Sidebar,
@@ -40,6 +41,12 @@ export function DashboardSidebar() {
       label: "Disparos",
       description: "Gerencie seus disparos",
       onClick: () => navigate("/broadcasts"),
+    },
+    {
+      icon: Bell,
+      label: "Lembretes",
+      description: "Gerencie seus lembretes",
+      onClick: () => navigate("/reminders"),
     },
     {
       icon: MessageSquare,
