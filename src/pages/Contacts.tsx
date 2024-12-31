@@ -6,26 +6,23 @@ import { Button } from "@/components/ui/button";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { useState } from "react";
 import { Contact } from "@/types/contacts";
-import { CategoryManagement } from "@/components/contacts/CategoryManagement";
-import { ContactsTable } from "@/components/contacts/ContactsTable";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function Contacts() {
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
-  const [categories, setCategories] = useState<string[]>(["Geral"]);
-  const [newCategory, setNewCategory] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [contacts, setContacts] = useState<Contact[]>([
-    { id: 1, phone: "+55 11 99999-9999", name: "João Silva", date: "2024-03-20", category: "Geral" },
-    { id: 2, phone: "+55 11 98888-8888", name: "Maria Santos", date: "2024-03-19", category: "Geral" },
+    { id: 1, phone: "+55 11 99999-9999", name: "João Silva", date: "2024-03-20" },
+    { id: 2, phone: "+55 11 98888-8888", name: "Maria Santos", date: "2024-03-19" },
   ]);
 
   const handleExportCSV = () => {
     const selectedData = contacts.filter(contact => selectedContacts.includes(contact.id));
     const csvContent = "data:text/csv;charset=utf-8," 
-      + "Nome,Telefone,Data,Categoria\n"
+      + "Nome,Telefone,Data\n"
       + selectedData.map(contact => 
-          `${contact.name},${contact.phone},${contact.date},${contact.category}`
+          `${contact.name},${contact.phone},${contact.date}`
         ).join("\n");
     
     const encodedUri = encodeURI(csvContent);
@@ -35,31 +32,6 @@ export default function Contacts() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
-
-  const handleAddCategory = () => {
-    if (newCategory && !categories.includes(newCategory)) {
-      setCategories([...categories, newCategory]);
-      setNewCategory("");
-    }
-  };
-
-  const handleBulkCategoryUpdate = (newCategory: string) => {
-    setContacts(contacts.map(contact => {
-      if (selectedContacts.includes(contact.id)) {
-        return { ...contact, category: newCategory };
-      }
-      return contact;
-    }));
-  };
-
-  const handleContactCategoryChange = (contactId: number, newCategory: string) => {
-    setContacts(contacts.map(contact => {
-      if (contact.id === contactId) {
-        return { ...contact, category: newCategory };
-      }
-      return contact;
-    }));
   };
 
   const toggleContactSelection = (contactId: number) => {
@@ -73,8 +45,7 @@ export default function Contacts() {
   const filteredContacts = contacts.filter(contact => {
     const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          contact.phone.includes(searchTerm);
-    const matchesCategory = selectedCategory === "all" || contact.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+    return matchesSearch;
   });
 
   return (
@@ -113,23 +84,33 @@ export default function Contacts() {
                 </div>
               </CardHeader>
               <CardContent>
-                <CategoryManagement
-                  categories={categories}
-                  selectedContacts={selectedContacts}
-                  newCategory={newCategory}
-                  selectedCategory={selectedCategory}
-                  onAddCategory={handleAddCategory}
-                  onNewCategoryChange={setNewCategory}
-                  onBulkCategoryUpdate={handleBulkCategoryUpdate}
-                  onCategoryFilterChange={setSelectedCategory}
-                />
-                <ContactsTable
-                  contacts={filteredContacts}
-                  categories={categories}
-                  selectedContacts={selectedContacts}
-                  onContactSelect={toggleContactSelection}
-                  onContactCategoryChange={handleContactCategoryChange}
-                />
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-12">Selecionar</TableHead>
+                        <TableHead>Nome</TableHead>
+                        <TableHead>Telefone</TableHead>
+                        <TableHead>Data de Entrada</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredContacts.map((contact) => (
+                        <TableRow key={contact.id}>
+                          <TableCell>
+                            <Checkbox
+                              checked={selectedContacts.includes(contact.id)}
+                              onCheckedChange={() => toggleContactSelection(contact.id)}
+                            />
+                          </TableCell>
+                          <TableCell className="font-medium">{contact.name}</TableCell>
+                          <TableCell>{contact.phone}</TableCell>
+                          <TableCell>{new Date(contact.date).toLocaleDateString('pt-BR')}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </CardContent>
             </Card>
           </div>

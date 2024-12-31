@@ -3,5 +3,4 @@ export interface Contact {
   phone: string;
   name: string;
   date: string;
-  category: string;
 }
