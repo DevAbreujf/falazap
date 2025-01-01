@@ -88,6 +88,7 @@ export function DashboardSidebar() {
                 description="Gerencie suas configurações"
                 onClick={() => navigate("/settings")}
               />
+              <SidebarLogout />
             </div>
           </div>
         </div>
@@ -96,7 +97,6 @@ export function DashboardSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="px-2">
-              <SidebarLogout />
               {menuItems.map((item) => (
                 <SidebarMenuItemComponent
                   key={item.label}
