@@ -10,6 +10,7 @@ import Broadcasts from "@/pages/Broadcasts";
 import Reminders from "@/pages/Reminders";
 import Schedules from "@/pages/Schedules";
 import Connection from "@/pages/Connection";
+import Settings from "@/pages/Settings";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -52,6 +53,11 @@ const router = createBrowserRouter([
   {
     path: "/schedules",
     element: <Schedules />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
     errorElement: <ErrorBoundary />,
   },
   {
