@@ -13,7 +13,7 @@ interface ProfileSettingsProps {
 
 export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
   return (
-    <Card className="glass-card hover-glow">
+    <Card className="glass-card">
       <CardHeader>
         <CardTitle>Informações Pessoais</CardTitle>
         <CardDescription>
