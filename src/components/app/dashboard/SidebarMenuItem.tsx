@@ -7,14 +7,12 @@ import {
 interface SidebarMenuItemProps {
   icon: LucideIcon;
   label: string;
-  description: string;
   onClick: () => void;
 }
 
 export function SidebarMenuItemComponent({
   icon: Icon,
   label,
-  description,
   onClick,
 }: SidebarMenuItemProps) {
   return (
@@ -29,9 +27,6 @@ export function SidebarMenuItemComponent({
         <div className="min-w-0 flex-1">
           <span className="block font-medium text-white text-sm leading-tight">
             {label}
-          </span>
-          <span className="block text-xs text-muted-foreground/80 mt-0.5 leading-tight">
-            {description}
           </span>
         </div>
       </SidebarMenuButton>

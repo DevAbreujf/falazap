@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { SidebarMenuItem } from "./dashboard/SidebarMenuItem";
+import { SidebarMenuItemComponent as SidebarMenuItem } from "./dashboard/SidebarMenuItem";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarLogout } from "./dashboard/SidebarLogout";
 import {
@@ -8,7 +8,7 @@ import {
   Bell,
   Users,
   GitBranch,
-  Broadcast,
+  SendHorizontal,
   Settings,
   PhoneCall,
 } from "lucide-react";
@@ -43,7 +43,7 @@ export function DashboardSidebar() {
       onClick: () => navigate("/funis"),
     },
     {
-      icon: Broadcast,
+      icon: SendHorizontal,
       label: "Disparos",
       onClick: () => navigate("/disparos"),
     },
