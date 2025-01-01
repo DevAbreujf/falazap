@@ -6,7 +6,7 @@ import {
 
 export function SidebarLogout() {
   return (
-    <SidebarMenuItem>
+    <SidebarMenuItem className="list-none">
       <SidebarMenuButton
         onClick={() => console.log("Logout clicked")}
         className="group relative flex w-full items-center gap-3 p-5 mb-4 transition-all duration-200 hover:bg-destructive/10 rounded-lg"
