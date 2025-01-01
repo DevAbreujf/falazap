@@ -1,4 +1,4 @@
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
@@ -11,10 +11,11 @@ export function MessageTypeSelector() {
       <Button
         type="button"
         variant="default"
-        className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#25D366]/90 transition-all duration-300"
+        className="w-full flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#25D366]/90 transition-all duration-300 shadow-lg hover:shadow-[#25D366]/20 py-6 relative overflow-hidden group"
       >
-        <MessageCircle className="w-4 h-4" />
-        WhatsApp
+        <div className="absolute inset-0 bg-gradient-to-r from-[#25D366]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <MessageSquare className="w-5 h-5" />
+        <span className="font-medium text-base">WhatsApp</span>
       </Button>
     </div>
   );
