@@ -74,21 +74,21 @@ export function DashboardSidebar() {
     <Sidebar>
       <SidebarHeader className="p-3">
         <SidebarLogo />
-        <div className="mt-3 px-2">
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent" />
-          <div className="mt-3 flex items-center gap-2 justify-center">
+        <div className="mt-3 px-4">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />
+          <div className="mt-4 flex flex-col items-center gap-2 p-3 glass-card hover:bg-white/5 transition-all duration-300">
             <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
             <h3 className="text-lg font-semibold text-sidebar-foreground">
               João Silva
             </h3>
-          </div>
-          <div className="mt-3">
-            <SidebarMenuItemComponent
-              icon={Settings}
-              label="Configurações"
-              description="Gerencie suas configurações"
-              onClick={() => navigate("/settings")}
-            />
+            <div className="mt-3 w-full">
+              <SidebarMenuItemComponent
+                icon={Settings}
+                label="Configurações"
+                description="Gerencie suas configurações"
+                onClick={() => navigate("/settings")}
+              />
+            </div>
           </div>
         </div>
       </SidebarHeader>
