@@ -96,6 +96,7 @@ export function DashboardSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="px-2">
+              <SidebarLogout />
               {menuItems.map((item) => (
                 <SidebarMenuItemComponent
                   key={item.label}
@@ -105,13 +106,6 @@ export function DashboardSidebar() {
                   onClick={item.onClick}
                 />
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup className="mt-auto">
-          <SidebarGroupContent>
-            <SidebarMenu className="px-2">
-              <SidebarLogout />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
