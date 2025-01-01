@@ -1,84 +1,121 @@
-import { useNavigate } from "react-router-dom";
-import { SidebarMenuItemComponent as SidebarMenuItem } from "./dashboard/SidebarMenuItem";
-import { SidebarLogo } from "./dashboard/SidebarLogo";
-import { SidebarLogout } from "./dashboard/SidebarLogout";
 import {
-  LayoutDashboard,
+  BarChart3,
+  Filter,
   MessageSquare,
-  Bell,
   Users,
-  GitBranch,
-  SendHorizontal,
+  Phone,
+  Send,
+  Bell,
+  Calendar,
   Settings,
-  PhoneCall,
 } from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+} from "@/components/ui/sidebar";
+import { useNavigate } from "react-router-dom";
+import { SidebarLogo } from "./dashboard/SidebarLogo";
+import { SidebarMenuItemComponent } from "./dashboard/SidebarMenuItem";
+import { SidebarLogout } from "./dashboard/SidebarLogout";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
 
   const menuItems = [
     {
-      icon: LayoutDashboard,
-      label: "Painel",
-      onClick: () => navigate("/painel"),
+      icon: BarChart3,
+      label: "Métricas",
+      description: "Visualize suas estatísticas",
+      onClick: () => navigate("/dashboard"),
     },
     {
-      icon: MessageSquare,
-      label: "Conversas",
-      onClick: () => navigate("/conversas"),
+      icon: Phone,
+      label: "Conexão",
+      description: "Configure seu WhatsApp",
+      onClick: () => navigate("/connection"),
+    },
+    {
+      icon: Filter,
+      label: "Funis",
+      description: "Gerencie seus funis",
+      onClick: () => navigate("/funnels"),
+    },
+    {
+      icon: Send,
+      label: "Disparos",
+      description: "Gerencie seus disparos",
+      onClick: () => navigate("/broadcasts"),
     },
     {
       icon: Bell,
-      label: "Lembretes",
-      onClick: () => navigate("/lembretes"),
+      label: "Agendamentos",
+      description: "Gerencie seus agendamentos",
+      onClick: () => navigate("/reminders"),
+    },
+    {
+      icon: Calendar,
+      label: "Lista de Agendamentos",
+      description: "Visualize seus agendamentos",
+      onClick: () => navigate("/schedules"),
     },
     {
       icon: Users,
       label: "Contatos",
-      onClick: () => navigate("/contatos"),
-    },
-    {
-      icon: GitBranch,
-      label: "Funis",
-      onClick: () => navigate("/funis"),
-    },
-    {
-      icon: SendHorizontal,
-      label: "Disparos",
-      onClick: () => navigate("/disparos"),
-    },
-    {
-      icon: PhoneCall,
-      label: "Conexão",
-      onClick: () => navigate("/conexao"),
-    },
-    {
-      icon: Settings,
-      label: "Configurações",
-      onClick: () => navigate("/configuracoes"),
+      description: "Gerencie seus contatos",
+      onClick: () => navigate("/contacts"),
     },
   ];
 
   return (
-    <aside className="hidden lg:flex h-screen w-64 flex-col fixed left-0 top-0 bottom-0 z-50 border-r bg-card">
-      <div className="flex flex-col flex-1 gap-2">
-        <div className="h-16 flex items-center justify-center border-b">
-          <SidebarLogo />
+    <Sidebar>
+      <SidebarHeader className="p-3">
+        <SidebarLogo />
+        <div className="mt-3 px-4">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />
+          <div className="mt-4 flex flex-col items-center gap-2 p-3 glass-card hover:bg-white/5 transition-all duration-300">
+            <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
+            <h3 className="text-lg font-semibold text-sidebar-foreground">
+              João Silva
+            </h3>
+            <div className="mt-3 w-full">
+              <SidebarMenuItemComponent
+                icon={Settings}
+                label="Configurações"
+                description="Gerencie suas configurações"
+                onClick={() => navigate("/settings")}
+              />
+            </div>
+          </div>
         </div>
-
-        <nav className="space-y-0.5 px-2">
-          {menuItems.map((item, index) => (
-            <SidebarMenuItem
-              key={index}
-              icon={item.icon}
-              label={item.label}
-              onClick={item.onClick}
-            />
-          ))}
-        </nav>
-      </div>
-
-      <SidebarLogout />
-    </aside>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu className="px-2">
+              {menuItems.map((item) => (
+                <SidebarMenuItemComponent
+                  key={item.label}
+                  icon={item.icon}
+                  label={item.label}
+                  description={item.description}
+                  onClick={item.onClick}
+                />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu className="px-2">
+              <SidebarLogout />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
 }

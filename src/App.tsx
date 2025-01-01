@@ -1,38 +1,79 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
-import ErrorBoundary from "@/components/ErrorBoundary";
+import Dashboard from "@/pages/Dashboard";
+import Funnels from "@/pages/Funnels";
 import Index from "@/pages/Index";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
-import Dashboard from "@/pages/Dashboard";
-import Broadcasts from "@/pages/Broadcasts";
-import Connection from "@/pages/Connection";
 import Contacts from "@/pages/Contacts";
-import Funnels from "@/pages/Funnels";
+import Broadcasts from "@/pages/Broadcasts";
 import Reminders from "@/pages/Reminders";
-import Settings from "@/pages/Settings";
 import Schedules from "@/pages/Schedules";
+import Connection from "@/pages/Connection";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import { SidebarProvider } from "@/components/ui/sidebar";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Index />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/connection",
+    element: <Connection />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/funnels",
+    element: <Funnels />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/contacts",
+    element: <Contacts />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/broadcasts",
+    element: <Broadcasts />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/reminders",
+    element: <Reminders />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/schedules",
+    element: <Schedules />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+    errorElement: <ErrorBoundary />,
+  },
+]);
 
 function App() {
   return (
-    <ErrorBoundary>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/entrar" element={<Login />} />
-          <Route path="/cadastro" element={<Register />} />
-          <Route path="/painel" element={<Dashboard />} />
-          <Route path="/disparos" element={<Broadcasts />} />
-          <Route path="/conexao" element={<Connection />} />
-          <Route path="/contatos" element={<Contacts />} />
-          <Route path="/funis" element={<Funnels />} />
-          <Route path="/lembretes" element={<Reminders />} />
-          <Route path="/configuracoes" element={<Settings />} />
-          <Route path="/agendamentos" element={<Schedules />} />
-        </Routes>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <RouterProvider router={router} />
         <Toaster />
-      </BrowserRouter>
-    </ErrorBoundary>
+      </div>
+    </SidebarProvider>
   );
 }
 
