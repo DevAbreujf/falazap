@@ -12,6 +12,7 @@ import Schedules from "@/pages/Schedules";
 import Connection from "@/pages/Connection";
 import Settings from "@/pages/Settings";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const router = createBrowserRouter([
   {
@@ -21,42 +22,74 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <SidebarProvider>
+        <Dashboard />
+      </SidebarProvider>
+    ),
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/connection",
-    element: <Connection />,
+    element: (
+      <SidebarProvider>
+        <Connection />
+      </SidebarProvider>
+    ),
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/funnels",
-    element: <Funnels />,
+    element: (
+      <SidebarProvider>
+        <Funnels />
+      </SidebarProvider>
+    ),
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/contacts",
-    element: <Contacts />,
+    element: (
+      <SidebarProvider>
+        <Contacts />
+      </SidebarProvider>
+    ),
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/broadcasts",
-    element: <Broadcasts />,
+    element: (
+      <SidebarProvider>
+        <Broadcasts />
+      </SidebarProvider>
+    ),
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/reminders",
-    element: <Reminders />,
+    element: (
+      <SidebarProvider>
+        <Reminders />
+      </SidebarProvider>
+    ),
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/schedules",
-    element: <Schedules />,
+    element: (
+      <SidebarProvider>
+        <Schedules />
+      </SidebarProvider>
+    ),
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/settings",
-    element: <Settings />,
+    element: (
+      <SidebarProvider>
+        <Settings />
+      </SidebarProvider>
+    ),
     errorElement: <ErrorBoundary />,
   },
   {
