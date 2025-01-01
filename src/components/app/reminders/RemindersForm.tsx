@@ -97,126 +97,143 @@ export function RemindersForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="glass-card p-6 space-y-6">
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-foreground">
-            Nome do lembrete
-          </Label>
-          <Input
-            value={reminderName}
-            onChange={(e) => setReminderName(e.target.value)}
-            placeholder="Digite o nome do lembrete..."
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-foreground">
-            Nome do cliente
-          </Label>
-          <Input
-            value={clientName}
-            onChange={(e) => setClientName(e.target.value)}
-            placeholder="Digite o nome do cliente..."
-          />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="glass-card relative overflow-hidden backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-xl transition-all duration-300 hover:border-primary/20 hover:shadow-primary/5">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50"></div>
+        
+        <div className="relative space-y-6">
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-foreground">
-              Data de envio
-            </Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={`w-full justify-start text-left font-normal ${
-                    !selectedDate && "text-muted-foreground"
-                  }`}
-                >
-                  {selectedDate ? (
-                    format(selectedDate, "PPP", { locale: ptBR })
-                  ) : (
-                    <span>Selecione uma data</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  initialFocus
-                  locale={ptBR}
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-foreground">
-              Horário de envio
+            <Label className="text-sm font-medium text-foreground/90">
+              Nome do lembrete
             </Label>
             <Input
-              type="time"
-              value={selectedTime}
-              onChange={(e) => setSelectedTime(e.target.value)}
-              className="w-full"
+              value={reminderName}
+              onChange={(e) => setReminderName(e.target.value)}
+              placeholder="Digite o nome do lembrete..."
+              className="bg-background/50 border-white/10 focus:border-primary/50 transition-colors"
             />
           </div>
-        </div>
 
-        <ContactForm
-          contactType={contactType}
-          onContactTypeChange={setContactType}
-          selectedContact={selectedContact}
-          onContactChange={setSelectedContact}
-          selectedCountry={selectedCountry}
-          onCountryChange={setSelectedCountry}
-          manualPhone={manualPhone}
-          onPhoneChange={setManualPhone}
-        />
-
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-foreground">
-            Tipo de mensagem
-          </Label>
-          <div className="flex gap-4">
-            <Button
-              type="button"
-              variant={messageType === "whatsapp" ? "default" : "outline"}
-              className="flex-1 flex items-center justify-center gap-2"
-              onClick={() => setMessageType("whatsapp")}
-            >
-              <MessageCircle className="w-4 h-4" />
-              WhatsApp
-            </Button>
-            <Button
-              type="button"
-              variant={messageType === "sms" ? "default" : "outline"}
-              className="flex-1 flex items-center justify-center gap-2"
-              onClick={() => setMessageType("sms")}
-            >
-              <MessageSquare className="w-4 h-4" />
-              SMS
-            </Button>
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-foreground/90">
+              Nome do cliente
+            </Label>
+            <Input
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+              placeholder="Digite o nome do cliente..."
+              className="bg-background/50 border-white/10 focus:border-primary/50 transition-colors"
+            />
           </div>
-        </div>
 
-        <div className="space-y-2">
-          <Label className="text-sm font-medium text-foreground">
-            Mensagem do lembrete
-          </Label>
-          <Textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Digite a mensagem do lembrete..."
-            className="h-32"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-foreground/90">
+                Data de envio
+              </Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={`w-full justify-start text-left font-normal bg-background/50 border-white/10 hover:bg-white/5 transition-colors ${
+                      !selectedDate && "text-muted-foreground"
+                    }`}
+                  >
+                    {selectedDate ? (
+                      format(selectedDate, "PPP", { locale: ptBR })
+                    ) : (
+                      <span>Selecione uma data</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    initialFocus
+                    locale={ptBR}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-foreground/90">
+                Horário de envio
+              </Label>
+              <Input
+                type="time"
+                value={selectedTime}
+                onChange={(e) => setSelectedTime(e.target.value)}
+                className="w-full bg-background/50 border-white/10 focus:border-primary/50 transition-colors"
+              />
+            </div>
+          </div>
+
+          <ContactForm
+            contactType={contactType}
+            onContactTypeChange={setContactType}
+            selectedContact={selectedContact}
+            onContactChange={setSelectedContact}
+            selectedCountry={selectedCountry}
+            onCountryChange={setSelectedCountry}
+            manualPhone={manualPhone}
+            onPhoneChange={setManualPhone}
           />
-        </div>
 
-        <Button type="submit" className="w-full">
-          Agendar lembrete
-        </Button>
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-foreground/90">
+              Tipo de mensagem
+            </Label>
+            <div className="flex gap-4">
+              <Button
+                type="button"
+                variant={messageType === "whatsapp" ? "default" : "outline"}
+                className={`flex-1 flex items-center justify-center gap-2 transition-all duration-300 ${
+                  messageType === "whatsapp" 
+                    ? "bg-primary hover:bg-primary/90" 
+                    : "bg-background/50 border-white/10 hover:bg-white/5"
+                }`}
+                onClick={() => setMessageType("whatsapp")}
+              >
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+              </Button>
+              <Button
+                type="button"
+                variant={messageType === "sms" ? "default" : "outline"}
+                className={`flex-1 flex items-center justify-center gap-2 transition-all duration-300 ${
+                  messageType === "sms" 
+                    ? "bg-primary hover:bg-primary/90" 
+                    : "bg-background/50 border-white/10 hover:bg-white/5"
+                }`}
+                onClick={() => setMessageType("sms")}
+              >
+                <MessageSquare className="w-4 h-4" />
+                SMS
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-foreground/90">
+              Mensagem do lembrete
+            </Label>
+            <Textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Digite a mensagem do lembrete..."
+              className="h-32 bg-background/50 border-white/10 focus:border-primary/50 transition-colors resize-none"
+            />
+          </div>
+
+          <Button 
+            type="submit" 
+            className="w-full bg-primary hover:bg-primary/90 transition-colors"
+          >
+            Agendar lembrete
+          </Button>
+        </div>
       </div>
     </form>
   );
