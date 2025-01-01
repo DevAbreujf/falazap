@@ -117,7 +117,7 @@ export default function Settings() {
       <DashboardSidebar />
       <div className="flex-1 p-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-6 text-gradient-primary">Configurações da Conta</h1>
+          <h1 className="text-3xl font-bold mb-6 text-gradient-primary py-1">Configurações da Conta</h1>
           
           <Tabs defaultValue="perfil" className="space-y-6">
             <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 gap-4">
