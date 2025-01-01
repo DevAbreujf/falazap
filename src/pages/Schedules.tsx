@@ -73,9 +73,14 @@ export default function Schedules() {
       <main className="flex-1 p-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-gradient-primary">
-              Lista de Agendamentos
-            </h1>
+            <div>
+              <h1 className="text-3xl font-bold text-gradient-primary mb-2">
+                Lista de Agendamentos
+              </h1>
+              <p className="text-muted-foreground">
+                Gerencie todos os seus agendamentos em um só lugar
+              </p>
+            </div>
             <Button onClick={() => window.location.href = "/reminders"}>
               Novo Agendamento
             </Button>
@@ -126,10 +131,10 @@ export default function Schedules() {
               )}
             </div>
 
-            <div className="rounded-md border">
+            <div className="rounded-md border bg-card">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="hover:bg-muted/50">
                     <TableHead>Nome do Lembrete</TableHead>
                     <TableHead>Cliente</TableHead>
                     <TableHead>Data</TableHead>
@@ -140,8 +145,8 @@ export default function Schedules() {
                 </TableHeader>
                 <TableBody>
                   {filteredSchedules.map((schedule) => (
-                    <TableRow key={schedule.id}>
-                      <TableCell>{schedule.reminderName}</TableCell>
+                    <TableRow key={schedule.id} className="hover:bg-muted/50">
+                      <TableCell className="font-medium">{schedule.reminderName}</TableCell>
                       <TableCell>{schedule.clientName}</TableCell>
                       <TableCell>
                         {format(schedule.date, "dd/MM/yyyy")}

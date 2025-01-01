@@ -7,10 +7,12 @@ import { Circle } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 import { MetricsGrid } from "@/components/app/dashboard/MetricsGrid";
 import { AnalyticsChart } from "@/components/app/dashboard/AnalyticsChart";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState<"day" | "week" | "month">("week");
   const [isConnected] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <SidebarProvider>
@@ -18,7 +20,6 @@ export default function Dashboard() {
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
           <main className="container mx-auto px-8 py-10">
-            {/* Header section */}
             <div className="flex justify-between items-start mb-10">
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
@@ -43,8 +44,8 @@ export default function Dashboard() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="text-sm"
-                      onClick={() => console.log("Conectar número")}
+                      className="text-sm hover:bg-primary/10 transition-colors"
+                      onClick={() => navigate("/connection")}
                     >
                       Conectar número
                     </Button>
@@ -61,12 +62,10 @@ export default function Dashboard() {
 
             <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
 
-            {/* Metrics Grid */}
             <div className="mt-8">
               <MetricsGrid />
             </div>
 
-            {/* Chart */}
             <div className="mt-8">
               <AnalyticsChart />
             </div>
