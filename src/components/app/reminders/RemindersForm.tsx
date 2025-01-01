@@ -10,14 +10,12 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import type { Country } from 'react-phone-number-input';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ContactForm } from "@/components/app/reminders/ContactForm";
 import { useSchedules } from "@/hooks/use-schedules";
+import { ManualPhoneSection } from "./ManualPhoneSection";
 
 export function RemindersForm() {
-  const [selectedContact, setSelectedContact] = useState("");
   const [messageType, setMessageType] = useState<"whatsapp" | "sms">("whatsapp");
   const [message, setMessage] = useState("");
-  const [contactType, setContactType] = useState<"existing" | "manual">("existing");
   const [manualPhone, setManualPhone] = useState("");
   const [selectedCountry, setSelectedCountry] = useState<Country>("BR");
   const [reminderName, setReminderName] = useState("");
@@ -58,12 +56,10 @@ export function RemindersForm() {
       return;
     }
 
-    const phoneNumber = contactType === "existing" ? selectedContact : manualPhone;
-    
-    if (!phoneNumber) {
+    if (!manualPhone) {
       toast({
         title: "Erro",
-        description: "Por favor, selecione um contato ou digite um número",
+        description: "Por favor, digite um número de telefone",
         variant: "destructive",
       });
       return;
@@ -84,7 +80,7 @@ export function RemindersForm() {
       clientName,
       date: selectedDate,
       time: selectedTime,
-      phone: phoneNumber,
+      phone: manualPhone,
     };
 
     addSchedule(newSchedule);
@@ -170,11 +166,7 @@ export function RemindersForm() {
             </div>
           </div>
 
-          <ContactForm
-            contactType={contactType}
-            onContactTypeChange={setContactType}
-            selectedContact={selectedContact}
-            onContactChange={setSelectedContact}
+          <ManualPhoneSection
             selectedCountry={selectedCountry}
             onCountryChange={setSelectedCountry}
             manualPhone={manualPhone}
