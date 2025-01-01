@@ -74,28 +74,21 @@ export function DashboardSidebar() {
     <Sidebar>
       <SidebarHeader className="p-3">
         <SidebarLogo />
-        <div className="mt-6 px-4">
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-sidebar-border/30 to-transparent" />
-          <div className="mt-6 rounded-xl bg-gradient-to-br from-sidebar-accent/5 to-sidebar-accent/10 backdrop-blur-lg border border-white/5 p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20">
-            <div className="flex flex-col items-center gap-3">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/30 flex items-center justify-center">
-                <p className="text-lg font-semibold text-primary">JS</p>
-              </div>
-              <div className="text-center">
-                <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
-                <h3 className="text-lg font-semibold text-sidebar-foreground mt-1">
-                  João Silva
-                </h3>
-              </div>
-              <div className="w-full mt-4 space-y-2">
-                <SidebarMenuItemComponent
-                  icon={Settings}
-                  label="Configurações"
-                  description="Gerencie suas configurações"
-                  onClick={() => navigate("/settings")}
-                />
-                <SidebarLogout />
-              </div>
+        <div className="mt-3 px-4">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />
+          <div className="mt-4 flex flex-col items-center gap-2 p-3 glass-card hover:bg-white/5 transition-all duration-300">
+            <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
+            <h3 className="text-lg font-semibold text-sidebar-foreground">
+              João Silva
+            </h3>
+            <div className="mt-3 w-full">
+              <SidebarMenuItemComponent
+                icon={Settings}
+                label="Configurações"
+                description="Gerencie suas configurações"
+                onClick={() => navigate("/settings")}
+              />
+              <SidebarLogout />
             </div>
           </div>
         </div>
