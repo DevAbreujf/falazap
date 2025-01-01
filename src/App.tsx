@@ -12,7 +12,6 @@ import Schedules from "@/pages/Schedules";
 import Connection from "@/pages/Connection";
 import Settings from "@/pages/Settings";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
 const router = createBrowserRouter([
   {
@@ -74,12 +73,10 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
-        <RouterProvider router={router} />
-        <Toaster />
-      </div>
-    </SidebarProvider>
+    <div className="min-h-screen flex w-full">
+      <RouterProvider router={router} />
+      <Toaster />
+    </div>
   );
 }
 
