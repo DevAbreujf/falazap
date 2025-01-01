@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Search, Calendar as CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Schedule } from "@/types/schedule";
-import { ScheduleActions } from "@/components/app/schedules/ScheduleActions";
 import { useSchedules } from "@/hooks/use-schedules";
+import { SchedulesHeader } from "@/components/app/schedules/SchedulesHeader";
+import { SchedulesFilters } from "@/components/app/schedules/SchedulesFilters";
+import { SchedulesTable } from "@/components/app/schedules/SchedulesTable";
 
 export default function Schedules() {
   const [search, setSearch] = useState("");
@@ -72,99 +71,21 @@ export default function Schedules() {
       <DashboardSidebar />
       <main className="flex-1 p-8">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-gradient-primary mb-2">
-                Lista de Agendamentos
-              </h1>
-              <p className="text-muted-foreground">
-                Gerencie todos os seus agendamentos em um só lugar
-              </p>
-            </div>
-            <Button onClick={() => window.location.href = "/reminders"}>
-              Novo Agendamento
-            </Button>
-          </div>
+          <SchedulesHeader />
 
           <div className="glass-card p-6 space-y-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                  <Input
-                    placeholder="Buscar por nome, cliente ou telefone..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-              </div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full md:w-auto">
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {selectedDate ? (
-                      format(selectedDate, "PPP", { locale: ptBR })
-                    ) : (
-                      "Filtrar por data"
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    initialFocus
-                    locale={ptBR}
-                  />
-                </PopoverContent>
-              </Popover>
-              {selectedDate && (
-                <Button 
-                  variant="outline" 
-                  onClick={() => setSelectedDate(undefined)}
-                  className="w-full md:w-auto"
-                >
-                  Limpar filtro
-                </Button>
-              )}
-            </div>
+            <SchedulesFilters
+              search={search}
+              setSearch={setSearch}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
 
-            <div className="rounded-md border bg-card">
-              <Table>
-                <TableHeader>
-                  <TableRow className="hover:bg-muted/50">
-                    <TableHead>Nome do Lembrete</TableHead>
-                    <TableHead>Cliente</TableHead>
-                    <TableHead>Data</TableHead>
-                    <TableHead>Horário</TableHead>
-                    <TableHead>Telefone</TableHead>
-                    <TableHead className="text-right">Ações</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredSchedules.map((schedule) => (
-                    <TableRow key={schedule.id} className="hover:bg-muted/50">
-                      <TableCell className="font-medium">{schedule.reminderName}</TableCell>
-                      <TableCell>{schedule.clientName}</TableCell>
-                      <TableCell>
-                        {format(schedule.date, "dd/MM/yyyy")}
-                      </TableCell>
-                      <TableCell>{schedule.time}</TableCell>
-                      <TableCell>{schedule.phone}</TableCell>
-                      <TableCell>
-                        <ScheduleActions
-                          schedule={schedule}
-                          onEdit={handleEdit}
-                          onDelete={handleDelete}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+            <SchedulesTable
+              schedules={filteredSchedules}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
           </div>
         </div>
       </main>
