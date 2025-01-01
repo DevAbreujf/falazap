@@ -7,7 +7,7 @@ export function RemindersHeader() {
 
   return (
     <div className="flex items-center justify-between mb-8">
-      <h1 className="text-3xl font-bold text-gradient-primary">Agendamentos</h1>
+      <h1 className="text-3xl font-bold text-gradient-primary leading-normal py-1">Agendamentos</h1>
       <Button
         onClick={() => navigate("/schedules")}
         variant="outline"
