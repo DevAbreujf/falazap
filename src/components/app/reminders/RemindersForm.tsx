@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -12,9 +11,10 @@ import type { Country } from 'react-phone-number-input';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useSchedules } from "@/hooks/use-schedules";
 import { ManualPhoneSection } from "./ManualPhoneSection";
+import { MessageTypeSelector } from "./MessageTypeSelector";
+import { FileAttachments } from "./FileAttachments";
 
 export function RemindersForm() {
-  const [messageType, setMessageType] = useState<"whatsapp" | "sms">("whatsapp");
   const [message, setMessage] = useState("");
   const [manualPhone, setManualPhone] = useState("");
   const [selectedCountry, setSelectedCountry] = useState<Country>("BR");
@@ -22,6 +22,7 @@ export function RemindersForm() {
   const [clientName, setClientName] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const { addSchedule } = useSchedules();
   const { toast } = useToast();
@@ -81,6 +82,7 @@ export function RemindersForm() {
       date: selectedDate,
       time: selectedTime,
       phone: manualPhone,
+      attachment: selectedFile,
     };
 
     addSchedule(newSchedule);
@@ -173,39 +175,9 @@ export function RemindersForm() {
             onPhoneChange={setManualPhone}
           />
 
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-foreground/90">
-              Tipo de mensagem
-            </Label>
-            <div className="flex gap-4">
-              <Button
-                type="button"
-                variant={messageType === "whatsapp" ? "default" : "outline"}
-                className={`flex-1 flex items-center justify-center gap-2 transition-all duration-300 ${
-                  messageType === "whatsapp" 
-                    ? "bg-primary hover:bg-primary/90" 
-                    : "bg-background/50 border-white/10 hover:bg-white/5"
-                }`}
-                onClick={() => setMessageType("whatsapp")}
-              >
-                <MessageCircle className="w-4 h-4" />
-                WhatsApp
-              </Button>
-              <Button
-                type="button"
-                variant={messageType === "sms" ? "default" : "outline"}
-                className={`flex-1 flex items-center justify-center gap-2 transition-all duration-300 ${
-                  messageType === "sms" 
-                    ? "bg-primary hover:bg-primary/90" 
-                    : "bg-background/50 border-white/10 hover:bg-white/5"
-                }`}
-                onClick={() => setMessageType("sms")}
-              >
-                <MessageSquare className="w-4 h-4" />
-                SMS
-              </Button>
-            </div>
-          </div>
+          <MessageTypeSelector />
+
+          <FileAttachments onFileSelect={(file) => setSelectedFile(file)} />
 
           <div className="space-y-2">
             <Label className="text-sm font-medium text-foreground/90">

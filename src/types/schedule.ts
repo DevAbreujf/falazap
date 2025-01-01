@@ -5,4 +5,5 @@ export interface Schedule {
   date: Date;
   time: string;
   phone: string;
+  attachment?: File | null;
 }
