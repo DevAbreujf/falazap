@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -13,6 +12,7 @@ import { useSchedules } from "@/hooks/use-schedules";
 import { ManualPhoneSection } from "./ManualPhoneSection";
 import { MessageTypeSelector } from "./MessageTypeSelector";
 import { FileAttachments } from "./FileAttachments";
+import { MessageInput } from "./MessageInput";
 
 export function RemindersForm() {
   const [message, setMessage] = useState("");
@@ -179,17 +179,7 @@ export function RemindersForm() {
 
           <FileAttachments onFileSelect={(file) => setSelectedFile(file)} />
 
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-foreground/90">
-              Mensagem do lembrete
-            </Label>
-            <Textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Digite a mensagem do lembrete..."
-              className="h-32 bg-background/50 border-white/10 focus:border-primary/50 transition-colors resize-none"
-            />
-          </div>
+          <MessageInput value={message} onChange={setMessage} />
 
           <Button 
             type="submit" 
