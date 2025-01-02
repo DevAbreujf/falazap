@@ -141,7 +141,7 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
           </p>
           <Button
             variant="outline"
-            className="w-full hover-glow border-white/10 bg-background/50 backdrop-blur-sm"
+            className="w-full hover-glow border-white/10 bg-secondary"
             onClick={onFlip}
           >
             Fazer Login
