@@ -8,70 +8,10 @@ import { PricingDialog } from "@/components/app/PricingDialog";
 import { MetricsGrid } from "@/components/app/dashboard/MetricsGrid";
 import { AnalyticsChart } from "@/components/app/dashboard/AnalyticsChart";
 import { useNavigate } from "react-router-dom";
-import { Plan } from "@/types/pricing";
-
-const plans: Plan[] = [
-  {
-    name: "Básico",
-    price: 97,
-    features: {
-      "Números WhatsApp": "1 número",
-      "Atendimento 24/7": true,
-      "Funis de venda": "Ilimitados",
-      "Suporte": "Chat",
-      "Relatórios": "Básicos",
-      "Automações": "Simples",
-      "Usuários": "1 usuário",
-      "Treinamento": "Básico",
-      "Integrações": "Básicas",
-      "API Personalizada": false,
-      "Consultoria": false,
-      "White Label": false
-    }
-  },
-  {
-    name: "Profissional",
-    price: 197,
-    popular: true,
-    features: {
-      "Números WhatsApp": "2 números",
-      "Atendimento 24/7": true,
-      "Funis de venda": "Ilimitados",
-      "Suporte": "Prioritário",
-      "Relatórios": "Avançados",
-      "Automações": "Avançadas",
-      "Usuários": "3 usuários",
-      "Treinamento": "Completo",
-      "Integrações": "Com CRM",
-      "API Personalizada": true,
-      "Consultoria": false,
-      "White Label": false
-    }
-  },
-  {
-    name: "Enterprise",
-    price: 297,
-    features: {
-      "Números WhatsApp": "4 números",
-      "Atendimento 24/7": true,
-      "Funis de venda": "Ilimitados",
-      "Suporte": "VIP",
-      "Relatórios": "Personalizados",
-      "Automações": "Ilimitadas",
-      "Usuários": "Ilimitados",
-      "Treinamento": "VIP",
-      "Integrações": "Premium",
-      "API Personalizada": true,
-      "Consultoria": true,
-      "White Label": true
-    }
-  }
-];
 
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState<"day" | "week" | "month">("week");
   const [isConnected] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -125,19 +65,7 @@ export default function Dashboard() {
                 <p className="text-sm text-muted-foreground mb-2">
                   Plano atual: <span className="font-medium text-primary">Pro</span>
                 </p>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setDialogOpen(true)}
-                  className="hover:bg-primary/10 transition-colors"
-                >
-                  Upgrade
-                </Button>
-                <PricingDialog 
-                  plans={plans}
-                  open={dialogOpen}
-                  onOpenChange={setDialogOpen}
-                />
+                <PricingDialog />
               </div>
             </div>
 
