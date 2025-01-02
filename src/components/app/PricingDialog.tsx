@@ -137,9 +137,9 @@ export function PricingDialog() {
             <Carousel className="w-full">
               <CarouselContent className="-ml-1">
                 {plans.map((plan) => (
-                  <CarouselItem key={plan.name} className="pl-1 w-full">
+                  <CarouselItem key={plan.name} className="pl-1 w-full flex items-center justify-center">
                     <div
-                      className={`relative rounded-xl p-6 h-full mx-auto max-w-[320px] transition-all duration-300 ${
+                      className={`relative rounded-xl p-6 h-full mx-auto w-[90%] max-w-[320px] transition-all duration-300 ${
                         plan.popular
                           ? "bg-primary/10 border-2 border-primary"
                           : "bg-black/20 border border-white/10"
