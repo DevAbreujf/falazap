@@ -14,14 +14,12 @@ export function ChatPreview() {
         <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background/80 to-transparent z-10" />
         
         {/* Chat Header */}
-        <div className="sticky top-0 z-20">
-          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-            <MessageSquare className="w-4 h-4 text-primary" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-sm">Chat Assistente</h3>
-            <p className="text-[10px] text-muted-foreground">Online agora</p>
-          </div>
+        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+          <MessageSquare className="w-4 h-4 text-primary" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-sm">Chat Assistente</h3>
+          <p className="text-[10px] text-muted-foreground">Online agora</p>
         </div>
 
         {/* Messages container */}
