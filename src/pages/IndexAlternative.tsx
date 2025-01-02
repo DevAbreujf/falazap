@@ -9,18 +9,6 @@ import { SectorCard } from "@/components/alternative/SectorCard";
 export function IndexAlternative() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 pt-20 pb-16 min-h-[700px]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch h-full">
-          <HeroTitle />
-          <ChatPreview />
-        </div>
-
-        <div className="text-center text-sm text-muted-foreground mt-12">
-          + de 60 mil empresas confiam na Umbler
-        </div>
-      </section>
-
       {/* Features Section - Enhanced with better design and animations */}
       <section className="relative py-32 overflow-hidden">
         {/* Gradient background effect */}
