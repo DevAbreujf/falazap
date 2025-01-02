@@ -9,7 +9,7 @@ export function ChatPreview() {
   };
 
   return (
-    <div className="flex-1 hidden lg:block relative h-full">
+    <div className="flex-1 hidden lg:block relative h-[600px]">
       <div className="glass-card p-6 rounded-3xl space-y-4 h-full backdrop-blur-lg border border-white/10 relative overflow-hidden bg-[#7C3AED]/10">
         <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background/80 to-transparent z-10" />
         
