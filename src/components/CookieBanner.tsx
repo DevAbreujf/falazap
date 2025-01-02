@@ -21,20 +21,24 @@ export function CookieBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 shadow-lg z-50">
-      <div className="container mx-auto flex items-center justify-between gap-4">
-        <p className="text-sm text-muted-foreground">
+    <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-md border-t border-primary/20 p-6 shadow-lg z-50">
+      <div className="container mx-auto max-w-4xl flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
+        <p className="text-sm text-muted-foreground flex-1">
           A FALAZAP utiliza cookies para melhorar a sua experiência, segurança e lhe entregar um conteúdo personalizado. Para saber mais acesse a nossa{" "}
-          <Link to="/privacy" className="text-primary hover:underline">
+          <Link to="/privacy" className="text-primary hover:underline font-medium">
             política de privacidade
           </Link>
           .
         </p>
         <div className="flex items-center gap-4">
-          <Button onClick={acceptCookies} size="sm">
+          <Button 
+            onClick={acceptCookies} 
+            size="lg"
+            className="px-8 bg-primary hover:bg-primary/90 transition-all duration-300"
+          >
             Aceitar
           </Button>
-          <Button variant="ghost" size="icon" onClick={acceptCookies}>
+          <Button variant="ghost" size="icon" onClick={acceptCookies} className="hover:bg-primary/10">
             <X className="h-4 w-4" />
           </Button>
         </div>
