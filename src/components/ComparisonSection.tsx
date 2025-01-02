@@ -5,7 +5,7 @@ export function ComparisonSection() {
     <section className="py-24 container mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-6xl mx-auto">
         {/* Agentes IA Column */}
-        <div className="space-y-8 glass-card p-8 hover:scale-105 transition-all duration-300 hover:shadow-xl">
+        <div className="space-y-8 glass-card p-8 transition-all duration-300">
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <div className="relative">
@@ -24,19 +24,19 @@ export function ComparisonSection() {
           </div>
 
           <div className="space-y-6">
-            <div className="flex gap-4 hover:translate-x-2 transition-all duration-300 p-4 rounded-lg hover:bg-white/5">
+            <div className="flex gap-4 p-4 rounded-lg">
               <Check className="w-6 h-6 text-[#9b87f5] flex-shrink-0" />
               <p className="text-gray-200">Perfeito para ampliar seu time de vendas e suporte, com menor custo.</p>
             </div>
-            <div className="flex gap-4 hover:translate-x-2 transition-all duration-300 p-4 rounded-lg hover:bg-white/5">
+            <div className="flex gap-4 p-4 rounded-lg">
               <Check className="w-6 h-6 text-[#9b87f5] flex-shrink-0" />
               <p className="text-gray-200">Treinado usando conteúdo sobre sua empresa e seus processos de trabalho.</p>
             </div>
-            <div className="flex gap-4 hover:translate-x-2 transition-all duration-300 p-4 rounded-lg hover:bg-white/5">
+            <div className="flex gap-4 p-4 rounded-lg">
               <Check className="w-6 h-6 text-[#9b87f5] flex-shrink-0" />
               <p className="text-gray-200">Conversas flexíveis, ajustando-se às necessidades e perguntas do cliente em tempo real.</p>
             </div>
-            <div className="flex gap-4 hover:translate-x-2 transition-all duration-300 p-4 rounded-lg hover:bg-white/5">
+            <div className="flex gap-4 p-4 rounded-lg">
               <Check className="w-6 h-6 text-[#9b87f5] flex-shrink-0" />
               <p className="text-gray-200">Exemplo de uso: Pré-vendedores (SDR) virtuais, tirando dúvidas e qualificando leads 24/7.</p>
             </div>
@@ -44,7 +44,7 @@ export function ComparisonSection() {
         </div>
 
         {/* Chatbots Column */}
-        <div className="space-y-8 glass-card p-8 hover:scale-105 transition-all duration-300 hover:shadow-xl">
+        <div className="space-y-8 glass-card p-8 transition-all duration-300">
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <div className="relative">
@@ -63,19 +63,19 @@ export function ComparisonSection() {
           </div>
 
           <div className="space-y-6">
-            <div className="flex gap-4 hover:translate-x-2 transition-all duration-300 p-4 rounded-lg hover:bg-white/5">
+            <div className="flex gap-4 p-4 rounded-lg">
               <Check className="w-6 h-6 text-[#33C3F0] flex-shrink-0" />
               <p className="text-gray-200">Perfeito para automatizar tarefas repetitivas e fluxos pré definidos.</p>
             </div>
-            <div className="flex gap-4 hover:translate-x-2 transition-all duration-300 p-4 rounded-lg hover:bg-white/5">
+            <div className="flex gap-4 p-4 rounded-lg">
               <Check className="w-6 h-6 text-[#33C3F0] flex-shrink-0" />
               <p className="text-gray-200">Construído em uma interface visual intuitiva de fluxos, arrastar e soltar.</p>
             </div>
-            <div className="flex gap-4 hover:translate-x-2 transition-all duration-300 p-4 rounded-lg hover:bg-white/5">
+            <div className="flex gap-4 p-4 rounded-lg">
               <Check className="w-6 h-6 text-[#33C3F0] flex-shrink-0" />
               <p className="text-gray-200">Conversas e processos lineares e padronizados.</p>
             </div>
-            <div className="flex gap-4 hover:translate-x-2 transition-all duration-300 p-4 rounded-lg hover:bg-white/5">
+            <div className="flex gap-4 p-4 rounded-lg">
               <Check className="w-6 h-6 text-[#33C3F0] flex-shrink-0" />
               <p className="text-gray-200">Exemplo de uso: Coleta de informações iniciais, direcionamento para setores, automação de processos.</p>
             </div>
