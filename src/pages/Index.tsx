@@ -1,5 +1,4 @@
 import { Header } from "@/components/Header";
-import { Features } from "@/components/Features";
 import { Steps } from "@/components/Steps";
 import { TransformResults } from "@/components/TransformResults";
 import { HighScale } from "@/components/HighScale";
@@ -131,7 +130,6 @@ const Index = () => {
           </div>
         </section>
 
-        <Features />
         <Steps />
         <TransformResults />
         <HighScale />
