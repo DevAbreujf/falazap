@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
-import { Circle } from "lucide-react";
+import { Circle, Menu } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 import { MetricsGrid } from "@/components/app/dashboard/MetricsGrid";
 import { AnalyticsChart } from "@/components/app/dashboard/AnalyticsChart";
@@ -22,9 +22,18 @@ export default function Dashboard() {
           <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10">
             <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
               <div className="w-full md:w-auto">
-                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                  Olá, João!
-                </h1>
+                <div className="flex items-center justify-between gap-4">
+                  <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                    Olá, João!
+                  </h1>
+                  <div className="block lg:hidden">
+                    <Button variant="ghost" size="icon" asChild className="hover:bg-primary/10">
+                      <SidebarTrigger>
+                        <Menu className="h-6 w-6 text-primary" />
+                      </SidebarTrigger>
+                    </Button>
+                  </div>
+                </div>
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
                 <p className="text-muted-foreground text-base md:text-lg mt-2">
                   Bem-vindo ao seu painel de controle
