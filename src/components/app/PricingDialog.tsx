@@ -7,6 +7,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const plans = [
   {
@@ -72,7 +79,7 @@ export function PricingDialog() {
           </DialogTitle>
         </DialogHeader>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="hidden md:grid md:grid-cols-3 gap-6">
           {plans.map((plan) => (
             <div
               key={plan.name}
@@ -121,6 +128,65 @@ export function PricingDialog() {
               </Button>
             </div>
           ))}
+        </div>
+
+        {/* Mobile Carousel */}
+        <div className="block md:hidden w-full">
+          <Carousel className="w-full">
+            <CarouselContent>
+              {plans.map((plan) => (
+                <CarouselItem key={plan.name}>
+                  <div
+                    className={`relative rounded-xl p-6 h-full transition-all duration-300 ${
+                      plan.popular
+                        ? "bg-primary/10 border-2 border-primary"
+                        : "bg-black/20 border border-white/10"
+                    }`}
+                  >
+                    {plan.popular && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-primary px-4 py-1 rounded-full text-sm font-medium">
+                          Mais Popular
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="text-center mb-6">
+                      <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
+                      <div className="flex items-center justify-center gap-1">
+                        <span className="text-sm text-muted-foreground">R$</span>
+                        <span className="text-4xl font-bold">{plan.price}</span>
+                        <span className="text-muted-foreground">/mês</span>
+                      </div>
+                    </div>
+
+                    <ul className="space-y-3 mb-6">
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-center gap-2 text-sm">
+                          <div className="rounded-full p-1 bg-primary/20">
+                            <Check className="w-3 h-3 text-primary" />
+                          </div>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Button 
+                      className={`w-full ${
+                        plan.popular
+                          ? "bg-primary hover:bg-primary/90"
+                          : "bg-white/5 hover:bg-white/10 border border-white/20"
+                      }`}
+                    >
+                      Começar Agora
+                    </Button>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-2" />
+            <CarouselNext className="right-2" />
+          </Carousel>
         </div>
       </DialogContent>
     </Dialog>
