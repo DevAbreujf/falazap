@@ -78,7 +78,12 @@ export function DashboardSidebar() {
       <div className="flex items-center justify-between p-4">
         <SidebarLogo />
         <div className="block lg:hidden">
-          <Button variant="ghost" size="icon" asChild className="hover:bg-primary/10">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            asChild 
+            className="hover:bg-primary/20 bg-black/30"
+          >
             <SidebarTrigger>
               <Menu className="h-6 w-6 text-primary" />
             </SidebarTrigger>
