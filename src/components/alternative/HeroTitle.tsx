@@ -15,7 +15,7 @@ export function HeroTitle() {
   }, []);
 
   return (
-    <div className="flex-1 space-y-8 relative">
+    <div className="flex-1 space-y-8 relative pl-8">
       <div className="inline-flex items-center gap-3 glass-card px-6 py-3 hover:scale-105 transition-transform duration-300">
         <span className="text-primary font-semibold tracking-wide">Umbler Talk</span>
         <div className="h-4 w-[1px] bg-white/10" />
