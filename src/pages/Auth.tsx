@@ -2,7 +2,7 @@ import { useState } from "react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Home } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 
 export default function Auth() {
@@ -21,16 +21,18 @@ export default function Auth() {
       </div>
 
       {/* Navigation header - Ajustado com flex-col no mobile */}
-      <div className="absolute top-8 left-8 right-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+      <div className="absolute top-8 left-8 right-8 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-6 sm:gap-0">
         <Link 
           to="/" 
-          className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+          className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <Home className="w-4 h-4 transition-transform group-hover:animate-bounce" />
           Voltar para página inicial
         </Link>
 
-        <PricingDialog />
+        <div className="w-full sm:w-auto flex justify-center">
+          <PricingDialog />
+        </div>
       </div>
 
       {/* Main content container - Aumentado o padding top no mobile */}
