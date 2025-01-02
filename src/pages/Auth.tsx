@@ -23,33 +23,36 @@ export default function Auth() {
         <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-16">
           <div className="w-full max-w-md">
             <div 
-              className={`
-                glass-card relative transition-all duration-1000 transform-gpu w-full
-                ${isFlipped ? "rotate-y-180" : ""}
-                perspective-1000 preserve-3d
-              `}
+              className="glass-card relative w-full"
               style={{
+                minHeight: "600px",
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
-                minHeight: "600px"
+                transition: "transform 1s"
               }}
             >
               {/* Login side */}
               <div 
-                className={`
-                  absolute inset-0 backface-hidden transition-opacity duration-500
-                  ${isFlipped ? "opacity-0 pointer-events-none" : "opacity-100"}
-                `}
+                className={`absolute inset-0 w-full transition-all duration-500`}
+                style={{
+                  backfaceVisibility: "hidden",
+                  transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                  opacity: isFlipped ? "0" : "1",
+                  pointerEvents: isFlipped ? "none" : "auto"
+                }}
               >
                 <LoginForm onFlip={() => setIsFlipped(true)} />
               </div>
 
               {/* Register side */}
               <div 
-                className={`
-                  absolute inset-0 backface-hidden rotate-y-180 transition-opacity duration-500
-                  ${isFlipped ? "opacity-100" : "opacity-0 pointer-events-none"}
-                `}
+                className={`absolute inset-0 w-full transition-all duration-500`}
+                style={{
+                  backfaceVisibility: "hidden",
+                  transform: isFlipped ? "rotateY(0deg)" : "rotateY(-180deg)",
+                  opacity: isFlipped ? "1" : "0",
+                  pointerEvents: isFlipped ? "auto" : "none"
+                }}
               >
                 <RegisterForm onFlip={() => setIsFlipped(false)} />
               </div>
