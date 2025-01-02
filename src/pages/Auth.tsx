@@ -6,7 +6,7 @@ export default function Auth() {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-background relative overflow-hidden">
+    <div className="min-h-screen w-full flex bg-background relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10" />
@@ -17,36 +17,67 @@ export default function Auth() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
 
-      <div className="relative z-10 w-full max-w-md mx-auto p-8">
-        <div 
-          className={`
-            glass-card relative transition-all duration-1000 transform-gpu w-full
-            ${isFlipped ? "rotate-y-180" : ""}
-            perspective-1000 preserve-3d
-          `}
-          style={{
-            transformStyle: "preserve-3d",
-            perspective: "1000px"
-          }}
-        >
-          {/* Login side */}
-          <div 
-            className={`
-              absolute inset-0 backface-hidden transition-opacity duration-500
-              ${isFlipped ? "opacity-0" : "opacity-100"}
-            `}
-          >
-            <LoginForm onFlip={() => setIsFlipped(true)} />
-          </div>
+      {/* Main content container */}
+      <div className="flex w-full">
+        {/* Left side - Auth form */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+          <div className="w-full max-w-md">
+            <div 
+              className={`
+                glass-card relative transition-all duration-1000 transform-gpu w-full
+                ${isFlipped ? "rotate-y-180" : ""}
+                perspective-1000 preserve-3d
+              `}
+              style={{
+                transformStyle: "preserve-3d",
+                perspective: "1000px"
+              }}
+            >
+              {/* Login side */}
+              <div 
+                className={`
+                  absolute inset-0 backface-hidden transition-opacity duration-500
+                  ${isFlipped ? "opacity-0" : "opacity-100"}
+                `}
+              >
+                <LoginForm onFlip={() => setIsFlipped(true)} />
+              </div>
 
-          {/* Register side */}
-          <div 
-            className={`
-              absolute inset-0 backface-hidden rotate-y-180 transition-opacity duration-500
-              ${isFlipped ? "opacity-100" : "opacity-0"}
-            `}
-          >
-            <RegisterForm onFlip={() => setIsFlipped(false)} />
+              {/* Register side */}
+              <div 
+                className={`
+                  absolute inset-0 backface-hidden rotate-y-180 transition-opacity duration-500
+                  ${isFlipped ? "opacity-100" : "opacity-0"}
+                `}
+              >
+                <RegisterForm onFlip={() => setIsFlipped(false)} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right side - Images */}
+        <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-primary/10 to-primary/5 items-center justify-center p-8">
+          <div className="relative w-full max-w-2xl">
+            <img
+              src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+              alt="Pessoa usando computador"
+              className="w-full h-auto rounded-2xl shadow-xl glass-card p-2"
+            />
+            <div className="absolute -bottom-4 -left-4 w-32 h-32">
+              <img
+                src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
+                alt="Tecnologia"
+                className="w-full h-full object-cover rounded-lg shadow-lg glass-card p-1"
+              />
+            </div>
+            <div className="absolute -top-4 -right-4 w-32 h-32">
+              <img
+                src="https://images.unsplash.com/photo-1518770660439-4636190af475"
+                alt="Circuito"
+                className="w-full h-full object-cover rounded-lg shadow-lg glass-card p-1"
+              />
+            </div>
           </div>
         </div>
       </div>
