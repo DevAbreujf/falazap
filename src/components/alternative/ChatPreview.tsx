@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause, MessageSquare } from "lucide-react";
 
 export function ChatPreview() {
   const [isPlaying, setIsPlaying] = useState(false);
