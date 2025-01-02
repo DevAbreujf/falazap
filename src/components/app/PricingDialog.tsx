@@ -76,7 +76,7 @@ export function PricingDialog() {
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative rounded-xl p-6 lg:p-8 mt-4 min-h-[500px] ${
+                className={`relative rounded-xl p-6 lg:p-8 mt-4 min-h-[500px] flex flex-col ${
                   plan.popular
                     ? "bg-primary/10 border-2 border-primary"
                     : "bg-black/20 border border-white/10"
@@ -110,15 +110,17 @@ export function PricingDialog() {
                   ))}
                 </ul>
 
-                <Button 
-                  className={`w-full ${
-                    plan.popular
-                      ? "bg-primary hover:bg-primary/90"
-                      : "bg-white/5 hover:bg-white/10 border border-white/20"
-                  }`}
-                >
-                  Começar Agora
-                </Button>
+                <div className="mt-auto">
+                  <Button 
+                    className={`w-full ${
+                      plan.popular
+                        ? "bg-primary hover:bg-primary/90"
+                        : "bg-white/5 hover:bg-white/10 border border-white/20"
+                    }`}
+                  >
+                    Começar Agora
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
@@ -130,7 +132,7 @@ export function PricingDialog() {
                 {plans.map((plan) => (
                   <CarouselItem key={plan.name}>
                     <div
-                      className={`relative rounded-xl p-6 w-full mt-4 min-h-[500px] ${
+                      className={`relative rounded-xl p-6 w-full mt-4 min-h-[500px] flex flex-col ${
                         plan.popular
                           ? "bg-primary/10 border-2 border-primary"
                           : "bg-black/20 border border-white/10"
@@ -164,15 +166,17 @@ export function PricingDialog() {
                         ))}
                       </ul>
 
-                      <Button 
-                        className={`w-full ${
-                          plan.popular
-                            ? "bg-primary hover:bg-primary/90"
-                            : "bg-white/5 hover:bg-white/10 border border-white/20"
-                        }`}
-                      >
-                        Começar Agora
-                      </Button>
+                      <div className="mt-auto">
+                        <Button 
+                          className={`w-full ${
+                            plan.popular
+                              ? "bg-primary hover:bg-primary/90"
+                              : "bg-white/5 hover:bg-white/10 border border-white/20"
+                          }`}
+                        >
+                          Começar Agora
+                        </Button>
+                      </div>
                     </div>
                   </CarouselItem>
                 ))}
