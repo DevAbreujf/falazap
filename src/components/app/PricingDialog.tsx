@@ -1,196 +1,82 @@
+import { Check, X } from "lucide-react";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "../ui/dialog";
+import { Plan } from "@/types/pricing";
 
-const plans = [
-  {
-    name: "Básico",
-    price: 97,
-    features: [
-      "1 número de WhatsApp",
-      "Atendimento automático 24/7",
-      "Funis de venda ilimitados",
-      "Suporte via chat",
-      "Relatórios básicos",
-      "Automações simples",
-      "1 usuário",
-      "Treinamento básico",
-      "Integrações básicas"
-    ]
-  },
-  {
-    name: "Profissional",
-    price: 197,
-    popular: true,
-    features: [
-      "2 números de WhatsApp",
-      "Atendimento automático 24/7",
-      "Funis de venda ilimitados",
-      "Suporte prioritário",
-      "Relatórios avançados",
-      "Automações avançadas",
-      "3 usuários",
-      "Treinamento completo",
-      "Integração com CRM"
-    ]
-  },
-  {
-    name: "Enterprise",
-    price: 297,
-    features: [
-      "4 números de WhatsApp",
-      "Atendimento automático 24/7",
-      "Funis de venda ilimitados",
-      "Suporte VIP",
-      "Relatórios personalizados",
-      "Automações ilimitadas",
-      "Usuários ilimitados",
-      "Treinamento VIP",
-      "Integrações premium"
-    ]
-  }
-];
+interface PricingDialogProps {
+  plans: Plan[];
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
-export function PricingDialog() {
+export function PricingDialog({ plans, open, onOpenChange }: PricingDialogProps) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button size="lg" className="hover-glow bg-primary/90 hover:bg-primary transition-all duration-300 mb-2">
-          Upgrade de Plano
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95vw] max-w-3xl mx-auto p-3 sm:p-4 md:p-6 bg-[#1A1F2C]/95 backdrop-blur-sm border border-primary/10 overflow-y-auto max-h-[90vh] box-border">
-        <DialogHeader className="mb-4 md:mb-6">
-          <DialogTitle className="text-center text-lg sm:text-xl md:text-2xl font-bold text-gradient-primary px-2">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-5xl w-[95vw] max-h-[90vh] overflow-hidden">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-center mb-8">
             Escolha o plano ideal para seu negócio
           </DialogTitle>
         </DialogHeader>
-        
-        <div className="flex flex-col items-center justify-center w-full overflow-x-hidden">
-          {/* Desktop Grid */}
-          <div className="hidden md:grid md:grid-cols-3 gap-3 lg:gap-4 w-full px-2">
+        <div className="overflow-x-auto overflow-y-auto max-h-[calc(90vh-120px)] scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative rounded-xl p-3 lg:p-4 transition-all duration-300 hover:scale-[1.02] ${
+                className={`relative rounded-xl p-6 min-h-[600px] ${
                   plan.popular
                     ? "bg-primary/10 border-2 border-primary"
                     : "bg-black/20 border border-white/10"
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
+                  <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-primary px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap">
                       Mais Popular
                     </span>
                   </div>
                 )}
 
-                <div className="text-center mb-3 lg:mb-4">
-                  <h3 className="text-base lg:text-lg font-bold mb-2">{plan.name}</h3>
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-bold mb-3">{plan.name}</h3>
                   <div className="flex items-center justify-center gap-1">
                     <span className="text-sm text-muted-foreground">R$</span>
-                    <span className="text-2xl lg:text-3xl font-bold">{plan.price}</span>
+                    <span className="text-4xl font-bold">{plan.price}</span>
                     <span className="text-muted-foreground">/mês</span>
                   </div>
                 </div>
 
-                <ul className="space-y-2 mb-4">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2">
-                      <div className="rounded-full p-1 bg-primary/20 flex-shrink-0">
-                        <Check className="w-3 h-3 text-primary" />
+                <ul className="space-y-4">
+                  {Object.entries(plan.features).map(([feature, value]) => (
+                    <li key={feature} className="flex items-center gap-3">
+                      <div className="rounded-full p-1.5 bg-primary/20 flex-shrink-0">
+                        <Check className="w-4 h-4 text-primary" />
                       </div>
-                      <span className="text-xs lg:text-sm">{feature}</span>
+                      <span className="text-sm">
+                        {typeof value === 'boolean' ? feature : value}
+                      </span>
                     </li>
                   ))}
                 </ul>
 
-                <Button 
-                  className={`w-full ${
-                    plan.popular
-                      ? "bg-primary hover:bg-primary/90"
-                      : "bg-white/5 hover:bg-white/10 border border-white/20"
-                  }`}
-                >
-                  Começar Agora
-                </Button>
+                <div className="mt-6">
+                  <Button 
+                    className={`w-full ${
+                      plan.popular
+                        ? "bg-primary hover:bg-primary/90"
+                        : "bg-white/5 hover:bg-white/10 border border-white/20"
+                    }`}
+                  >
+                    Começar Agora
+                  </Button>
+                </div>
               </div>
             ))}
-          </div>
-
-          {/* Mobile Carousel */}
-          <div className="block md:hidden w-full px-2">
-            <Carousel className="w-full">
-              <CarouselContent>
-                {plans.map((plan) => (
-                  <CarouselItem key={plan.name}>
-                    <div
-                      className={`relative rounded-xl p-4 w-full transition-all duration-300 ${
-                        plan.popular
-                          ? "bg-primary/10 border-2 border-primary"
-                          : "bg-black/20 border border-white/10"
-                      }`}
-                    >
-                      {plan.popular && (
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                          <span className="bg-primary px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
-                            Mais Popular
-                          </span>
-                        </div>
-                      )}
-
-                      <div className="text-center mb-4">
-                        <h3 className="text-lg font-bold mb-2">{plan.name}</h3>
-                        <div className="flex items-center justify-center gap-1">
-                          <span className="text-sm text-muted-foreground">R$</span>
-                          <span className="text-2xl font-bold">{plan.price}</span>
-                          <span className="text-muted-foreground">/mês</span>
-                        </div>
-                      </div>
-
-                      <ul className="space-y-2 mb-4">
-                        {plan.features.map((feature) => (
-                          <li key={feature} className="flex items-center gap-2">
-                            <div className="rounded-full p-1 bg-primary/20 flex-shrink-0">
-                              <Check className="w-3 h-3 text-primary" />
-                            </div>
-                            <span className="text-sm">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-
-                      <Button 
-                        className={`w-full ${
-                          plan.popular
-                            ? "bg-primary hover:bg-primary/90"
-                            : "bg-white/5 hover:bg-white/10 border border-white/20"
-                        }`}
-                      >
-                        Começar Agora
-                      </Button>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <div className="flex justify-center gap-2 mt-4">
-                <CarouselPrevious className="static bg-primary hover:bg-primary/90 translate-x-0" />
-                <CarouselNext className="static bg-primary hover:bg-primary/90 translate-x-0" />
-              </div>
-            </Carousel>
           </div>
         </div>
       </DialogContent>
