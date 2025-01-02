@@ -1,4 +1,4 @@
-import { Users, MessageSquare, Phone, Workflow } from "lucide-react";
+import { Users, MessageSquare, Phone, Workflow, Clock, PhoneCall } from "lucide-react";
 import { Button } from "./ui/button";
 
 const features = [
@@ -16,15 +16,27 @@ const features = [
   },
   {
     icon: MessageSquare,
-    title: "SMS em Massa",
-    description: "Envie mensagens SMS em massa ou programe envios automáticos para sua base de clientes, mantendo-os sempre engajados.",
+    title: "Mensagens Programadas",
+    description: "Configure e agende mensagens automáticas para sua base de clientes, mantendo-os sempre engajados com sua marca.",
     color: "from-purple-500/20 to-pink-500/20"
   },
   {
-    icon: Phone,
-    title: "Ligações Automáticas",
-    description: "Configure lembretes e confirmações através de ligações automáticas, garantindo que seus clientes nunca percam um compromisso.",
+    icon: Brain,
+    title: "Agente IA Treinado",
+    description: "Utilize nosso agente de IA treinado para automatizar atendimentos e interações com seus clientes de forma inteligente e personalizada.",
     color: "from-orange-500/20 to-red-500/20"
+  },
+  {
+    icon: Clock,
+    title: "Venda 24/7",
+    description: "Mantenha seu negócio vendendo 24 horas por dia, 7 dias por semana, com automação inteligente e atendimento contínuo.",
+    color: "from-pink-500/20 to-rose-500/20"
+  },
+  {
+    icon: PhoneCall,
+    title: "Conecte vários números",
+    description: "Gerencie múltiplos números de WhatsApp em uma única plataforma, organizando seus atendimentos de forma eficiente.",
+    color: "from-cyan-500/20 to-blue-500/20"
   }
 ];
 
@@ -56,7 +68,7 @@ export function TransformResults() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {features.map((feature, index) => (
             <div 
               key={feature.title}
