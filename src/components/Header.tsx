@@ -35,12 +35,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Link to="/login">
+          <Link to="/auth">
             <Button variant="ghost" className="hidden md:inline-flex">
               Acessar
             </Button>
           </Link>
-          <Button onClick={() => navigate("/register")}>
+          <Button onClick={() => navigate("/auth")}>
             Começar Agora
           </Button>
         </div>
