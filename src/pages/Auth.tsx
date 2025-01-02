@@ -20,7 +20,7 @@ export default function Auth() {
       {/* Main content container */}
       <div className="flex w-full">
         {/* Left side - Auth form */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-16">
           <div className="w-full max-w-md">
             <div 
               className={`
