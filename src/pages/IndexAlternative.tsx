@@ -10,8 +10,8 @@ export function IndexAlternative() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 pt-20 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch min-h-[600px]">
+      <section className="container mx-auto px-4 pt-20 pb-16 min-h-[700px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch h-full">
           <HeroTitle />
           <ChatPreview />
         </div>
