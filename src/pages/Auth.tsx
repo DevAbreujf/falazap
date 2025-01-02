@@ -20,20 +20,16 @@ export default function Auth() {
       <div className="relative z-10 w-full max-w-md mx-auto px-8">
         <div 
           className={`
-            glass-card relative transition-all duration-1000 transform-gpu
+            glass-card relative transition-transform duration-1000 transform-gpu
             ${isFlipped ? "rotate-y-180" : ""}
             perspective-1000 preserve-3d
           `}
-          style={{
-            transformStyle: "preserve-3d",
-            perspective: "1000px"
-          }}
         >
           {/* Login side */}
           <div 
             className={`
-              absolute inset-0 backface-hidden transition-opacity duration-500
-              ${isFlipped ? "opacity-0" : "opacity-100"}
+              absolute inset-0 backface-hidden w-full
+              ${isFlipped ? "pointer-events-none" : "pointer-events-auto"}
             `}
           >
             <LoginForm onFlip={() => setIsFlipped(true)} />
@@ -42,8 +38,8 @@ export default function Auth() {
           {/* Register side */}
           <div 
             className={`
-              absolute inset-0 backface-hidden rotate-y-180 transition-opacity duration-500
-              ${isFlipped ? "opacity-100" : "opacity-0"}
+              absolute inset-0 backface-hidden w-full rotate-y-180
+              ${isFlipped ? "pointer-events-auto" : "pointer-events-none"}
             `}
           >
             <RegisterForm onFlip={() => setIsFlipped(false)} />
