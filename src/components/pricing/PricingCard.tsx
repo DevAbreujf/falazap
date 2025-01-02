@@ -2,7 +2,6 @@ import { Check } from "lucide-react";
 import { Button } from "../ui/button";
 import { Plan } from "@/types/pricing";
 import { useState } from "react";
-import { useDialog } from "@/hooks/use-dialog";
 
 interface PricingCardProps {
   plan: Plan;
