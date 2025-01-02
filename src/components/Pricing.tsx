@@ -1,6 +1,7 @@
 import { PricingCard } from "./pricing/PricingCard";
 import { PricingDialog } from "./pricing/PricingDialog";
 import { Plan } from "@/types/pricing";
+import { useState } from "react";
 
 const plans: Plan[] = [
   {
@@ -61,19 +62,29 @@ const plans: Plan[] = [
 ];
 
 export function Pricing() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   return (
     <section className="py-16 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(28,216,182,0.15),rgba(255,255,255,0))]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(28,216,182,0.15),rgba(255,255,255,0))]" />
+      
       <div className="container mx-auto px-4 relative">
-        <div className="flex flex-col items-center mb-8">
-          <PricingDialog plans={plans} />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch max-w-5xl mx-auto">
           {plans.map((plan, index) => (
-            <PricingCard key={plan.name} plan={plan} index={index} />
+            <PricingCard 
+              key={plan.name} 
+              plan={plan} 
+              index={index} 
+              onShowMore={() => setDialogOpen(true)}
+            />
           ))}
         </div>
+
+        <PricingDialog 
+          plans={plans} 
+          open={dialogOpen} 
+          onOpenChange={setDialogOpen} 
+        />
       </div>
     </section>
   );

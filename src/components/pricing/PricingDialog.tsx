@@ -5,25 +5,18 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog";
 import { Plan } from "@/types/pricing";
 
 interface PricingDialogProps {
   plans: Plan[];
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export function PricingDialog({ plans }: PricingDialogProps) {
+export function PricingDialog({ plans, open, onOpenChange }: PricingDialogProps) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button 
-          size="lg"
-          className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 py-6 h-auto text-base rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-        >
-          Comparar Planos
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl w-[95vw] max-h-[85vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center mb-6">
