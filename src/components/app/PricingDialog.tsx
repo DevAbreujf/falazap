@@ -25,10 +25,7 @@ const plans = [
       "Funis de venda ilimitados",
       "Suporte via chat",
       "Relatórios básicos",
-      "Automações simples",
-      "1 usuário",
-      "Treinamento básico",
-      "Integrações básicas"
+      "Automações simples"
     ]
   },
   {
@@ -41,10 +38,7 @@ const plans = [
       "Funis de venda ilimitados",
       "Suporte prioritário",
       "Relatórios avançados",
-      "Automações avançadas",
-      "3 usuários",
-      "Treinamento completo",
-      "Integração com CRM"
+      "Automações avançadas"
     ]
   },
   {
@@ -56,10 +50,7 @@ const plans = [
       "Funis de venda ilimitados",
       "Suporte VIP",
       "Relatórios personalizados",
-      "Automações ilimitadas",
-      "Usuários ilimitados",
-      "Treinamento VIP",
-      "Integrações premium"
+      "Automações ilimitadas"
     ]
   }
 ];
@@ -85,7 +76,7 @@ export function PricingDialog() {
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative rounded-xl p-4 lg:p-6 mt-4 ${
+                className={`relative rounded-xl p-6 lg:p-8 mt-4 min-h-[500px] ${
                   plan.popular
                     ? "bg-primary/10 border-2 border-primary"
                     : "bg-black/20 border border-white/10"
@@ -139,7 +130,7 @@ export function PricingDialog() {
                 {plans.map((plan) => (
                   <CarouselItem key={plan.name}>
                     <div
-                      className={`relative rounded-xl p-6 w-full mt-4 ${
+                      className={`relative rounded-xl p-6 w-full mt-4 min-h-[500px] ${
                         plan.popular
                           ? "bg-primary/10 border-2 border-primary"
                           : "bg-black/20 border border-white/10"
