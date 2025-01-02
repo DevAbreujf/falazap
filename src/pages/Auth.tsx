@@ -8,6 +8,10 @@ import { ArrowLeft } from "lucide-react";
 export default function Auth() {
   const [isFlipped, setIsFlipped] = useState(false);
 
+  const scrollToPricing = () => {
+    window.location.href = '/#pricing';
+  };
+
   return (
     <div className="min-h-screen w-full flex bg-background relative overflow-hidden">
       {/* Background effects */}
@@ -20,19 +24,29 @@ export default function Auth() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
 
-      {/* Back to home link */}
-      <Link 
-        to="/" 
-        className="absolute top-8 left-8 flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Voltar para página inicial
-      </Link>
+      {/* Navigation header */}
+      <div className="absolute top-8 left-8 right-8 flex items-center justify-between">
+        <Link 
+          to="/" 
+          className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Voltar para página inicial
+        </Link>
+
+        <Button 
+          variant="outline" 
+          onClick={scrollToPricing}
+          className="hover-glow border-white/10 bg-background/50 backdrop-blur-sm"
+        >
+          Conferir Planos
+        </Button>
+      </div>
 
       {/* Main content container */}
       <div className="flex w-full">
         {/* Left side - Auth form */}
-        <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-16">
+        <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-24">
           <div className="w-full max-w-md">
             <div 
               className="glass-card relative w-full"

@@ -37,8 +37,8 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
   }
 
   return (
-    <div className="flex flex-col min-h-[600px]">
-      <div className="space-y-6 p-6 flex-1">
+    <div className="flex flex-col h-full">
+      <div className="space-y-6 p-6">
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center space-x-2">
             <span className="text-3xl font-bold text-gradient-primary">Fala</span>
@@ -130,29 +130,19 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
         </Form>
       </div>
 
-      <div className="p-6 mt-auto">
-        <div className="space-y-4">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10"></div>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="px-2 text-muted-foreground bg-background/80 backdrop-blur-sm">Ou</span>
-            </div>
-          </div>
-
-          <div className="space-y-2 text-center">
-            <p className="text-sm text-muted-foreground">
-              Já tem uma conta?
-            </p>
-            <Button
-              variant="outline"
-              className="w-full hover-glow border-white/10 bg-background/50 backdrop-blur-sm"
-              onClick={onFlip}
-            >
-              Fazer Login
-            </Button>
-          </div>
+      {/* Login link section - Now fixed at bottom */}
+      <div className="mt-auto p-6 border-t border-white/10">
+        <div className="text-center space-y-2">
+          <p className="text-sm text-muted-foreground">
+            Já tem uma conta?
+          </p>
+          <Button
+            variant="outline"
+            className="w-full hover-glow border-white/10 bg-background/50 backdrop-blur-sm"
+            onClick={onFlip}
+          >
+            Fazer Login
+          </Button>
         </div>
       </div>
     </div>
