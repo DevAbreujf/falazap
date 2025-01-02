@@ -13,8 +13,8 @@ export function ChatPreview() {
       <div className="glass-card p-4 rounded-[32px] h-full backdrop-blur-lg border border-white/10 relative bg-[#7C3AED]/10 -translate-x-8">
         <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-background/80 to-transparent z-10" />
         
-        {/* Messages container - Updated spacing and layout */}
-        <div className="grid auto-rows-min gap-2 relative mt-2 px-2 h-full">
+        {/* Messages container - Adjusted margin-top */}
+        <div className="grid auto-rows-min gap-2 relative mt-0 px-2 h-full">
           {/* Agent message */}
           <div className="flex items-start gap-2 max-w-[85%] animate-fade-in scale-95 hover:scale-100 transition-all duration-300">
             <div className="bg-gradient-to-br from-[#E8FFE5] to-[#D1FFE5] p-3 rounded-2xl rounded-tl-sm shadow-lg hover:shadow-xl transition-all">
