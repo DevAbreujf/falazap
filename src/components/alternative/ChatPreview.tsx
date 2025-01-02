@@ -10,7 +10,7 @@ export function ChatPreview() {
 
   return (
     <div className="flex-1 hidden lg:block relative h-[500px]">
-      <div className="glass-card p-4 rounded-[32px] h-full backdrop-blur-lg border border-white/10 relative bg-[#7C3AED]/10 -translate-x-8 -translate-y-4">
+      <div className="glass-card p-4 rounded-[32px] h-full backdrop-blur-lg border border-white/10 relative bg-[#7C3AED]/10 -translate-x-8 -translate-y-2">
         <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-background/80 to-transparent z-10" />
         
         {/* Messages container */}
