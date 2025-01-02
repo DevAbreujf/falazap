@@ -22,27 +22,47 @@ export function IndexAlternative() {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
+      <section className="container mx-auto px-4 py-24 bg-white/5 backdrop-blur-sm">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-20">
           Amplie sua equipe, não os custos
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          <FeatureCard
-            Icon={MessageSquare}
-            title="Conversas naturais e inteligentes"
-            description="Sua inteligência artificial será capaz de qualificar leads, agendar reuniões e direcionar clientes ao checkout."
-          />
-          <FeatureCard
-            Icon={Users2}
-            title="Enquanto sua equipe está Off os Agentes IA estão On"
-            description="Com IA, sua empresa pode crescer sem limites e sem comprometer o orçamento."
-          />
-          <FeatureCard
-            Icon={Target}
-            title="Tráfego Pago + Agente IA"
-            description="Aumente suas conversões substituindo landing pages por Agentes IA em suas campanhas."
-          />
+        <div className="grid md:grid-cols-3 gap-16">
+          <div className="space-y-6">
+            <div className="w-16 h-16 rounded-2xl bg-[#8B5CF6]/10 flex items-center justify-center mb-8">
+              <MessageSquare className="w-8 h-8 text-[#8B5CF6]" />
+            </div>
+            <h3 className="text-2xl font-bold">
+              Conversas naturais e inteligentes
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Sua inteligência artificial será capaz de qualificar leads, agendar reuniões, tirar dúvidas e direcionar clientes ao checkout ou ao vendedor adequado, sempre interagindo de forma precisa e empática.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="w-16 h-16 rounded-2xl bg-[#8B5CF6]/10 flex items-center justify-center mb-8">
+              <Users2 className="w-8 h-8 text-[#8B5CF6]" />
+            </div>
+            <h3 className="text-2xl font-bold">
+              Enquanto sua equipe está Off os Agentes IA estão On
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Com IA, sua empresa pode crescer sem limites e sem comprometer o orçamento. Seu novo time virtual opera incansavelmente 24/7, atendendo milhares de leads e clientes com bom humor e vontade de trabalhar.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="w-16 h-16 rounded-2xl bg-[#8B5CF6]/10 flex items-center justify-center mb-8">
+              <Target className="w-8 h-8 text-[#8B5CF6]" />
+            </div>
+            <h3 className="text-2xl font-bold">
+              Tráfego Pago + Agente IA
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Aumente suas conversões substituindo landing pages por Agentes IA em suas campanhas de tráfego pago. Na própria Umbler, a maior parte do nosso tráfego pago no Instagram já vai direto para o WhatsApp, onde nossos Agentes IA, treinados para atuar como SDRs, fazem o show.
+            </p>
+          </div>
         </div>
       </section>
 
