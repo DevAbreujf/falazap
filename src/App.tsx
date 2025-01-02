@@ -3,8 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Dashboard from "@/pages/Dashboard";
 import Funnels from "@/pages/Funnels";
 import Index from "@/pages/Index";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
+import Auth from "@/pages/Auth";
 import Contacts from "@/pages/Contacts";
 import Broadcasts from "@/pages/Broadcasts";
 import Reminders from "@/pages/Reminders";
@@ -93,13 +92,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorBoundary />,
   },
   {
-    path: "/login",
-    element: <Login />,
-    errorElement: <ErrorBoundary />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
+    path: "/auth",
+    element: <Auth />,
     errorElement: <ErrorBoundary />,
   },
 ]);

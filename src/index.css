@@ -89,4 +89,9 @@ body::before {
   .hover-glow:hover::after {
     opacity: 0.5;
   }
+
+  /* Card flip animation */
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
 }
