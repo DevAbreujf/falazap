@@ -18,13 +18,13 @@ const Index = () => {
     <div className="min-h-screen w-full">
       <Header />
       <main className="w-full">
-        <Hero />
         <section className="container mx-auto px-4 pt-20 pb-16 min-h-[700px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch h-full">
             <HeroTitle />
             <ChatPreview />
           </div>
         </section>
+        <Hero />
         <Features />
         <Steps />
         <TransformResults />
