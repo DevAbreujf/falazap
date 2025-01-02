@@ -31,14 +31,14 @@ export default function Auth() {
               style={{
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
-                minHeight: "600px" // Adicionando altura mínima para garantir consistência
+                minHeight: "600px"
               }}
             >
               {/* Login side */}
               <div 
                 className={`
                   absolute inset-0 backface-hidden transition-opacity duration-500
-                  ${isFlipped ? "opacity-0" : "opacity-100"}
+                  ${isFlipped ? "opacity-0 pointer-events-none" : "opacity-100"}
                 `}
               >
                 <LoginForm onFlip={() => setIsFlipped(true)} />
@@ -48,7 +48,7 @@ export default function Auth() {
               <div 
                 className={`
                   absolute inset-0 backface-hidden rotate-y-180 transition-opacity duration-500
-                  ${isFlipped ? "opacity-100" : "opacity-0"}
+                  ${isFlipped ? "opacity-100" : "opacity-0 pointer-events-none"}
                 `}
               >
                 <RegisterForm onFlip={() => setIsFlipped(false)} />
