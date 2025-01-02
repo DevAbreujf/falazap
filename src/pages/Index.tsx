@@ -1,5 +1,4 @@
 import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
 import { Steps } from "@/components/Steps";
 import { TransformResults } from "@/components/TransformResults";
@@ -131,8 +130,6 @@ const Index = () => {
         </section>
 
         <ComparisonSection />
-
-        <Hero />
         <Features />
         <Steps />
         <TransformResults />
