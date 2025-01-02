@@ -124,7 +124,7 @@ export default function Register() {
                 <div className="w-full border-t border-border"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Ou</span>
+                <span className="bg-card px-2 text-muted-foreground">Ou</span>
               </div>
             </div>
 
