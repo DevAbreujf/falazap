@@ -11,7 +11,7 @@ export function IndexAlternative() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-20 pb-16">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch min-h-[600px]">
           <HeroTitle />
           <ChatPreview />
         </div>
