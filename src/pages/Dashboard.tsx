@@ -19,14 +19,14 @@ export default function Dashboard() {
       <div className="min-h-screen flex w-full bg-background">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
-          <main className="container mx-auto px-8 py-10">
-            <div className="flex justify-between items-start mb-10">
-              <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+          <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10">
+            <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-8">
+              <div className="w-full md:w-auto">
+                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                   Olá, João!
                 </h1>
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
-                <p className="text-muted-foreground text-lg mt-2">
+                <p className="text-muted-foreground text-base md:text-lg mt-2">
                   Bem-vindo ao seu painel de controle
                 </p>
                 <div className="flex items-center gap-3 mt-3">
@@ -52,7 +52,7 @@ export default function Dashboard() {
                   )}
                 </div>
               </div>
-              <div className="text-right">
+              <div className="w-full md:w-auto text-center md:text-right">
                 <p className="text-sm text-muted-foreground mb-2">
                   Plano atual: <span className="font-medium text-primary">Pro</span>
                 </p>
@@ -60,14 +60,18 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
-
-            <div className="mt-8">
-              <MetricsGrid timeRange={timeRange} />
+            <div className="mb-8">
+              <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
             </div>
 
-            <div className="mt-8">
-              <AnalyticsChart />
+            <div className="space-y-8">
+              <div className="grid gap-6">
+                <MetricsGrid timeRange={timeRange} />
+              </div>
+
+              <div className="bg-card rounded-lg p-4">
+                <AnalyticsChart />
+              </div>
             </div>
           </main>
         </div>

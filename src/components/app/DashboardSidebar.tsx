@@ -8,6 +8,7 @@ import {
   Bell,
   Calendar,
   Settings,
+  Menu,
 } from "lucide-react";
 import {
   Sidebar,
@@ -16,11 +17,13 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarMenuItemComponent } from "./dashboard/SidebarMenuItem";
 import { SidebarLogout } from "./dashboard/SidebarLogout";
+import { Button } from "../ui/button";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
@@ -71,9 +74,17 @@ export function DashboardSidebar() {
   ];
 
   return (
-    <Sidebar>
-      <SidebarHeader className="p-3">
+    <Sidebar className="border-r border-border/40">
+      <div className="flex items-center justify-between p-4 lg:justify-center">
         <SidebarLogo />
+        <SidebarTrigger asChild className="lg:hidden">
+          <Button variant="ghost" size="icon">
+            <Menu className="h-5 w-5" />
+          </Button>
+        </SidebarTrigger>
+      </div>
+      
+      <SidebarHeader className="p-3">
         <div className="mt-3 px-4">
           <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />
           <div className="mt-4 flex flex-col items-center gap-2 p-3 glass-card hover:bg-white/5 transition-all duration-300">
@@ -93,10 +104,11 @@ export function DashboardSidebar() {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      
+      <SidebarContent className="px-2">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="px-2">
+            <SidebarMenu className="space-y-2">
               {menuItems.map((item) => (
                 <SidebarMenuItemComponent
                   key={item.label}
