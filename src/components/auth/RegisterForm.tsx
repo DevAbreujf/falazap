@@ -40,7 +40,7 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
     <div className="space-y-6 p-6">
       <div className="text-center space-y-2">
         <div className="flex items-center justify-center space-x-2">
-          <span className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">Fala</span>
+          <span className="text-3xl font-bold text-gradient-primary">Fala</span>
           <span className="text-3xl font-bold">ZAP</span>
         </div>
         <p className="text-muted-foreground">Crie sua conta para começar</p>
