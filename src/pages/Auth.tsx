@@ -21,8 +21,8 @@ export default function Auth() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
 
-      {/* Navigation header */}
-      <div className="absolute top-8 left-8 right-8 flex items-center justify-between">
+      {/* Navigation header - Updated with better responsive spacing */}
+      <div className="absolute top-0 left-0 right-0 p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6">
         <Link 
           to="/" 
           className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
@@ -34,10 +34,10 @@ export default function Auth() {
         <PricingDialog />
       </div>
 
-      {/* Main content container */}
+      {/* Main content container - Adjusted top padding to account for header */}
       <div className="flex w-full">
         {/* Left side - Auth form */}
-        <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-24">
+        <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-28 sm:pt-32">
           <div className="w-full max-w-md">
             <div 
               className="glass-card relative w-full"
