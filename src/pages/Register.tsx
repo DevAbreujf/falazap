@@ -30,21 +30,20 @@ export default function Register() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Aqui você implementaria a lógica de registro
     console.log(values);
     toast.success("Conta criada com sucesso!");
     navigate("/dashboard");
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center bg-background relative overflow-hidden">
       {/* Background gradient effect */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       </div>
 
-      <div className="relative z-10 w-full max-w-md px-8">
+      <div className="relative z-10 w-full max-w-md mx-auto px-8">
         <div className="glass-card p-8 space-y-8">
           {/* Logo */}
           <div className="text-center space-y-2">
@@ -113,7 +112,7 @@ export default function Register() {
                 )}
               />
 
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full gradient-primary hover:opacity-90">
                 Criar Conta
               </Button>
             </form>
@@ -125,7 +124,7 @@ export default function Register() {
                 <div className="w-full border-t border-border"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Ou</span>
+                <span className="bg-card px-2 text-muted-foreground">Ou</span>
               </div>
             </div>
 
@@ -135,7 +134,7 @@ export default function Register() {
               </p>
               <Button
                 variant="outline"
-                className="w-full"
+                className="w-full hover-glow"
                 onClick={() => navigate("/login")}
               >
                 Fazer Login
