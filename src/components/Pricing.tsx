@@ -69,15 +69,15 @@ export function Pricing() {
                 Comparar Planos
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl w-[95vw]">
+            <DialogContent className="max-w-4xl w-[95vw] max-h-[85vh] overflow-hidden">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold text-center mb-6">
                   Comparação de Planos
                 </DialogTitle>
               </DialogHeader>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto overflow-y-auto max-h-[calc(85vh-120px)] scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
                 <table className="w-full border-collapse">
-                  <thead>
+                  <thead className="sticky top-0 bg-background z-10">
                     <tr>
                       <th className="p-4 text-left border-b border-border"></th>
                       {plans.map((plan) => (
@@ -93,14 +93,16 @@ export function Pricing() {
                   </thead>
                   <tbody>
                     {plans[0].features.map((_, index) => (
-                      <tr key={index} className="border-b border-border">
-                        <td className="p-4 text-muted-foreground">
+                      <tr key={index} className="border-b border-border hover:bg-muted/5 transition-colors">
+                        <td className="p-4 text-muted-foreground font-medium">
                           {plans[0].features[index].split(' ')[0]}
                         </td>
                         {plans.map((plan) => (
                           <td key={plan.name} className="p-4">
                             <div className="flex items-center gap-2">
-                              <Check className="text-primary w-4 h-4" />
+                              <div className="rounded-full p-1 bg-primary/10">
+                                <Check className="text-primary w-4 h-4" />
+                              </div>
                               <span>{plan.features[index]}</span>
                             </div>
                           </td>
