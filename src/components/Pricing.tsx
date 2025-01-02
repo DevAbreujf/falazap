@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -12,48 +12,57 @@ const plans = [
   {
     name: "Básico",
     price: 97,
-    features: [
-      "1 número de WhatsApp",
-      "Atendimento automático 24/7",
-      "Funis de venda ilimitados",
-      "Suporte via chat",
-      "Relatórios básicos",
-      "Automações simples",
-      "1 usuário",
-      "Treinamento básico",
-      "Integrações básicas"
-    ]
+    features: {
+      "Números WhatsApp": "1 número",
+      "Atendimento 24/7": true,
+      "Funis de venda": "Ilimitados",
+      "Suporte": "Chat",
+      "Relatórios": "Básicos",
+      "Automações": "Simples",
+      "Usuários": "1 usuário",
+      "Treinamento": "Básico",
+      "Integrações": "Básicas",
+      "API Personalizada": false,
+      "Consultoria": false,
+      "White Label": false
+    }
   },
   {
     name: "Profissional",
     price: 197,
     popular: true,
-    features: [
-      "2 números de WhatsApp",
-      "Atendimento automático 24/7",
-      "Funis de venda ilimitados",
-      "Suporte prioritário",
-      "Relatórios avançados",
-      "Automações avançadas",
-      "3 usuários",
-      "Treinamento completo",
-      "Integração com CRM"
-    ]
+    features: {
+      "Números WhatsApp": "2 números",
+      "Atendimento 24/7": true,
+      "Funis de venda": "Ilimitados",
+      "Suporte": "Prioritário",
+      "Relatórios": "Avançados",
+      "Automações": "Avançadas",
+      "Usuários": "3 usuários",
+      "Treinamento": "Completo",
+      "Integrações": "Com CRM",
+      "API Personalizada": true,
+      "Consultoria": false,
+      "White Label": false
+    }
   },
   {
     name: "Enterprise",
     price: 297,
-    features: [
-      "4 números de WhatsApp",
-      "Atendimento automático 24/7",
-      "Funis de venda ilimitados",
-      "Suporte VIP",
-      "Relatórios personalizados",
-      "Automações ilimitadas",
-      "Usuários ilimitados",
-      "Treinamento VIP",
-      "Integrações premium"
-    ]
+    features: {
+      "Números WhatsApp": "4 números",
+      "Atendimento 24/7": true,
+      "Funis de venda": "Ilimitados",
+      "Suporte": "VIP",
+      "Relatórios": "Personalizados",
+      "Automações": "Ilimitadas",
+      "Usuários": "Ilimitados",
+      "Treinamento": "VIP",
+      "Integrações": "Premium",
+      "API Personalizada": true,
+      "Consultoria": true,
+      "White Label": true
+    }
   }
 ];
 
@@ -92,18 +101,32 @@ export function Pricing() {
                     </tr>
                   </thead>
                   <tbody>
-                    {plans[0].features.map((_, index) => (
-                      <tr key={index} className="border-b border-border hover:bg-muted/5 transition-colors">
+                    {Object.keys(plans[0].features).map((feature) => (
+                      <tr key={feature} className="border-b border-border hover:bg-muted/5 transition-colors">
                         <td className="p-4 text-muted-foreground font-medium">
-                          {plans[0].features[index].split(' ')[0]}
+                          {feature}
                         </td>
                         {plans.map((plan) => (
-                          <td key={plan.name} className="p-4">
+                          <td key={`${plan.name}-${feature}`} className="p-4">
                             <div className="flex items-center gap-2">
-                              <div className="rounded-full p-1 bg-primary/10">
-                                <Check className="text-primary w-4 h-4" />
-                              </div>
-                              <span>{plan.features[index]}</span>
+                              {typeof plan.features[feature] === 'boolean' ? (
+                                plan.features[feature] ? (
+                                  <div className="rounded-full p-1.5 bg-primary/10">
+                                    <Check className="text-primary w-4 h-4" />
+                                  </div>
+                                ) : (
+                                  <div className="rounded-full p-1.5 bg-destructive/10">
+                                    <X className="text-destructive w-4 h-4" />
+                                  </div>
+                                )
+                              ) : (
+                                <>
+                                  <div className="rounded-full p-1.5 bg-primary/10">
+                                    <Check className="text-primary w-4 h-4" />
+                                  </div>
+                                  <span className="text-sm">{plan.features[feature]}</span>
+                                </>
+                              )}
                             </div>
                           </td>
                         ))}
