@@ -12,6 +12,7 @@ import { useSchedules } from "@/hooks/use-schedules";
 import { SchedulesHeader } from "@/components/app/schedules/SchedulesHeader";
 import { SchedulesFilters } from "@/components/app/schedules/SchedulesFilters";
 import { SchedulesTable } from "@/components/app/schedules/SchedulesTable";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Schedules() {
   const [search, setSearch] = useState("");
@@ -67,64 +68,66 @@ export default function Schedules() {
   });
 
   return (
-    <div className="flex min-h-screen w-full">
-      <DashboardSidebar />
-      <main className="flex-1 p-8">
-        <div className="max-w-6xl mx-auto">
-          <SchedulesHeader />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <DashboardSidebar />
+        <main className="flex-1 p-8">
+          <div className="max-w-6xl mx-auto">
+            <SchedulesHeader />
 
-          <div className="glass-card p-6 space-y-6">
-            <SchedulesFilters
-              search={search}
-              setSearch={setSearch}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-            />
-
-            <SchedulesTable
-              schedules={filteredSchedules}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          </div>
-        </div>
-      </main>
-
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Alterar Horário</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Data</label>
-              <Calendar
-                mode="single"
-                selected={newDate}
-                onSelect={setNewDate}
-                locale={ptBR}
-                className="rounded-md border"
+            <div className="glass-card p-6 space-y-6">
+              <SchedulesFilters
+                search={search}
+                setSearch={setSearch}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
               />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Horário</label>
-              <Input
-                type="time"
-                value={newTime}
-                onChange={(e) => setNewTime(e.target.value)}
+
+              <SchedulesTable
+                schedules={filteredSchedules}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
               />
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
-              Cancelar
-            </Button>
-            <Button onClick={handleSaveEdit}>
-              Salvar alterações
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </main>
+
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Alterar Horário</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Data</label>
+                <Calendar
+                  mode="single"
+                  selected={newDate}
+                  onSelect={setNewDate}
+                  locale={ptBR}
+                  className="rounded-md border"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Horário</label>
+                <Input
+                  type="time"
+                  value={newTime}
+                  onChange={(e) => setNewTime(e.target.value)}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={handleSaveEdit}>
+                Salvar alterações
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </SidebarProvider>
   );
 }
