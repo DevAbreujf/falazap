@@ -30,7 +30,7 @@ export function LoginForm({ onFlip }: { onFlip: () => void }) {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 pt-2 px-6 pb-6">
       <div className="text-center space-y-2">
         <div className="flex items-center justify-center space-x-2">
           <span className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">Fala</span>
