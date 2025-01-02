@@ -64,8 +64,8 @@ export function PricingDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95vw] max-w-4xl mx-auto p-3 sm:p-4 md:p-6 bg-[#1A1F2C]/95 backdrop-blur-sm border border-primary/10 overflow-y-auto max-h-[90vh] box-border">
-        <DialogHeader className="mb-4 md:mb-6">
-          <DialogTitle className="text-center text-lg sm:text-xl md:text-2xl font-bold text-gradient-primary px-2">
+        <DialogHeader className="mb-4 md:mb-6 relative">
+          <DialogTitle className="text-center text-lg sm:text-xl md:text-2xl font-bold text-gradient-primary px-8">
             Escolha o plano ideal para seu negócio
           </DialogTitle>
         </DialogHeader>
