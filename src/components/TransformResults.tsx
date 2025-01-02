@@ -105,7 +105,7 @@ export function TransformResults() {
           <Button 
             onClick={scrollToPricing}
             size="lg"
-            className="rounded-full px-12 py-7 h-auto text-lg font-semibold bg-gradient-to-r from-primary via-primary/90 to-primary/80 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 relative overflow-hidden group"
+            className="rounded-full px-8 py-6 h-auto text-base font-semibold bg-gradient-to-r from-primary via-primary/90 to-primary/80 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 relative overflow-hidden group w-64"
           >
             <span className="relative z-10">Começar Agora</span>
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:translate-x-full duration-500 transition-all ease-out"></div>
