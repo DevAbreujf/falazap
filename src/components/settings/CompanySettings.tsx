@@ -12,6 +12,29 @@ interface CompanySettingsProps {
 }
 
 export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
+  const tipoConta = form.watch("tipoConta");
+  
+  const formatDocument = (value: string) => {
+    const cleanValue = value.replace(/\D/g, '');
+    
+    if (tipoConta === "PF") {
+      // Format CPF: 000.000.000-00
+      return cleanValue
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+        .substring(0, 14);
+    } else {
+      // Format CNPJ: 00.000.000/0000-00
+      return cleanValue
+        .replace(/^(\d{2})(\d)/, '$1.$2')
+        .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+        .replace(/\.(\d{3})(\d)/, '.$1/$2')
+        .replace(/(\d{4})(\d)/, '$1-$2')
+        .substring(0, 18);
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -49,20 +72,15 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
               name="cnpj"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>CNPJ</FormLabel>
+                  <FormLabel>{tipoConta === "PF" ? "CPF" : "CNPJ"}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="00.000.000/0000-00"
+                      placeholder={tipoConta === "PF" ? "000.000.000-00" : "00.000.000/0000-00"}
                       {...field}
+                      maxLength={tipoConta === "PF" ? 14 : 18}
                       onChange={(e) => {
-                        const value = e.target.value.replace(/\D/g, '');
-                        const cnpjFormatted = value
-                          .replace(/^(\d{2})(\d)/, '$1.$2')
-                          .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-                          .replace(/\.(\d{3})(\d)/, '.$1/$2')
-                          .replace(/(\d{4})(\d)/, '$1-$2')
-                          .substring(0, 18);
-                        e.target.value = cnpjFormatted;
+                        const formattedValue = formatDocument(e.target.value);
+                        e.target.value = formattedValue;
                         field.onChange(e);
                       }}
                     />

@@ -6,8 +6,17 @@ export const settingsFormSchema = z.object({
   senhaAtual: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
   novaSenha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
   tipoConta: z.enum(["PF", "PJ"]),
-  cnpj: z.string().refine((val) => !val || validarCNPJ(val), {
-    message: "CNPJ inválido",
+  cnpj: z.string().refine((val) => {
+    if (!val) return true;
+    const cleanVal = val.replace(/\D/g, '');
+    if (cleanVal.length === 11) {
+      return validarCPF(cleanVal);
+    } else if (cleanVal.length === 14) {
+      return validarCNPJ(cleanVal);
+    }
+    return false;
+  }, {
+    message: "Documento inválido",
   }),
   autenticadorDoisFatores: z.boolean(),
   telefone: z.string().min(11, "Número de telefone inválido"),
@@ -15,10 +24,33 @@ export const settingsFormSchema = z.object({
 
 export type SettingsFormValues = z.infer<typeof settingsFormSchema>;
 
+// Função para validar CPF
+function validarCPF(cpf: string) {
+  if (cpf.length !== 11) return false;
+  if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+  let soma = 0;
+  for (let i = 0; i < 9; i++) {
+    soma += parseInt(cpf.charAt(i)) * (10 - i);
+  }
+  let digito1 = 11 - (soma % 11);
+  if (digito1 > 9) digito1 = 0;
+
+  soma = 0;
+  for (let i = 0; i < 10; i++) {
+    soma += parseInt(cpf.charAt(i)) * (11 - i);
+  }
+  let digito2 = 11 - (soma % 11);
+  if (digito2 > 9) digito2 = 0;
+
+  return (
+    parseInt(cpf.charAt(9)) === digito1 &&
+    parseInt(cpf.charAt(10)) === digito2
+  );
+}
+
 // Função para validar CNPJ
 function validarCNPJ(cnpj: string) {
-  cnpj = cnpj.replace(/[^\d]/g, '');
-
   if (cnpj.length !== 14) return false;
   if (/^(\d)\1{13}$/.test(cnpj)) return false;
 
