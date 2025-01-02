@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
-import { Play, Square } from "lucide-react";
+import { Play, Square, Menu } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -19,7 +19,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-// Mock data para exemplo
 const mockBroadcasts = [
   {
     id: 1,
