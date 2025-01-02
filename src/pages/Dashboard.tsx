@@ -125,6 +125,14 @@ export default function Dashboard() {
                 <p className="text-sm text-muted-foreground mb-2">
                   Plano atual: <span className="font-medium text-primary">Pro</span>
                 </p>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => setDialogOpen(true)}
+                  className="hover:bg-primary/10 transition-colors"
+                >
+                  Upgrade
+                </Button>
                 <PricingDialog 
                   plans={plans}
                   open={dialogOpen}
