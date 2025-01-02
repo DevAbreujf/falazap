@@ -66,8 +66,8 @@ export function PricingDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-5xl w-[95vw] p-8 bg-[#1A1F2C]/95 backdrop-blur-sm border border-primary/10">
-        <DialogHeader className="mb-8 pt-4">
-          <DialogTitle className="text-3xl font-bold text-gradient-primary text-center">
+        <DialogHeader className="mb-8 pt-8">
+          <DialogTitle className="text-3xl font-bold text-gradient-primary text-center py-2">
             Escolha o plano ideal para seu negócio
           </DialogTitle>
         </DialogHeader>
