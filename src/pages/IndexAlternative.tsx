@@ -1,8 +1,25 @@
 import { Button } from "@/components/ui/button";
-import { MessageSquare, Target, Users2 } from "lucide-react";
+import { MessageSquare, Target, Users2, Play, Pause } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export function IndexAlternative() {
+  const [currentWord, setCurrentWord] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const words = ["vendedor", "atendente", "SDR"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentWord((prev) => (prev + 1) % words.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const toggleAudio = () => {
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -10,13 +27,16 @@ export function IndexAlternative() {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 space-y-6">
             <div className="inline-flex items-center gap-2 glass-card px-4 py-2">
-              <span className="text-primary font-medium">FalaZAP</span>
-              <span className="glass-card px-2 py-1 text-xs">Business Partner</span>
+              <span className="text-primary font-medium">Umbler Talk</span>
+              <span className="glass-card px-2 py-1 text-xs">Meta Business Partner</span>
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold">
               Clone seu melhor{" "}
-              <span className="text-gradient-primary">atendente</span> com IA
+              <span className="text-gradient-primary min-w-[200px] inline-block">
+                {words[currentWord]}
+              </span>{" "}
+              com IA
             </h1>
             
             <p className="text-lg text-muted-foreground">
@@ -24,27 +44,59 @@ export function IndexAlternative() {
               incansavelmente 24 horas por dia.
             </p>
 
-            <Button size="lg" asChild>
+            <Button size="lg" asChild className="bg-[#7C3AED] hover:bg-[#6D28D9]">
               <Link to="/register">
-                Experimente grátis
+                Experimente grátis →
               </Link>
             </Button>
           </div>
 
-          <div className="flex-1">
-            <div className="glass-card p-6 rounded-2xl">
-              <div className="space-y-4">
-                <div className="flex items-start gap-4 glass-card p-4 rounded-xl">
-                  <span className="text-primary">Agente IA</span>
+          <div className="flex-1 hidden lg:block">
+            <div className="glass-card p-6 rounded-2xl space-y-4">
+              <div className="flex items-start gap-4 bg-[#dcf8c7] p-4 rounded-xl">
+                <div className="flex flex-col">
+                  <span className="text-xs text-gray-600">Agente IA</span>
                   <p className="text-sm">Boa tarde! Como posso ajudar?</p>
                 </div>
-                <div className="flex items-start gap-4 glass-card p-4 rounded-xl ml-8">
-                  <span className="text-primary">Cliente</span>
-                  <p className="text-sm">Gostaria de saber mais sobre os planos</p>
+              </div>
+              
+              <div className="flex items-start gap-4 bg-[#dcf8c7] p-4 rounded-xl ml-8">
+                <div className="flex flex-col">
+                  <span className="text-xs text-gray-600">Cliente</span>
+                  <p className="text-sm">Oi, tudo ótimo!</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 bg-[#dcf8c7] p-4 rounded-xl">
+                <div className="flex flex-col w-full">
+                  <span className="text-xs text-gray-600">Agente IA</span>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={toggleAudio}
+                      className="hover:bg-gray-100 rounded-full p-1"
+                    >
+                      {isPlaying ? (
+                        <Pause className="w-4 h-4 text-gray-600" />
+                      ) : (
+                        <Play className="w-4 h-4 text-gray-600" />
+                      )}
+                    </button>
+                    <div className="bg-gray-300 h-1 flex-1 rounded-full">
+                      <div 
+                        className="bg-gray-600 h-1 rounded-full transition-all duration-300"
+                        style={{ width: isPlaying ? "100%" : "0%" }}
+                      />
+                    </div>
+                    <span className="text-xs text-gray-600">0:12</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="text-center text-sm text-muted-foreground mt-12">
+          + de 60 mil empresas confiam na Umbler
         </div>
       </section>
 
