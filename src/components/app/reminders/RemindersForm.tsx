@@ -95,9 +95,7 @@ export function RemindersForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="glass-card relative overflow-hidden backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-xl">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent"></div>
-        
+      <div className="bg-background/80 relative p-8 rounded-2xl border border-white/10 shadow-xl">
         <div className="relative space-y-6">
           <div className="space-y-2">
             <Label className="text-sm font-medium text-foreground/90">
