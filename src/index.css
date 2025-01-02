@@ -45,8 +45,10 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(28,216,182,0.15), transparent 80%),
-              linear-gradient(180deg, var(--background) 0%, var(--background) 100%);
+  background: 
+    radial-gradient(circle at top, rgba(28,216,182,0.15), transparent 80%),
+    radial-gradient(circle at bottom, rgba(28,216,182,0.05), transparent 60%),
+    linear-gradient(180deg, var(--background) 0%, var(--background) 100%);
   z-index: -1;
 }
 
@@ -63,7 +65,11 @@ body::before {
 
 @layer utilities {
   .glass-card {
-    @apply bg-black/20 backdrop-blur-sm border border-white/10 rounded-2xl;
+    @apply bg-black/20 backdrop-blur-sm border border-white/10 rounded-2xl transition-all duration-300;
+  }
+  
+  .glass-card:hover {
+    @apply border-primary/20 bg-black/30;
   }
   
   .text-gradient {
@@ -90,13 +96,34 @@ body::before {
     opacity: 0.5;
   }
 
-  /* Card flip animation */
-  .rotate-y-180 {
-    transform: rotateY(180deg);
+  .animate-fade-up {
+    animation: fadeUp 0.5s ease-out forwards;
+    opacity: 0;
   }
 
-  .perspective-1000 {
-    perspective: 1000px;
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   .preserve-3d {
