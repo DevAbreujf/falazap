@@ -9,12 +9,12 @@ export function ChatPreview() {
   };
 
   return (
-    <div className="flex-1 hidden lg:block relative h-[500px] overflow-hidden">
-      <div className="glass-card p-4 rounded-[32px] space-y-2 h-full backdrop-blur-lg border border-white/10 relative overflow-y-auto bg-[#7C3AED]/10 -translate-x-8">
-        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background/80 to-transparent z-[1]" />
+    <div className="flex-1 hidden lg:block relative h-[500px]">
+      <div className="glass-card p-4 rounded-[32px] space-y-2 h-full backdrop-blur-lg border border-white/10 relative overflow-hidden bg-[#7C3AED]/10 -translate-x-8">
+        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background/80 to-transparent z-10" />
         
         {/* Chat Header */}
-        <div className="sticky top-0 z-[2]">
+        <div className="sticky top-0 z-20">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
               <MessageSquare className="w-4 h-4 text-primary" />
@@ -27,10 +27,10 @@ export function ChatPreview() {
         </div>
 
         {/* Messages container */}
-        <div className="space-y-3 relative mt-4 z-[3] px-2">
+        <div className="space-y-3 relative mt-4">
           {/* Agent message */}
           <div className="flex items-start gap-2 max-w-[85%]">
-            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm relative hover:shadow-md transition-shadow">
+            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm">
               <p className="text-xs text-gray-800">Boa tarde, Pedro, tudo certinho?</p>
               <span className="text-[8px] text-gray-500 text-right block mt-1">14:28</span>
             </div>
@@ -40,7 +40,7 @@ export function ChatPreview() {
           {/* Client response */}
           <div className="flex items-start gap-2 justify-end max-w-[85%] ml-auto">
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#9C27B0]/20 text-[#9C27B0] font-medium whitespace-nowrap">Cliente</span>
-            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tr-sm shadow-sm relative hover:shadow-md transition-shadow">
+            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tr-sm shadow-sm">
               <p className="text-xs text-gray-800">Oi, tudo ótimo!</p>
               <span className="text-[8px] text-gray-500 text-right block mt-1">14:28</span>
             </div>
@@ -48,7 +48,7 @@ export function ChatPreview() {
 
           {/* Agent follow up */}
           <div className="flex items-start gap-2 max-w-[85%]">
-            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm relative hover:shadow-md transition-shadow">
+            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm">
               <p className="text-xs text-gray-800">Aqui é o Matheus da Umbler, você acabou de se cadastrar no nosso site, né?</p>
               <span className="text-[8px] text-gray-500 text-right block mt-1">14:29</span>
             </div>
@@ -57,7 +57,7 @@ export function ChatPreview() {
 
           {/* Audio message */}
           <div className="flex items-start gap-2 max-w-[85%]">
-            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm relative hover:shadow-md transition-shadow">
+            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm">
               <div className="flex items-center gap-2">
                 <button 
                   onClick={toggleAudio}
@@ -83,7 +83,7 @@ export function ChatPreview() {
 
           {/* Agent message */}
           <div className="flex items-start gap-2 max-w-[85%]">
-            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm relative hover:shadow-md transition-shadow">
+            <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm">
               <p className="text-xs text-gray-800">Como te falei, essas são as informações que preciso:</p>
               <span className="text-[8px] text-gray-500 text-right block mt-1">14:31</span>
             </div>
@@ -97,7 +97,7 @@ export function ChatPreview() {
             "Qual é o seu site?"
           ].map((question, index) => (
             <div key={index} className="flex items-start gap-2 max-w-[85%]">
-              <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm relative hover:shadow-md transition-shadow">
+              <div className="bg-[#E8FFE5] p-3 rounded-2xl rounded-tl-sm shadow-sm">
                 <p className="text-xs text-gray-800">{question}</p>
                 <span className="text-[8px] text-gray-500 text-right block mt-1">14:31</span>
               </div>
@@ -107,7 +107,7 @@ export function ChatPreview() {
         </div>
 
         {/* Bottom gradient */}
-        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-background/80 to-transparent z-[1]" />
+        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-background/80 to-transparent" />
       </div>
     </div>
   );
