@@ -38,8 +38,8 @@ export function IndexAlternative() {
             <div className="w-24 h-1 bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] mx-auto rounded-full" />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-16">
-            <div className="glass-card p-8 rounded-3xl border border-white/10 shadow-xl backdrop-blur-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in">
+          <div className="relative flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
+            <div className="glass-card p-8 rounded-3xl border border-white/10 shadow-xl backdrop-blur-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in flex-1">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9b87f5]/20 to-[#7E69AB]/20 flex items-center justify-center mb-8">
                 <MessageSquare className="w-8 h-8 text-[#9b87f5]" />
               </div>
@@ -51,7 +51,7 @@ export function IndexAlternative() {
               </p>
             </div>
 
-            <div className="glass-card p-8 rounded-3xl border border-white/10 shadow-xl backdrop-blur-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in delay-150">
+            <div className="glass-card p-8 rounded-3xl border border-white/10 shadow-xl backdrop-blur-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in delay-150 flex-1">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9b87f5]/20 to-[#7E69AB]/20 flex items-center justify-center mb-8">
                 <Users2 className="w-8 h-8 text-[#9b87f5]" />
               </div>
@@ -63,7 +63,7 @@ export function IndexAlternative() {
               </p>
             </div>
 
-            <div className="glass-card p-8 rounded-3xl border border-white/10 shadow-xl backdrop-blur-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in delay-300">
+            <div className="glass-card p-8 rounded-3xl border border-white/10 shadow-xl backdrop-blur-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in delay-300 flex-1">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#9b87f5]/20 to-[#7E69AB]/20 flex items-center justify-center mb-8">
                 <Target className="w-8 h-8 text-[#9b87f5]" />
               </div>
