@@ -1,4 +1,4 @@
-import { Users, MessageSquare, Phone, Workflow, Clock, PhoneCall } from "lucide-react";
+import { Users, MessageSquare, Phone, Workflow, Clock, PhoneCall, Brain } from "lucide-react";
 import { Button } from "./ui/button";
 
 const features = [
