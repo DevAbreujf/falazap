@@ -37,118 +37,122 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
   }
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="text-center space-y-2">
-        <div className="flex items-center justify-center space-x-2">
-          <span className="text-3xl font-bold text-gradient-primary">Fala</span>
-          <span className="text-3xl font-bold">ZAP</span>
+    <div className="flex flex-col min-h-[600px]">
+      <div className="space-y-6 p-6 flex-1">
+        <div className="text-center space-y-2">
+          <div className="flex items-center justify-center space-x-2">
+            <span className="text-3xl font-bold text-gradient-primary">Fala</span>
+            <span className="text-3xl font-bold">ZAP</span>
+          </div>
+          <p className="text-muted-foreground">Crie sua conta para começar</p>
         </div>
-        <p className="text-muted-foreground">Crie sua conta para começar</p>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="Seu nome" 
+                      {...field}
+                      className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="seu@email.com" 
+                      {...field}
+                      className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Senha</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="password" 
+                      placeholder="••••••••" 
+                      {...field}
+                      className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirmar Senha</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="password" 
+                      placeholder="••••••••" 
+                      {...field}
+                      className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full gradient-primary hover:opacity-90 hover:shadow-lg hover:shadow-primary/20">
+              Criar Conta
+            </Button>
+          </form>
+        </Form>
       </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input 
-                    placeholder="Seu nome" 
-                    {...field}
-                    className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input 
-                    placeholder="seu@email.com" 
-                    {...field}
-                    className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
-                    {...field}
-                    className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirmar Senha</FormLabel>
-                <FormControl>
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
-                    {...field}
-                    className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit" className="w-full gradient-primary hover:opacity-90 hover:shadow-lg hover:shadow-primary/20">
-            Criar Conta
-          </Button>
-        </form>
-      </Form>
-
-      <div className="space-y-4">
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/10"></div>
+      <div className="p-6 mt-auto">
+        <div className="space-y-4">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/10"></div>
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="px-2 text-muted-foreground bg-background/80 backdrop-blur-sm">Ou</span>
+            </div>
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="px-2 text-muted-foreground bg-background/80 backdrop-blur-sm">Ou</span>
-          </div>
-        </div>
 
-        <div className="space-y-2 text-center">
-          <p className="text-sm text-muted-foreground">
-            Já tem uma conta?
-          </p>
-          <Button
-            variant="outline"
-            className="w-full hover-glow border-white/10 bg-background/50 backdrop-blur-sm"
-            onClick={onFlip}
-          >
-            Fazer Login
-          </Button>
+          <div className="space-y-2 text-center">
+            <p className="text-sm text-muted-foreground">
+              Já tem uma conta?
+            </p>
+            <Button
+              variant="outline"
+              className="w-full hover-glow border-white/10 bg-background/50 backdrop-blur-sm"
+              onClick={onFlip}
+            >
+              Fazer Login
+            </Button>
+          </div>
         </div>
       </div>
     </div>
