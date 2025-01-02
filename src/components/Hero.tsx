@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
 
 export function Hero() {
+  const scrollToPricing = () => {
+    const pricingSection = document.querySelector('section:has(.glass-card)');
+    pricingSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section className="pt-32 pb-20 relative overflow-hidden">
       <div className="container mx-auto px-4">
@@ -18,7 +23,12 @@ export function Hero() {
             Transforme seu negócio ainda hoje com o chatbot para WhatsApp capaz de conversar com um número ilimitado de clientes ao mesmo tempo.
           </p>
           
-          <Button size="lg" className="animate-fade-up" style={{animationDelay: "0.2s"}}>
+          <Button 
+            size="lg" 
+            className="animate-fade-up" 
+            style={{animationDelay: "0.2s"}}
+            onClick={scrollToPricing}
+          >
             QUERO MULTIPLICAR MINHAS VENDAS
           </Button>
         </div>
