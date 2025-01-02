@@ -68,85 +68,83 @@ export function Features() {
 
   return (
     <section id="features" className="py-32 relative">
-      <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-20 animate-fade-up">
-          <span className="inline-block px-4 py-2 rounded-full glass-card text-primary text-sm font-medium mb-4">
-            RECURSOS PRINCIPAIS
+      <div className="text-center mb-20 animate-fade-up">
+        <span className="inline-block px-4 py-2 rounded-full glass-card text-primary text-sm font-medium mb-4">
+          RECURSOS PRINCIPAIS
+        </span>
+        <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          Descubra como o FalaZAP pode
+          <br />
+          <span className="text-gradient-primary">
+            transformar seu negócio
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Descubra como o FalaZAP pode
-            <br />
-            <span className="text-gradient-primary">
-              transformar seu negócio
-            </span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Uma plataforma completa para automatizar e potencializar suas vendas no WhatsApp
-          </p>
-        </div>
-        
-        <div className="max-w-5xl mx-auto">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            plugins={[autoplayPlugin]}
-            setApi={setApi}
-            className="w-full"
-          >
-            <CarouselContent className="py-4">
-              {features.map((feature, index) => (
-                <CarouselItem key={feature.title} className="md:basis-1/1 lg:basis-1/1">
-                  <div className="glass-card p-8 h-full min-h-[300px] relative overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-5`}></div>
-                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/30 to-transparent z-20"></div>
-                    
-                    <div className="relative z-10">
-                      <div className="flex justify-center mb-8">
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl"></div>
-                          <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 rounded-full backdrop-blur-sm border border-white/5">
-                            <feature.icon className="w-12 h-12 text-primary" />
-                          </div>
+        </h2>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Uma plataforma completa para automatizar e potencializar suas vendas no WhatsApp
+        </p>
+      </div>
+      
+      <div className="max-w-5xl mx-auto">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          plugins={[autoplayPlugin]}
+          setApi={setApi}
+          className="w-full"
+        >
+          <CarouselContent className="py-4">
+            {features.map((feature, index) => (
+              <CarouselItem key={feature.title} className="md:basis-1/1 lg:basis-1/1">
+                <div className="glass-card p-8 h-full min-h-[300px] relative overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-5`}></div>
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/30 to-transparent z-20"></div>
+                  
+                  <div className="relative z-10">
+                    <div className="flex justify-center mb-8">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl"></div>
+                        <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 rounded-full backdrop-blur-sm border border-white/5">
+                          <feature.icon className="w-12 h-12 text-primary" />
                         </div>
                       </div>
-                      
-                      <div className="space-y-6 text-center">
-                        <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
-                          {feature.title}
-                        </h3>
-                        <p className="text-lg text-muted-foreground/90 leading-relaxed">
-                          {feature.description}
-                        </p>
-                      </div>
+                    </div>
+                    
+                    <div className="space-y-6 text-center">
+                      <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
+                        {feature.title}
+                      </h3>
+                      <p className="text-lg text-muted-foreground/90 leading-relaxed">
+                        {feature.description}
+                      </p>
                     </div>
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <CarouselPrevious className="static translate-y-0 mx-4" />
             
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <CarouselPrevious className="static translate-y-0 mx-4" />
-              
-              <div className="flex gap-2">
-                {features.map((_, index) => (
-                  <button
-                    key={index}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                      current === index 
-                        ? "bg-primary w-8" 
-                        : "bg-primary/20"
-                    }`}
-                    onClick={() => api?.scrollTo(index)}
-                  />
-                ))}
-              </div>
-              
-              <CarouselNext className="static translate-y-0 mx-4" />
+            <div className="flex gap-2">
+              {features.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    current === index 
+                      ? "bg-primary w-8" 
+                      : "bg-primary/20"
+                  }`}
+                  onClick={() => api?.scrollTo(index)}
+                />
+              ))}
             </div>
-          </Carousel>
-        </div>
+            
+            <CarouselNext className="static translate-y-0 mx-4" />
+          </div>
+        </Carousel>
       </div>
     </section>
   );
