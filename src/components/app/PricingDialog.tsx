@@ -133,13 +133,13 @@ export function PricingDialog() {
           </div>
 
           {/* Mobile Carousel */}
-          <div className="block md:hidden w-full relative px-8">
+          <div className="block md:hidden w-full">
             <Carousel className="w-full">
-              <CarouselContent>
+              <CarouselContent className="-ml-1">
                 {plans.map((plan) => (
-                  <CarouselItem key={plan.name}>
+                  <CarouselItem key={plan.name} className="pl-1 w-full">
                     <div
-                      className={`relative rounded-xl p-6 h-full transition-all duration-300 ${
+                      className={`relative rounded-xl p-6 h-full mx-auto max-w-[320px] transition-all duration-300 ${
                         plan.popular
                           ? "bg-primary/10 border-2 border-primary"
                           : "bg-black/20 border border-white/10"
@@ -186,8 +186,10 @@ export function PricingDialog() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="absolute left-0 -translate-x-full bg-primary hover:bg-primary/90" />
-              <CarouselNext className="absolute right-0 translate-x-full bg-primary hover:bg-primary/90" />
+              <div className="flex justify-center gap-2 mt-4">
+                <CarouselPrevious className="static bg-primary hover:bg-primary/90 translate-x-0" />
+                <CarouselNext className="static bg-primary hover:bg-primary/90 translate-x-0" />
+              </div>
             </Carousel>
           </div>
         </div>
