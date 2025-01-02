@@ -13,14 +13,7 @@ export function ChatPreview() {
       <div className="glass-card p-4 rounded-[32px] space-y-2 h-full backdrop-blur-lg border border-white/10 relative overflow-hidden bg-[#7C3AED]/10 -translate-x-8">
         <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background/80 to-transparent z-10" />
         
-        {/* Chat Header */}
-        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-          <MessageSquare className="w-4 h-4 text-primary" />
-        </div>
-        <div>
-          <h3 className="font-semibold text-sm">Chat Assistente</h3>
-          <p className="text-[10px] text-muted-foreground">Online agora</p>
-        </div>
+        {/* Empty space where header was */}
 
         {/* Messages container */}
         <div className="space-y-3 relative mt-4">
