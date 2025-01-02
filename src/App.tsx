@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Index } from "./pages/Index";
+import Index from "./pages/Index";
 import { IndexAlternative } from "./pages/IndexAlternative";
-import { Auth } from "./pages/Auth";
-import { Dashboard } from "./pages/Dashboard";
-import { Contacts } from "./pages/Contacts";
-import { Broadcasts } from "./pages/Broadcasts";
-import { Connection } from "./pages/Connection";
-import { Funnels } from "./pages/Funnels";
-import { Reminders } from "./pages/Reminders";
-import { Schedules } from "./pages/Schedules";
-import { Settings } from "./pages/Settings";
-import { Privacy } from "./pages/Privacy";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import Contacts from "./pages/Contacts";
+import Broadcasts from "./pages/Broadcasts";
+import Connection from "./pages/Connection";
+import Funnels from "./pages/Funnels";
+import Reminders from "./pages/Reminders";
+import Schedules from "./pages/Schedules";
+import Settings from "./pages/Settings";
+import Privacy from "./pages/Privacy";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { Toaster } from "sonner";
 
 export function App() {
