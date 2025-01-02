@@ -12,23 +12,14 @@ export function ChatPreview() {
     <div className="flex-1 hidden lg:block relative h-[500px]">
       <div className="glass-card p-6 rounded-[32px] h-full backdrop-blur-lg border border-white/10 relative bg-[#7C3AED]/10">
         <div className="space-y-4">
-          {/* Chat Header */}
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-              <MessageSquare className="w-4 h-4 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-sm">Chat Assistente</h3>
-              <p className="text-[10px] text-muted-foreground">Online agora</p>
-            </div>
-          </div>
-
           {/* Messages Container */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {/* First message */}
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] w-fit font-medium self-end">Agente IA</span>
-              <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit ml-auto">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] w-fit">Agente IA</span>
+              </div>
+              <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit max-w-[80%] ml-auto">
                 <p className="text-xs">Boa tarde, Pedro, tudo certinho?</p>
                 <span className="text-[8px] text-muted-foreground text-right block mt-1">14:28</span>
               </div>
@@ -36,8 +27,10 @@ export function ChatPreview() {
 
             {/* Client response */}
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#9C27B0]/20 text-[#9C27B0] w-fit">Cliente</span>
-              <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#9C27B0]/20 text-[#9C27B0] w-fit">Cliente</span>
+              </div>
+              <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit max-w-[80%]">
                 <p className="text-xs">Oi, tudo ótimo!</p>
                 <span className="text-[8px] text-muted-foreground text-right block mt-1">14:28</span>
               </div>
@@ -45,8 +38,10 @@ export function ChatPreview() {
 
             {/* Agent follow up */}
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] w-fit self-end">Agente IA</span>
-              <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit ml-auto">
+              <div className="flex items-center gap-2 justify-end">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] w-fit">Agente IA</span>
+              </div>
+              <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit max-w-[80%] ml-auto">
                 <p className="text-xs">Aqui é o Matheus da Umbler, você acabou de se cadastrar no nosso site, né?</p>
                 <span className="text-[8px] text-muted-foreground text-right block mt-1">14:29</span>
               </div>
@@ -54,7 +49,9 @@ export function ChatPreview() {
 
             {/* Audio message */}
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] w-fit self-end">Agente IA</span>
+              <div className="flex items-center gap-2 justify-end">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] w-fit">Agente IA</span>
+              </div>
               <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit ml-auto">
                 <div className="flex items-center gap-2 min-w-[200px]">
                   <button 
@@ -80,8 +77,10 @@ export function ChatPreview() {
 
             {/* Agent message */}
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] w-fit self-end">Agente IA</span>
-              <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit ml-auto">
+              <div className="flex items-center gap-2 justify-end">
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] w-fit">Agente IA</span>
+              </div>
+              <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit max-w-[80%] ml-auto">
                 <p className="text-xs">Como te falei, essas são as informações que preciso:</p>
                 <span className="text-[8px] text-muted-foreground text-right block mt-1">14:31</span>
               </div>
@@ -94,8 +93,10 @@ export function ChatPreview() {
               "Qual é o seu site?"
             ].map((question, index) => (
               <div key={index} className="flex flex-col gap-1">
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#00BCD4]/20 text-[#00BCD4] w-fit">Chatbot</span>
-                <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#00BCD4]/20 text-[#00BCD4] w-fit">Chatbot</span>
+                </div>
+                <div className="bg-[#dcf8c7]/10 p-3 rounded-2xl w-fit max-w-[80%]">
                   <p className="text-xs">{question}</p>
                   <span className="text-[8px] text-muted-foreground text-right block mt-1">14:31</span>
                 </div>
