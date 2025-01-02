@@ -62,7 +62,7 @@ export default function Funnels() {
       <div className="flex min-h-screen w-full">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
-          <div className="flex items-center justify-between p-4 lg:hidden">
+          <div className="flex items-center justify-end p-4 lg:hidden">
             <Button 
               variant="ghost" 
               size="icon" 

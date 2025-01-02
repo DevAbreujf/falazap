@@ -10,7 +10,7 @@ export default function Connection() {
       <div className="flex min-h-screen w-full">
         <DashboardSidebar />
         <div className="flex-1 p-6">
-          <div className="flex items-center justify-between mb-6 lg:hidden">
+          <div className="flex items-center justify-end mb-6 lg:hidden">
             <Button 
               variant="ghost" 
               size="icon" 
