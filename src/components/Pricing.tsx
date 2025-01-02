@@ -1,5 +1,12 @@
 import { Check } from "lucide-react";
 import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 const plans = [
   {
@@ -55,6 +62,58 @@ export function Pricing() {
     <section className="py-16 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(28,216,182,0.15),rgba(255,255,255,0))]"></div>
       <div className="container mx-auto px-4 relative">
+        <div className="flex flex-col items-center mb-8">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="border-primary/20 hover:bg-primary/5">
+                Comparar Planos
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl w-[95vw]">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-center mb-6">
+                  Comparação de Planos
+                </DialogTitle>
+              </DialogHeader>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="p-4 text-left border-b border-border"></th>
+                      {plans.map((plan) => (
+                        <th key={plan.name} className="p-4 text-left border-b border-border min-w-[200px]">
+                          <div className="font-bold text-lg">{plan.name}</div>
+                          <div className="text-primary text-2xl font-bold mt-2">
+                            R${plan.price}
+                            <span className="text-sm text-muted-foreground">/mês</span>
+                          </div>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {plans[0].features.map((_, index) => (
+                      <tr key={index} className="border-b border-border">
+                        <td className="p-4 text-muted-foreground">
+                          {plans[0].features[index].split(' ')[0]}
+                        </td>
+                        {plans.map((plan) => (
+                          <td key={plan.name} className="p-4">
+                            <div className="flex items-center gap-2">
+                              <Check className="text-primary w-4 h-4" />
+                              <span>{plan.features[index]}</span>
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {plans.map((plan, index) => (
             <div
