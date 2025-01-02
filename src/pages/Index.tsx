@@ -9,6 +9,7 @@ import { Pricing } from "@/components/Pricing";
 import { FAQ } from "@/components/FAQ";
 import { SalesCTA } from "@/components/SalesCTA";
 import { Footer } from "@/components/Footer";
+import { CookieBanner } from "@/components/CookieBanner";
 
 const Index = () => {
   return (
@@ -26,6 +27,7 @@ const Index = () => {
         <SalesCTA />
       </main>
       <Footer />
+      <CookieBanner />
     </div>
   );
 };

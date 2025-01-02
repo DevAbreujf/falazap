@@ -10,6 +10,7 @@ import Reminders from "@/pages/Reminders";
 import Schedules from "@/pages/Schedules";
 import Connection from "@/pages/Connection";
 import Settings from "@/pages/Settings";
+import Privacy from "@/pages/Privacy";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -17,6 +18,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/privacy",
+    element: <Privacy />,
     errorElement: <ErrorBoundary />,
   },
   {
