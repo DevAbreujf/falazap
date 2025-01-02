@@ -59,7 +59,6 @@ export function Features() {
 
   useEffect(() => {
     if (!api) return;
-
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
     });
@@ -92,12 +91,12 @@ export function Features() {
             }}
             plugins={[autoplayPlugin]}
             setApi={setApi}
-            className="w-full"
+            className="w-full group/carousel"
           >
-            <CarouselContent>
+            <CarouselContent className="py-4">
               {features.map((feature, index) => (
                 <CarouselItem key={feature.title} className="md:basis-1/1 lg:basis-1/1">
-                  <div className="glass-card p-8 h-full min-h-[300px] relative overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10">
+                  <div className="glass-card p-8 h-full min-h-[300px] relative overflow-hidden bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-xl border border-white/10 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/10">
                     <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgColor} opacity-5 transition-opacity duration-500`}></div>
                     <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/30 to-transparent z-20"></div>
                     
@@ -105,7 +104,7 @@ export function Features() {
                       <div className="flex justify-center mb-8">
                         <div className="relative">
                           <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl"></div>
-                          <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 rounded-full backdrop-blur-sm border border-white/5">
+                          <div className="relative bg-gradient-to-br from-primary/20 to-primary/5 p-6 rounded-full backdrop-blur-sm border border-white/5 group-hover/item:scale-110 transition-transform duration-500">
                             <feature.icon className="w-12 h-12 text-primary" />
                           </div>
                         </div>
@@ -125,7 +124,9 @@ export function Features() {
               ))}
             </CarouselContent>
             
-            <div className="mt-8 flex items-center justify-center">
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <CarouselPrevious className="static translate-y-0 mx-4 transition-all duration-300 opacity-0 group-hover/carousel:opacity-100" />
+              
               <div className="flex gap-2">
                 {features.map((_, index) => (
                   <button
@@ -139,6 +140,8 @@ export function Features() {
                   />
                 ))}
               </div>
+              
+              <CarouselNext className="static translate-y-0 mx-4 transition-all duration-300 opacity-0 group-hover/carousel:opacity-100" />
             </div>
           </Carousel>
         </div>
