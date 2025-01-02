@@ -22,9 +22,9 @@ export function HeroTitle() {
         <span className="glass-card px-3 py-1.5 text-xs font-medium rounded-full bg-white/5">Meta Business Partner</span>
       </div>
       
-      <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+      <h1 className="text-4xl md:text-6xl font-bold leading-tight">
         Clone seu melhor{" "}
-        <span className="text-gradient-primary min-w-[200px] inline-block relative">
+        <span className="text-gradient-primary min-w-[180px] inline-block relative">
           {words[currentWord]}
           <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-violet-500 to-violet-300 opacity-50 blur-sm" />
         </span>{" "}
