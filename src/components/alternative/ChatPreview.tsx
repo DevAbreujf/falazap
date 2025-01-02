@@ -9,12 +9,12 @@ export function ChatPreview() {
   };
 
   return (
-    <div className="flex-1 hidden lg:block relative h-[500px]">
+    <div className="flex-1 hidden lg:block relative h-[500px] -ml-8">
       <div className="glass-card p-4 rounded-3xl space-y-2 h-full backdrop-blur-lg border border-white/10 relative overflow-hidden bg-[#7C3AED]/10">
         <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background/80 to-transparent z-10" />
         
-        {/* Chat Header */}
-        <div className="sticky top-0 z-20 pb-2">
+        {/* Chat Header - Moved up by adjusting padding */}
+        <div className="sticky top-0 z-20">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
               <MessageSquare className="w-4 h-4 text-primary" />
@@ -26,8 +26,8 @@ export function ChatPreview() {
           </div>
         </div>
 
-        <div className="space-y-2 relative">
-          {/* First message */}
+        {/* Messages container - Adjusted spacing */}
+        <div className="space-y-1.5 relative mt-2">
           <div className="flex items-start gap-2">
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4CAF50]/20 text-[#4CAF50] font-medium whitespace-nowrap">Agente IA</span>
             <div className="bg-[#dcf8c7] p-2 rounded-xl shadow-sm max-w-[80%]">
