@@ -12,7 +12,8 @@ import { useSchedules } from "@/hooks/use-schedules";
 import { SchedulesHeader } from "@/components/app/schedules/SchedulesHeader";
 import { SchedulesFilters } from "@/components/app/schedules/SchedulesFilters";
 import { SchedulesTable } from "@/components/app/schedules/SchedulesTable";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Menu } from "lucide-react";
 
 export default function Schedules() {
   const [search, setSearch] = useState("");
@@ -71,8 +72,20 @@ export default function Schedules() {
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <DashboardSidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-6xl mx-auto">
+        <div className="flex-1">
+          <div className="flex items-center justify-between p-4 lg:hidden">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              asChild 
+              className="hover:bg-primary/20 bg-black/50"
+            >
+              <SidebarTrigger>
+                <Menu className="h-6 w-6 text-primary" />
+              </SidebarTrigger>
+            </Button>
+          </div>
+          <main className="p-8">
             <SchedulesHeader />
 
             <div className="glass-card p-6 space-y-6">
@@ -89,45 +102,45 @@ export default function Schedules() {
                 onDelete={handleDelete}
               />
             </div>
-          </div>
-        </main>
-
-        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Alterar Horário</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Data</label>
-                <Calendar
-                  mode="single"
-                  selected={newDate}
-                  onSelect={setNewDate}
-                  locale={ptBR}
-                  className="rounded-md border"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Horário</label>
-                <Input
-                  type="time"
-                  value={newTime}
-                  onChange={(e) => setNewTime(e.target.value)}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
-                Cancelar
-              </Button>
-              <Button onClick={handleSaveEdit}>
-                Salvar alterações
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+          </main>
+        </div>
       </div>
+
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Alterar Horário</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Data</label>
+              <Calendar
+                mode="single"
+                selected={newDate}
+                onSelect={setNewDate}
+                locale={ptBR}
+                className="rounded-md border"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Horário</label>
+              <Input
+                type="time"
+                value={newTime}
+                onChange={(e) => setNewTime(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              Cancelar
+            </Button>
+            <Button onClick={handleSaveEdit}>
+              Salvar alterações
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   );
 }

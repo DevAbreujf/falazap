@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import {
@@ -76,6 +76,18 @@ export default function Broadcasts() {
       <div className="flex min-h-screen w-full">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
+          <div className="flex items-center justify-between p-4 lg:hidden">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              asChild 
+              className="hover:bg-primary/20 bg-black/50"
+            >
+              <SidebarTrigger>
+                <Menu className="h-6 w-6 text-primary" />
+              </SidebarTrigger>
+            </Button>
+          </div>
           <main className="container mx-auto px-8 py-10">
             <div className="space-y-6">
               <div>

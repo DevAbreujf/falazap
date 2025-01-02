@@ -1,6 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Contact } from "@/types/contacts";
 import { ContactsHeader } from "@/components/app/contacts/ContactsHeader";
@@ -90,6 +92,18 @@ export default function Contacts() {
       <div className="flex min-h-screen w-full bg-background">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
+          <div className="flex items-center justify-between p-4 lg:hidden">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              asChild 
+              className="hover:bg-primary/20 bg-black/50"
+            >
+              <SidebarTrigger>
+                <Menu className="h-6 w-6 text-primary" />
+              </SidebarTrigger>
+            </Button>
+          </div>
           <div className="container mx-auto py-4 px-2 md:py-8 md:px-4">
             <Card className="border-none shadow-none bg-transparent">
               <CardContent className="p-0 space-y-6">
