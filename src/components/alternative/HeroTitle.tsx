@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export function HeroTitle() {
   const [currentWord, setCurrentWord] = useState(0);
-  const words = ["vendedor", "atendente", "SDR"];
+  const words = ["vendedor", "atendente"];
 
   useEffect(() => {
     const interval = setInterval(() => {
