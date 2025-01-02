@@ -4,13 +4,10 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { PricingDialog } from "@/components/app/PricingDialog";
 
 export default function Auth() {
   const [isFlipped, setIsFlipped] = useState(false);
-
-  const scrollToPricing = () => {
-    window.location.href = '/#pricing';
-  };
 
   return (
     <div className="min-h-screen w-full flex bg-background relative overflow-hidden">
@@ -34,13 +31,7 @@ export default function Auth() {
           Voltar para página inicial
         </Link>
 
-        <Button 
-          variant="outline" 
-          onClick={scrollToPricing}
-          className="hover-glow border-white/10 bg-background/50 backdrop-blur-sm"
-        >
-          Conferir Planos
-        </Button>
+        <PricingDialog />
       </div>
 
       {/* Main content container */}

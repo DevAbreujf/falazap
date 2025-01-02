@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -36,6 +36,14 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
     navigate("/dashboard");
   }
 
+  const onError = (errors: any) => {
+    // Show first error message in a toast
+    const firstError = Object.values(errors)[0] as { message: string };
+    if (firstError) {
+      toast.error(firstError.message);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
       <div className="space-y-6 p-6">
@@ -48,7 +56,7 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -62,7 +70,6 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
                       className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -80,7 +87,6 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
                       className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -99,7 +105,6 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
                       className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -118,7 +123,6 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
                       className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary"
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -130,7 +134,6 @@ export function RegisterForm({ onFlip }: { onFlip: () => void }) {
         </Form>
       </div>
 
-      {/* Login link section - Now fixed at bottom */}
       <div className="mt-auto p-6 border-t border-white/10">
         <div className="text-center space-y-2">
           <p className="text-sm text-muted-foreground">
