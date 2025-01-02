@@ -85,15 +85,15 @@ export function PricingDialog() {
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative rounded-xl p-4 lg:p-6 ${
+                className={`relative rounded-xl p-4 lg:p-6 mt-4 ${
                   plan.popular
                     ? "bg-primary/10 border-2 border-primary"
                     : "bg-black/20 border border-white/10"
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-primary px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap">
                       Mais Popular
                     </span>
                   </div>
@@ -139,15 +139,15 @@ export function PricingDialog() {
                 {plans.map((plan) => (
                   <CarouselItem key={plan.name}>
                     <div
-                      className={`relative rounded-xl p-6 w-full ${
+                      className={`relative rounded-xl p-6 w-full mt-4 ${
                         plan.popular
                           ? "bg-primary/10 border-2 border-primary"
                           : "bg-black/20 border border-white/10"
                       }`}
                     >
                       {plan.popular && (
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                          <span className="bg-primary px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
+                        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                          <span className="bg-primary px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap">
                             Mais Popular
                           </span>
                         </div>
