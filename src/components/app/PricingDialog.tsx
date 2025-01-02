@@ -61,7 +61,7 @@ export function PricingDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="lg" className="hover-glow bg-primary/90 hover:bg-primary transition-all duration-300">
+        <Button size="lg" className="hover-glow bg-primary/90 hover:bg-primary transition-all duration-300 mb-2">
           Upgrade de Plano
         </Button>
       </DialogTrigger>
