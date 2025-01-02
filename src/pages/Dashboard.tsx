@@ -63,7 +63,7 @@ export default function Dashboard() {
             <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
 
             <div className="mt-8">
-              <MetricsGrid />
+              <MetricsGrid timeRange={timeRange} />
             </div>
 
             <div className="mt-8">
