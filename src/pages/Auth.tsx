@@ -2,7 +2,6 @@ import { useState } from "react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 
@@ -21,8 +20,8 @@ export default function Auth() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
 
-      {/* Navigation header */}
-      <div className="absolute top-8 left-8 right-8 flex items-center justify-between">
+      {/* Navigation header - Ajustado com flex-col no mobile */}
+      <div className="absolute top-8 left-8 right-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
         <Link 
           to="/" 
           className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
@@ -34,10 +33,10 @@ export default function Auth() {
         <PricingDialog />
       </div>
 
-      {/* Main content container */}
+      {/* Main content container - Aumentado o padding top no mobile */}
       <div className="flex w-full">
         {/* Left side - Auth form */}
-        <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-24">
+        <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-32 sm:pt-24">
           <div className="w-full max-w-md">
             <div 
               className="glass-card relative w-full"
