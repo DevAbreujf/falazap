@@ -126,7 +126,7 @@ export function PricingDialog() {
           </div>
 
           {/* Mobile Carousel */}
-          <div className="block md:hidden w-full px-2">
+          <div className="block md:hidden w-full px-4">
             <Carousel className="w-full">
               <CarouselContent>
                 {plans.map((plan) => (
@@ -181,7 +181,7 @@ export function PricingDialog() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <div className="flex justify-center gap-6 mt-4">
+              <div className="flex justify-center gap-6 mt-8">
                 <CarouselPrevious className="static bg-primary hover:bg-primary/90 translate-x-0" />
                 <CarouselNext className="static bg-primary hover:bg-primary/90 translate-x-0" />
               </div>
