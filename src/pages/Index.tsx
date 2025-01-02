@@ -82,8 +82,8 @@ const Index = () => {
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#7C3AED]/10 rounded-full blur-3xl animate-pulse delay-700" />
           
           <div className="container relative mx-auto px-4">
-            <div className="text-center mb-20 animate-fade-in">
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] bg-clip-text text-transparent mb-6 leading-[1.8]">
+            <div className="text-center mb-24 animate-fade-in">
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] bg-clip-text text-transparent mb-8 leading-[1.8]">
                 Amplie sua equipe, não os custos
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] mx-auto rounded-full" />
