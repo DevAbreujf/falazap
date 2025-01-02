@@ -30,7 +30,8 @@ export default function Auth() {
               `}
               style={{
                 transformStyle: "preserve-3d",
-                perspective: "1000px"
+                perspective: "1000px",
+                minHeight: "600px" // Adicionando altura mínima para garantir consistência
               }}
             >
               {/* Login side */}
