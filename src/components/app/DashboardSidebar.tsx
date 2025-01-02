@@ -77,10 +77,10 @@ export function DashboardSidebar() {
     <Sidebar className="border-r border-border/40">
       <div className="flex items-center justify-between p-4">
         <SidebarLogo />
-        <div className="lg:hidden">
+        <div className="block lg:hidden">
           <Button variant="ghost" size="icon" asChild className="hover:bg-primary/10">
             <SidebarTrigger>
-              <Menu className="h-5 w-5 text-primary" />
+              <Menu className="h-6 w-6 text-primary" />
             </SidebarTrigger>
           </Button>
         </div>
