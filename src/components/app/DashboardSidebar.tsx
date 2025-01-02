@@ -77,10 +77,12 @@ export function DashboardSidebar() {
     <Sidebar className="border-r border-border/40">
       <div className="flex items-center justify-between p-4 lg:justify-center">
         <SidebarLogo />
-        <SidebarTrigger asChild className="lg:hidden">
-          <Button variant="ghost" size="icon">
-            <Menu className="h-5 w-5" />
-          </Button>
+        <SidebarTrigger asChild>
+          <div className="lg:hidden">
+            <Button variant="ghost" size="icon">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </div>
         </SidebarTrigger>
       </div>
       
