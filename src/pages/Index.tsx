@@ -13,64 +13,6 @@ import { ChatPreview } from "@/components/alternative/ChatPreview";
 import { ComparisonSection } from "@/components/ComparisonSection";
 import { MessageSquare, Target, Users2, Brain, ScrollText, BookOpen } from "lucide-react";
 
-const plans = [
-  {
-    name: "Básico",
-    price: 97,
-    features: {
-      "Números WhatsApp": "1",
-      "Atendimento 24/7": true,
-      "Funis de venda": "Ilimitados",
-      "Suporte": "Chat",
-      "Relatórios": "Básicos",
-      "Automações": "Simples",
-      "Usuários": "1",
-      "Treinamento": "Básico",
-      "Integrações": "Básicas",
-      "API Personalizada": false,
-      "Consultoria": false,
-      "White Label": false
-    }
-  },
-  {
-    name: "Profissional",
-    price: 197,
-    popular: true,
-    features: {
-      "Números WhatsApp": "2",
-      "Atendimento 24/7": true,
-      "Funis de venda": "Ilimitados",
-      "Suporte": "Prioritário",
-      "Relatórios": "Avançados",
-      "Automações": "Avançadas",
-      "Usuários": "3",
-      "Treinamento": "Completo",
-      "Integrações": "CRM",
-      "API Personalizada": true,
-      "Consultoria": false,
-      "White Label": false
-    }
-  },
-  {
-    name: "Enterprise",
-    price: 297,
-    features: {
-      "Números WhatsApp": "4",
-      "Atendimento 24/7": true,
-      "Funis de venda": "Ilimitados",
-      "Suporte": "VIP",
-      "Relatórios": "Personalizados",
-      "Automações": "Ilimitadas",
-      "Usuários": "Ilimitados",
-      "Treinamento": "VIP",
-      "Integrações": "Premium",
-      "API Personalizada": true,
-      "Consultoria": true,
-      "White Label": true
-    }
-  }
-];
-
 const Index = () => {
   return (
     <div className="min-h-screen w-full">
@@ -192,8 +134,7 @@ const Index = () => {
         <TransformResults />
         <HighScale />
         <Functionalities />
-
-        <Pricing plans={plans} />
+        <Pricing />
         <FAQ />
         <SalesCTA />
       </main>
