@@ -94,43 +94,39 @@ export function RemindersForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="rounded-2xl border border-white/10">
-        <div className="p-8 space-y-6">
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-foreground/90">
-              Nome do lembrete
-            </Label>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="bg-background/5 rounded-lg border border-border/5">
+        <div className="p-6 space-y-4">
+          <div>
+            <Label htmlFor="reminderName">Nome do lembrete</Label>
             <Input
+              id="reminderName"
               value={reminderName}
               onChange={(e) => setReminderName(e.target.value)}
               placeholder="Digite o nome do lembrete..."
-              className="bg-background/50 border-white/10 focus:border-primary/50"
+              className="mt-1.5"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-foreground/90">
-              Nome do cliente
-            </Label>
+          <div>
+            <Label htmlFor="clientName">Nome do cliente</Label>
             <Input
+              id="clientName"
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
               placeholder="Digite o nome do cliente..."
-              className="bg-background/50 border-white/10 focus:border-primary/50"
+              className="mt-1.5"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground/90">
-                Data de envio
-              </Label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label>Data de envio</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className={`w-full justify-start text-left font-normal bg-background/50 border-white/10 hover:bg-white/5 ${
+                    className={`w-full justify-start text-left mt-1.5 ${
                       !selectedDate && "text-muted-foreground"
                     }`}
                   >
@@ -153,15 +149,14 @@ export function RemindersForm() {
               </Popover>
             </div>
 
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-foreground/90">
-                Horário de envio
-              </Label>
+            <div>
+              <Label htmlFor="time">Horário de envio</Label>
               <Input
+                id="time"
                 type="time"
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
-                className="w-full bg-background/50 border-white/10 focus:border-primary/50"
+                className="mt-1.5"
               />
             </div>
           </div>
@@ -179,10 +174,7 @@ export function RemindersForm() {
 
           <MessageInput value={message} onChange={setMessage} />
 
-          <Button 
-            type="submit" 
-            className="w-full bg-primary hover:bg-primary/90"
-          >
+          <Button type="submit" className="w-full">
             Agendar lembrete
           </Button>
         </div>
