@@ -4,9 +4,69 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Home } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
+import { Plan } from "@/types/pricing";
+
+const plans: Plan[] = [
+  {
+    name: "Básico",
+    price: 97,
+    features: {
+      "Números WhatsApp": "1 número",
+      "Atendimento 24/7": true,
+      "Funis de venda": "Ilimitados",
+      "Suporte": "Chat",
+      "Relatórios": "Básicos",
+      "Automações": "Simples",
+      "Usuários": "1 usuário",
+      "Treinamento": "Básico",
+      "Integrações": "Básicas",
+      "API Personalizada": false,
+      "Consultoria": false,
+      "White Label": false
+    }
+  },
+  {
+    name: "Profissional",
+    price: 197,
+    popular: true,
+    features: {
+      "Números WhatsApp": "2 números",
+      "Atendimento 24/7": true,
+      "Funis de venda": "Ilimitados",
+      "Suporte": "Prioritário",
+      "Relatórios": "Avançados",
+      "Automações": "Avançadas",
+      "Usuários": "3 usuários",
+      "Treinamento": "Completo",
+      "Integrações": "Com CRM",
+      "API Personalizada": true,
+      "Consultoria": false,
+      "White Label": false
+    }
+  },
+  {
+    name: "Enterprise",
+    price: 297,
+    features: {
+      "Números WhatsApp": "4 números",
+      "Atendimento 24/7": true,
+      "Funis de venda": "Ilimitados",
+      "Suporte": "VIP",
+      "Relatórios": "Personalizados",
+      "Automações": "Ilimitadas",
+      "Usuários": "Ilimitados",
+      "Treinamento": "VIP",
+      "Integrações": "Premium",
+      "API Personalizada": true,
+      "Consultoria": true,
+      "White Label": true
+    }
+  }
+];
 
 export default function Auth() {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <div className="min-h-screen w-full flex bg-background relative overflow-hidden">
@@ -31,11 +91,15 @@ export default function Auth() {
         </Link>
 
         <div className="w-full sm:w-auto flex justify-center">
-          <PricingDialog />
+          <PricingDialog 
+            plans={plans}
+            open={dialogOpen}
+            onOpenChange={setDialogOpen}
+          />
         </div>
       </div>
 
-      {/* Main content container - Aumentado o padding top no mobile */}
+      {/* Main content container */}
       <div className="flex w-full">
         {/* Left side - Auth form */}
         <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-32 sm:pt-24">
