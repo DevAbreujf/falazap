@@ -73,6 +73,30 @@ body::before {
   }
 }
 
+@keyframes float {
+  0% {
+    transform: translateY(0px) translateX(-32px);
+  }
+  50% {
+    transform: translateY(-10px) translateX(-32px);
+  }
+  100% {
+    transform: translateY(0px) translateX(-32px);
+  }
+}
+
+@keyframes subtle-pulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
 @layer utilities {
   .glass-card {
     @apply bg-black/20 backdrop-blur-sm border border-white/10 rounded-2xl;
@@ -117,5 +141,13 @@ body::before {
 
   .backface-hidden {
     backface-visibility: hidden;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-subtle-pulse {
+    animation: subtle-pulse 4s ease-in-out infinite;
   }
 }
