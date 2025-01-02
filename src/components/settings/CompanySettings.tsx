@@ -52,7 +52,14 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tipo de Conta</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select 
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      // Reset the document field when account type changes
+                      form.setValue('cnpj', '');
+                    }} 
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione o tipo de conta" />
