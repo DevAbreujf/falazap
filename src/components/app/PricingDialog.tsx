@@ -72,7 +72,7 @@ export function PricingDialog() {
           Upgrade de Plano
         </Button>
       </DialogTrigger>
-      <DialogContent className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95vw] max-w-3xl mx-auto p-3 sm:p-4 md:p-6 bg-[#1A1F2C]/95 backdrop-blur-sm border border-primary/10 overflow-y-auto max-h-[90vh] box-border">
+      <DialogContent className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95vw] max-w-4xl mx-auto p-3 sm:p-4 md:p-6 bg-[#1A1F2C]/95 backdrop-blur-sm border border-primary/10 overflow-y-auto max-h-[90vh] box-border">
         <DialogHeader className="mb-4 md:mb-6">
           <DialogTitle className="text-center text-lg sm:text-xl md:text-2xl font-bold text-gradient-primary px-2">
             Escolha o plano ideal para seu negócio
@@ -81,11 +81,11 @@ export function PricingDialog() {
         
         <div className="flex flex-col items-center justify-center w-full overflow-x-hidden">
           {/* Desktop Grid */}
-          <div className="hidden md:grid md:grid-cols-3 gap-3 lg:gap-4 w-full px-2">
+          <div className="hidden md:grid md:grid-cols-3 gap-4 lg:gap-6 w-full px-4">
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative rounded-xl p-3 lg:p-4 transition-all duration-300 hover:scale-[1.02] ${
+                className={`relative rounded-xl p-4 lg:p-6 ${
                   plan.popular
                     ? "bg-primary/10 border-2 border-primary"
                     : "bg-black/20 border border-white/10"
@@ -99,7 +99,7 @@ export function PricingDialog() {
                   </div>
                 )}
 
-                <div className="text-center mb-3 lg:mb-4">
+                <div className="text-center mb-4 lg:mb-6">
                   <h3 className="text-base lg:text-lg font-bold mb-2">{plan.name}</h3>
                   <div className="flex items-center justify-center gap-1">
                     <span className="text-sm text-muted-foreground">R$</span>
@@ -108,13 +108,13 @@ export function PricingDialog() {
                   </div>
                 </div>
 
-                <ul className="space-y-2 mb-4">
+                <ul className="space-y-3 mb-6">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2">
                       <div className="rounded-full p-1 bg-primary/20 flex-shrink-0">
                         <Check className="w-3 h-3 text-primary" />
                       </div>
-                      <span className="text-xs lg:text-sm">{feature}</span>
+                      <span className="text-sm lg:text-base">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -139,7 +139,7 @@ export function PricingDialog() {
                 {plans.map((plan) => (
                   <CarouselItem key={plan.name}>
                     <div
-                      className={`relative rounded-xl p-4 w-full transition-all duration-300 ${
+                      className={`relative rounded-xl p-6 w-full ${
                         plan.popular
                           ? "bg-primary/10 border-2 border-primary"
                           : "bg-black/20 border border-white/10"
@@ -153,7 +153,7 @@ export function PricingDialog() {
                         </div>
                       )}
 
-                      <div className="text-center mb-4">
+                      <div className="text-center mb-6">
                         <h3 className="text-lg font-bold mb-2">{plan.name}</h3>
                         <div className="flex items-center justify-center gap-1">
                           <span className="text-sm text-muted-foreground">R$</span>
@@ -162,7 +162,7 @@ export function PricingDialog() {
                         </div>
                       </div>
 
-                      <ul className="space-y-2 mb-4">
+                      <ul className="space-y-3 mb-6">
                         {plan.features.map((feature) => (
                           <li key={feature} className="flex items-center gap-2">
                             <div className="rounded-full p-1 bg-primary/20 flex-shrink-0">
