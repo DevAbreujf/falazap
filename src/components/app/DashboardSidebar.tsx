@@ -99,10 +99,9 @@ export function DashboardSidebar() {
         <SidebarLogo />
       </div>
       
-      <SidebarHeader className="p-3">
-        <div className="mt-3 px-4">
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />
-          <div className="mt-4 flex items-center justify-between p-3 glass-card hover:bg-white/5 transition-all duration-300">
+      <SidebarHeader>
+        <div className="p-3">
+          <div className="flex items-center justify-between p-3 glass-card hover:bg-white/5 transition-all duration-300">
             <div className="flex items-center gap-2">
               <User className="h-5 w-5 text-primary" />
               <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
@@ -127,6 +126,9 @@ export function DashboardSidebar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+          </div>
+          <div className="mt-3">
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />
           </div>
         </div>
       </SidebarHeader>
