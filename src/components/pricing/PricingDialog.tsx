@@ -17,7 +17,10 @@ export function PricingDialog({ plans }: PricingDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="border-primary/20 hover:bg-primary/5">
+        <Button 
+          size="lg"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 py-6 h-auto text-base rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+        >
           Comparar Planos
         </Button>
       </DialogTrigger>
