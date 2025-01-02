@@ -74,6 +74,8 @@ const Index = () => {
           </div>
         </section>
 
+        <ComparisonSection />
+
         {/* Features Section */}
         <section className="relative py-32 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/5 via-background to-background" />
@@ -129,7 +131,6 @@ const Index = () => {
           </div>
         </section>
 
-        <ComparisonSection />
         <Features />
         <Steps />
         <TransformResults />
