@@ -75,20 +75,20 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar className="border-r border-border/40">
-      <div className="flex items-center justify-between p-4">
-        <SidebarLogo />
+      <div className="flex items-center gap-4 p-4">
         <div className="block lg:hidden">
           <Button 
             variant="ghost" 
             size="icon" 
             asChild 
-            className="hover:bg-primary/20 bg-black/30"
+            className="hover:bg-primary/20 bg-black/50"
           >
             <SidebarTrigger>
               <Menu className="h-6 w-6 text-primary" />
             </SidebarTrigger>
           </Button>
         </div>
+        <SidebarLogo />
       </div>
       
       <SidebarHeader className="p-3">
