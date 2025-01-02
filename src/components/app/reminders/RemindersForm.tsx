@@ -95,8 +95,8 @@ export function RemindersForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="bg-black/20 p-8 rounded-2xl border border-white/10">
-        <div className="space-y-6">
+      <div className="rounded-2xl border border-white/10">
+        <div className="p-8 space-y-6">
           <div className="space-y-2">
             <Label className="text-sm font-medium text-foreground/90">
               Nome do lembrete
