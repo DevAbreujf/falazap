@@ -95,8 +95,8 @@ export function RemindersForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="glass-card relative overflow-hidden backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-xl transition-all duration-300 hover:border-primary/20 hover:shadow-primary/5">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50"></div>
+      <div className="glass-card relative overflow-hidden backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-xl">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent"></div>
         
         <div className="relative space-y-6">
           <div className="space-y-2">
@@ -107,7 +107,7 @@ export function RemindersForm() {
               value={reminderName}
               onChange={(e) => setReminderName(e.target.value)}
               placeholder="Digite o nome do lembrete..."
-              className="bg-background/50 border-white/10 focus:border-primary/50 transition-colors"
+              className="bg-background/50 border-white/10 focus:border-primary/50"
             />
           </div>
 
@@ -119,7 +119,7 @@ export function RemindersForm() {
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
               placeholder="Digite o nome do cliente..."
-              className="bg-background/50 border-white/10 focus:border-primary/50 transition-colors"
+              className="bg-background/50 border-white/10 focus:border-primary/50"
             />
           </div>
 
@@ -132,7 +132,7 @@ export function RemindersForm() {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className={`w-full justify-start text-left font-normal bg-background/50 border-white/10 hover:bg-white/5 transition-colors ${
+                    className={`w-full justify-start text-left font-normal bg-background/50 border-white/10 hover:bg-white/5 ${
                       !selectedDate && "text-muted-foreground"
                     }`}
                   >
@@ -163,7 +163,7 @@ export function RemindersForm() {
                 type="time"
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
-                className="w-full bg-background/50 border-white/10 focus:border-primary/50 transition-colors"
+                className="w-full bg-background/50 border-white/10 focus:border-primary/50"
               />
             </div>
           </div>
@@ -183,7 +183,7 @@ export function RemindersForm() {
 
           <Button 
             type="submit" 
-            className="w-full bg-primary hover:bg-primary/90 transition-colors"
+            className="w-full bg-primary hover:bg-primary/90"
           >
             Agendar lembrete
           </Button>
