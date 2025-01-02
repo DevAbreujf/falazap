@@ -12,7 +12,7 @@ import { Footer } from "@/components/Footer";
 import { CookieBanner } from "@/components/CookieBanner";
 import { HeroTitle } from "@/components/alternative/HeroTitle";
 import { ChatPreview } from "@/components/alternative/ChatPreview";
-import { MessageSquare, Target, Users2 } from "lucide-react";
+import { MessageSquare, Target, Users2, Brain, ScrollText, BookOpen } from "lucide-react";
 
 const Index = () => {
   return (
@@ -25,8 +25,56 @@ const Index = () => {
             <ChatPreview />
           </div>
         </section>
-        
-        {/* Features Section - Moved from IndexAlternative */}
+
+        {/* AI Customization Section */}
+        <section className="py-24 relative overflow-hidden">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-[1.8]">
+                Inteligência Artificial customizada
+                <br />
+                com o DNA do seu negócio
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {/* Roteiro Card */}
+              <div className="glass-card p-8 rounded-3xl hover:shadow-xl transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#7C3AED]/20 to-[#7C3AED]/10 flex items-center justify-center mb-6">
+                  <ScrollText className="w-6 h-6 text-[#7C3AED]" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Roteiro</h3>
+                <p className="text-muted-foreground">
+                  Defina o roteiro obrigatório que o Agente IA deve seguir durante a conversa. Aqui você ensina seu processo de vendas ou suporte para seu novo colaborador virtual.
+                </p>
+              </div>
+
+              {/* Comportamento Card */}
+              <div className="glass-card p-8 rounded-3xl hover:shadow-xl transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#7C3AED]/20 to-[#7C3AED]/10 flex items-center justify-center mb-6">
+                  <Brain className="w-6 h-6 text-[#7C3AED]" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Comportamento</h3>
+                <p className="text-muted-foreground">
+                  Defina como o seu Atendente de IA deve se comportar, quais ações deve tomar, como deve agir durante a conversa.
+                </p>
+              </div>
+
+              {/* Conhecimento Card */}
+              <div className="glass-card p-8 rounded-3xl hover:shadow-xl transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#7C3AED]/20 to-[#7C3AED]/10 flex items-center justify-center mb-6">
+                  <BookOpen className="w-6 h-6 text-[#7C3AED]" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Conhecimento</h3>
+                <p className="text-muted-foreground">
+                  Informe seu website e deixe o Agente IA aprender tudo sobre sua empresa, lead costs. Além disso, insira documentos e perguntas frequentes que sejam relevantes para o negócio.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
         <section className="relative py-32 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/5 via-background to-background" />
           
