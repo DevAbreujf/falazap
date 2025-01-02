@@ -67,7 +67,7 @@ export function Pricing() {
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl blur-xl transition-all duration-500 group-hover:scale-110 opacity-0 group-hover:opacity-100"></div>
               <div className={`glass-card h-full p-8 relative transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-primary/20 animate-fade-up flex flex-col ${plan.popular ? 'border-primary/50' : ''}`}>
                 {plan.popular && (
-                  <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                  <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 z-10">
                     <div className="bg-primary/90 backdrop-blur-sm px-8 py-2 rounded-full shadow-lg shadow-primary/20">
                       <span className="text-sm font-semibold text-primary-foreground whitespace-nowrap">
                         Mais Popular
@@ -76,7 +76,7 @@ export function Pricing() {
                   </div>
                 )}
                 
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent rounded-t-2xl"></div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent rounded-t-2xl z-[1]"></div>
                 
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">
