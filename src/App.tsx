@@ -16,24 +16,26 @@ import { Toaster } from "sonner";
 
 export function App() {
   return (
-    <ErrorBoundary>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/alternative" element={<IndexAlternative />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/broadcasts" element={<Broadcasts />} />
-          <Route path="/connection" element={<Connection />} />
-          <Route path="/funnels" element={<Funnels />} />
-          <Route path="/reminders" element={<Reminders />} />
-          <Route path="/schedules" element={<Schedules />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/privacy" element={<Privacy />} />
-        </Routes>
-      </BrowserRouter>
+    <>
+      <ErrorBoundary>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/alternative" element={<IndexAlternative />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/broadcasts" element={<Broadcasts />} />
+            <Route path="/connection" element={<Connection />} />
+            <Route path="/funnels" element={<Funnels />} />
+            <Route path="/reminders" element={<Reminders />} />
+            <Route path="/schedules" element={<Schedules />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/privacy" element={<Privacy />} />
+          </Routes>
+        </BrowserRouter>
+      </ErrorBoundary>
       <Toaster />
-    </ErrorBoundary>
+    </>
   );
 }
