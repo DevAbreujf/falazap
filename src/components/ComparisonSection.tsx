@@ -3,6 +3,15 @@ import { Check } from "lucide-react";
 export function ComparisonSection() {
   return (
     <section className="py-24 container mx-auto px-4">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl font-bold bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] bg-clip-text text-transparent">
+          Compare as Soluções
+        </h2>
+        <p className="text-muted-foreground mt-4">
+          Escolha a solução ideal para o seu negócio
+        </p>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-6xl mx-auto">
         {/* Agentes IA Column */}
         <div className="group relative">
@@ -23,7 +32,7 @@ export function ComparisonSection() {
                   </div>
                 </div>
               </div>
-              <h3 className="text-3xl font-bold mb-12 bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] bg-clip-text text-transparent">Agentes IA</h3>
+              <h3 className="text-3xl font-bold mb-12 bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] bg-clip-text text-transparent pb-1">Agentes IA</h3>
             </div>
 
             <div className="space-y-6">
