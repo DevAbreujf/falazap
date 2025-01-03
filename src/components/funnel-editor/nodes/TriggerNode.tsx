@@ -17,6 +17,10 @@ interface TriggerNodeProps {
 }
 
 export const TriggerNode: React.FC<TriggerNodeProps> = ({ data, onUpdate, onRemove }) => {
+  const handleInputClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <div className="p-4 space-y-3 border-t border-zinc-800/50">
       <div className="flex items-center justify-between mb-2">
@@ -44,6 +48,8 @@ export const TriggerNode: React.FC<TriggerNodeProps> = ({ data, onUpdate, onRemo
           className="h-9 bg-zinc-950/50 border-zinc-800 text-sm"
           value={data.triggerTerm}
           onChange={(e) => onUpdate('triggerTerm', e.target.value)}
+          onClick={handleInputClick}
+          onMouseDown={(e) => e.stopPropagation()}
         />
       )}
 

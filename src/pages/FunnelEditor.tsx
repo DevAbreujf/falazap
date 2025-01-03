@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import {
   ReactFlow,
   Background,
-  Controls,
-  MiniMap,
   useNodesState,
   useEdgesState,
   addEdge,
@@ -25,6 +23,7 @@ const initialNodes = [
     type: "start",
     position: { x: 400, y: 100 },
     deletable: false,
+    draggable: true,
     data: {
       label: "Início",
       description: "Definir tempo mínimo para o funil ser disparado novamente",
@@ -181,8 +180,6 @@ export default function FunnelEditor() {
             fitView
           >
             <Background />
-            <Controls />
-            <MiniMap />
           </ReactFlow>
         </div>
       </div>
