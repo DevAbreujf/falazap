@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TriggerNode } from './TriggerNode';
 
-interface StartNodeData {
+export interface StartNodeData extends Record<string, unknown> {
   label: string;
   description: string;
   time: number;
@@ -18,8 +18,7 @@ interface StartNodeData {
   }>;
 }
 
-interface StartNodeProps extends NodeProps {
-  data: StartNodeData;
+interface StartNodeProps extends NodeProps<StartNodeData> {
   isTimeSettingsOpen: boolean;
   onTimeSettingsToggle: () => void;
   onTimeChange: (value: number) => void;
