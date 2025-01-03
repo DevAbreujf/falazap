@@ -11,6 +11,7 @@ import {
   Menu,
   User,
   LogOut,
+  ChevronDown,
 } from "lucide-react";
 import {
   Sidebar,
@@ -101,31 +102,56 @@ export function DashboardSidebar() {
       
       <SidebarHeader>
         <div className="p-3">
-          <div className="flex items-center justify-between p-3 glass-card hover:bg-white/5 transition-all duration-300">
-            <div className="flex items-center gap-2">
-              <User className="h-5 w-5 text-primary" />
-              <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
-              <h3 className="text-lg font-semibold text-sidebar-foreground">
-                João Silva
-              </h3>
-            </div>
+          <div className="mb-3 p-3 glass-card hover:bg-white/5 transition-all duration-300">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="hover:bg-primary/20">
-                  <Settings className="h-5 w-5 text-primary" />
+                <Button variant="ghost" className="w-full justify-between hover:bg-primary/20">
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-primary" />
+                    <span>+55 11 99999-9999</span>
+                    <span className="text-xs text-primary/80">(conectado)</span>
+                  </div>
+                  <ChevronDown className="h-4 w-4 text-primary" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => navigate("/settings")}>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Configurações</span>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem>
+                  +55 11 88888-8888
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => console.log("Logout clicked")} className="text-destructive">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sair</span>
+                <DropdownMenuItem>
+                  +55 11 77777-7777
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+          </div>
+
+          <div className="p-3 glass-card hover:bg-white/5 transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <User className="h-5 w-5 text-primary" />
+                <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
+                <h3 className="text-lg font-semibold text-sidebar-foreground">
+                  João Silva
+                </h3>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="hover:bg-primary/20">
+                    <Settings className="h-5 w-5 text-primary" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => navigate("/settings")}>
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Configurações</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => console.log("Logout clicked")} className="text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sair</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
           <div className="mt-3">
             <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />

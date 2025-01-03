@@ -1,8 +1,8 @@
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Menu } from "lucide-react";
+import { BroadcastsTable } from "@/components/app/broadcasts/BroadcastsTable";
 
 export default function Broadcasts() {
   return (
@@ -31,18 +31,13 @@ export default function Broadcasts() {
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
               </div>
               <p className="text-muted-foreground text-lg">
-                Envie mensagens em massa para seus contatos de forma automatizada.
+                Acompanhe o status dos seus disparos em massa.
               </p>
             </div>
 
-            <Card className="mt-8 p-6">
-              <div className="text-center">
-                <p className="text-lg font-medium">Em desenvolvimento</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Esta funcionalidade estará disponível em breve.
-                </p>
-              </div>
-            </Card>
+            <div className="mt-8">
+              <BroadcastsTable />
+            </div>
           </main>
         </div>
       </div>
