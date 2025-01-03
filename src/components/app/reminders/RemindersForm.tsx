@@ -7,11 +7,14 @@ import { PhoneNumberInput } from "./PhoneNumberInput";
 import { MessageTypeSelector } from "./MessageTypeSelector";
 import { CountrySelector } from "./CountrySelector";
 import { ManualPhoneSection } from "./ManualPhoneSection";
+import type { Country } from 'react-phone-number-input';
 
 export function RemindersForm() {
   const [message, setMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isManualPhone, setIsManualPhone] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<Country>("BR");
+  const [manualPhone, setManualPhone] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +22,8 @@ export function RemindersForm() {
       message,
       selectedFile,
       isManualPhone,
+      selectedCountry,
+      manualPhone,
     });
   };
 
@@ -45,11 +50,24 @@ export function RemindersForm() {
           </div>
 
           {isManualPhone ? (
-            <ManualPhoneSection />
+            <ManualPhoneSection 
+              selectedCountry={selectedCountry}
+              onCountryChange={setSelectedCountry}
+              manualPhone={manualPhone}
+              onPhoneChange={setManualPhone}
+            />
           ) : (
             <>
-              <CountrySelector />
-              <PhoneNumberInput />
+              <CountrySelector 
+                selectedCountry={selectedCountry}
+                onCountryChange={setSelectedCountry}
+              />
+              <PhoneNumberInput 
+                selectedCountry={selectedCountry}
+                onCountryChange={setSelectedCountry}
+                manualPhone={manualPhone}
+                onPhoneChange={setManualPhone}
+              />
             </>
           )}
         </div>

@@ -8,7 +8,7 @@ import {
   useNodesState,
   useEdgesState,
 } from "@xyflow/react";
-import { ArrowLeft, Import, Export, Save } from "lucide-react";
+import { ArrowLeft, FileDown, FileUp, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
@@ -155,14 +155,14 @@ export default function FunnelEditor() {
                 />
                 <Button variant="outline" asChild>
                   <span>
-                    <Import className="h-4 w-4 mr-2" />
+                    <FileDown className="h-4 w-4 mr-2" />
                     Importar
                   </span>
                 </Button>
               </label>
 
               <Button variant="outline" onClick={handleExport}>
-                <Export className="h-4 w-4 mr-2" />
+                <FileUp className="h-4 w-4 mr-2" />
                 Exportar
               </Button>
 
