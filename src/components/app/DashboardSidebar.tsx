@@ -11,7 +11,6 @@ import {
   Menu,
   User,
   LogOut,
-  ChevronDown,
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,17 +32,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-
-const availableNumbers = [
-  { id: 1, number: "(11) 99999-9999", connected: true },
-  { id: 2, number: "(11) 88888-8888", connected: false },
-  { id: 3, number: "(11) 77777-7777", connected: false },
-];
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
-  const [selectedNumber, setSelectedNumber] = useState(availableNumbers[0]);
 
   const menuItems = [
     {
@@ -91,7 +82,7 @@ export function DashboardSidebar() {
   ];
 
   return (
-    <Sidebar className="border-r border-border/40" style={{ "--sidebar-width": "24rem" } as React.CSSProperties}>
+    <Sidebar className="border-r border-border/40">
       <div className="flex items-center gap-4 p-4">
         <div className="block lg:hidden">
           <Button 
@@ -110,37 +101,6 @@ export function DashboardSidebar() {
       
       <SidebarHeader>
         <div className="p-3">
-          <div className="glass-card p-3 mb-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-between hover:bg-primary/10"
-                >
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-primary" />
-                    <span className="text-sm">{selectedNumber.number}</span>
-                  </div>
-                  <ChevronDown className="h-4 w-4 text-primary" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                {availableNumbers.map((num) => (
-                  <DropdownMenuItem
-                    key={num.id}
-                    onClick={() => setSelectedNumber(num)}
-                    className="flex items-center justify-between"
-                  >
-                    <span>{num.number}</span>
-                    {num.connected && (
-                      <span className="text-xs text-primary">Conectado</span>
-                    )}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
           <div className="flex items-center justify-between p-3 glass-card hover:bg-white/5 transition-all duration-300">
             <div className="flex items-center gap-2">
               <User className="h-5 w-5 text-primary" />
