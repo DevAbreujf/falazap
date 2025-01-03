@@ -14,8 +14,21 @@ import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { TextNode } from "@/components/flow-nodes/TextNode";
+import { AudioNode } from "@/components/flow-nodes/AudioNode";
+import { VideoNode } from "@/components/flow-nodes/VideoNode";
+import { FileNode } from "@/components/flow-nodes/FileNode";
+import { StartNode } from "@/components/flow-nodes/StartNode";
 
 import "@xyflow/react/dist/style.css";
+
+const nodeTypes = {
+  textNode: TextNode,
+  audioNode: AudioNode,
+  videoNode: VideoNode,
+  fileNode: FileNode,
+  startNode: StartNode,
+};
 
 const initialNodes = [
   {
@@ -45,12 +58,10 @@ export default function FunnelEditor() {
   const [selectedTrigger, setSelectedTrigger] = useState("");
 
   const handleManualTrigger = () => {
-    // Implementar lógica de disparo manual
     setIsManualTriggerOpen(false);
   };
 
   const handleSave = () => {
-    // Implementar lógica de salvamento
     console.log("Salvando funil...");
   };
 
@@ -90,6 +101,37 @@ export default function FunnelEditor() {
       };
       reader.readAsText(file);
     }
+  };
+
+  const onDragOver = (event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  };
+
+  const onDrop = (event) => {
+    event.preventDefault();
+
+    const type = event.dataTransfer.getData("application/reactflow");
+    if (!type) return;
+
+    const position = {
+      x: event.clientX - 200,
+      y: event.clientY - 100,
+    };
+
+    const newNode = {
+      id: `${type}-${nodes.length + 1}`,
+      type,
+      position,
+      data: {},
+    };
+
+    setNodes((nds) => nds.concat(newNode));
+  };
+
+  const onDragStart = (event, nodeType) => {
+    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
   };
 
   return (
@@ -182,6 +224,9 @@ export default function FunnelEditor() {
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
+          nodeTypes={nodeTypes}
           fitView
         >
           <Background />
@@ -193,19 +238,40 @@ export default function FunnelEditor() {
                 <div>
                   <h4 className="text-sm font-medium mb-2">Mensagens</h4>
                   <div className="space-y-2">
-                    <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full justify-start"
+                      draggable
+                      onDragStart={(e) => onDragStart(e, "textNode")}
+                    >
                       Texto
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full justify-start"
+                      draggable
+                      onDragStart={(e) => onDragStart(e, "audioNode")}
+                    >
                       Áudio
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
-                      Imagem
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full justify-start"
+                      draggable
+                      onDragStart={(e) => onDragStart(e, "videoNode")}
+                    >
                       Vídeo
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full justify-start"
+                      draggable
+                      onDragStart={(e) => onDragStart(e, "fileNode")}
+                    >
                       Arquivo
                     </Button>
                   </div>
