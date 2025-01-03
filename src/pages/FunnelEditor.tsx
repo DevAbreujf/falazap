@@ -5,6 +5,7 @@ import {
   Controls,
   useNodesState,
   useEdgesState,
+  Panel,
 } from "@xyflow/react";
 import { TextNode } from "@/components/flow-nodes/TextNode";
 import { AudioNode } from "@/components/flow-nodes/AudioNode";
@@ -161,7 +162,7 @@ export default function FunnelEditor() {
         handleImport={handleImport}
       />
 
-      <div className="flex-1 bg-zinc-50 flex">
+      <div className="flex-1 bg-zinc-900 flex">
         <ElementsSidebar onDragStart={onDragStart} />
 
         <div className="flex-1">
@@ -174,9 +175,19 @@ export default function FunnelEditor() {
             onDrop={onDrop}
             nodeTypes={nodeTypes}
             fitView
+            className="touch-none"
+            minZoom={0.1}
+            maxZoom={4}
+            defaultViewport={{ x: 0, y: 0, zoom: 1 }}
+            proOptions={{ hideAttribution: true }}
           >
-            <Background />
+            <Background color="#666" gap={20} />
             <Controls />
+            <Panel position="top-right">
+              <button className="px-4 py-2 rounded bg-primary text-white">
+                Adicionar Gatilho
+              </button>
+            </Panel>
           </ReactFlow>
         </div>
       </div>

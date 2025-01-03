@@ -15,14 +15,30 @@
 
 /* React Flow Custom Styling */
 .react-flow__node {
-  @apply bg-white shadow-lg border border-border rounded-lg;
+  @apply bg-zinc-800 shadow-lg border border-zinc-700 rounded-lg;
+  width: 300px !important;
   z-index: 5 !important;
+  pointer-events: all !important;
+  user-select: none;
+}
+
+.react-flow__node-textNode,
+.react-flow__node-audioNode,
+.react-flow__node-videoNode,
+.react-flow__node-fileNode,
+.react-flow__node-pathNode,
+.react-flow__node-startNode {
+  @apply bg-zinc-800/90 backdrop-blur-sm;
 }
 
 .react-flow__handle {
   opacity: 0.5;
   transition: opacity 0.2s;
   z-index: 10;
+  background: #666 !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
 }
 
 .react-flow__handle:hover {
@@ -44,16 +60,19 @@
 }
 
 .react-flow__controls {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  @apply bg-zinc-800/90 backdrop-blur-sm border border-zinc-700 !important;
 }
 
 .react-flow__controls button {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: hsl(var(--primary));
+  @apply border-zinc-700 text-white/80 hover:bg-zinc-700/50 !important;
 }
 
-.react-flow__controls button:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+.react-flow__panel {
+  z-index: 5;
+}
+
+.react-flow__background {
+  @apply bg-zinc-900;
 }
 
 .react-flow__minimap {
