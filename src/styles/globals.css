@@ -14,9 +14,15 @@
 }
 
 /* React Flow Custom Styling */
+.react-flow__node {
+  @apply bg-white shadow-lg border border-border rounded-lg;
+  z-index: 5 !important;
+}
+
 .react-flow__handle {
   opacity: 0.5;
   transition: opacity 0.2s;
+  z-index: 10;
 }
 
 .react-flow__handle:hover {
@@ -27,6 +33,10 @@
   stroke: hsl(var(--primary));
   stroke-width: 2;
   opacity: 0.5;
+}
+
+.react-flow__edge {
+  z-index: 1;
 }
 
 .react-flow__edge:hover .react-flow__edge-path {
@@ -56,8 +66,8 @@
 
 /* Dark theme specific styles */
 .dark .react-flow__node {
-  background-color: transparent;
-  border: none;
+  background-color: hsl(var(--background));
+  border-color: hsl(var(--border));
 }
 
 .dark .react-flow__controls {

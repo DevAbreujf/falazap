@@ -1,26 +1,21 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   ReactFlow,
   Background,
   Controls,
-  Panel,
   useNodesState,
   useEdgesState,
 } from "@xyflow/react";
-import { ArrowLeft, FileDown, FileUp, Save } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { TextNode } from "@/components/flow-nodes/TextNode";
 import { AudioNode } from "@/components/flow-nodes/AudioNode";
 import { VideoNode } from "@/components/flow-nodes/VideoNode";
 import { FileNode } from "@/components/flow-nodes/FileNode";
 import { StartNode } from "@/components/flow-nodes/StartNode";
-import { FlowNode, NodeData } from "@/types/flow";
 import { PathNode } from "@/components/flow-nodes/PathNode";
+import { FlowNode, NodeData } from "@/types/flow";
+import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
+import { EditorHeader } from "@/components/funnel-editor/EditorHeader";
+import { ManualTriggerDialog } from "@/components/funnel-editor/ManualTriggerDialog";
 
 const nodeTypes = {
   textNode: TextNode,
@@ -48,7 +43,6 @@ const initialNodes: FlowNode[] = [
 ];
 
 export default function FunnelEditor() {
-  const navigate = useNavigate();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [isActive, setIsActive] = useState(false);
@@ -119,6 +113,8 @@ export default function FunnelEditor() {
         return { videoUrl: "" };
       case "fileNode":
         return { fileName: "" };
+      case "pathNode":
+        return { rules: [], hasDefaultPath: false };
       default:
         return {};
     }
@@ -152,183 +148,21 @@ export default function FunnelEditor() {
 
   return (
     <div className="h-screen flex flex-col">
-      <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center justify-between gap-4 p-4">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/funnels")}
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
+      <EditorHeader
+        funnelName={funnelName}
+        isEditing={isEditing}
+        isActive={isActive}
+        setFunnelName={setFunnelName}
+        setIsEditing={setIsEditing}
+        setIsActive={setIsActive}
+        setIsManualTriggerOpen={setIsManualTriggerOpen}
+        handleSave={handleSave}
+        handleExport={handleExport}
+        handleImport={handleImport}
+      />
 
-            <div className="flex items-center gap-2">
-              {isEditing ? (
-                <Input
-                  value={funnelName}
-                  onChange={(e) => setFunnelName(e.target.value)}
-                  onBlur={() => setIsEditing(false)}
-                  onKeyDown={(e) => e.key === "Enter" && setIsEditing(false)}
-                  className="h-9 w-[180px]"
-                  autoFocus
-                />
-              ) : (
-                <h2
-                  className="text-lg font-semibold cursor-pointer hover:text-primary transition-colors"
-                  onClick={() => setIsEditing(true)}
-                >
-                  {funnelName}
-                </h2>
-              )}
-            </div>
-
-            <Button
-              variant="outline"
-              onClick={() => setIsManualTriggerOpen(true)}
-            >
-              Disparo Manual
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Switch
-                checked={isActive}
-                onCheckedChange={setIsActive}
-              />
-              <span className="text-sm font-medium">
-                {isActive ? "Ativo" : "Inativo"}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <label className="cursor-pointer">
-                <input
-                  type="file"
-                  accept=".json"
-                  onChange={handleImport}
-                  className="hidden"
-                />
-                <Button variant="outline" asChild>
-                  <span>
-                    <FileDown className="h-4 w-4 mr-2" />
-                    Importar
-                  </span>
-                </Button>
-              </label>
-
-              <Button variant="outline" onClick={handleExport}>
-                <FileUp className="h-4 w-4 mr-2" />
-                Exportar
-              </Button>
-
-              <Button onClick={handleSave}>
-                <Save className="h-4 w-4 mr-2" />
-                Salvar
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* React Flow Canvas */}
       <div className="flex-1 bg-zinc-50 flex">
-        {/* Elements Panel */}
-        <div className="w-64 h-full bg-background/95 backdrop-blur-lg border-r border-border flex flex-col">
-          <div className="p-4 border-b border-border">
-            <h3 className="font-semibold text-lg">Adicionar Elementos</h3>
-          </div>
-          
-          <div className="flex-1 overflow-y-auto p-4 space-y-6">
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-muted-foreground">Mensagens</h4>
-              <div className="space-y-2">
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                  onDragStart={(e) => onDragStart(e, "textNode")}
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Texto
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                  onDragStart={(e) => onDragStart(e, "audioNode")}
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Áudio
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                  onDragStart={(e) => onDragStart(e, "videoNode")}
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Vídeo
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                  onDragStart={(e) => onDragStart(e, "fileNode")}
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Arquivo
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-muted-foreground">Lógicas</h4>
-              <div className="space-y-2">
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                  onDragStart={(e) => onDragStart(e, "pathNode")}
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Caminhos
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Perguntas
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Tempo de espera
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Tags
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Variáveis
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
-                  draggable
-                >
-                  <span className="w-4 h-4 rounded-full bg-primary/20" />
-                  Botões
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ElementsSidebar onDragStart={onDragStart} />
 
         <div className="flex-1">
           <ReactFlow
@@ -347,43 +181,15 @@ export default function FunnelEditor() {
         </div>
       </div>
 
-      {/* Manual Trigger Dialog */}
-      <Dialog open={isManualTriggerOpen} onOpenChange={setIsManualTriggerOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Disparo Manual do Funil</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label>Gatilho</Label>
-              <select
-                className="w-full p-2 rounded-md border"
-                value={selectedTrigger}
-                onChange={(e) => setSelectedTrigger(e.target.value)}
-              >
-                <option value="">Selecione um gatilho</option>
-                {/* Adicionar opções de gatilho aqui */}
-              </select>
-            </div>
-            <div className="space-y-2">
-              <Label>Número do Cliente</Label>
-              <Input
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="+55 (99) 99999-9999"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsManualTriggerOpen(false)}>
-              Cancelar
-            </Button>
-            <Button onClick={handleManualTrigger}>
-              Enviar
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ManualTriggerDialog
+        isOpen={isManualTriggerOpen}
+        setIsOpen={setIsManualTriggerOpen}
+        phoneNumber={phoneNumber}
+        setPhoneNumber={setPhoneNumber}
+        selectedTrigger={selectedTrigger}
+        setSelectedTrigger={setSelectedTrigger}
+        handleManualTrigger={handleManualTrigger}
+      />
     </div>
   );
 }
