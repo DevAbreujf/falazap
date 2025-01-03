@@ -7,6 +7,7 @@ import {
   useEdgesState,
   addEdge,
   Connection,
+  Node,
 } from "@xyflow/react";
 import { TextNode } from "@/components/flow-nodes/TextNode";
 import { AudioNode } from "@/components/flow-nodes/AudioNode";
@@ -17,6 +18,7 @@ import { PathNode } from "@/components/flow-nodes/PathNode";
 import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
 import { EditorHeader } from "@/components/funnel-editor/EditorHeader";
 import { ManualTriggerDialog } from "@/components/funnel-editor/ManualTriggerDialog";
+import { FlowNode, NodeData, StartNodeData } from "@/types/flow";
 
 const nodeTypes = {
   textNode: TextNode,
@@ -27,19 +29,19 @@ const nodeTypes = {
   pathNode: PathNode,
 };
 
-const initialNodes = [
+const initialNodes: FlowNode[] = [
   {
     id: "start",
     type: "startNode",
     position: { x: 400, y: 100 },
-    data: { 
+    data: {
       label: "Início",
       triggers: [],
       delay: {
         value: 0,
         unit: "minutes"
       }
-    }
+    } as StartNodeData
   }
 ];
 
@@ -109,7 +111,7 @@ export default function FunnelEditor() {
     event.dataTransfer.dropEffect = "move";
   };
 
-  const getNodeData = (type: string) => {
+  const getNodeData = (type: string): NodeData => {
     switch (type) {
       case "textNode":
         return { text: "" };
@@ -121,8 +123,14 @@ export default function FunnelEditor() {
         return { fileName: "" };
       case "pathNode":
         return { rules: [], hasDefaultPath: false };
+      case "startNode":
+        return {
+          label: "Início",
+          triggers: [],
+          delay: { value: 0, unit: "minutes" }
+        };
       default:
-        return {};
+        return { text: "" };
     }
   };
 
@@ -137,7 +145,7 @@ export default function FunnelEditor() {
       y: event.clientY - 100,
     };
 
-    const newNode = {
+    const newNode: FlowNode = {
       id: `${type}-${nodes.length + 1}`,
       type,
       position,
