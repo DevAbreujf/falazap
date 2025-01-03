@@ -3,11 +3,17 @@ import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
-import { Circle, Menu } from "lucide-react";
+import { Circle, Menu, ChevronDown, Phone } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 import { MetricsGrid } from "@/components/app/dashboard/MetricsGrid";
 import { AnalyticsChart } from "@/components/app/dashboard/AnalyticsChart";
 import { useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState<"day" | "week" | "month">("week");
@@ -61,11 +67,35 @@ export default function Dashboard() {
                   )}
                 </div>
               </div>
-              <div className="w-full md:w-auto text-center md:text-right">
-                <p className="text-sm text-muted-foreground mb-2">
-                  Plano atual: <span className="font-medium text-primary">Pro</span>
-                </p>
-                <PricingDialog />
+              <div className="w-full md:w-auto flex items-center gap-4">
+                <div className="glass-card hover:bg-white/5 transition-all duration-300 p-3 rounded-lg flex-1 md:flex-none">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="w-full justify-between hover:bg-primary/20">
+                        <div className="flex items-center gap-2">
+                          <Phone className="h-4 w-4 text-primary" />
+                          <span>+55 11 99999-9999</span>
+                          <span className="text-xs text-primary/80">(conectado)</span>
+                        </div>
+                        <ChevronDown className="h-4 w-4 text-primary" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuItem>
+                        +55 11 88888-8888
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        +55 11 77777-7777
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Plano atual: <span className="font-medium text-primary">Pro</span>
+                  </p>
+                  <PricingDialog />
+                </div>
               </div>
             </div>
 

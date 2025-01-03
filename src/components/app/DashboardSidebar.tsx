@@ -102,29 +102,6 @@ export function DashboardSidebar() {
       
       <SidebarHeader>
         <div className="p-3">
-          <div className="mb-3 p-3 glass-card hover:bg-white/5 transition-all duration-300">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full justify-between hover:bg-primary/20">
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-primary" />
-                    <span>+55 11 99999-9999</span>
-                    <span className="text-xs text-primary/80">(conectado)</span>
-                  </div>
-                  <ChevronDown className="h-4 w-4 text-primary" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem>
-                  +55 11 88888-8888
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  +55 11 77777-7777
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
           <div className="p-3 glass-card hover:bg-white/5 transition-all duration-300">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -162,12 +139,12 @@ export function DashboardSidebar() {
       <SidebarContent className="px-2">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+            <SidebarMenu className="space-y-1">
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     onClick={item.onClick}
-                    className="group relative flex w-full items-center gap-3 p-5 mb-4 transition-all duration-200 hover:bg-primary/10 rounded-lg"
+                    className="group relative flex w-full items-center gap-3 p-4 transition-all duration-200 hover:bg-primary/10 rounded-lg"
                   >
                     <div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary/20">
                       <item.icon className="h-4 w-4" />
