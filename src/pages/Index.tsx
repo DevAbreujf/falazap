@@ -34,7 +34,7 @@ const Index = () => {
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                 Clone seu melhor{" "}
                 <span className="bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] bg-clip-text text-transparent transition-all duration-500">
-                  ({role})
+                  {role}
                 </span>
                 {" "}com AI
               </h1>
@@ -53,6 +53,11 @@ const Index = () => {
             </div>
             <div className="relative w-full aspect-square bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-3xl p-8">
               <div className="absolute inset-0 bg-grid-white/10 [mask-image:radial-gradient(white,transparent_85%)]" />
+              <img 
+                src="/placeholder.svg" 
+                alt="AI Assistant Illustration"
+                className="w-full h-full object-contain animate-float"
+              />
             </div>
           </div>
         </section>
