@@ -19,6 +19,7 @@ import { AudioNode } from "@/components/flow-nodes/AudioNode";
 import { VideoNode } from "@/components/flow-nodes/VideoNode";
 import { FileNode } from "@/components/flow-nodes/FileNode";
 import { StartNode } from "@/components/flow-nodes/StartNode";
+import { FlowNode, NodeData } from "@/types/flow";
 
 import "@xyflow/react/dist/style.css";
 
@@ -30,7 +31,7 @@ const nodeTypes = {
   startNode: StartNode,
 };
 
-const initialNodes = [
+const initialNodes: FlowNode[] = [
   {
     id: "start",
     type: "startNode",
@@ -103,12 +104,27 @@ export default function FunnelEditor() {
     }
   };
 
-  const onDragOver = (event) => {
+  const onDragOver = (event: React.DragEvent) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   };
 
-  const onDrop = (event) => {
+  const getNodeData = (type: string): NodeData => {
+    switch (type) {
+      case "textNode":
+        return { text: "" };
+      case "audioNode":
+        return { audioUrl: "" };
+      case "videoNode":
+        return { videoUrl: "" };
+      case "fileNode":
+        return { fileName: "" };
+      default:
+        return {};
+    }
+  };
+
+  const onDrop = (event: React.DragEvent) => {
     event.preventDefault();
 
     const type = event.dataTransfer.getData("application/reactflow");
@@ -119,17 +135,17 @@ export default function FunnelEditor() {
       y: event.clientY - 100,
     };
 
-    const newNode = {
+    const newNode: FlowNode = {
       id: `${type}-${nodes.length + 1}`,
       type,
       position,
-      data: {},
+      data: getNodeData(type),
     };
 
     setNodes((nds) => nds.concat(newNode));
   };
 
-  const onDragStart = (event, nodeType) => {
+  const onDragStart = (event: React.DragEvent, nodeType: string) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
   };
@@ -344,4 +360,4 @@ export default function FunnelEditor() {
       </Dialog>
     </div>
   );
-}
+};
