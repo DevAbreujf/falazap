@@ -2,6 +2,7 @@ import { Node } from "@xyflow/react";
 
 export interface BaseNodeData {
   label?: string;
+  [key: string]: unknown;  // Add index signature to make it compatible with Record<string, unknown>
 }
 
 export interface StartNodeData extends BaseNodeData {

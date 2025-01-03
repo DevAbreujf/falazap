@@ -29,7 +29,7 @@ const nodeTypes = {
   pathNode: PathNode,
 };
 
-const initialNodes: FlowNode[] = [
+const initialNodes: Node[] = [
   {
     id: "start",
     type: "startNode",
@@ -114,15 +114,15 @@ export default function FunnelEditor() {
   const getNodeData = (type: string): NodeData => {
     switch (type) {
       case "textNode":
-        return { text: "" };
+        return { text: "", label: "" };
       case "audioNode":
-        return { audioUrl: "" };
+        return { audioUrl: "", label: "" };
       case "videoNode":
-        return { videoUrl: "" };
+        return { videoUrl: "", label: "" };
       case "fileNode":
-        return { fileName: "" };
+        return { fileName: "", label: "" };
       case "pathNode":
-        return { rules: [], hasDefaultPath: false };
+        return { rules: [], hasDefaultPath: false, label: "" };
       case "startNode":
         return {
           label: "Início",
@@ -130,7 +130,7 @@ export default function FunnelEditor() {
           delay: { value: 0, unit: "minutes" }
         };
       default:
-        return { text: "" };
+        return { text: "", label: "" };
     }
   };
 
@@ -145,7 +145,7 @@ export default function FunnelEditor() {
       y: event.clientY - 100,
     };
 
-    const newNode: FlowNode = {
+    const newNode: Node = {
       id: `${type}-${nodes.length + 1}`,
       type,
       position,
