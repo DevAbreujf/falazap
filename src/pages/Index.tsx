@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { Hero } from "@/components/Hero";
 import { Steps } from "@/components/Steps";
 import { TransformResults } from "@/components/TransformResults";
 import { HighScale } from "@/components/HighScale";
@@ -17,30 +18,7 @@ const Index = () => {
     <div className="min-h-screen w-full">
       <Header />
       <main className="w-full">
-        <section className="container mx-auto px-4 pt-32 pb-16 min-h-[700px]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
-            <div className="flex flex-col gap-6">
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Automatize seu atendimento com Inteligência Artificial
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                Transforme seu atendimento com nossa solução de IA. Atenda mais clientes, 
-                qualifique leads e aumente suas vendas 24/7.
-              </p>
-              <div className="flex gap-4">
-                <Button size="lg" className="bg-[#7C3AED] hover:bg-[#6D28D9]">
-                  Começar Agora
-                </Button>
-                <Button size="lg" variant="outline">
-                  Ver Demonstração
-                </Button>
-              </div>
-            </div>
-            <div className="relative w-full aspect-square bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-3xl p-8">
-              <div className="absolute inset-0 bg-grid-white/10 [mask-image:radial-gradient(white,transparent_85%)]" />
-            </div>
-          </div>
-        </section>
+        <Hero />
 
         {/* AI Customization Section */}
         <section className="py-24 relative overflow-hidden">
