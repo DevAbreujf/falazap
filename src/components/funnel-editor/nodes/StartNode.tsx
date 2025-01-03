@@ -1,23 +1,24 @@
 import React from 'react';
-import { Handle, Position } from '@xyflow/react';
+import { Handle, Position, NodeProps } from '@xyflow/react';
 import { Clock, ChevronDown, ChevronUp, Plus, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TriggerNode } from './TriggerNode';
 
-interface StartNodeProps {
-  data: {
-    label: string;
-    description: string;
-    time: number;
-    triggers: Array<{
-      id: string;
-      triggerType: string;
-      triggerTerm: string;
-      platform: string;
-      event: string;
-    }>;
-  };
+interface StartNodeData {
+  label: string;
+  description: string;
+  time: number;
+  triggers: Array<{
+    id: string;
+    triggerType: string;
+    triggerTerm: string;
+    platform: string;
+    event: string;
+  }>;
+}
+
+interface StartNodeProps extends NodeProps<StartNodeData> {
   isTimeSettingsOpen: boolean;
   onTimeSettingsToggle: () => void;
   onTimeChange: (value: number) => void;
@@ -26,7 +27,7 @@ interface StartNodeProps {
   onRemoveTrigger: (triggerId: string) => void;
 }
 
-export const StartNode: React.FC<StartNodeProps> = ({
+export const StartNode = ({
   data,
   isTimeSettingsOpen,
   onTimeSettingsToggle,
@@ -34,7 +35,7 @@ export const StartNode: React.FC<StartNodeProps> = ({
   onAddTrigger,
   onUpdateTrigger,
   onRemoveTrigger,
-}) => {
+}: StartNodeProps) => {
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };

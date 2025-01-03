@@ -8,6 +8,7 @@ import {
   addEdge,
   Connection,
   Node,
+  NodeTypes,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -18,7 +19,21 @@ import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
 import { StartNode } from "@/components/funnel-editor/nodes/StartNode";
 import { TextNode } from "@/components/funnel-editor/nodes/TextNode";
 
-const initialNodes = [
+type CustomNode = Node<{
+  label?: string;
+  description?: string;
+  time?: number;
+  triggers?: Array<{
+    id: string;
+    triggerType: string;
+    triggerTerm: string;
+    platform: string;
+    event: string;
+  }>;
+  content?: string;
+}>;
+
+const initialNodes: CustomNode[] = [
   {
     id: "1",
     type: "start",
@@ -62,18 +77,89 @@ export default function FunnelEditor() {
       y: event.clientY - 100,
     };
 
-    const newNode: Node = {
+    const newNode: CustomNode = {
       id: `${type}-${Date.now()}`,
       type,
       position,
       data: { content: '' },
     };
 
-    setNodes((nds) => nds.concat(newNode));
+    setNodes((nds) => [...nds, newNode]);
   };
 
-  const nodeTypes = {
-    start: StartNode,
+  const handleTimeSettingsToggle = () => setIsTimeSettingsOpen(!isTimeSettingsOpen);
+  const handleTimeChange = (time: number) => {
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === "1" ? { ...node, data: { ...node.data, time } } : node
+      )
+    );
+  };
+
+  const handleAddTrigger = () => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === "1") {
+          const newTrigger = {
+            id: `trigger-${Date.now()}`,
+            triggerType: "",
+            triggerTerm: "",
+            platform: "",
+            event: "",
+          };
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              triggers: [...(node.data.triggers || []), newTrigger],
+            },
+          };
+        }
+        return node;
+      })
+    );
+  };
+
+  const handleUpdateTrigger = (triggerId: string, field: string, value: string) => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === "1" && node.data.triggers) {
+          const updatedTriggers = node.data.triggers.map((trigger) =>
+            trigger.id === triggerId ? { ...trigger, [field]: value } : trigger
+          );
+          return { ...node, data: { ...node.data, triggers: updatedTriggers } };
+        }
+        return node;
+      })
+    );
+  };
+
+  const handleRemoveTrigger = (triggerId: string) => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === "1" && node.data.triggers) {
+          const updatedTriggers = node.data.triggers.filter(
+            (trigger) => trigger.id !== triggerId
+          );
+          return { ...node, data: { ...node.data, triggers: updatedTriggers } };
+        }
+        return node;
+      })
+    );
+  };
+
+  const nodeTypes: NodeTypes = {
+    start: (props) => (
+      <StartNode
+        {...props}
+        isTimeSettingsOpen={isTimeSettingsOpen}
+        onTimeSettingsToggle={handleTimeSettingsToggle}
+        onTimeChange={handleTimeChange}
+        onAddTrigger={handleAddTrigger}
+        onUpdateTrigger={handleUpdateTrigger}
+        onRemoveTrigger={handleRemoveTrigger}
+      />
+    ),
     text: TextNode,
   };
 
