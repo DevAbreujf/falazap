@@ -1,13 +1,18 @@
 import { Handle, Position } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
+import { Upload, X } from "lucide-react";
 
 export function AudioNode({ data }: { data: { audioUrl?: string } }) {
   return (
-    <div className="bg-white p-4 rounded-lg shadow-sm border min-w-[300px]">
-      <Handle type="target" position={Position.Top} className="w-2 h-2" />
-      <div className="space-y-2">
-        <h3 className="font-medium text-sm">Mensagem de Áudio</h3>
+    <div className="flow-node">
+      <Handle type="target" position={Position.Top} />
+      <div className="flow-node-header">
+        <h3>Mensagem de Áudio</h3>
+        <button className="text-zinc-400 hover:text-zinc-100">
+          <X size={16} />
+        </button>
+      </div>
+      <div className="flow-node-content">
         {data.audioUrl ? (
           <div className="space-y-2">
             <audio controls src={data.audioUrl} className="w-full" />
@@ -22,7 +27,7 @@ export function AudioNode({ data }: { data: { audioUrl?: string } }) {
           </Button>
         )}
       </div>
-      <Handle type="source" position={Position.Bottom} className="w-2 h-2" />
+      <Handle type="source" position={Position.Bottom} />
     </div>
   );
 }

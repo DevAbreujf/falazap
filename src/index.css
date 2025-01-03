@@ -151,3 +151,64 @@ body::before {
     animation: subtle-pulse 4s ease-in-out infinite;
   }
 }
+
+/* Flow Node Styles */
+.flow-node {
+  @apply bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-lg overflow-hidden min-w-[280px] shadow-lg;
+}
+
+.flow-node-header {
+  @apply bg-zinc-800/50 px-4 py-2 flex items-center justify-between border-b border-zinc-700/50;
+}
+
+.flow-node-header h3 {
+  @apply text-sm font-medium text-zinc-100;
+}
+
+.flow-node-content {
+  @apply p-4 space-y-3;
+}
+
+.flow-node-footer {
+  @apply px-4 py-3 bg-zinc-900/50;
+}
+
+/* Handle Styles */
+.react-flow__handle {
+  @apply bg-zinc-600 border-2 border-zinc-500 w-3 h-3;
+}
+
+.react-flow__handle-top {
+  @apply top-0 -translate-y-1/2;
+}
+
+.react-flow__handle-bottom {
+  @apply bottom-0 translate-y-1/2;
+}
+
+/* ReactFlow Container */
+.react-flow {
+  @apply bg-zinc-950;
+}
+
+.react-flow__controls {
+  @apply bg-zinc-900/90 border border-zinc-800 rounded-lg overflow-hidden;
+}
+
+.react-flow__controls-button {
+  @apply border-zinc-800 text-zinc-400 hover:bg-zinc-800;
+}
+
+/* Zoom Controls */
+.react-flow__controls {
+  @apply p-1;
+}
+
+.react-flow__controls-button {
+  @apply border-0 hover:bg-zinc-800 transition-colors;
+}
+
+/* Node Selection Styles */
+.react-flow__node.selected {
+  @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
+}

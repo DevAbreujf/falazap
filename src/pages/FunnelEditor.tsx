@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   ReactFlow,
   Background,
   Controls,
   useNodesState,
   useEdgesState,
+  addEdge,
+  Connection,
 } from "@xyflow/react";
 import { TextNode } from "@/components/flow-nodes/TextNode";
 import { AudioNode } from "@/components/flow-nodes/AudioNode";
@@ -12,7 +14,6 @@ import { VideoNode } from "@/components/flow-nodes/VideoNode";
 import { FileNode } from "@/components/flow-nodes/FileNode";
 import { StartNode } from "@/components/flow-nodes/StartNode";
 import { PathNode } from "@/components/flow-nodes/PathNode";
-import { FlowNode, NodeData } from "@/types/flow";
 import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
 import { EditorHeader } from "@/components/funnel-editor/EditorHeader";
 import { ManualTriggerDialog } from "@/components/funnel-editor/ManualTriggerDialog";
@@ -26,7 +27,7 @@ const nodeTypes = {
   pathNode: PathNode,
 };
 
-const initialNodes: FlowNode[] = [
+const initialNodes = [
   {
     id: "start",
     type: "startNode",
@@ -51,6 +52,11 @@ export default function FunnelEditor() {
   const [isManualTriggerOpen, setIsManualTriggerOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("+55");
   const [selectedTrigger, setSelectedTrigger] = useState("");
+
+  const onConnect = useCallback(
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
 
   const handleManualTrigger = () => {
     setIsManualTriggerOpen(false);
@@ -103,7 +109,7 @@ export default function FunnelEditor() {
     event.dataTransfer.dropEffect = "move";
   };
 
-  const getNodeData = (type: string): NodeData => {
+  const getNodeData = (type: string) => {
     switch (type) {
       case "textNode":
         return { text: "" };
@@ -131,7 +137,7 @@ export default function FunnelEditor() {
       y: event.clientY - 100,
     };
 
-    const newNode: FlowNode = {
+    const newNode = {
       id: `${type}-${nodes.length + 1}`,
       type,
       position,
@@ -139,11 +145,6 @@ export default function FunnelEditor() {
     };
 
     setNodes((nds) => nds.concat(newNode));
-  };
-
-  const onDragStart = (event: React.DragEvent, nodeType: string) => {
-    event.dataTransfer.setData("application/reactflow", nodeType);
-    event.dataTransfer.effectAllowed = "move";
   };
 
   return (
@@ -161,8 +162,11 @@ export default function FunnelEditor() {
         handleImport={handleImport}
       />
 
-      <div className="flex-1 bg-zinc-50 flex">
-        <ElementsSidebar onDragStart={onDragStart} />
+      <div className="flex-1 bg-zinc-950 flex">
+        <ElementsSidebar onDragStart={(event, nodeType) => {
+          event.dataTransfer.setData("application/reactflow", nodeType);
+          event.dataTransfer.effectAllowed = "move";
+        }} />
 
         <div className="flex-1">
           <ReactFlow
@@ -170,12 +174,17 @@ export default function FunnelEditor() {
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
             onDragOver={onDragOver}
             onDrop={onDrop}
             nodeTypes={nodeTypes}
             fitView
+            className="touch-none"
+            minZoom={0.1}
+            maxZoom={1.5}
+            defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
           >
-            <Background />
+            <Background color="#27272a" gap={16} />
             <Controls />
           </ReactFlow>
         </div>
