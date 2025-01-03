@@ -16,6 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Zap, Save, Upload, Download, Flag, Clock, X, Plus, HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 const initialNodes = [
   {
@@ -25,7 +26,12 @@ const initialNodes = [
     data: { 
       label: "Início",
       description: "Definir tempo mínimo para o funil ser disparado novamente",
-      time: 0
+      time: 0,
+      showTrigger: false,
+      triggerType: "",
+      triggerTerm: "",
+      platform: "",
+      event: "",
     },
     className: "flow-node start-node",
   },
@@ -41,6 +47,26 @@ export default function FunnelEditor() {
   const onConnect = (params: any) => setEdges((eds) => addEdge(params, eds));
 
   const StartNode = ({ data }: any) => {
+    const toggleTrigger = () => {
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === "1"
+            ? { ...node, data: { ...node.data, showTrigger: !node.data.showTrigger } }
+            : node
+        )
+      );
+    };
+
+    const updateNodeData = (field: string, value: string) => {
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === "1"
+            ? { ...node, data: { ...node.data, [field]: value } }
+            : node
+        )
+      );
+    };
+
     return (
       <div className="w-[280px] bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden">
         <div className="px-4 py-3 flex items-center gap-2 border-b border-zinc-800/50">
@@ -103,10 +129,68 @@ export default function FunnelEditor() {
               </Button>
             </div>
           )}
+
+          {data.showTrigger && (
+            <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
+              <Select value={data.triggerType} onValueChange={(value) => updateNodeData('triggerType', value)}>
+                <SelectTrigger className="w-full h-10 bg-zinc-950/50 border-zinc-800 text-sm">
+                  <SelectValue placeholder="Selecione a condição" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="contains">Contenha</SelectItem>
+                  <SelectItem value="exact">Exata</SelectItem>
+                  <SelectItem value="any">Qualquer mensagem</SelectItem>
+                  <SelectItem value="integration">Integração</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {(data.triggerType === 'contains' || data.triggerType === 'exact') && (
+                <Input
+                  placeholder="Digite o termo"
+                  className="h-10 bg-zinc-950/50 border-zinc-800 text-sm"
+                  value={data.triggerTerm}
+                  onChange={(e) => updateNodeData('triggerTerm', e.target.value)}
+                />
+              )}
+
+              {data.triggerType === 'integration' && (
+                <div className="space-y-3">
+                  <Select value={data.platform} onValueChange={(value) => updateNodeData('platform', value)}>
+                    <SelectTrigger className="w-full h-10 bg-zinc-950/50 border-zinc-800 text-sm">
+                      <SelectValue placeholder="Selecione a plataforma" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="kiwify">Kiwify</SelectItem>
+                      <SelectItem value="hotmart">Hotmart</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  {data.platform && (
+                    <Select value={data.event} onValueChange={(value) => updateNodeData('event', value)}>
+                      <SelectTrigger className="w-full h-10 bg-zinc-950/50 border-zinc-800 text-sm">
+                        <SelectValue placeholder="Selecione o evento de gatilho" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="approved">Venda aprovada</SelectItem>
+                        <SelectItem value="canceled">Venda cancelada</SelectItem>
+                        <SelectItem value="refund">Reembolso</SelectItem>
+                        <SelectItem value="abandoned">Carrinho abandonado</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="px-4 py-3 bg-zinc-900/50 border-t border-zinc-800/50 flex items-center justify-between">
-          <Button variant="ghost" size="sm" className="text-orange-500 hover:text-orange-400">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-orange-500 hover:text-orange-400"
+            onClick={toggleTrigger}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Adicionar gatilho
           </Button>
