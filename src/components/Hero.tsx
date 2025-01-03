@@ -1,18 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 
 export function Hero() {
-  const [currentWord, setCurrentWord] = useState("vendedor");
-  const words = ["vendedor", "atendente"];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWord((current) => current === words[0] ? words[1] : words[0]);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const scrollToPricing = () => {
     const pricingSection = document.querySelector('section:has(.glass-card)');
     pricingSection?.scrollIntoView({ behavior: 'smooth' });
@@ -27,11 +15,8 @@ export function Hero() {
           </span>
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-up">
-            Clone seu melhor{" "}
-            <span className="text-primary text-gradient-primary">
-              {currentWord}
-            </span>{" "}
-            com AI
+            Multiplique suas vendas de forma automática com o chatbot que vende
+            <span className="text-primary"> 24h por dia.</span>
           </h1>
           
           <p className="text-lg text-muted-foreground mb-8 animate-fade-up" style={{animationDelay: "0.1s"}}>
