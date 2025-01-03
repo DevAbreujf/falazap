@@ -35,33 +35,10 @@ const initialNodes = [
 
 export default function FunnelEditor() {
   const navigate = useNavigate();
-  const [nodes, setNodes] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [isActive, setIsActive] = useState(false);
   const [isTimeSettingsOpen, setIsTimeSettingsOpen] = useState(false);
-
-  const onNodesChange = (changes: NodeChange[]) => {
-    const filteredChanges = changes.filter((change) => {
-      if ('type' in change && change.type === 'remove') {
-        const node = nodes.find((n) => n.id === change.id);
-        return node?.type !== 'start';
-      }
-      return true;
-    });
-    
-    setNodes((nds) => {
-      const nextNodes = [...nds];
-      filteredChanges.forEach((change) => {
-        if ('position' in change && change.position) {
-          const index = nextNodes.findIndex((n) => n.id === change.id);
-          if (index !== -1) {
-            nextNodes[index] = { ...nextNodes[index], position: change.position };
-          }
-        }
-      });
-      return nextNodes;
-    });
-  };
 
   const onConnect = (params: any) => setEdges((eds) => addEdge(params, eds));
 

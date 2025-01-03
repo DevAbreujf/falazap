@@ -35,18 +35,19 @@ export const StartNode: React.FC<StartNodeProps> = ({
   onUpdateTrigger,
   onRemoveTrigger,
 }) => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <div className="w-[280px] bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden">
+    <div className="w-[280px] bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden" onClick={handleClick}>
       <div className="px-4 py-3 bg-zinc-900/80 border-b border-zinc-800/50">
         <h3 className="text-sm font-medium text-zinc-100">{data.label}</h3>
       </div>
 
       <div className="divide-y divide-zinc-800/50">
         <div className="p-4 space-y-4">
-          <div
-            className="flex items-start gap-2 cursor-pointer"
-            onClick={onTimeSettingsToggle}
-          >
+          <div className="flex items-start gap-2 cursor-pointer" onClick={onTimeSettingsToggle}>
             <Clock className="h-4 w-4 text-zinc-400 mt-0.5" />
             <div className="flex-1">
               <div className="flex items-center justify-between">
@@ -69,6 +70,7 @@ export const StartNode: React.FC<StartNodeProps> = ({
                   value={data.time}
                   className="w-12 text-center bg-transparent text-sm text-zinc-400 focus:outline-none"
                   onChange={(e) => onTimeChange(parseInt(e.target.value) || 0)}
+                  onClick={(e) => e.stopPropagation()}
                 />
               </div>
 
@@ -100,7 +102,10 @@ export const StartNode: React.FC<StartNodeProps> = ({
             variant="ghost"
             size="sm"
             className="text-primary hover:text-primary/80"
-            onClick={onAddTrigger}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddTrigger();
+            }}
           >
             <Plus className="h-4 w-4 mr-2" />
             Adicionar gatilho
