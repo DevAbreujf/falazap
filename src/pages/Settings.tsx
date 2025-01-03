@@ -9,7 +9,9 @@ import { SecuritySettings } from "@/components/settings/SecuritySettings";
 import { CompanySettings } from "@/components/settings/CompanySettings";
 import { AuthenticationSettings } from "@/components/settings/AuthenticationSettings";
 import { settingsFormSchema, type SettingsFormValues } from "@/types/settings";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
 
 export default function Settings() {
   const { toast } = useToast();
@@ -43,8 +45,30 @@ export default function Settings() {
         <DashboardSidebar />
         <div className="flex-1 p-8">
           <div className="max-w-4xl mx-auto space-y-8">
-            <SettingsHeader />
-            
+            <div className="flex items-center justify-between">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent blur-xl" />
+                <h1 className="relative text-4xl font-bold mb-8 text-gradient-primary py-2">
+                  Configurações da Conta
+                </h1>
+                <p className="text-muted-foreground mb-6">
+                  Gerencie suas preferências e configurações de conta
+                </p>
+              </div>
+              <div className="lg:hidden">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  asChild 
+                  className="hover:bg-primary/20 bg-black/50"
+                >
+                  <SidebarTrigger>
+                    <Menu className="h-6 w-6 text-primary" />
+                  </SidebarTrigger>
+                </Button>
+              </div>
+            </div>
+
             <Tabs defaultValue="perfil" className="space-y-8">
               <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 gap-4">
                 <TabsTrigger value="perfil" className="data-[state=active]:bg-primary/20">

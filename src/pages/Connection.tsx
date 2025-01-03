@@ -10,20 +10,8 @@ export default function Connection() {
       <div className="flex min-h-screen w-full">
         <DashboardSidebar />
         <div className="flex-1 p-6">
-          <div className="flex items-center justify-end mb-6 lg:hidden">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              asChild 
-              className="hover:bg-primary/20 bg-black/50"
-            >
-              <SidebarTrigger>
-                <Menu className="h-6 w-6 text-primary" />
-              </SidebarTrigger>
-            </Button>
-          </div>
           <div className="container max-w-3xl">
-            <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-2xl font-bold tracking-tight text-gradient-primary">
                   Conexão WhatsApp
@@ -31,6 +19,18 @@ export default function Connection() {
                 <p className="text-sm text-muted-foreground">
                   Status: <span className="text-red-500">Desconectado</span>
                 </p>
+              </div>
+              <div className="lg:hidden">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  asChild 
+                  className="hover:bg-primary/20 bg-black/50"
+                >
+                  <SidebarTrigger>
+                    <Menu className="h-6 w-6 text-primary" />
+                  </SidebarTrigger>
+                </Button>
               </div>
             </div>
 

@@ -73,20 +73,29 @@ export default function Schedules() {
       <div className="flex min-h-screen w-full">
         <DashboardSidebar />
         <div className="flex-1">
-          <div className="flex items-center justify-end p-4 lg:hidden">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              asChild 
-              className="hover:bg-primary/20 bg-black/50"
-            >
-              <SidebarTrigger>
-                <Menu className="h-6 w-6 text-primary" />
-              </SidebarTrigger>
-            </Button>
-          </div>
           <main className="p-8">
-            <SchedulesHeader />
+            <div className="flex items-center justify-between mb-6">
+              <div className="space-y-3">
+                <h1 className="text-3xl md:text-4xl font-bold text-gradient-primary leading-relaxed">
+                  Lista de Agendamentos
+                </h1>
+                <p className="text-muted-foreground">
+                  Gerencie todos os seus agendamentos em um só lugar
+                </p>
+              </div>
+              <div className="lg:hidden">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  asChild 
+                  className="hover:bg-primary/20 bg-black/50"
+                >
+                  <SidebarTrigger>
+                    <Menu className="h-6 w-6 text-primary" />
+                  </SidebarTrigger>
+                </Button>
+              </div>
+            </div>
 
             <div className="glass-card p-6 space-y-6">
               <SchedulesFilters
