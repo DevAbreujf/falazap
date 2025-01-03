@@ -152,7 +152,6 @@ export default function FunnelEditor() {
 
   return (
     <div className="h-screen flex flex-col">
-      {/* Header */}
       <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex items-center justify-between gap-4 p-4">
           <div className="flex items-center gap-4">
@@ -234,99 +233,118 @@ export default function FunnelEditor() {
       </div>
 
       {/* React Flow Canvas */}
-      <div className="flex-1 bg-zinc-50">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onDragOver={onDragOver}
-          onDrop={onDrop}
-          nodeTypes={nodeTypes}
-          fitView
-        >
-          <Background />
-          <Controls />
+      <div className="flex-1 bg-zinc-50 flex">
+        {/* Elements Panel */}
+        <div className="w-64 h-full bg-background/95 backdrop-blur-lg border-r border-border flex flex-col">
+          <div className="p-4 border-b border-border">
+            <h3 className="font-semibold text-lg">Adicionar Elementos</h3>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-4 space-y-6">
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-muted-foreground">Mensagens</h4>
+              <div className="space-y-2">
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                  onDragStart={(e) => onDragStart(e, "textNode")}
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Texto
+                </button>
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                  onDragStart={(e) => onDragStart(e, "audioNode")}
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Áudio
+                </button>
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                  onDragStart={(e) => onDragStart(e, "videoNode")}
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Vídeo
+                </button>
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                  onDragStart={(e) => onDragStart(e, "fileNode")}
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Arquivo
+                </button>
+              </div>
+            </div>
 
-<Panel position="top-left" className="bg-background border rounded-lg p-4 m-4">
-  <div className="space-y-4">
-    <h3 className="font-semibold">Adicionar Elementos</h3>
-    <div className="grid grid-cols-2 gap-2">
-      <div>
-        <h4 className="text-sm font-medium mb-2">Mensagens</h4>
-        <div className="space-y-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full justify-start"
-            draggable
-            onDragStart={(e) => onDragStart(e, "textNode")}
-          >
-            Texto
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full justify-start"
-            draggable
-            onDragStart={(e) => onDragStart(e, "audioNode")}
-          >
-            Áudio
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full justify-start"
-            draggable
-            onDragStart={(e) => onDragStart(e, "videoNode")}
-          >
-            Vídeo
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full justify-start"
-            draggable
-            onDragStart={(e) => onDragStart(e, "fileNode")}
-          >
-            Arquivo
-          </Button>
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-muted-foreground">Lógicas</h4>
+              <div className="space-y-2">
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                  onDragStart={(e) => onDragStart(e, "pathNode")}
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Caminhos
+                </button>
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Perguntas
+                </button>
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Tempo de espera
+                </button>
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Tags
+                </button>
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Variáveis
+                </button>
+                <button
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors flex items-center gap-2 text-sm"
+                  draggable
+                >
+                  <span className="w-4 h-4 rounded-full bg-primary/20" />
+                  Botões
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <h4 className="text-sm font-medium mb-2">Lógicas</h4>
-        <div className="space-y-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full justify-start"
-            draggable
-            onDragStart={(e) => onDragStart(e, "pathNode")}
-          >
-            Caminhos
-          </Button>
-          <Button variant="outline" size="sm" className="w-full justify-start">
-            Perguntas
-          </Button>
-          <Button variant="outline" size="sm" className="w-full justify-start">
-            Tempo de espera
-          </Button>
-          <Button variant="outline" size="sm" className="w-full justify-start">
-            Tags
-          </Button>
-          <Button variant="outline" size="sm" className="w-full justify-start">
-            Variáveis
-          </Button>
-          <Button variant="outline" size="sm" className="w-full justify-start">
-            Botões
-          </Button>
-        </div>
-      </div>
-    </div>
-  </div>
-</Panel>
 
-        </ReactFlow>
+        <div className="flex-1">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
+            nodeTypes={nodeTypes}
+            fitView
+          >
+            <Background />
+            <Controls />
+          </ReactFlow>
+        </div>
       </div>
 
       {/* Manual Trigger Dialog */}
@@ -368,5 +386,4 @@ export default function FunnelEditor() {
       </Dialog>
     </div>
   );
-};
-
+}
