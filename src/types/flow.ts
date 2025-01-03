@@ -10,8 +10,18 @@ export interface FlowNode extends Node {
   data: NodeData;
 }
 
+interface PathCondition {
+  term: string;
+  type: "exact" | "contains";
+}
+
+interface PathRule {
+  variable: string;
+  conditions: PathCondition[];
+}
+
 export interface NodeData {
-  [key: string]: any; // This adds the index signature that TypeScript requires
+  [key: string]: any;
   label?: string;
   triggers?: any[];
   delay?: {
@@ -22,4 +32,6 @@ export interface NodeData {
   audioUrl?: string;
   videoUrl?: string;
   fileName?: string;
+  rules?: PathRule[];
+  hasDefaultPath?: boolean;
 }

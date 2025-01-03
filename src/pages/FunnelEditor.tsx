@@ -20,8 +20,7 @@ import { VideoNode } from "@/components/flow-nodes/VideoNode";
 import { FileNode } from "@/components/flow-nodes/FileNode";
 import { StartNode } from "@/components/flow-nodes/StartNode";
 import { FlowNode, NodeData } from "@/types/flow";
-
-import "@xyflow/react/dist/style.css";
+import { PathNode } from "@/components/flow-nodes/PathNode";
 
 const nodeTypes = {
   textNode: TextNode,
@@ -29,6 +28,7 @@ const nodeTypes = {
   videoNode: VideoNode,
   fileNode: FileNode,
   startNode: StartNode,
+  pathNode: PathNode,
 };
 
 const initialNodes: FlowNode[] = [
@@ -247,77 +247,85 @@ export default function FunnelEditor() {
         >
           <Background />
           <Controls />
-          <Panel position="top-left" className="bg-background border rounded-lg p-4 m-4">
-            <div className="space-y-4">
-              <h3 className="font-semibold">Adicionar Elementos</h3>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <h4 className="text-sm font-medium mb-2">Mensagens</h4>
-                  <div className="space-y-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="w-full justify-start"
-                      draggable
-                      onDragStart={(e) => onDragStart(e, "textNode")}
-                    >
-                      Texto
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="w-full justify-start"
-                      draggable
-                      onDragStart={(e) => onDragStart(e, "audioNode")}
-                    >
-                      Áudio
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="w-full justify-start"
-                      draggable
-                      onDragStart={(e) => onDragStart(e, "videoNode")}
-                    >
-                      Vídeo
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="w-full justify-start"
-                      draggable
-                      onDragStart={(e) => onDragStart(e, "fileNode")}
-                    >
-                      Arquivo
-                    </Button>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium mb-2">Lógicas</h4>
-                  <div className="space-y-2">
-                    <Button variant="outline" size="sm" className="w-full justify-start">
-                      Caminhos
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
-                      Perguntas
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
-                      Tempo de espera
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
-                      Tags
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
-                      Variáveis
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full justify-start">
-                      Botões
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Panel>
+
+<Panel position="top-left" className="bg-background border rounded-lg p-4 m-4">
+  <div className="space-y-4">
+    <h3 className="font-semibold">Adicionar Elementos</h3>
+    <div className="grid grid-cols-2 gap-2">
+      <div>
+        <h4 className="text-sm font-medium mb-2">Mensagens</h4>
+        <div className="space-y-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full justify-start"
+            draggable
+            onDragStart={(e) => onDragStart(e, "textNode")}
+          >
+            Texto
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full justify-start"
+            draggable
+            onDragStart={(e) => onDragStart(e, "audioNode")}
+          >
+            Áudio
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full justify-start"
+            draggable
+            onDragStart={(e) => onDragStart(e, "videoNode")}
+          >
+            Vídeo
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full justify-start"
+            draggable
+            onDragStart={(e) => onDragStart(e, "fileNode")}
+          >
+            Arquivo
+          </Button>
+        </div>
+      </div>
+      <div>
+        <h4 className="text-sm font-medium mb-2">Lógicas</h4>
+        <div className="space-y-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="w-full justify-start"
+            draggable
+            onDragStart={(e) => onDragStart(e, "pathNode")}
+          >
+            Caminhos
+          </Button>
+          <Button variant="outline" size="sm" className="w-full justify-start">
+            Perguntas
+          </Button>
+          <Button variant="outline" size="sm" className="w-full justify-start">
+            Tempo de espera
+          </Button>
+          <Button variant="outline" size="sm" className="w-full justify-start">
+            Tags
+          </Button>
+          <Button variant="outline" size="sm" className="w-full justify-start">
+            Variáveis
+          </Button>
+          <Button variant="outline" size="sm" className="w-full justify-start">
+            Botões
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</Panel>
+
         </ReactFlow>
       </div>
 
@@ -361,3 +369,4 @@ export default function FunnelEditor() {
     </div>
   );
 };
+
