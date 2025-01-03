@@ -13,6 +13,11 @@ import {
 } from "lucide-react";
 
 export function ElementsSidebar() {
+  const onDragStart = (event: React.DragEvent, nodeType: string) => {
+    event.dataTransfer.setData('application/reactflow', nodeType);
+    event.dataTransfer.effectAllowed = 'move';
+  };
+
   return (
     <div className="w-72 bg-black/20 backdrop-blur-sm border-r border-white/10 p-6">
       <div className="space-y-6">
@@ -20,7 +25,11 @@ export function ElementsSidebar() {
         <div>
           <h2 className="text-sm font-medium text-muted-foreground mb-4">Mensagens</h2>
           <div className="grid grid-cols-2 gap-2">
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'text')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
               <MessageSquare className="h-4 w-4" />
               Texto
             </button>

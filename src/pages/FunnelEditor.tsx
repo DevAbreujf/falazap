@@ -6,8 +6,8 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
+  Connection,
   Node,
-  NodeChange,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -16,6 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Zap, Save, Upload, Download } from "lucide-react";
 import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
 import { StartNode } from "@/components/funnel-editor/nodes/StartNode";
+import { TextNode } from "@/components/funnel-editor/nodes/TextNode";
 
 const initialNodes = [
   {
@@ -40,58 +41,40 @@ export default function FunnelEditor() {
   const [isActive, setIsActive] = useState(false);
   const [isTimeSettingsOpen, setIsTimeSettingsOpen] = useState(false);
 
-  const onConnect = (params: any) => setEdges((eds) => addEdge(params, eds));
+  const onConnect = (params: Connection) => setEdges((eds) => addEdge(params, eds));
 
-  const updateNodeData = (nodeId: string, updates: any) => {
-    setNodes((nds) =>
-      nds.map((node) =>
-        node.id === nodeId
-          ? { ...node, data: { ...node.data, ...updates } }
-          : node
-      )
-    );
+  const onDragOver = (event: React.DragEvent) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
   };
 
-  const addTrigger = () => {
-    const newTrigger = {
-      id: `trigger-${Date.now()}`,
-      triggerType: "",
-      triggerTerm: "",
-      platform: "",
-      event: "",
+  const onDrop = (event: React.DragEvent) => {
+    event.preventDefault();
+
+    const type = event.dataTransfer.getData('application/reactflow');
+
+    if (typeof type === 'undefined' || !type) {
+      return;
+    }
+
+    const position = {
+      x: event.clientX - 280,
+      y: event.clientY - 100,
     };
 
-    updateNodeData("1", {
-      triggers: [...(nodes[0].data.triggers || []), newTrigger],
-    });
-  };
+    const newNode: Node = {
+      id: `${type}-${Date.now()}`,
+      type,
+      position,
+      data: { content: '' },
+    };
 
-  const updateTrigger = (triggerId: string, field: string, value: string) => {
-    updateNodeData("1", {
-      triggers: nodes[0].data.triggers.map((trigger: any) =>
-        trigger.id === triggerId ? { ...trigger, [field]: value } : trigger
-      ),
-    });
-  };
-
-  const removeTrigger = (triggerId: string) => {
-    updateNodeData("1", {
-      triggers: nodes[0].data.triggers.filter((trigger: any) => trigger.id !== triggerId),
-    });
+    setNodes((nds) => nds.concat(newNode));
   };
 
   const nodeTypes = {
-    start: (props: any) => (
-      <StartNode
-        {...props}
-        isTimeSettingsOpen={isTimeSettingsOpen}
-        onTimeSettingsToggle={() => setIsTimeSettingsOpen(!isTimeSettingsOpen)}
-        onTimeChange={(value) => updateNodeData("1", { time: value })}
-        onAddTrigger={addTrigger}
-        onUpdateTrigger={updateTrigger}
-        onRemoveTrigger={removeTrigger}
-      />
-    ),
+    start: StartNode,
+    text: TextNode,
   };
 
   return (
@@ -150,6 +133,8 @@ export default function FunnelEditor() {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
             nodeTypes={nodeTypes}
             nodesDraggable={true}
             nodesConnectable={true}
