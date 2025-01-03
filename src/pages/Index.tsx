@@ -33,8 +33,11 @@ const Index = () => {
             <div className="flex flex-col gap-6">
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                 Clone seu melhor{" "}
-                <span className="bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] bg-clip-text text-transparent transition-all duration-500 font-extrabold">
-                  {role}
+                <span className="relative">
+                  <span className="bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] bg-clip-text text-transparent transition-all duration-500 font-extrabold drop-shadow-[0_0_15px_rgba(124,58,237,0.5)]">
+                    {role}
+                  </span>
+                  <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-[#7C3AED] shadow-[0_0_10px_2px_rgba(124,58,237,0.7)]"></span>
                 </span>
                 {" "}com AI
               </h1>
@@ -51,8 +54,7 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="relative w-full aspect-square bg-gradient-to-br from-[#7C3AED]/20 to-transparent rounded-3xl p-8">
-              <div className="absolute inset-0 bg-grid-white/10 [mask-image:radial-gradient(white,transparent_85%)]" />
+            <div className="relative w-full aspect-square p-8">
               <img 
                 src="/placeholder.svg" 
                 alt="AI Assistant Illustration"
