@@ -61,7 +61,7 @@ export const StartNode: React.FC<StartNodeProps> = ({
           </div>
 
           {isTimeSettingsOpen && (
-            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="flex items-center gap-2">
               <div className="w-16 h-9 bg-zinc-950/50 border border-zinc-800 rounded flex items-center justify-center">
                 <input
                   type="number"

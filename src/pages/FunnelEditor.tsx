@@ -24,7 +24,7 @@ const initialNodes = [
     id: "1",
     type: "start",
     position: { x: 400, y: 100 },
-    deletable: false, // Prevent node deletion
+    deletable: false,
     data: {
       label: "Início",
       description: "Definir tempo mínimo para o funil ser disparado novamente",
@@ -41,12 +41,11 @@ export default function FunnelEditor() {
   const [isActive, setIsActive] = useState(false);
   const [isTimeSettingsOpen, setIsTimeSettingsOpen] = useState(false);
 
-  // Custom nodes change handler to prevent start node deletion
   const onNodesChange = (changes: NodeChange[]) => {
     const filteredChanges = changes.filter((change) => {
-      if (change.type === 'remove') {
+      if ('type' in change && change.type === 'remove') {
         const node = nodes.find((n) => n.id === change.id);
-        return node?.type !== 'start'; // Prevent deletion of start nodes
+        return node?.type !== 'start';
       }
       return true;
     });
@@ -54,12 +53,11 @@ export default function FunnelEditor() {
     setNodes((nds) => {
       const nextNodes = [...nds];
       filteredChanges.forEach((change) => {
-        const index = nextNodes.findIndex((n) => n.id === change.id);
-        if (index !== -1) {
-          if (change.type === 'position' && 'position' in change) {
+        if ('position' in change && change.position) {
+          const index = nextNodes.findIndex((n) => n.id === change.id);
+          if (index !== -1) {
             nextNodes[index] = { ...nextNodes[index], position: change.position };
           }
-          // Add other change type handlers as needed
         }
       });
       return nextNodes;

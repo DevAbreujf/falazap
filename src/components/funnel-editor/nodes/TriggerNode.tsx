@@ -18,7 +18,7 @@ interface TriggerNodeProps {
 
 export const TriggerNode: React.FC<TriggerNodeProps> = ({ data, onUpdate, onRemove }) => {
   return (
-    <div className="p-4 space-y-3 border-t border-zinc-800/50 animate-in fade-in slide-in-from-top-2 duration-200">
+    <div className="p-4 space-y-3 border-t border-zinc-800/50">
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-medium text-zinc-400">Configuração do Gatilho</span>
         <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onRemove}>
