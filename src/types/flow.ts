@@ -1,4 +1,6 @@
-export interface FlowNode {
+import { Node } from "@xyflow/react";
+
+export interface FlowNode extends Node {
   id: string;
   type: string;
   position: {
@@ -9,6 +11,7 @@ export interface FlowNode {
 }
 
 export interface NodeData {
+  [key: string]: any; // This adds the index signature that TypeScript requires
   label?: string;
   triggers?: any[];
   delay?: {
