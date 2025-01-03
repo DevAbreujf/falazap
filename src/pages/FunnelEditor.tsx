@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ReactFlow, { 
-  Background, 
-  Controls, 
+import {
+  ReactFlow,
+  Background,
+  Controls,
   MiniMap,
   useNodesState,
   useEdgesState,
