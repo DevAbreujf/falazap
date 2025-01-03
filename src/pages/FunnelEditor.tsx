@@ -13,7 +13,7 @@ import "@xyflow/react/dist/style.css";
 
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, Zap, Save, Upload, Download, Flag, Clock, X, Plus, HelpCircle } from "lucide-react";
+import { ArrowLeft, Zap, Save, Upload, Download, Flag, Clock, X, Plus, HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -36,6 +36,7 @@ export default function FunnelEditor() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [isActive, setIsActive] = useState(false);
+  const [isTimeSettingsOpen, setIsTimeSettingsOpen] = useState(false);
 
   const onConnect = (params: any) => setEdges((eds) => addEdge(params, eds));
 
@@ -48,31 +49,60 @@ export default function FunnelEditor() {
         </div>
         
         <div className="p-4 space-y-4">
-          <div className="flex items-start gap-2">
+          <div 
+            className="flex items-start gap-2 cursor-pointer"
+            onClick={() => setIsTimeSettingsOpen(!isTimeSettingsOpen)}
+          >
             <Clock className="h-4 w-4 text-zinc-400 mt-0.5" />
-            <p className="text-xs text-zinc-400">{data.description}</p>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-zinc-400">{data.description}</p>
+                {isTimeSettingsOpen ? (
+                  <ChevronUp className="h-4 w-4 text-zinc-400" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-zinc-400" />
+                )}
+              </div>
+            </div>
           </div>
           
-          <div className="flex items-center gap-2">
-            <div className="w-16 h-10 bg-zinc-950/50 border border-zinc-800 rounded flex items-center justify-center">
-              <span className="text-sm text-zinc-400">{data.time}</span>
-            </div>
-            
-            <Select>
-              <SelectTrigger className="flex-1 h-10 bg-zinc-950/50 border-zinc-800 text-sm">
-                <SelectValue placeholder="Selecione" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="minutes">Minutos</SelectItem>
-                <SelectItem value="hours">Horas</SelectItem>
-                <SelectItem value="days">Dias</SelectItem>
-              </SelectContent>
-            </Select>
+          {isTimeSettingsOpen && (
+            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="w-16 h-10 bg-zinc-950/50 border border-zinc-800 rounded flex items-center justify-center">
+                <input 
+                  type="number" 
+                  min="0"
+                  value={data.time}
+                  className="w-12 text-center bg-transparent text-sm text-zinc-400 focus:outline-none"
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 0;
+                    setNodes((nds) =>
+                      nds.map((node) =>
+                        node.id === "1"
+                          ? { ...node, data: { ...node.data, time: value } }
+                          : node
+                      )
+                    );
+                  }}
+                />
+              </div>
+              
+              <Select>
+                <SelectTrigger className="flex-1 h-10 bg-zinc-950/50 border-zinc-800 text-sm">
+                  <SelectValue placeholder="Selecione" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="minutes">Minutos</SelectItem>
+                  <SelectItem value="hours">Horas</SelectItem>
+                  <SelectItem value="days">Dias</SelectItem>
+                </SelectContent>
+              </Select>
 
-            <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-400 hover:text-zinc-300">
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+              <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-400 hover:text-zinc-300">
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="px-4 py-3 bg-zinc-900/50 border-t border-zinc-800/50 flex items-center justify-between">
