@@ -11,8 +11,19 @@ import { CookieBanner } from "@/components/CookieBanner";
 import { ComparisonSection } from "@/components/ComparisonSection";
 import { MessageSquare, Target, Users2, Brain, ScrollText, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 const Index = () => {
+  const [role, setRole] = useState("vendedor");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRole(prev => prev === "vendedor" ? "atendente" : "vendedor");
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen w-full">
       <Header />
@@ -21,7 +32,11 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
             <div className="flex flex-col gap-6">
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Automatize seu atendimento com Inteligência Artificial
+                Clone seu melhor{" "}
+                <span className="bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] bg-clip-text text-transparent transition-all duration-500">
+                  ({role})
+                </span>
+                {" "}com AI
               </h1>
               <p className="text-xl text-muted-foreground">
                 Transforme seu atendimento com nossa solução de IA. Atenda mais clientes, 
