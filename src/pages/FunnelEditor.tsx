@@ -148,8 +148,8 @@ export default function FunnelEditor() {
     );
   };
 
-  const nodeTypes: NodeTypes = {
-    start: (props) => (
+  const nodeTypes = {
+    start: (props: any) => (
       <StartNode
         {...props}
         isTimeSettingsOpen={isTimeSettingsOpen}

@@ -18,7 +18,8 @@ interface StartNodeData {
   }>;
 }
 
-interface StartNodeProps extends NodeProps<StartNodeData> {
+interface StartNodeProps extends NodeProps {
+  data: StartNodeData;
   isTimeSettingsOpen: boolean;
   onTimeSettingsToggle: () => void;
   onTimeChange: (value: number) => void;
