@@ -1,32 +1,38 @@
-import { Input } from "@xyflow/react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
-export function DelaySelector({ 
-  value, 
-  unit, 
-  onChange 
-}: { 
+interface DelaySelectorProps {
   value: number;
-  unit: "seconds" | "minutes" | "hours";
-  onChange: (value: number, unit: "seconds" | "minutes" | "hours") => void;
-}) {
+  unit: string;
+  onChange?: (value: number, unit: string) => void;
+}
+
+export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
   return (
-    <div className="flex items-center gap-2">
-      <Input
-        type="number"
-        min={0}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value), unit)}
-        className="w-20"
-      />
-      <select
-        value={unit}
-        onChange={(e) => onChange(value, e.target.value as "seconds" | "minutes" | "hours")}
-        className="border rounded-md p-1"
-      >
-        <option value="seconds">Segundos</option>
-        <option value="minutes">Minutos</option>
-        <option value="hours">Horas</option>
-      </select>
+    <div className="space-y-2">
+      <label className="text-sm font-medium">Tempo de Execução</label>
+      <div className="flex gap-2">
+        <Input
+          type="number"
+          value={value}
+          className="w-20"
+          min={0}
+          onChange={(e) => onChange?.(Number(e.target.value), unit)}
+        />
+        <Select 
+          value={unit}
+          onValueChange={(value) => onChange?.(value, unit)}
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="seconds">Segundos</SelectItem>
+            <SelectItem value="minutes">Minutos</SelectItem>
+            <SelectItem value="hours">Horas</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 }
