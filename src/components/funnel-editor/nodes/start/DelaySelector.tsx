@@ -1,4 +1,5 @@
-import { Input } from "@xyflow/react";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export function DelaySelector({ 
   value, 
@@ -18,15 +19,16 @@ export function DelaySelector({
         onChange={(e) => onChange(Number(e.target.value), unit)}
         className="w-20"
       />
-      <select
-        value={unit}
-        onChange={(e) => onChange(value, e.target.value as "seconds" | "minutes" | "hours")}
-        className="border rounded-md p-1"
-      >
-        <option value="seconds">Segundos</option>
-        <option value="minutes">Minutos</option>
-        <option value="hours">Horas</option>
-      </select>
+      <Select value={unit} onValueChange={(value) => onChange(value, value as typeof unit)}>
+        <SelectTrigger className="w-[120px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="seconds">Segundos</SelectItem>
+          <SelectItem value="minutes">Minutos</SelectItem>
+          <SelectItem value="hours">Horas</SelectItem>
+        </SelectContent>
+      </Select>
     </div>
   );
 }
