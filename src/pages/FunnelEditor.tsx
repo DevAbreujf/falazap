@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Zap, Save, Upload, Download } from "lucide-react";
 import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
-import { StartNode } from "@/components/funnel-editor/nodes/StartNode";
 import { TextNode } from "@/components/funnel-editor/nodes/TextNode";
 
 type CustomNode = Node<{
@@ -33,28 +32,13 @@ type CustomNode = Node<{
   content?: string;
 }>;
 
-const initialNodes: CustomNode[] = [
-  {
-    id: "1",
-    type: "start",
-    position: { x: 400, y: 100 },
-    deletable: false,
-    draggable: true,
-    data: {
-      label: "Início",
-      description: "Definir tempo mínimo para o funil ser disparado novamente",
-      time: 0,
-      triggers: [],
-    },
-  },
-];
+const initialNodes: CustomNode[] = [];
 
 export default function FunnelEditor() {
   const navigate = useNavigate();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [isActive, setIsActive] = useState(false);
-  const [isTimeSettingsOpen, setIsTimeSettingsOpen] = useState(false);
 
   const onConnect = (params: Connection) => setEdges((eds) => addEdge(params, eds));
 
@@ -87,79 +71,7 @@ export default function FunnelEditor() {
     setNodes((nds) => [...nds, newNode]);
   };
 
-  const handleTimeSettingsToggle = () => setIsTimeSettingsOpen(!isTimeSettingsOpen);
-  const handleTimeChange = (time: number) => {
-    setNodes((nds) =>
-      nds.map((node) =>
-        node.id === "1" ? { ...node, data: { ...node.data, time } } : node
-      )
-    );
-  };
-
-  const handleAddTrigger = () => {
-    setNodes((nds) =>
-      nds.map((node) => {
-        if (node.id === "1") {
-          const newTrigger = {
-            id: `trigger-${Date.now()}`,
-            triggerType: "",
-            triggerTerm: "",
-            platform: "",
-            event: "",
-          };
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              triggers: [...(node.data.triggers || []), newTrigger],
-            },
-          };
-        }
-        return node;
-      })
-    );
-  };
-
-  const handleUpdateTrigger = (triggerId: string, field: string, value: string) => {
-    setNodes((nds) =>
-      nds.map((node) => {
-        if (node.id === "1" && node.data.triggers) {
-          const updatedTriggers = node.data.triggers.map((trigger) =>
-            trigger.id === triggerId ? { ...trigger, [field]: value } : trigger
-          );
-          return { ...node, data: { ...node.data, triggers: updatedTriggers } };
-        }
-        return node;
-      })
-    );
-  };
-
-  const handleRemoveTrigger = (triggerId: string) => {
-    setNodes((nds) =>
-      nds.map((node) => {
-        if (node.id === "1" && node.data.triggers) {
-          const updatedTriggers = node.data.triggers.filter(
-            (trigger) => trigger.id !== triggerId
-          );
-          return { ...node, data: { ...node.data, triggers: updatedTriggers } };
-        }
-        return node;
-      })
-    );
-  };
-
   const nodeTypes = {
-    start: (props: any) => (
-      <StartNode
-        {...props}
-        isTimeSettingsOpen={isTimeSettingsOpen}
-        onTimeSettingsToggle={handleTimeSettingsToggle}
-        onTimeChange={handleTimeChange}
-        onAddTrigger={handleAddTrigger}
-        onUpdateTrigger={handleUpdateTrigger}
-        onRemoveTrigger={handleRemoveTrigger}
-      />
-    ),
     text: TextNode,
   };
 
