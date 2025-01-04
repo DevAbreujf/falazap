@@ -83,7 +83,13 @@ export function FunnelEditorCanvas() {
         id: `${type}-${nodes.length + 1}`,
         type,
         position,
-        data: { label: `${type} node` },
+        data: {
+          label: `${type} node`,
+          ...(type === "start" && {
+            triggers: [],
+            delay: { value: 0, unit: "seconds" },
+          }),
+        },
       };
 
       setNodes((nds) => nds.concat(newNode));
