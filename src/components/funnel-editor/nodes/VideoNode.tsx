@@ -1,16 +1,16 @@
-import { Handle, Position } from "@xyflow/react";
+import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Video, Upload } from "lucide-react";
+import { Video, Upload, X } from "lucide-react";
+import { VideoNodeData } from "@/types/flow";
 
-interface VideoNodeData {
-  label: string;
-  videoUrl?: string;
-  actionType: "click" | "auto";
-  actionLabel?: string;
-}
+export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
+  const { setNodes } = useReactFlow();
 
-export function VideoNode({ data }: { data: VideoNodeData }) {
+  const handleDelete = () => {
+    setNodes((nodes) => nodes.filter((node) => node.id !== id));
+  };
+
   return (
     <div className="bg-white rounded-xl border p-4 min-w-[300px]">
       <Handle
@@ -20,7 +20,17 @@ export function VideoNode({ data }: { data: VideoNodeData }) {
       />
       
       <div className="space-y-4">
-        <h3 className="font-medium">{data.label}</h3>
+        <div className="flex items-center justify-between">
+          <h3 className="font-medium">Vídeo</h3>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            className="h-6 w-6 p-0"
+            onClick={handleDelete}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
         
         {data.videoUrl ? (
           <div className="relative aspect-video bg-muted rounded-lg flex items-center justify-center">
