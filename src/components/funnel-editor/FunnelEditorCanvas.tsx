@@ -91,6 +91,7 @@ export function FunnelEditorCanvas() {
             delay: { value: 0, unit: "seconds" },
           }),
         },
+        deletable: type !== "start",
       };
 
       setNodes((nds) => nds.concat(newNode));
