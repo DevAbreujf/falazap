@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Handle, Position } from "@xyflow/react";
+import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +7,7 @@ import { Plus, X } from "lucide-react";
 import { PathsNodeData, Path } from "@/types/flow";
 
 export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
+  const { setNodes } = useReactFlow();
   const [paths, setPaths] = useState<Path[]>(data.paths || []);
   const [variable, setVariable] = useState(data.variable || "");
   const [showFallback, setShowFallback] = useState(data.fallback || false);
@@ -30,6 +31,10 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
     setPaths(paths.filter(path => path.id !== id));
   };
 
+  const handleDelete = () => {
+    setNodes((nodes) => nodes.filter((node) => node.id !== id));
+  };
+
   return (
     <div className="bg-background rounded-xl border p-4 min-w-[300px]">
       <div className="space-y-4">
@@ -39,6 +44,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
             variant="ghost" 
             size="sm"
             className="h-6 w-6 p-0"
+            onClick={handleDelete}
           >
             <X className="h-4 w-4" />
           </Button>
