@@ -8,7 +8,6 @@ import {
   addEdge,
   Connection,
   Node,
-  NodeTypes,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -16,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Zap, Save, Upload, Download } from "lucide-react";
 import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
-import { TextNode } from "@/components/funnel-editor/nodes/TextNode";
 
 type CustomNode = Node<{
   label?: string;
@@ -71,9 +69,7 @@ export default function FunnelEditor() {
     setNodes((nds) => [...nds, newNode]);
   };
 
-  const nodeTypes = {
-    text: TextNode,
-  };
+  const nodeTypes = {};
 
   return (
     <div className="flex h-screen w-full bg-background">
