@@ -48,7 +48,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
           <Label>Crie caminhos:</Label>
           
           {paths.map((path) => (
-            <div key={path.id} className="space-y-2 border-t pt-4">
+            <div key={path.id} className="space-y-2 border-t pt-4 relative">
               <div className="flex justify-between items-center">
                 <Label>Termo</Label>
                 <Button 
@@ -89,6 +89,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 position={Position.Right}
                 id={path.id}
                 className="!bg-primary !w-3 !h-3 !border-2"
+                style={{ right: -13 }}
               />
             </div>
           ))}
@@ -113,7 +114,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
               Caso não se encaixe...
             </Button>
           ) : (
-            <div className="border-t pt-4 space-y-2">
+            <div className="border-t pt-4 space-y-2 relative">
               <div className="flex items-center justify-between">
                 <p className="text-sm">
                   Caso não for nenhum dos caminhos, envie...
@@ -123,6 +124,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                   position={Position.Right}
                   id="fallback"
                   className="!bg-primary !w-3 !h-3 !border-2"
+                  style={{ right: -13 }}
                 />
               </div>
               <Button
