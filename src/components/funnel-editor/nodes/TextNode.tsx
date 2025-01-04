@@ -1,12 +1,20 @@
-import { Handle, Position } from "@xyflow/react";
+import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 interface TextNodeData {
   label: string;
   content: string;
 }
 
-export function TextNode({ data }: { data: TextNodeData }) {
+export function TextNode({ data, id }: { data: TextNodeData; id: string }) {
+  const { setNodes } = useReactFlow();
+
+  const handleDelete = () => {
+    setNodes((nodes) => nodes.filter((node) => node.id !== id));
+  };
+
   return (
     <div className="bg-white rounded-xl border p-4 min-w-[300px]">
       <Handle
@@ -16,7 +24,12 @@ export function TextNode({ data }: { data: TextNodeData }) {
       />
       
       <div className="space-y-2">
-        <h3 className="font-medium">{data.label}</h3>
+        <div className="flex items-center justify-between">
+          <h3 className="font-medium">Mensagem de texto</h3>
+          <Button variant="ghost" size="icon" onClick={handleDelete}>
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
         <Textarea
           placeholder="Digite sua mensagem..."
           value={data.content}
