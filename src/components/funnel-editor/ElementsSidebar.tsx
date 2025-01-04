@@ -1,15 +1,13 @@
 import { 
   MessageSquare, 
-  Image as ImageIcon, 
-  Music, 
-  Mic, 
-  Video, 
+  Video,
+  Mic,
+  GitFork,
   FileText,
-  SplitSquareHorizontal,
   Clock,
   MessagesSquare,
   Tags,
-  Variable
+  Variable,
 } from "lucide-react";
 
 export function ElementsSidebar() {
@@ -19,7 +17,7 @@ export function ElementsSidebar() {
   };
 
   return (
-    <div className="w-72 bg-black/20 backdrop-blur-sm border-r border-white/10 p-6">
+    <aside className="w-72 bg-black/20 backdrop-blur-sm border-r border-white/10 p-6 overflow-y-auto">
       <div className="space-y-6">
         {/* Messages Section */}
         <div>
@@ -33,25 +31,21 @@ export function ElementsSidebar() {
               <MessageSquare className="h-4 w-4" />
               Texto
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
-              <ImageIcon className="h-4 w-4" />
-              Imagem
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
-              <Music className="h-4 w-4" />
-              Música
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
-              <Mic className="h-4 w-4" />
-              Áudio
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'video')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
               <Video className="h-4 w-4" />
               Vídeo
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
-              <FileText className="h-4 w-4" />
-              Documento
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'audio')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
+              <Mic className="h-4 w-4" />
+              Áudio
             </button>
           </div>
         </div>
@@ -60,30 +54,65 @@ export function ElementsSidebar() {
         <div>
           <h2 className="text-sm font-medium text-muted-foreground mb-4">Lógica</h2>
           <div className="grid grid-cols-2 gap-2">
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
-              <SplitSquareHorizontal className="h-4 w-4" />
-              Caminhos
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'condition')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
+              <GitFork className="h-4 w-4" />
+              Condição
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'form')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
+              <FileText className="h-4 w-4" />
+              Formulário
+            </button>
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'delay')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
               <Clock className="h-4 w-4" />
-              Esperar
+              Tempo
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'question')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
               <MessagesSquare className="h-4 w-4" />
-              Perguntar
+              Pergunta
             </button>
-            <button className="relative flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'variable')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
+              <Variable className="h-4 w-4" />
+              Variável
+            </button>
+            <button 
+              draggable 
+              onDragStart={(e) => onDragStart(e, 'tags')}
+              className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground"
+            >
               <Tags className="h-4 w-4" />
               Tags
-              <span className="absolute -top-1 -right-1 bg-amber-500 text-[10px] px-1 rounded">Novo</span>
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-black/40 hover:bg-black/60 transition-colors text-sm text-muted-foreground">
-              <Variable className="h-4 w-4" />
-              Variáveis
             </button>
           </div>
         </div>
+
+        {/* Help Section */}
+        <div className="pt-4 border-t border-white/10">
+          <p className="text-xs text-muted-foreground">
+            Arraste os elementos para o canvas para criar seu funil de vendas. 
+            O nó de início é obrigatório e já está presente no canvas.
+          </p>
+        </div>
       </div>
-    </div>
+    </aside>
   );
 }

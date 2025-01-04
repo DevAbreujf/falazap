@@ -2,49 +2,77 @@ import { Node } from "@xyflow/react";
 
 export interface BaseNodeData {
   label?: string;
-  [key: string]: unknown;  // Add index signature to make it compatible with Record<string, unknown>
+  [key: string]: unknown;
 }
 
 export interface StartNodeData extends BaseNodeData {
-  triggers: any[];
+  triggers: Array<{
+    id: string;
+    triggerType: "contains" | "exact" | "any" | "integration";
+    triggerTerm?: string;
+    platform?: "kiwify" | "hotmart";
+    event?: "abandoned" | "approved";
+  }>;
   delay: {
     value: number;
-    unit: string;
+    unit: "seconds" | "minutes" | "hours";
   };
 }
 
 export interface TextNodeData extends BaseNodeData {
-  text: string;
+  content: string;
+}
+
+export interface VideoNodeData extends BaseNodeData {
+  videoUrl?: string;
+  actionType?: "click" | "auto";
+  actionLabel?: string;
 }
 
 export interface AudioNodeData extends BaseNodeData {
   audioUrl?: string;
 }
 
-export interface VideoNodeData extends BaseNodeData {
-  videoUrl?: string;
+export interface FormNodeData extends BaseNodeData {
+  fields: Array<{
+    id: string;
+    type: "name" | "email" | "phone";
+    required: boolean;
+  }>;
 }
 
-export interface FileNodeData extends BaseNodeData {
-  fileName?: string;
+export interface ConditionData extends BaseNodeData {
+  conditions: Array<{
+    id: string;
+    variable: string;
+    operator: "equals" | "contains" | "greater" | "less";
+    value: string;
+  }>;
 }
 
-export interface PathCondition {
-  term: string;
-  type: "exact" | "contains";
+export interface DelayNodeData extends BaseNodeData {
+  seconds: number;
 }
 
-export interface PathRule {
-  variable: string;
-  conditions: PathCondition[];
+export interface QuestionNodeData extends BaseNodeData {
+  question: string;
+  variableName: string;
 }
 
-export interface PathNodeData extends BaseNodeData {
-  rules: PathRule[];
-  hasDefaultPath: boolean;
+export interface TagsNodeData extends BaseNodeData {
+  tags: string[];
 }
 
-export type NodeData = StartNodeData | TextNodeData | AudioNodeData | VideoNodeData | FileNodeData | PathNodeData;
+export type NodeData = 
+  | StartNodeData 
+  | TextNodeData 
+  | VideoNodeData 
+  | AudioNodeData 
+  | FormNodeData 
+  | ConditionData 
+  | DelayNodeData 
+  | QuestionNodeData 
+  | TagsNodeData;
 
 export interface FlowNode extends Node {
   id: string;
