@@ -47,6 +47,7 @@ const initialNodes = [
         unit: "seconds",
       },
     },
+    deletable: false,
   },
 ];
 

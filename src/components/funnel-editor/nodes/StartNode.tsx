@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 
 interface Trigger {
   id: string;
@@ -22,15 +23,27 @@ interface StartNodeData {
 }
 
 export function StartNode({ data }: { data: StartNodeData }) {
+  const [triggers, setTriggers] = useState<Trigger[]>(data.triggers);
+
+  const addTrigger = () => {
+    const newTrigger: Trigger = {
+      id: `trigger-${triggers.length + 1}`,
+      triggerType: "contains",
+    };
+    setTriggers([...triggers, newTrigger]);
+  };
+
+  const updateTrigger = (triggerId: string, updates: Partial<Trigger>) => {
+    setTriggers(triggers.map(t => 
+      t.id === triggerId ? { ...t, ...updates } : t
+    ));
+  };
+
   return (
     <div className="bg-primary/10 rounded-xl border-2 border-primary p-4 min-w-[300px]">
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div>
           <h3 className="font-semibold text-lg">{data.label}</h3>
-          <Button variant="outline" size="sm">
-            <Plus className="h-4 w-4 mr-2" />
-            Adicionar Gatilho
-          </Button>
         </div>
 
         <div className="space-y-4">
@@ -56,9 +69,17 @@ export function StartNode({ data }: { data: StartNodeData }) {
             </div>
           </div>
 
-          {data.triggers.map((trigger) => (
+          {triggers.map((trigger, index) => (
             <div key={trigger.id} className="space-y-2 border-t pt-4">
-              <Select defaultValue={trigger.triggerType}>
+              <Select 
+                defaultValue={trigger.triggerType}
+                onValueChange={(value) => updateTrigger(trigger.id, { 
+                  triggerType: value as Trigger["triggerType"],
+                  platform: undefined,
+                  event: undefined,
+                  triggerTerm: undefined
+                })}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -74,12 +95,20 @@ export function StartNode({ data }: { data: StartNodeData }) {
                 <Input
                   placeholder="Digite o termo..."
                   value={trigger.triggerTerm}
+                  onChange={(e) => updateTrigger(trigger.id, { 
+                    triggerTerm: e.target.value 
+                  })}
                 />
               )}
 
               {trigger.triggerType === "integration" && (
                 <div className="space-y-2">
-                  <Select defaultValue={trigger.platform}>
+                  <Select
+                    value={trigger.platform}
+                    onValueChange={(value) => updateTrigger(trigger.id, { 
+                      platform: value as "kiwify" | "hotmart" 
+                    })}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione a plataforma" />
                     </SelectTrigger>
@@ -90,7 +119,12 @@ export function StartNode({ data }: { data: StartNodeData }) {
                   </Select>
 
                   {trigger.platform && (
-                    <Select defaultValue={trigger.event}>
+                    <Select
+                      value={trigger.event}
+                      onValueChange={(value) => updateTrigger(trigger.id, { 
+                        event: value as "abandoned" | "approved" 
+                      })}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione o evento" />
                       </SelectTrigger>
@@ -102,16 +136,25 @@ export function StartNode({ data }: { data: StartNodeData }) {
                   )}
                 </div>
               )}
+
+              <Handle
+                type="source"
+                position={Position.Bottom}
+                id={`trigger-${index}`}
+                className="!bg-primary !w-3 !h-3 !border-2"
+                style={{ bottom: "-15px" }}
+              />
             </div>
           ))}
         </div>
-      </div>
 
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        className="!bg-primary !w-3 !h-3 !border-2"
-      />
+        <div className="flex justify-center pt-4 border-t">
+          <Button variant="outline" size="sm" onClick={addTrigger}>
+            <Plus className="h-4 w-4 mr-2" />
+            Adicionar Gatilho
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
