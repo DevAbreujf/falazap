@@ -13,16 +13,18 @@ interface Trigger {
   event: string;
 }
 
-interface StartNodeData {
+interface StartNodeDataProps {
   label: string;
   description: string;
   time: number;
   triggers: Trigger[];
+  [key: string]: unknown;
 }
 
-type CustomStartNode = Node<StartNodeData>;
+type StartNodeData = Node<StartNodeDataProps>;
 
-interface StartNodeProps extends NodeProps<StartNodeData> {
+interface StartNodeProps extends Omit<NodeProps<StartNodeDataProps>, 'data'> {
+  data: StartNodeDataProps;
   isTimeSettingsOpen: boolean;
   onTimeSettingsToggle: () => void;
   onTimeChange: (value: number) => void;
