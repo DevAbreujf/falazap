@@ -1,22 +1,26 @@
 import React from 'react';
-import { Handle, Position, NodeProps } from '@xyflow/react';
+import { Handle, Position, NodeProps, Node } from '@xyflow/react';
 import { Clock, ChevronDown, ChevronUp, Plus, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TriggerNode } from './TriggerNode';
 
-export interface StartNodeData extends Record<string, unknown> {
+interface Trigger {
+  id: string;
+  triggerType: string;
+  triggerTerm: string;
+  platform: string;
+  event: string;
+}
+
+interface StartNodeData {
   label: string;
   description: string;
   time: number;
-  triggers: Array<{
-    id: string;
-    triggerType: string;
-    triggerTerm: string;
-    platform: string;
-    event: string;
-  }>;
+  triggers: Trigger[];
 }
+
+type CustomStartNode = Node<StartNodeData>;
 
 interface StartNodeProps extends NodeProps<StartNodeData> {
   isTimeSettingsOpen: boolean;
