@@ -63,6 +63,26 @@ export interface TagsNodeData extends BaseNodeData {
   tags: string[];
 }
 
+export interface Trigger {
+  id: string;
+  triggerType: "contains" | "exact" | "any" | "integration";
+  triggerTerm?: string;
+  platform?: "kiwify" | "hotmart";
+  event?: "abandoned" | "approved";
+}
+
+export interface Path {
+  id: string;
+  term: string;
+  condition: "exact" | "contains";
+}
+
+export interface PathsNodeData extends BaseNodeData {
+  variable: string;
+  paths: Path[];
+  fallback?: boolean;
+}
+
 export type NodeData = 
   | StartNodeData 
   | TextNodeData 
@@ -72,7 +92,8 @@ export type NodeData =
   | ConditionData 
   | DelayNodeData 
   | QuestionNodeData 
-  | TagsNodeData;
+  | TagsNodeData 
+  | PathsNodeData;
 
 export interface FlowNode extends Node {
   id: string;

@@ -23,10 +23,10 @@ const widgets = [
     description: "Envie uma mensagem de áudio"
   },
   {
-    type: "condition",
-    label: "Condição (IF/ELSE)",
+    type: "paths",
+    label: "Caminhos",
     icon: GitFork,
-    description: "Crie condições baseadas em respostas"
+    description: "Crie caminhos baseados em respostas"
   },
   {
     type: "form",

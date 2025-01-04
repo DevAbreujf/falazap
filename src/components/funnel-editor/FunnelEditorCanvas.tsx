@@ -16,7 +16,7 @@ import { StartNode } from "./nodes/StartNode";
 import { TextNode } from "./nodes/TextNode";
 import { VideoNode } from "./nodes/VideoNode";
 import { AudioNode } from "./nodes/AudioNode";
-import { ConditionNode } from "./nodes/ConditionNode";
+import { PathsNode } from "./nodes/PathsNode";
 import { FormNode } from "./nodes/FormNode";
 import { DelayNode } from "./nodes/DelayNode";
 import { QuestionNode } from "./nodes/QuestionNode";
@@ -27,7 +27,7 @@ const nodeTypes = {
   text: TextNode,
   video: VideoNode,
   audio: AudioNode,
-  condition: ConditionNode,
+  paths: PathsNode,
   form: FormNode,
   delay: DelayNode,
   question: QuestionNode,
