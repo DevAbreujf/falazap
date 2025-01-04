@@ -33,7 +33,16 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
   return (
     <div className="bg-background rounded-xl border p-4 min-w-[300px]">
       <div className="space-y-4">
-        <h3 className="font-medium">Caminhos</h3>
+        <div className="flex items-center justify-between">
+          <h3 className="font-medium">Caminhos</h3>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            className="h-6 w-6 p-0"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
         
         <div className="space-y-2">
           <Label>Variável</Label>
