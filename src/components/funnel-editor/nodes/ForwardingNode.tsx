@@ -2,8 +2,11 @@ import { Handle, Position } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Plus, X } from "lucide-react";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Plus, X, Check } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface ForwardingRule {
   id: string;
@@ -19,6 +22,12 @@ interface ForwardingNodeData {
 
 export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
   const [rules, setRules] = useState<ForwardingRule[]>(data.rules || []);
+  const [actions, setActions] = useState<string[]>([
+    "Enviar para equipe A",
+    "Enviar para equipe B",
+    "Enviar para equipe C"
+  ]);
+  const [open, setOpen] = useState<{ [key: string]: boolean }>({});
 
   const addRule = () => {
     const newRule: ForwardingRule = {
@@ -42,6 +51,14 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
     );
   };
 
+  const handleActionSelect = (ruleId: string, value: string) => {
+    if (!actions.includes(value)) {
+      setActions([...actions, value]);
+    }
+    updateRule(ruleId, { action: value });
+    setOpen({ ...open, [ruleId]: false });
+  };
+
   return (
     <div className="bg-white rounded-xl border p-4 min-w-[300px]">
       <Handle
@@ -51,7 +68,7 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
       />
       
       <div className="space-y-4">
-        <h3 className="font-medium">{data.label}</h3>
+        <h3 className="font-medium">Encaminhamento</h3>
 
         {rules.map((rule, index) => (
           <div key={rule.id} className="space-y-2 border-t pt-4 relative">
@@ -92,11 +109,51 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Ação</label>
-              <Input
-                placeholder="Digite a ação (ex: enviar para a equipe C)"
-                value={rule.action}
-                onChange={(e) => updateRule(rule.id, { action: e.target.value })}
-              />
+              <Popover open={open[rule.id]} onOpenChange={(isOpen) => setOpen({ ...open, [rule.id]: isOpen })}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open[rule.id]}
+                    className="w-full justify-between"
+                  >
+                    {rule.action || "Selecione uma ação..."}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[300px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Buscar ação..." />
+                    <CommandEmpty>Nenhuma ação encontrada.</CommandEmpty>
+                    <CommandGroup>
+                      {actions.map((action) => (
+                        <CommandItem
+                          key={action}
+                          value={action}
+                          onSelect={() => handleActionSelect(rule.id, action)}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              rule.action === action ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                          {action}
+                        </CommandItem>
+                      ))}
+                      <CommandItem
+                        onSelect={() => {
+                          const value = document.querySelector<HTMLInputElement>('[cmdk-input]')?.value;
+                          if (value) {
+                            handleActionSelect(rule.id, value);
+                          }
+                        }}
+                      >
+                        Criar nova ação
+                      </CommandItem>
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
 
             <Handle
