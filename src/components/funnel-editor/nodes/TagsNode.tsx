@@ -34,7 +34,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   const { setNodes } = useReactFlow();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  const [selectedTags, setSelectedTags] = useState<string[]>(data.tags || []);
+  const [selectedTags, setSelectedTags] = useState<string[]>(data?.tags || []);
 
   const handleDelete = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
@@ -130,6 +130,16 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
             </PopoverContent>
           </Popover>
         </div>
+
+        {selectedTags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {selectedTags.map((tag) => (
+              <div key={tag} className="bg-[#333] px-2 py-1 rounded text-sm">
+                {tag}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <Handle
