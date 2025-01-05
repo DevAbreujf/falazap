@@ -1,4 +1,4 @@
-import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags } from "lucide-react";
+import { MessageSquare, Video, Music, GitFork, FormInput, Clock, HelpCircle, Tags } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -27,6 +27,12 @@ const widgets = [
     label: "Caminhos",
     icon: GitFork,
     description: "Crie caminhos baseados em respostas"
+  },
+  {
+    type: "form",
+    label: "Formulário",
+    icon: FormInput,
+    description: "Colete dados do cliente"
   },
   {
     type: "delay",

@@ -27,8 +27,8 @@ export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
         />
         <Select
           value={unit}
-          onValueChange={(newUnit) =>
-            onChange(value, newUnit as "seconds" | "minutes" | "hours")
+          onValueChange={(newUnit: "seconds" | "minutes" | "hours") =>
+            onChange(value, newUnit)
           }
         >
           <SelectTrigger className="w-[180px] bg-[#333] border-[#444] text-white">

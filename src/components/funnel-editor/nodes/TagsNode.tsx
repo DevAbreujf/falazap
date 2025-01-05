@@ -1,5 +1,5 @@
 import { Handle, Position, useReactFlow } from "@xyflow/react";
-import { X } from "lucide-react";
+import { X, Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import {
   Command,
@@ -8,13 +8,18 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Node } from "@xyflow/react";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface TagsNodeData {
   label: string;
   tags: string[];
-  [key: string]: unknown;
 }
 
 const tagOptions = [
@@ -26,30 +31,34 @@ const tagOptions = [
 ];
 
 export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
-  const { setNodes } = useReactFlow<Node<TagsNodeData>>();
+  const { setNodes } = useReactFlow();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>(data?.tags ?? []);
 
   const handleDelete = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
   };
 
-  const handleTagSelect = (value: string) => {
-    setNodes((nodes) =>
-      nodes.map((node) => {
-        if (node.id === id) {
-          const currentTags = node.data.tags || [];
-          if (!currentTags.includes(value)) {
-            return {
-              ...node,
-              data: {
-                ...node.data,
-                tags: [...currentTags, value],
-              },
-            };
-          }
-        }
-        return node;
-      })
-    );
+  const handleSelect = (currentValue: string) => {
+    setValue(currentValue);
+    setOpen(false);
+    
+    if (!selectedTags.includes(currentValue)) {
+      const newTags = [...selectedTags, currentValue];
+      setSelectedTags(newTags);
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === id ? { ...node, data: { ...node.data, tags: newTags } } : node
+        )
+      );
+    }
+  };
+
+  const createNewTag = (inputValue: string) => {
+    if (inputValue.trim()) {
+      handleSelect(inputValue);
+    }
   };
 
   return (
@@ -69,34 +78,63 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
       <div className="space-y-4">
         <div className="space-y-2">
           <Label>Tag</Label>
-          <Command className="bg-[#333] border-[#444] text-white rounded-lg">
-            <CommandInput 
-              placeholder="Escolha ou crie uma tag" 
-              className="text-white"
-            />
-            <CommandEmpty>Nenhuma tag encontrada.</CommandEmpty>
-            <CommandGroup>
-              {tagOptions.map((tag) => (
-                <CommandItem
-                  key={tag}
-                  value={tag}
-                  onSelect={handleTagSelect}
-                  className="text-white hover:bg-[#444] cursor-pointer"
-                >
-                  {tag}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </Command>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-full justify-between bg-[#333] border-[#444] text-white hover:bg-[#444] hover:text-white"
+              >
+                {value
+                  ? value
+                  : "Escolha ou crie uma tag"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0 bg-[#1A1A1A] border-[#333]">
+              <Command className="bg-transparent" shouldFilter={true}>
+                <CommandInput 
+                  placeholder="Digite o nome da tag" 
+                  className="bg-[#333] border-[#444] text-white"
+                  value={value}
+                  onValueChange={setValue}
+                />
+                <CommandEmpty className="py-2 px-4 text-sm">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-primary hover:bg-[#333]"
+                    onClick={() => createNewTag(value)}
+                  >
+                    Criar tag "{value}"
+                  </Button>
+                </CommandEmpty>
+                <CommandGroup>
+                  {tagOptions.map((tag) => (
+                    <CommandItem
+                      key={tag}
+                      value={tag}
+                      onSelect={handleSelect}
+                      className="hover:bg-[#333] aria-selected:bg-[#444]"
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          value === tag ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {tag}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </Command>
+            </PopoverContent>
+          </Popover>
         </div>
 
-        {data.tags && data.tags.length > 0 && (
+        {selectedTags.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {data.tags.map((tag, index) => (
-              <div
-                key={index}
-                className="bg-primary/20 text-primary px-2 py-1 rounded-md text-sm"
-              >
+            {selectedTags.map((tag) => (
+              <div key={tag} className="bg-[#333] px-2 py-1 rounded text-sm">
                 {tag}
               </div>
             ))}

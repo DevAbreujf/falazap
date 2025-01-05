@@ -7,7 +7,7 @@ import type { StartNodeData, Trigger } from "@/types/flow";
 
 export function StartNode({ data }: { data: StartNodeData }) {
   const [triggers, setTriggers] = useState<Trigger[]>(data.triggers);
-  const [delay, setDelay] = useState(data.delay);
+  const [delay, setDelay] = useState<{ value: number; unit: "seconds" | "minutes" | "hours" }>(data.delay);
 
   const addTrigger = () => {
     const newTrigger: Trigger = {
