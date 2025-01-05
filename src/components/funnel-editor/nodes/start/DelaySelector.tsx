@@ -3,8 +3,8 @@ import { Input } from "@/components/ui/input";
 
 interface DelaySelectorProps {
   value: number;
-  unit: string;
-  onChange?: (value: number, unit: string) => void;
+  unit: "seconds" | "minutes" | "hours";
+  onChange?: (value: number, unit: "seconds" | "minutes" | "hours") => void;
 }
 
 export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
@@ -15,13 +15,13 @@ export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
         <Input
           type="number"
           value={value}
-          className="w-20"
+          className="w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           min={0}
           onChange={(e) => onChange?.(Number(e.target.value), unit)}
         />
         <Select 
           value={unit}
-          onValueChange={(value) => onChange?.(value, unit)}
+          onValueChange={(value: "seconds" | "minutes" | "hours") => onChange?.(value, unit)}
         >
           <SelectTrigger>
             <SelectValue />
