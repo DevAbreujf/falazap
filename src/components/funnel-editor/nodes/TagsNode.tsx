@@ -34,7 +34,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   const { setNodes } = useReactFlow();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  const [selectedTags, setSelectedTags] = useState<string[]>(data?.tags || []);
+  const [selectedTags, setSelectedTags] = useState<string[]>(data?.tags ?? []);
 
   const handleDelete = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
@@ -92,7 +92,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0 bg-[#1A1A1A] border-[#333]">
-              <Command className="bg-transparent">
+              <Command className="bg-transparent" shouldFilter={true}>
                 <CommandInput 
                   placeholder="Digite o nome da tag" 
                   className="bg-[#333] border-[#444] text-white"
