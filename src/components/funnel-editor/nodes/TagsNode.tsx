@@ -1,4 +1,4 @@
-import { Handle, Position, useReactFlow } from "@xyflow/react";
+import { Handle, Position, useReactFlow, Node } from "@xyflow/react";
 import { X } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import {
@@ -15,6 +15,8 @@ interface TagsNodeData {
   tags: string[];
 }
 
+type TagsNode = Node<TagsNodeData>;
+
 const tagOptions = [
   "Informações",
   "Oferta",
@@ -24,24 +26,24 @@ const tagOptions = [
 ];
 
 export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
-  const { setNodes } = useReactFlow();
+  const { setNodes } = useReactFlow<TagsNodeData>();
 
   const handleDelete = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
   };
 
   const handleTagSelect = (value: string) => {
-    setNodes((nodes) =>
+    setNodes((nodes: TagsNode[]) =>
       nodes.map((node) => {
         if (node.id === id) {
-          const currentTags = (node.data as TagsNodeData).tags || [];
+          const currentTags = node.data.tags || [];
           if (!currentTags.includes(value)) {
             return {
               ...node,
               data: {
                 ...node.data,
                 tags: [...currentTags, value],
-              } as TagsNodeData,
+              },
             };
           }
         }
