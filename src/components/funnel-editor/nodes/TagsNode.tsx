@@ -34,14 +34,14 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
     setNodes((nodes) =>
       nodes.map((node) => {
         if (node.id === id) {
-          const currentTags = node.data.tags || [];
+          const currentTags = (node.data as TagsNodeData).tags || [];
           if (!currentTags.includes(value)) {
             return {
               ...node,
               data: {
                 ...node.data,
                 tags: [...currentTags, value],
-              },
+              } as TagsNodeData,
             };
           }
         }
