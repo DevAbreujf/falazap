@@ -17,7 +17,7 @@ interface ForwardingRule {
 
 interface ForwardingNodeData {
   label: string;
-  rules: ForwardingRule[];
+  rules?: ForwardingRule[];
 }
 
 export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
