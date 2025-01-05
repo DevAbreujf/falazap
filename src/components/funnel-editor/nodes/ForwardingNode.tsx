@@ -52,9 +52,6 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
   };
 
   const handleActionSelect = (ruleId: string, value: string) => {
-    if (!actions.includes(value)) {
-      setActions([...actions, value]);
-    }
     updateRule(ruleId, { action: value });
     setOpen({ ...open, [ruleId]: false });
   };
