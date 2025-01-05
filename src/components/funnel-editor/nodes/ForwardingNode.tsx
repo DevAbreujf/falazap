@@ -59,6 +59,14 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
     setOpen({ ...open, [ruleId]: false });
   };
 
+  const handleCreateTeam = (ruleId: string) => {
+    const teamName = prompt("Digite o nome da equipe ou setor:");
+    if (teamName) {
+      const newAction = `Enviar para ${teamName}`;
+      handleActionSelect(ruleId, newAction);
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl border p-4 min-w-[300px]">
       <Handle
@@ -123,7 +131,16 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
                 <PopoverContent className="w-[300px] p-0">
                   <Command>
                     <CommandInput placeholder="Buscar ação..." />
-                    <CommandEmpty>Nenhuma ação encontrada.</CommandEmpty>
+                    <CommandEmpty>
+                      <Button 
+                        variant="ghost" 
+                        className="w-full justify-start px-2 py-1.5"
+                        onClick={() => handleCreateTeam(rule.id)}
+                      >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Criar equipe
+                      </Button>
+                    </CommandEmpty>
                     <CommandGroup>
                       {actions.map((action) => (
                         <CommandItem
@@ -140,16 +157,6 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
                           {action}
                         </CommandItem>
                       ))}
-                      <CommandItem
-                        onSelect={() => {
-                          const value = document.querySelector<HTMLInputElement>('[cmdk-input]')?.value;
-                          if (value) {
-                            handleActionSelect(rule.id, value);
-                          }
-                        }}
-                      >
-                        Criar nova ação
-                      </CommandItem>
                     </CommandGroup>
                   </Command>
                 </PopoverContent>
