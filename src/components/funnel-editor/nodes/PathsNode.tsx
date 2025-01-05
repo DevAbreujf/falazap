@@ -36,26 +36,27 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-background rounded-xl border p-4 min-w-[300px]">
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-medium">Caminhos</h3>
-          <Button 
-            variant="ghost" 
-            size="sm"
-            className="h-6 w-6 p-0"
-            onClick={handleDelete}
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-        
+    <div className="flow-node">
+      <div className="flow-node-header">
+        <h3>Caminhos</h3>
+        <Button 
+          variant="ghost" 
+          size="sm"
+          className="h-6 w-6 p-0 hover:bg-accent"
+          onClick={handleDelete}
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
+      
+      <div className="flow-node-content">
         <div className="space-y-2">
           <Label>Variável</Label>
           <Input
             placeholder="Escolha ou crie uma variável"
             value={variable}
             onChange={(e) => setVariable(e.target.value)}
+            className="bg-background border-input"
           />
         </div>
 
@@ -63,13 +64,14 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
           <Label>Crie caminhos:</Label>
           
           {paths.map((path) => (
-            <div key={path.id} className="space-y-2 border-t pt-4 relative">
+            <div key={path.id} className="space-y-2 border-t border-border pt-4 relative">
               <div className="flex justify-between items-center">
                 <Label>Termo</Label>
                 <Button 
                   variant="ghost" 
                   size="sm"
                   onClick={() => removePath(path.id)}
+                  className="hover:bg-accent"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -79,6 +81,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 placeholder="Ex: 'Primeiro'"
                 value={path.term}
                 onChange={(e) => updatePath(path.id, { term: e.target.value })}
+                className="bg-background border-input"
               />
               
               <Label>Condição</Label>
@@ -104,7 +107,6 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 position={Position.Right}
                 id={path.id}
                 className="!bg-primary !w-3 !h-3 !border-2"
-                style={{ right: -13 }}
               />
             </div>
           ))}
@@ -113,7 +115,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
         <div className="space-y-2">
           <Button 
             variant="outline" 
-            className="w-full"
+            className="w-full bg-background hover:bg-accent"
             onClick={addPath}
           >
             <Plus className="h-4 w-4 mr-2" />
@@ -123,15 +125,15 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
           {!showFallback ? (
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full bg-background hover:bg-accent"
               onClick={() => setShowFallback(true)}
             >
               Caso não se encaixe...
             </Button>
           ) : (
-            <div className="border-t pt-4 space-y-2 relative">
+            <div className="border-t border-border pt-4 space-y-2 relative">
               <div className="flex items-center justify-between">
-                <p className="text-sm">
+                <p className="text-sm text-muted-foreground">
                   Caso não for nenhum dos caminhos, envie...
                 </p>
                 <Handle
@@ -139,13 +141,12 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                   position={Position.Right}
                   id="fallback"
                   className="!bg-primary !w-3 !h-3 !border-2"
-                  style={{ right: -13 }}
                 />
               </div>
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full"
+                className="w-full bg-background hover:bg-accent"
                 onClick={() => setShowFallback(false)}
               >
                 Remover recuperação

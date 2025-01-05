@@ -22,11 +22,11 @@ interface ForwardingNodeData {
 
 export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
   const [rules, setRules] = useState<ForwardingRule[]>(data.rules || []);
-  const [actions] = useState<string[]>([
+  const actions = [
     "Enviar para equipe A",
     "Enviar para equipe B",
     "Enviar para equipe C"
-  ]);
+  ];
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
 
   const addRule = () => {
@@ -65,23 +65,19 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
   };
 
   return (
-    <div className="bg-white rounded-xl border p-4 min-w-[300px]">
-      <Handle
-        type="target"
-        position={Position.Top}
-        className="!bg-primary !w-3 !h-3 !border-2"
-      />
+    <div className="flow-node">
+      <div className="flow-node-header">
+        <h3>Encaminhamento</h3>
+      </div>
       
-      <div className="space-y-4">
-        <h3 className="font-medium">Encaminhamento</h3>
-
+      <div className="flow-node-content">
         {rules.map((rule, index) => (
-          <div key={rule.id} className="space-y-2 border-t pt-4 relative">
+          <div key={rule.id} className="space-y-2 border-t border-border pt-4 relative">
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={() => removeRule(rule.id)}
-              className="absolute right-0 top-4 text-destructive hover:text-destructive"
+              className="absolute right-0 top-4 hover:bg-accent"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -96,7 +92,7 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
                   })
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger className="bg-background border-input">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -109,6 +105,7 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
                 placeholder={rule.condition === "exact" ? "Mensagem exata" : "Contenha na mensagem"}
                 value={rule.term}
                 onChange={(e) => updateRule(rule.id, { term: e.target.value })}
+                className="bg-background border-input"
               />
             </div>
 
@@ -123,7 +120,7 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open[rule.id]}
-                    className="w-full justify-between"
+                    className="w-full justify-between bg-background border-input hover:bg-accent"
                   >
                     {rule.action || "Selecione uma ação..."}
                   </Button>
@@ -134,7 +131,7 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
                     <CommandEmpty>
                       <Button 
                         variant="ghost" 
-                        className="w-full justify-start px-2 py-1.5"
+                        className="w-full justify-start px-2 py-1.5 hover:bg-accent"
                         onClick={() => handleCreateTeam(rule.id)}
                       >
                         <Plus className="mr-2 h-4 w-4" />
@@ -147,6 +144,7 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
                           key={action}
                           value={action}
                           onSelect={() => handleActionSelect(rule.id, action)}
+                          className="hover:bg-accent"
                         >
                           <Check
                             className={cn(
@@ -173,12 +171,23 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
         ))}
 
         <div className="flex justify-center pt-2">
-          <Button onClick={addRule} variant="outline" size="sm">
+          <Button 
+            onClick={addRule} 
+            variant="outline" 
+            size="sm"
+            className="bg-background hover:bg-accent"
+          >
             <Plus className="h-4 w-4 mr-2" />
             Adicionar Encaminhamento
           </Button>
         </div>
       </div>
+
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!bg-primary !w-3 !h-3 !border-2"
+      />
     </div>
   );
 }

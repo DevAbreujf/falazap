@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { Handle, Position } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 import { DelaySelector } from "./start/DelaySelector";
 import { TriggerItem } from "./start/TriggerItem";
 import type { StartNodeData, Trigger } from "@/types/flow";
@@ -32,37 +33,46 @@ export function StartNode({ data }: { data: StartNodeData }) {
   };
 
   return (
-    <div className="bg-primary/10 rounded-xl border-2 border-primary p-4 min-w-[300px]">
-      <div className="flex flex-col gap-4">
-        <div>
-          <h3 className="font-semibold text-lg">{data.label}</h3>
-        </div>
-
-        <div className="space-y-4">
-          <DelaySelector 
-            value={delay.value} 
-            unit={delay.unit} 
-            onChange={updateDelay}
-          />
-
-          {triggers.map((trigger, index) => (
-            <TriggerItem
-              key={trigger.id}
-              trigger={trigger}
-              index={index}
-              onUpdate={updateTrigger}
-              onDelete={deleteTrigger}
-            />
-          ))}
-        </div>
-
-        <div className="flex justify-center pt-4 border-t">
-          <Button variant="outline" size="sm" onClick={addTrigger}>
-            <Plus className="h-4 w-4 mr-2" />
-            Adicionar Gatilho
-          </Button>
-        </div>
+    <div className="flow-node">
+      <div className="flow-node-header">
+        <h3>Início</h3>
       </div>
+
+      <div className="flow-node-content">
+        <DelaySelector 
+          value={delay.value} 
+          unit={delay.unit} 
+          onChange={updateDelay}
+        />
+
+        {triggers.map((trigger, index) => (
+          <TriggerItem
+            key={trigger.id}
+            trigger={trigger}
+            index={index}
+            onUpdate={updateTrigger}
+            onDelete={deleteTrigger}
+          />
+        ))}
+      </div>
+
+      <div className="flow-node-footer">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={addTrigger}
+          className="w-full bg-background hover:bg-accent"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Adicionar Gatilho
+        </Button>
+      </div>
+
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        className="!bg-primary !w-3 !h-3 !border-2"
+      />
     </div>
   );
 }
