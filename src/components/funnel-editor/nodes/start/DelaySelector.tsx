@@ -1,29 +1,37 @@
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface DelaySelectorProps {
   value: number;
   unit: "seconds" | "minutes" | "hours";
-  onChange?: (value: number, unit: "seconds" | "minutes" | "hours") => void;
+  onChange: (value: number, unit: "seconds" | "minutes" | "hours") => void;
 }
 
 export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">Tempo de Execução</label>
+      <Label>Tempo de Execução</Label>
       <div className="flex items-center gap-2">
         <Input
           type="number"
           value={value}
-          className="w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-          min={0}
-          onChange={(e) => onChange?.(Number(e.target.value), unit)}
+          onChange={(e) => onChange(Number(e.target.value), unit)}
+          className="bg-[#333] border-[#444] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
-        <Select 
+        <Select
           value={unit}
-          onValueChange={(value: "seconds" | "minutes" | "hours") => onChange?.(value, unit)}
+          onValueChange={(newUnit) =>
+            onChange(value, newUnit as "seconds" | "minutes" | "hours")
+          }
         >
-          <SelectTrigger>
+          <SelectTrigger className="w-[180px] bg-[#333] border-[#444] text-white">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
