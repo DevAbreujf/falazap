@@ -60,7 +60,7 @@ export function ElementsSidebar() {
   };
 
   return (
-    <div className="w-80 bg-zinc-900/50 backdrop-blur-sm border-r border-zinc-800">
+    <div className="w-80 bg-zinc-900/50 backdrop-blur-sm border-r border-zinc-800 flex flex-col">
       <div className="p-4 border-b border-zinc-800">
         <h2 className="text-lg font-semibold">Elementos</h2>
         <p className="text-sm text-muted-foreground">
@@ -68,32 +68,30 @@ export function ElementsSidebar() {
         </p>
       </div>
       
-      <ScrollArea className="h-[calc(100vh-10rem)]">
-        <div className="p-4 space-y-4">
+      <div className="flex-1 p-4">
+        <div className="grid grid-cols-1 gap-3">
           {widgets.map((widget, index) => (
-            <div key={widget.type}>
-              {index > 0 && <Separator className="my-4 bg-zinc-800" />}
-              <div
-                draggable
-                onDragStart={(e) => onDragStart(e, widget.type)}
-                className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-4 hover:border-orange-500/50 hover:bg-zinc-800/50 cursor-move transition-all duration-200"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="rounded-md bg-orange-500/10 p-2">
-                    <widget.icon className="h-6 w-6 text-orange-500" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-zinc-100">{widget.label}</h3>
-                    <p className="text-sm text-zinc-400">
-                      {widget.description}
-                    </p>
-                  </div>
+            <div
+              key={widget.type}
+              draggable
+              onDragStart={(e) => onDragStart(e, widget.type)}
+              className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-3 hover:border-orange-500/50 hover:bg-zinc-800/50 cursor-move transition-all duration-200"
+            >
+              <div className="flex items-center gap-3">
+                <div className="rounded-md bg-orange-500/10 p-2">
+                  <widget.icon className="h-5 w-5 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-zinc-100 text-sm">{widget.label}</h3>
+                  <p className="text-xs text-zinc-400">
+                    {widget.description}
+                  </p>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </ScrollArea>
+      </div>
     </div>
   );
 }
