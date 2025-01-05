@@ -22,7 +22,7 @@ interface ForwardingNodeData {
 
 export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
   const [rules, setRules] = useState<ForwardingRule[]>(data.rules || []);
-  const [actions, setActions] = useState<string[]>([
+  const [actions] = useState<string[]>([
     "Enviar para equipe A",
     "Enviar para equipe B",
     "Enviar para equipe C"
