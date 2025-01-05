@@ -1,4 +1,4 @@
-import { Handle, Position, useReactFlow, Node } from "@xyflow/react";
+import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { X } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import {
@@ -9,11 +9,12 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
+import { Node } from "@xyflow/react";
 
 interface TagsNodeData {
   label: string;
   tags: string[];
-  [key: string]: unknown; // Add index signature to satisfy Record<string, unknown>
+  [key: string]: unknown;
 }
 
 const tagOptions = [
@@ -72,11 +73,6 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
             <CommandInput 
               placeholder="Escolha ou crie uma tag" 
               className="text-white"
-              onValueChange={(value) => {
-                if (value && !tagOptions.includes(value)) {
-                  handleTagSelect(value);
-                }
-              }}
             />
             <CommandEmpty>Nenhuma tag encontrada.</CommandEmpty>
             <CommandGroup>
