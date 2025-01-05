@@ -27,7 +27,7 @@ export function StartNode({ data }: { data: StartNodeData }) {
     setTriggers(triggers.filter(t => t.id !== triggerId));
   };
 
-  const updateDelay = (value: number, unit: string) => {
+  const updateDelay = (value: number, unit: "seconds" | "minutes" | "hours") => {
     setDelay({ value, unit });
   };
 
