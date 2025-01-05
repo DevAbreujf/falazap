@@ -117,7 +117,10 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Ação</label>
-              <Popover open={open[rule.id]} onOpenChange={(isOpen) => setOpen({ ...open, [rule.id]: isOpen })}>
+              <Popover 
+                open={open[rule.id]} 
+                onOpenChange={(isOpen) => setOpen({ ...open, [rule.id]: isOpen })}
+              >
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
@@ -128,7 +131,7 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
                     {rule.action || "Selecione uma ação..."}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[300px] p-0">
+                <PopoverContent className="w-[300px] p-0" align="start">
                   <Command>
                     <CommandInput placeholder="Buscar ação..." />
                     <CommandEmpty>
