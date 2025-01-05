@@ -13,9 +13,8 @@ import { Button } from "@/components/ui/button";
 interface TagsNodeData {
   label: string;
   tags: string[];
+  [key: string]: unknown; // Add index signature to satisfy Record<string, unknown>
 }
-
-type TagsNode = Node<TagsNodeData>;
 
 const tagOptions = [
   "Informações",
@@ -26,14 +25,14 @@ const tagOptions = [
 ];
 
 export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
-  const { setNodes } = useReactFlow<TagsNodeData>();
+  const { setNodes } = useReactFlow<Node<TagsNodeData>>();
 
   const handleDelete = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
   };
 
   const handleTagSelect = (value: string) => {
-    setNodes((nodes: TagsNode[]) =>
+    setNodes((nodes) =>
       nodes.map((node) => {
         if (node.id === id) {
           const currentTags = node.data.tags || [];
@@ -69,7 +68,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
       <div className="space-y-4">
         <div className="space-y-2">
           <Label>Tag</Label>
-          <Command className="bg-[#333] border-[#444] text-white rounded-lg" shouldFilter={true}>
+          <Command className="bg-[#333] border-[#444] text-white rounded-lg">
             <CommandInput 
               placeholder="Escolha ou crie uma tag" 
               className="text-white"
