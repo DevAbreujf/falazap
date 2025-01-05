@@ -67,7 +67,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
       <div className="space-y-4">
         <div className="space-y-2">
           <Label>Tag</Label>
-          <Command className="bg-[#333] border-[#444] text-white rounded-lg">
+          <Command className="bg-[#333] border-[#444] text-white rounded-lg" shouldFilter={true}>
             <CommandInput 
               placeholder="Escolha ou crie uma tag" 
               className="text-white"
