@@ -88,7 +88,10 @@ export function FunnelEditorCanvas() {
           label: `${type} node`,
           ...(type === "start" && {
             triggers: [],
-            delay: { value: 0, unit: "seconds" },
+            delay: { value: 0, unit: "seconds" as const },
+          }),
+          ...(type === "tags" && {
+            tags: [],
           }),
         },
         deletable: type !== "start",

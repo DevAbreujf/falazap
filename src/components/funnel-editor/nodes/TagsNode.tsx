@@ -1,5 +1,5 @@
 import { Handle, Position, useReactFlow } from "@xyflow/react";
-import { X } from "lucide-react";
+import { X, Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import {
   Command,
@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
 import { useState } from "react";
 
 interface TagsNodeData {
@@ -35,6 +34,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   const { setNodes } = useReactFlow();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>(data.tags || []);
 
   const handleDelete = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
@@ -43,11 +43,22 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   const handleSelect = (currentValue: string) => {
     setValue(currentValue);
     setOpen(false);
+    
+    if (!selectedTags.includes(currentValue)) {
+      const newTags = [...selectedTags, currentValue];
+      setSelectedTags(newTags);
+      setNodes((nds) =>
+        nds.map((node) =>
+          node.id === id ? { ...node, data: { ...node.data, tags: newTags } } : node
+        )
+      );
+    }
   };
 
   const createNewTag = (inputValue: string) => {
-    handleSelect(inputValue);
-    // Here you could also add logic to save the new tag to your list of options
+    if (inputValue.trim()) {
+      handleSelect(inputValue);
+    }
   };
 
   return (
@@ -85,6 +96,8 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
                 <CommandInput 
                   placeholder="Digite o nome da tag" 
                   className="bg-[#333] border-[#444] text-white"
+                  value={value}
+                  onValueChange={setValue}
                 />
                 <CommandEmpty className="py-2 px-4 text-sm">
                   <Button 
