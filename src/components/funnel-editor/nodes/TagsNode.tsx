@@ -1,21 +1,8 @@
 import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { X } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 interface TagsNodeData {
@@ -23,31 +10,33 @@ interface TagsNodeData {
   tags: string[];
 }
 
-const tagOptions = [
-  "Informações",
-  "Oferta",
-  "Quebra de Objeções",
-  "Link de Compra",
-  "Fim do Funil",
-];
-
 export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   const { setNodes } = useReactFlow();
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [tagValue, setTagValue] = useState("");
 
   const handleDelete = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
   };
 
-  const handleSelect = (currentValue: string) => {
-    setValue(currentValue);
-    setOpen(false);
-  };
-
-  const createNewTag = (inputValue: string) => {
-    handleSelect(inputValue);
-    // Here you could also add logic to save the new tag to your list of options
+  const handleTagInput = (e: React.FocusEvent<HTMLInputElement>) => {
+    const newTag = e.target.value.trim();
+    if (newTag) {
+      setNodes((nodes) =>
+        nodes.map((node) => {
+          if (node.id === id) {
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                tags: [...(node.data.tags || []), newTag],
+              },
+            };
+          }
+          return node;
+        })
+      );
+      setTagValue("");
+    }
   };
 
   return (
@@ -67,56 +56,24 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
       <div className="space-y-4">
         <div className="space-y-2">
           <Label>Tag</Label>
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={open}
-                className="w-full justify-between bg-[#333] border-[#444] text-white hover:bg-[#444] hover:text-white"
-              >
-                {value
-                  ? value
-                  : "Escolha ou crie uma tag"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-full p-0 bg-[#1A1A1A] border-[#333]">
-              <Command className="bg-transparent">
-                <CommandInput 
-                  placeholder="Digite o nome da tag" 
-                  className="bg-[#333] border-[#444] text-white"
-                />
-                <CommandEmpty className="py-2 px-4 text-sm">
-                  <Button 
-                    variant="ghost" 
-                    className="w-full justify-start text-primary hover:bg-[#333]"
-                    onClick={() => createNewTag(value)}
-                  >
-                    Criar tag "{value}"
-                  </Button>
-                </CommandEmpty>
-                <CommandGroup>
-                  {tagOptions.map((tag) => (
-                    <CommandItem
-                      key={tag}
-                      value={tag}
-                      onSelect={handleSelect}
-                      className="hover:bg-[#333] aria-selected:bg-[#444]"
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          value === tag ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {tag}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
+          <Input
+            value={tagValue}
+            onChange={(e) => setTagValue(e.target.value)}
+            onBlur={handleTagInput}
+            placeholder="Digite uma tag e pressione Tab ou clique fora"
+            className="bg-[#333] border-[#444] text-white"
+          />
         </div>
+        
+        {data.tags && data.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {data.tags.map((tag, index) => (
+              <div key={index} className="bg-primary/20 px-2 py-1 rounded text-sm">
+                {tag}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <Handle
