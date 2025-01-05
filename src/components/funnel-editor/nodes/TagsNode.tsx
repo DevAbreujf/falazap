@@ -2,13 +2,21 @@ import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { X } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
+import { useState } from "react";
 
 interface TagsNodeData {
   label: string;
@@ -25,9 +33,21 @@ const tagOptions = [
 
 export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   const { setNodes } = useReactFlow();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   const handleDelete = () => {
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
+  };
+
+  const handleSelect = (currentValue: string) => {
+    setValue(currentValue);
+    setOpen(false);
+  };
+
+  const createNewTag = (inputValue: string) => {
+    handleSelect(inputValue);
+    // Here you could also add logic to save the new tag to your list of options
   };
 
   return (
@@ -47,18 +67,55 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
       <div className="space-y-4">
         <div className="space-y-2">
           <Label>Tag</Label>
-          <Select>
-            <SelectTrigger className="w-full bg-[#333] border-[#444] text-white">
-              <SelectValue placeholder="Escolha ou crie uma tag" />
-            </SelectTrigger>
-            <SelectContent>
-              {tagOptions.map((tag) => (
-                <SelectItem key={tag} value={tag}>
-                  {tag}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-full justify-between bg-[#333] border-[#444] text-white hover:bg-[#444] hover:text-white"
+              >
+                {value
+                  ? value
+                  : "Escolha ou crie uma tag"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0 bg-[#1A1A1A] border-[#333]">
+              <Command className="bg-transparent">
+                <CommandInput 
+                  placeholder="Digite o nome da tag" 
+                  className="bg-[#333] border-[#444] text-white"
+                />
+                <CommandEmpty className="py-2 px-4 text-sm">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-primary hover:bg-[#333]"
+                    onClick={() => createNewTag(value)}
+                  >
+                    Criar tag "{value}"
+                  </Button>
+                </CommandEmpty>
+                <CommandGroup>
+                  {tagOptions.map((tag) => (
+                    <CommandItem
+                      key={tag}
+                      value={tag}
+                      onSelect={handleSelect}
+                      className="hover:bg-[#333] aria-selected:bg-[#444]"
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          value === tag ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {tag}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </Command>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 
