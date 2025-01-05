@@ -81,7 +81,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
               <Command>
-                <CommandInput
+                <CommandInput 
                   placeholder="Digite sua TAG"
                   value={inputValue}
                   onValueChange={setInputValue}
