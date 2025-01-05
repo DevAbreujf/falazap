@@ -31,11 +31,9 @@ export default function FunnelEditor() {
   };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-background">
-      <ElementsSidebar />
-      
-      <div className="flex-1 flex flex-col">
-        <header className="flex items-center justify-between px-6 py-4 border-b">
+    <div className="flex flex-col h-screen w-full overflow-hidden bg-background">
+      <header className="w-full border-b bg-zinc-900/50 backdrop-blur-sm">
+        <div className="flex items-center justify-between px-6 py-4 max-w-[1920px] mx-auto">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" onClick={handleBack}>
               <ArrowLeft className="h-5 w-5" />
@@ -69,13 +67,16 @@ export default function FunnelEditor() {
               Exportar
             </Button>
             
-            <Button onClick={handleSave}>
+            <Button onClick={handleSave} className="bg-orange-600 hover:bg-orange-700">
               <Save className="h-4 w-4 mr-2" />
               Salvar
             </Button>
           </div>
-        </header>
-        
+        </div>
+      </header>
+      
+      <div className="flex flex-1 overflow-hidden">
+        <ElementsSidebar />
         <FunnelEditorCanvas />
       </div>
     </div>

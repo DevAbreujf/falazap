@@ -1,8 +1,6 @@
 import { useCallback } from "react";
 import {
   ReactFlow,
-  MiniMap,
-  Controls,
   Background,
   useNodesState,
   useEdgesState,
@@ -114,9 +112,7 @@ export function FunnelEditorCanvas() {
         nodeTypes={nodeTypes}
         fitView
       >
-        <Controls />
-        <MiniMap />
-        <Background gap={12} size={1} />
+        <Background gap={24} size={1} />
       </ReactFlow>
     </div>
   );

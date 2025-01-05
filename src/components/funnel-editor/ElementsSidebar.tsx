@@ -60,31 +60,31 @@ export function ElementsSidebar() {
   };
 
   return (
-    <div className="w-80 border-r bg-card">
-      <div className="p-4 border-b">
+    <div className="w-80 bg-zinc-900/50 backdrop-blur-sm border-r border-zinc-800">
+      <div className="p-4 border-b border-zinc-800">
         <h2 className="text-lg font-semibold">Elementos</h2>
         <p className="text-sm text-muted-foreground">
           Arraste os elementos para o canvas
         </p>
       </div>
       
-      <ScrollArea className="h-[calc(100vh-5rem)]">
+      <ScrollArea className="h-[calc(100vh-10rem)]">
         <div className="p-4 space-y-4">
           {widgets.map((widget, index) => (
             <div key={widget.type}>
-              {index > 0 && <Separator className="my-4" />}
+              {index > 0 && <Separator className="my-4 bg-zinc-800" />}
               <div
                 draggable
                 onDragStart={(e) => onDragStart(e, widget.type)}
-                className="rounded-lg border bg-card p-4 hover:border-primary/50 hover:bg-accent cursor-move transition-colors"
+                className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-4 hover:border-orange-500/50 hover:bg-zinc-800/50 cursor-move transition-all duration-200"
               >
                 <div className="flex items-center gap-3">
-                  <div className="rounded-md bg-primary/10 p-2">
-                    <widget.icon className="h-6 w-6 text-primary" />
+                  <div className="rounded-md bg-orange-500/10 p-2">
+                    <widget.icon className="h-6 w-6 text-orange-500" />
                   </div>
                   <div>
-                    <h3 className="font-medium">{widget.label}</h3>
-                    <p className="text-sm text-muted-foreground">
+                    <h3 className="font-medium text-zinc-100">{widget.label}</h3>
+                    <p className="text-sm text-zinc-400">
                       {widget.description}
                     </p>
                   </div>
