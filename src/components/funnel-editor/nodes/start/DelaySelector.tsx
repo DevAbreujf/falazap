@@ -1,5 +1,5 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface DelaySelectorProps {
   value: number;
@@ -11,7 +11,7 @@ export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium">Tempo de Execução</label>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <Input
           type="number"
           value={value}
