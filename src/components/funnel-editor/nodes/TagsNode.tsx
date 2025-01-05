@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Node } from "@xyflow/react";
 
 interface TagsNodeData {
   label: string;
@@ -21,21 +22,20 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   const handleTagInput = (e: React.FocusEvent<HTMLInputElement>) => {
     const newTag = e.target.value.trim();
     if (newTag) {
-      setNodes((nodes) =>
+      setNodes((nodes: Node[]) =>
         nodes.map((node) => {
           if (node.id === id) {
             return {
               ...node,
               data: {
                 ...node.data,
-                tags: [...(node.data.tags || []), newTag],
+                tags: [newTag], // Only store one tag
               },
             };
           }
           return node;
         })
       );
-      setTagValue("");
     }
   };
 
@@ -60,7 +60,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
             value={tagValue}
             onChange={(e) => setTagValue(e.target.value)}
             onBlur={handleTagInput}
-            placeholder="Digite uma tag e pressione Tab ou clique fora"
+            placeholder="Digite sua TAG"
             className="bg-[#333] border-[#444] text-white"
           />
         </div>
