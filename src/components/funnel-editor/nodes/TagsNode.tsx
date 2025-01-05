@@ -9,7 +9,7 @@ interface TagsNodeData {
 
 export function TagsNode({ data }: { data: TagsNodeData }) {
   return (
-    <div className="bg-white rounded-xl border p-4 min-w-[300px]">
+    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
       <Handle
         type="target"
         position={Position.Top}
@@ -19,11 +19,12 @@ export function TagsNode({ data }: { data: TagsNodeData }) {
       <div className="space-y-4">
         <h3 className="font-medium">{data.label}</h3>
         
-        <div className="flex items-center gap-3 bg-muted/50 rounded-lg p-3">
+        <div className="flex items-center gap-3 bg-[#333] rounded-lg p-3">
           <Tags className="h-5 w-5 text-muted-foreground" />
           <Input
             placeholder="Digite as tags separadas por vírgula..."
             value={data.tags.join(", ")}
+            className="bg-[#333] border-[#444] text-white"
           />
         </div>
       </div>

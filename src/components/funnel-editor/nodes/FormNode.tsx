@@ -14,7 +14,7 @@ interface FormNodeData {
 
 export function FormNode({ data }: { data: FormNodeData }) {
   return (
-    <div className="bg-white rounded-xl border p-4 min-w-[300px]">
+    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
       <Handle
         type="target"
         position={Position.Top}
@@ -25,7 +25,7 @@ export function FormNode({ data }: { data: FormNodeData }) {
         <h3 className="font-medium">{data.label}</h3>
         
         {data.fields.map((field) => (
-          <div key={field.id} className="flex items-center justify-between py-2 border-t">
+          <div key={field.id} className="flex items-center justify-between py-2 border-t border-[#333]">
             <div>
               <p className="font-medium capitalize">{field.type}</p>
               <p className="text-sm text-muted-foreground">

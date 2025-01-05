@@ -16,7 +16,7 @@ export function DelayNode({ data, id }: { data: DelayNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-white rounded-xl border p-4 min-w-[300px]">
+    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
       <Handle
         type="target"
         position={Position.Top}
@@ -26,18 +26,23 @@ export function DelayNode({ data, id }: { data: DelayNodeData; id: string }) {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-medium">Tempo</h3>
-          <Button variant="ghost" size="icon" onClick={handleDelete}>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="h-6 w-6 text-muted-foreground hover:text-white"
+            onClick={handleDelete}
+          >
             <X className="h-4 w-4" />
           </Button>
         </div>
         
-        <div className="flex items-center gap-3 bg-muted/50 rounded-lg p-3">
+        <div className="flex items-center gap-3 bg-[#333] rounded-lg p-3">
           <Clock className="h-5 w-5 text-muted-foreground" />
           <div className="flex items-center gap-2">
             <Input
               type="number"
               value={data.seconds}
-              className="w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-20 bg-[#333] border-[#444] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               min={0}
             />
             <span className="text-sm text-muted-foreground">segundos</span>

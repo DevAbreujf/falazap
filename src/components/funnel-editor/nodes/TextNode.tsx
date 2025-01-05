@@ -16,7 +16,7 @@ export function TextNode({ data, id }: { data: TextNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-white rounded-xl border p-4 min-w-[300px]">
+    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
       <Handle
         type="target"
         position={Position.Top}
@@ -26,14 +26,19 @@ export function TextNode({ data, id }: { data: TextNodeData; id: string }) {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <h3 className="font-medium">Mensagem de texto</h3>
-          <Button variant="ghost" size="icon" onClick={handleDelete}>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="h-6 w-6 text-muted-foreground hover:text-white"
+            onClick={handleDelete}
+          >
             <X className="h-4 w-4" />
           </Button>
         </div>
         <Textarea
           placeholder="Digite sua mensagem..."
           value={data.content}
-          className="min-h-[100px]"
+          className="min-h-[100px] bg-[#333] border-[#444] text-white"
         />
       </div>
       

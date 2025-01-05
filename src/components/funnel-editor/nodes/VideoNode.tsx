@@ -18,7 +18,7 @@ export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-white rounded-xl border p-4 min-w-[300px]">
+    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
       <Handle
         type="target"
         position={Position.Top}
@@ -28,17 +28,22 @@ export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-medium">Vídeo</h3>
-          <Button variant="ghost" size="icon" onClick={handleDelete}>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="h-6 w-6 text-muted-foreground hover:text-white"
+            onClick={handleDelete}
+          >
             <X className="h-4 w-4" />
           </Button>
         </div>
         
         {data.videoUrl ? (
-          <div className="relative aspect-video bg-muted rounded-lg flex items-center justify-center">
+          <div className="relative aspect-video bg-[#333] rounded-lg flex items-center justify-center">
             <Video className="h-8 w-8 text-muted-foreground" />
           </div>
         ) : (
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full bg-[#333] hover:bg-[#444] text-white">
             <Upload className="h-4 w-4 mr-2" />
             Upload Vídeo
           </Button>
@@ -49,6 +54,7 @@ export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
           <Input
             placeholder="Ex: Clique para continuar"
             value={data.actionLabel}
+            className="bg-[#333] border-[#444] text-white"
           />
         </div>
       </div>
