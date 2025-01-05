@@ -21,6 +21,7 @@ import { FormNode } from "./nodes/FormNode";
 import { DelayNode } from "./nodes/DelayNode";
 import { QuestionNode } from "./nodes/QuestionNode";
 import { TagsNode } from "./nodes/TagsNode";
+import { ForwardingNode } from "./nodes/ForwardingNode";
 
 const nodeTypes = {
   start: StartNode,
@@ -32,6 +33,7 @@ const nodeTypes = {
   delay: DelayNode,
   question: QuestionNode,
   tags: TagsNode,
+  forwarding: ForwardingNode,
 };
 
 const initialNodes = [

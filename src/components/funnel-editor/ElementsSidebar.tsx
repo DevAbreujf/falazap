@@ -1,5 +1,4 @@
-import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags, Share2 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
@@ -45,6 +44,12 @@ const widgets = [
     label: "Tags",
     icon: Tags,
     description: "Adicione tags para métricas"
+  },
+  {
+    type: "forwarding",
+    label: "Encaminhamento Automático",
+    icon: Share2,
+    description: "Configure regras de encaminhamento automático"
   }
 ];
 
