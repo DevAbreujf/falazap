@@ -85,7 +85,8 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-primary !w-3 !h-3 !border-2"
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[2em]"
+        style={{ overflow: 'visible' }}
       />
     </div>
   );
