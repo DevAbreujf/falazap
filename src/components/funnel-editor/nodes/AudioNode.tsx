@@ -19,7 +19,7 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
       <Handle
         type="target"
         position={Position.Top}
-        className="!bg-primary !w-3 !h-3 !border-2"
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
       />
       
       <div className="space-y-4">
@@ -51,7 +51,7 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!bg-primary !w-3 !h-3 !border-2"
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !left-1/2 !-translate-x-1/2"
       />
     </div>
   );
