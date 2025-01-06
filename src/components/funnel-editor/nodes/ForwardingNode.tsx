@@ -65,11 +65,11 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
   };
 
   return (
-    <div className="flow-node">
+    <div className="flow-node relative bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !-top-[30px] !left-1/2 !-translate-x-1/2 !z-50"
       />
       
       <div className="flow-node-header">
