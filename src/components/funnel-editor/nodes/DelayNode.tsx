@@ -52,8 +52,9 @@ export function DelayNode({ data, id }: { data: DelayNodeData; id: string }) {
       
       <Handle
         type="source"
-        position={Position.Bottom}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !left-1/2 !-translate-x-1/2"
+        position={Position.Right}
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[3.5em]"
+        style={{ overflow: 'visible' }}
       />
     </div>
   );
