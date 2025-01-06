@@ -73,7 +73,7 @@
 }
 
 .react-flow__handle-bottom {
-  @apply bottom-0 translate-y-[1em] !important;
+  @apply bottom-0 translate-y-[2em] !important;
   width: 18px !important;
   height: 18px !important;
   border-radius: 50% !important;
@@ -82,7 +82,7 @@
 }
 
 .react-flow__handle-right {
-  @apply right-0 translate-x-[1em] !important;
+  @apply right-0 translate-x-[2em] !important;
   width: 18px !important;
   height: 18px !important;
   border-radius: 50% !important;
