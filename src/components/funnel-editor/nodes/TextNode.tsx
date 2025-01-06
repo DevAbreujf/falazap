@@ -20,7 +20,7 @@ export function TextNode({ data, id }: { data: TextNodeData; id: string }) {
       <Handle
         type="target"
         position={Position.Top}
-        className="!bg-primary !w-3 !h-3 !border-2"
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-[#1e1e1e] !border-2 !border-[#2e2e2e] !top-0 !-translate-y-1/2"
       />
       
       <div className="space-y-2">
@@ -45,7 +45,7 @@ export function TextNode({ data, id }: { data: TextNodeData; id: string }) {
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!bg-primary !w-3 !h-3 !border-2"
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
       />
     </div>
   );
