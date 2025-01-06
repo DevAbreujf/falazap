@@ -36,7 +36,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
   };
 
   return (
-    <div className="flow-node">
+    <div className="flow-node relative">
       <Handle
         type="target"
         position={Position.Top}
@@ -108,7 +108,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 </Button>
               </div>
 
-              <div className="absolute right-0" style={{ right: "-2em" }}>
+              <div className="absolute" style={{ right: "-3em", top: "50%", transform: "translateY(-50%)" }}>
                 <Handle
                   type="source"
                   position={Position.Right}
@@ -144,7 +144,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 <p className="text-sm text-muted-foreground">
                   Caso não for nenhum dos caminhos, envie...
                 </p>
-                <div className="absolute right-0" style={{ right: "-2em" }}>
+                <div className="absolute" style={{ right: "-3em", top: "50%", transform: "translateY(-50%)" }}>
                   <Handle
                     type="source"
                     position={Position.Right}
