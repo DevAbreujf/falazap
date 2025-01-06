@@ -69,9 +69,15 @@ export function StartNode({ data }: { data: StartNodeData }) {
       </div>
 
       <Handle
+        type="target"
+        position={Position.Top}
+        className="w-3 h-1.5 !bg-transparent border-2 border-orange-500"
+      />
+      
+      <Handle
         type="source"
         position={Position.Bottom}
-        className="!bg-primary !w-3 !h-3 !border-2"
+        className="w-3 h-1.5 !bg-transparent border-2 border-orange-500"
       />
     </div>
   );
