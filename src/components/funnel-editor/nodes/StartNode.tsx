@@ -33,7 +33,7 @@ export function StartNode({ data }: { data: StartNodeData }) {
   };
 
   return (
-    <div className="flow-node">
+    <div className="relative bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
       <div className="flow-node-header">
         <h3>Início</h3>
       </div>
@@ -77,7 +77,8 @@ export function StartNode({ data }: { data: StartNodeData }) {
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+        style={{ right: '-2em' }}
       />
     </div>
   );
