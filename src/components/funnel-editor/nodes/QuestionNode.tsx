@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -112,7 +113,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
               type="source"
               position={Position.Right}
               id="recovery"
-              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+              className="!bg-primary !w-3 !h-3 !border-2"
               style={{ top: "70%" }}
             />
 
