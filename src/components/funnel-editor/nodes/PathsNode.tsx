@@ -37,6 +37,12 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
 
   return (
     <div className="flow-node">
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!bg-primary !w-3 !h-3 !border-2"
+      />
+
       <div className="flow-node-header">
         <h3>Caminhos</h3>
         <Button 
@@ -106,7 +112,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 type="source"
                 position={Position.Right}
                 id={path.id}
-                className="!bg-primary !w-3 !h-3 !border-2"
+                className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
               />
             </div>
           ))}
@@ -140,7 +146,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                   type="source"
                   position={Position.Right}
                   id="fallback"
-                  className="!bg-primary !w-3 !h-3 !border-2"
+                  className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
                 />
               </div>
               <Button
@@ -155,12 +161,6 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
           )}
         </div>
       </div>
-
-      <Handle
-        type="target"
-        position={Position.Left}
-        className="!bg-primary !w-3 !h-3 !border-2"
-      />
     </div>
   );
 }
