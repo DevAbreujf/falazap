@@ -63,14 +63,31 @@
   @apply transition-all duration-200;
 }
 
-/* Target Handle (Top) */
 .react-flow__handle-top {
-  @apply !w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2;
+  @apply top-0 -translate-y-1/2 !important;
+  width: 40px !important;
+  height: 12px !important;
+  border-radius: 6px !important;
+  background: #1e1e1e !important;
+  border: 2px solid #2e2e2e !important;
 }
 
-/* Source Handle (Right) */
+.react-flow__handle-bottom {
+  @apply bottom-0 translate-y-[2em] !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  border: 3px solid #ff9500 !important;
+}
+
 .react-flow__handle-right {
-  @apply !w-[18px] !h-[18px] !rounded-full !bg-transparent !border-[3px] !border-orange-500 !right-0 !translate-x-[1em];
+  @apply right-0 translate-x-[2em] !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  border: 3px solid #ff9500 !important;
 }
 
 .react-flow__handle:hover {

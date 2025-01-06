@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Node } from "@xyflow/react";
 
 interface TagsNodeData {
   label: string;
@@ -21,14 +22,14 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   const handleTagInput = (e: React.FocusEvent<HTMLInputElement>) => {
     const newTag = e.target.value.trim();
     if (newTag) {
-      setNodes((nodes) =>
+      setNodes((nodes: Node[]) =>
         nodes.map((node) => {
           if (node.id === id) {
             return {
               ...node,
               data: {
                 ...node.data,
-                tags: [newTag],
+                tags: [newTag], // Only store one tag
               },
             };
           }
@@ -40,8 +41,6 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
 
   return (
     <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
-      <Handle type="target" position={Position.Top} />
-
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-medium">Tags</h3>
         <Button
@@ -77,7 +76,17 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
         )}
       </div>
 
-      <Handle type="source" position={Position.Right} />
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+      />
+
+      <Handle
+        type="source"
+        position={Position.Right}
+        className="!bg-primary !w-3 !h-3 !border-2"
+      />
     </div>
   );
 }

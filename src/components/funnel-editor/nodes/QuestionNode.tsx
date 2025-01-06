@@ -27,8 +27,6 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
 
   return (
     <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
-      <Handle type="target" position={Position.Top} />
-      
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-medium">Perguntar</h3>
         <Button 
@@ -40,6 +38,12 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
           <X className="h-4 w-4" />
         </Button>
       </div>
+
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+      />
       
       <div className="space-y-4">
         <div className="space-y-2">
@@ -51,7 +55,12 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
           />
         </div>
 
-        <Handle type="source" position={Position.Right} id="main" />
+        <Handle
+          type="source"
+          position={Position.Right}
+          id="main"
+          className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+        />
 
         <div className="space-y-2">
           <label className="text-sm text-muted-foreground">Mensagem / Pergunta:</label>
@@ -100,7 +109,13 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
               </Select>
             </div>
 
-            <Handle type="source" position={Position.Right} id="recovery" />
+            <Handle
+              type="source"
+              position={Position.Right}
+              id="recovery"
+              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+              style={{ top: "70%" }}
+            />
 
             <Button
               variant="secondary"

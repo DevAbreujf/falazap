@@ -16,7 +16,11 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
 
   return (
     <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
-      <Handle type="target" position={Position.Top} />
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+      />
       
       <div className="space-y-4">
         <div className="flex items-center justify-between">
@@ -44,7 +48,11 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
         )}
       </div>
       
-      <Handle type="source" position={Position.Right} />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !left-1/2 !-translate-x-1/2"
+      />
     </div>
   );
 }
