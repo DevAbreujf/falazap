@@ -82,12 +82,13 @@
 }
 
 .react-flow__handle-right {
-  @apply right-0 translate-x-[2em] !important;
+  @apply right-0 !important;
   width: 18px !important;
   height: 18px !important;
   border-radius: 50% !important;
   background: transparent !important;
   border: 3px solid #ff9500 !important;
+  transform: translateX(3em) !important;
 }
 
 .react-flow__handle:hover {
