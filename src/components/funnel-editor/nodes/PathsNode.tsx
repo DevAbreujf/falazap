@@ -112,7 +112,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 type="source"
                 position={Position.Right}
                 id={path.id}
-                className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+                className="!bg-primary !w-3 !h-3 !border-2"
               />
             </div>
           ))}
@@ -146,7 +146,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                   type="source"
                   position={Position.Right}
                   id="fallback"
-                  className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+                  className="!bg-primary !w-3 !h-3 !border-2"
                 />
               </div>
               <Button
