@@ -67,13 +67,6 @@ export function StartNode({ data }: { data: StartNodeData }) {
           Adicionar Gatilho
         </Button>
       </div>
-      
-      <Handle
-        type="source"
-        position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
-        style={{ right: '-2em' }}
-      />
     </div>
   );
 }
