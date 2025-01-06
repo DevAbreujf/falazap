@@ -1,4 +1,4 @@
-import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags, Share2 } from "lucide-react";
+import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags, Share2, FileText } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
@@ -20,6 +20,12 @@ const widgets = [
     label: "Mensagem de Áudio",
     icon: Music,
     description: "Envie uma mensagem de áudio"
+  },
+  {
+    type: "file",
+    label: "Arquivos",
+    icon: FileText,
+    description: "Envie um arquivo para o cliente"
   },
   {
     type: "paths",
