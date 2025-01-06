@@ -51,12 +51,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
           />
         </div>
 
-        <Handle
-          type="source"
-          position={Position.Right}
-          id="main"
-          className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
-        />
+        <Handle type="source" position={Position.Right} id="main" />
 
         <div className="space-y-2">
           <label className="text-sm text-muted-foreground">Mensagem / Pergunta:</label>
@@ -105,13 +100,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
               </Select>
             </div>
 
-            <Handle
-              type="source"
-              position={Position.Right}
-              id="recovery"
-              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
-              style={{ top: "70%" }}
-            />
+            <Handle type="source" position={Position.Right} id="recovery" />
 
             <Button
               variant="secondary"
