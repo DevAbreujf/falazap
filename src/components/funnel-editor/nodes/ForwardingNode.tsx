@@ -66,12 +66,18 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
 
   return (
     <div className="flow-node">
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+      />
+      
       <div className="flow-node-header">
         <h3>Encaminhamento</h3>
       </div>
       
       <div className="flow-node-content">
-        {rules.map((rule, index) => (
+        {rules.map((rule) => (
           <div key={rule.id} className="space-y-2 border-t border-border pt-4 relative">
             <Button 
               variant="ghost" 
@@ -182,12 +188,6 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
           </Button>
         </div>
       </div>
-
-      <Handle
-        type="target"
-        position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
-      />
     </div>
   );
 }
