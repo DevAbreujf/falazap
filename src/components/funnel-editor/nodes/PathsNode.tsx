@@ -36,7 +36,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
   };
 
   return (
-    <div className="flow-node relative">
+    <div className="flow-node">
       <Handle
         type="target"
         position={Position.Top}
@@ -108,14 +108,12 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 </Button>
               </div>
 
-              <div className="absolute" style={{ right: "-3em", top: "50%", transform: "translateY(-50%)" }}>
-                <Handle
-                  type="source"
-                  position={Position.Right}
-                  id={path.id}
-                  className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
-                />
-              </div>
+              <Handle
+                type="source"
+                position={Position.Right}
+                id={path.id}
+                className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+              />
             </div>
           ))}
         </div>
@@ -144,14 +142,12 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 <p className="text-sm text-muted-foreground">
                   Caso não for nenhum dos caminhos, envie...
                 </p>
-                <div className="absolute" style={{ right: "-3em", top: "50%", transform: "translateY(-50%)" }}>
-                  <Handle
-                    type="source"
-                    position={Position.Right}
-                    id="fallback"
-                    className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
-                  />
-                </div>
+                <Handle
+                  type="source"
+                  position={Position.Right}
+                  id="fallback"
+                  className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+                />
               </div>
               <Button
                 variant="outline"
