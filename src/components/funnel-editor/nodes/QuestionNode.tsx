@@ -59,7 +59,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
           type="source"
           position={Position.Right}
           id="main"
-          className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+          className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
         />
 
         <div className="space-y-2">
@@ -113,7 +113,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
               type="source"
               position={Position.Right}
               id="recovery"
-              className="!bg-primary !w-3 !h-3 !border-2"
+              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
               style={{ top: "70%" }}
             />
 
