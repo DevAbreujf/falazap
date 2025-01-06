@@ -73,12 +73,12 @@
 }
 
 .react-flow__handle-bottom {
-  @apply bottom-0 translate-y-1/2 !important;
-  width: 14px !important;
-  height: 14px !important;
+  @apply bottom-0 translate-y-[1em] !important;
+  width: 18px !important;
+  height: 18px !important;
   border-radius: 50% !important;
   background: transparent !important;
-  border: 2px solid #ff9500 !important;
+  border: 3px solid #ff9500 !important;
 }
 
 .react-flow__handle:hover {
