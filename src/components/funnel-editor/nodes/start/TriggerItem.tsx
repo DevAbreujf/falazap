@@ -95,8 +95,8 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
       <Handle
         type="source"
         position={Position.Right}
-        id={`trigger-${index}`}
-        className="!bg-primary !w-3 !h-3 !border-2"
+        id={`trigger-${trigger.id}`}
+        className="w-3 h-1.5 !bg-transparent border-2 border-orange-500"
       />
     </div>
   );
