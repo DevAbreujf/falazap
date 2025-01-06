@@ -97,7 +97,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
         position={Position.Right}
         id={`trigger-${trigger.id}`}
         className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
-        style={{ right: '-2em !important' }}
+        style={{ right: '-3em !important' }}
       />
     </div>
   );
