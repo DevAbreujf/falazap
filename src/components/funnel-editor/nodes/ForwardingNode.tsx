@@ -165,9 +165,9 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
 
             <Handle
               type="source"
-              position={Position.Bottom}
+              position={Position.Right}
               id={`forwarding-${rule.id}`}
-              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !left-1/2 !-translate-x-1/2"
+              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[2em]"
             />
           </div>
         ))}
