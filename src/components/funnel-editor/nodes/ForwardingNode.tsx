@@ -65,16 +65,12 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
   };
 
   return (
-    <div className="flow-node relative bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
+    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !-top-[30px] !left-1/2 !-translate-x-1/2 !z-50"
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
       />
-      
-      <div className="flow-node-header">
-        <h3>Encaminhamento</h3>
-      </div>
       
       <div className="flow-node-content">
         {rules.map((rule) => (
@@ -169,9 +165,9 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
 
             <Handle
               type="source"
-              position={Position.Right}
+              position={Position.Bottom}
               id={`forwarding-${rule.id}`}
-              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !left-1/2 !-translate-x-1/2"
             />
           </div>
         ))}
