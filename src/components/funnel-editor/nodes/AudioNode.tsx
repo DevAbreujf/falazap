@@ -50,8 +50,8 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
       
       <Handle
         type="source"
-        position={Position.Bottom}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !left-1/2 !-translate-x-1/2"
+        position={Position.Right}
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[2em]"
       />
     </div>
   );
