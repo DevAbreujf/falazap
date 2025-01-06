@@ -36,7 +36,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
   };
 
   return (
-    <div className="flow-node relative">
+    <div className="flow-node relative" style={{ overflow: 'visible' }}>
       <Handle
         type="target"
         position={Position.Top}
@@ -70,7 +70,7 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
           <Label>Crie caminhos:</Label>
           
           {paths.map((path) => (
-            <div key={path.id} className="space-y-2 border-t border-border pt-4 relative">
+            <div key={path.id} className="space-y-2 border-t border-border pt-4 relative" style={{ overflow: 'visible' }}>
               <div className="flex justify-between items-center">
                 <Label>Termo</Label>
                 <Button 
@@ -108,12 +108,13 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
                 </Button>
               </div>
 
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 z-[100]">
+              <div className="absolute right-0 top-1/2 -translate-y-1/2" style={{ zIndex: 100, overflow: 'visible' }}>
                 <Handle
                   type="source"
                   position={Position.Right}
                   id={path.id}
                   className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+                  style={{ overflow: 'visible' }}
                 />
               </div>
             </div>
@@ -139,17 +140,18 @@ export function PathsNode({ data, id }: { data: PathsNodeData; id: string }) {
               Caso não se encaixe...
             </Button>
           ) : (
-            <div className="border-t border-border pt-4 space-y-2 relative">
+            <div className="border-t border-border pt-4 space-y-2 relative" style={{ overflow: 'visible' }}>
               <div className="flex items-center justify-between">
                 <p className="text-sm text-muted-foreground">
                   Caso não for nenhum dos caminhos, envie...
                 </p>
-                <div className="absolute right-0 z-[100]">
+                <div className="absolute right-0" style={{ zIndex: 100, overflow: 'visible' }}>
                   <Handle
                     type="source"
                     position={Position.Right}
                     id="fallback"
                     className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
+                    style={{ overflow: 'visible' }}
                   />
                 </div>
               </div>
