@@ -1,9 +1,29 @@
 import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
-import { ChatContact, ChatMessage } from "@/types/chat";
+import { ChatHeader } from "@/components/app/chat/ChatHeader";
+import { ChatIntro } from "@/components/app/chat/ChatIntro";
+import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState } from "react";
 
 // Mock data - Em produção, isso viria de uma API
+const mockDepartments: Department[] = [
+  {
+    id: "1",
+    name: "Suporte Técnico",
+    description: "Atendimento para problemas técnicos",
+  },
+  {
+    id: "2",
+    name: "Vendas",
+    description: "Atendimento comercial",
+  },
+  {
+    id: "3",
+    name: "Financeiro",
+    description: "Atendimento financeiro",
+  },
+];
+
 const mockContacts: ChatContact[] = [
   {
     id: "1",
@@ -78,28 +98,53 @@ const mockMessages: Record<string, ChatMessage[]> = {
 
 export default function Chatboard() {
   const [contacts] = useState<ChatContact[]>(mockContacts);
-  const [selectedContactId, setSelectedContactId] = useState<string | undefined>(contacts[0]?.id);
+  const [selectedContactId, setSelectedContactId] = useState<string | undefined>();
   const [messages] = useState<Record<string, ChatMessage[]>>(mockMessages);
+  const [showIntro, setShowIntro] = useState(true);
+  const [currentDepartment, setCurrentDepartment] = useState<Department | undefined>();
 
   const handleSendMessage = (content: string) => {
     console.log("Mensagem enviada:", content);
     // Aqui você implementaria a lógica para enviar a mensagem
   };
 
+  const handleDepartmentChange = (departmentId: string) => {
+    const department = mockDepartments.find(d => d.id === departmentId);
+    setCurrentDepartment(department);
+  };
+
   return (
-    <div className="flex h-screen bg-background">
-      <ChatSidebar
-        contacts={contacts}
-        selectedContactId={selectedContactId}
-        onSelectContact={(contact) => setSelectedContactId(contact.id)}
+    <div className="flex flex-col h-screen bg-background">
+      <ChatHeader
+        userName="John Doe"
+        currentDepartment={currentDepartment}
+        departments={mockDepartments}
+        onDepartmentChange={handleDepartmentChange}
+        onShowIntro={() => setShowIntro(true)}
       />
-      {selectedContactId && (
-        <ChatWindow
-          contact={contacts.find(c => c.id === selectedContactId)!}
-          messages={messages[selectedContactId]}
-          onSendMessage={handleSendMessage}
+      
+      <div className="flex flex-1 overflow-hidden">
+        <ChatSidebar
+          contacts={contacts}
+          selectedContactId={selectedContactId}
+          onSelectContact={(contact) => {
+            setSelectedContactId(contact.id);
+            setShowIntro(false);
+          }}
         />
-      )}
+        
+        <div className="flex-1">
+          {showIntro ? (
+            <ChatIntro />
+          ) : selectedContactId && (
+            <ChatWindow
+              contact={contacts.find(c => c.id === selectedContactId)!}
+              messages={messages[selectedContactId]}
+              onSendMessage={handleSendMessage}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
