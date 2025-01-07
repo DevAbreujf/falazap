@@ -33,11 +33,11 @@ export function StartNode({ data }: { data: StartNodeData }) {
   };
 
   return (
-    <div className="relative bg-[#1F1F2A] rounded-xl border border-[#434358] p-4 w-[300px] shadow-lg shadow-black/20">
+    <div className="relative bg-[#1f1f2a] rounded-xl border border-[#434358] p-4 w-[300px] shadow-lg shadow-black/20">
       <div className="flow-node-header">
         <div className="flex items-center gap-2">
-          <Play className="h-4 w-4 text-orange-500" />
-          <h3 className="text-white/90 font-normal">Início</h3>
+          <Play className="h-4 w-4" />
+          <h3>Início</h3>
         </div>
       </div>
 
@@ -64,18 +64,12 @@ export function StartNode({ data }: { data: StartNodeData }) {
           variant="outline" 
           size="sm" 
           onClick={addTrigger}
-          className="w-full bg-[#272733] hover:bg-[#2d2d3d] border-[#434358] text-white/90"
+          className="w-full bg-background hover:bg-background"
         >
-          <Plus className="h-4 w-4 mr-2 opacity-70" />
+          <Plus className="h-4 w-4 mr-2" />
           Adicionar Gatilho
         </Button>
       </div>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4em]"
-      />
     </div>
   );
 }
