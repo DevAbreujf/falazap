@@ -131,3 +131,56 @@
 .react-flow__minimap {
   @apply hidden;
 }
+
+/* Modern Widget Styles */
+.react-flow__node {
+  @apply bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-lg shadow-xl transition-shadow duration-200;
+}
+
+.react-flow__node-default,
+.react-flow__node-input,
+.react-flow__node-output {
+  @apply p-4 min-w-[280px];
+}
+
+.react-flow__node:hover {
+  @apply border-orange-500/30 shadow-orange-500/5;
+}
+
+/* Input Styles */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  @apply bg-zinc-800/50 border border-zinc-700/50 rounded-md px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/20 transition-all duration-200;
+}
+
+/* Button Styles */
+button {
+  @apply transition-all duration-200;
+}
+
+.button-primary {
+  @apply bg-orange-500 hover:bg-orange-600 text-white rounded-md px-4 py-2 text-sm font-medium;
+}
+
+.button-secondary {
+  @apply bg-zinc-800 hover:bg-zinc-700 text-zinc-100 rounded-md px-4 py-2 text-sm font-medium border border-zinc-700/50;
+}
+
+/* Widget Content Styles */
+.widget-content {
+  @apply space-y-4;
+}
+
+.widget-section {
+  @apply space-y-2;
+}
+
+.widget-label {
+  @apply text-sm font-medium text-zinc-400;
+}
+
+.widget-value {
+  @apply text-sm text-zinc-100;
+}
