@@ -25,10 +25,10 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
             triggerTerm: undefined
           })}
         >
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-[200px] bg-[#333] border-[#444] text-white">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-[#333] border-[#444]">
             <SelectItem value="contains">Contenha</SelectItem>
             <SelectItem value="exact">Exata</SelectItem>
             <SelectItem value="any">Qualquer mensagem</SelectItem>
@@ -40,7 +40,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
           variant="ghost" 
           size="sm" 
           onClick={() => onDelete(trigger.id)}
-          className="text-destructive hover:text-destructive"
+          className="text-zinc-400 hover:text-red-400 hover:bg-transparent"
         >
           <X className="h-4 w-4" />
         </Button>
@@ -53,6 +53,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
           onChange={(e) => onUpdate(trigger.id, { 
             triggerTerm: e.target.value 
           })}
+          className="bg-[#333] border-[#444] text-white placeholder:text-zinc-500"
         />
       )}
 
@@ -64,10 +65,10 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
               platform: value as "kiwify" | "hotmart" 
             })}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-[#333] border-[#444] text-white">
               <SelectValue placeholder="Selecione a plataforma" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-[#333] border-[#444]">
               <SelectItem value="kiwify">Kiwify</SelectItem>
               <SelectItem value="hotmart">Hotmart</SelectItem>
             </SelectContent>
@@ -80,10 +81,10 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
                 event: value as "abandoned" | "approved" 
               })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-[#333] border-[#444] text-white">
                 <SelectValue placeholder="Selecione o evento" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-[#333] border-[#444]">
                 <SelectItem value="abandoned">Carrinho abandonado</SelectItem>
                 <SelectItem value="approved">Venda aprovada</SelectItem>
               </SelectContent>
