@@ -15,27 +15,8 @@ interface TriggerItemProps {
 export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemProps) {
   return (
     <div className="space-y-2 pt-4 relative bg-[#272733] border border-[#434358] rounded-lg p-4">
-      <div className="flex items-center justify-between mb-2">
-        <Select 
-          defaultValue={trigger.triggerType}
-          onValueChange={(value) => onUpdate(trigger.id, { 
-            triggerType: value as Trigger["triggerType"],
-            platform: undefined,
-            event: undefined,
-            triggerTerm: undefined
-          })}
-        >
-          <SelectTrigger className="w-[200px] bg-[#333] border-[#444] text-white">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="bg-[#333] border-[#444]">
-            <SelectItem value="contains">Contenha</SelectItem>
-            <SelectItem value="exact">Exata</SelectItem>
-            <SelectItem value="any">Qualquer mensagem</SelectItem>
-            <SelectItem value="integration">Integração</SelectItem>
-          </SelectContent>
-        </Select>
-
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-[15px] text-zinc-100">Condição:</span>
         <Button 
           variant="ghost" 
           size="sm" 
@@ -46,15 +27,38 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
         </Button>
       </div>
 
+      <Select 
+        defaultValue={trigger.triggerType}
+        onValueChange={(value) => onUpdate(trigger.id, { 
+          triggerType: value as Trigger["triggerType"],
+          platform: undefined,
+          event: undefined,
+          triggerTerm: undefined
+        })}
+      >
+        <SelectTrigger className="w-full bg-[#333] border-[#444] text-white">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="bg-[#333] border-[#444]">
+          <SelectItem value="contains">Contenha</SelectItem>
+          <SelectItem value="exact">Exata</SelectItem>
+          <SelectItem value="any">Qualquer mensagem</SelectItem>
+          <SelectItem value="integration">Integração</SelectItem>
+        </SelectContent>
+      </Select>
+
       {(trigger.triggerType === "contains" || trigger.triggerType === "exact") && (
-        <Input
-          placeholder="Digite o termo..."
-          value={trigger.triggerTerm}
-          onChange={(e) => onUpdate(trigger.id, { 
-            triggerTerm: e.target.value 
-          })}
-          className="bg-[#333] border-[#444] text-white placeholder:text-zinc-500"
-        />
+        <div className="space-y-2 mt-4">
+          <span className="text-[15px] text-zinc-100 block">Termo:</span>
+          <Input
+            placeholder="Ex.: 'Pinterest'"
+            value={trigger.triggerTerm}
+            onChange={(e) => onUpdate(trigger.id, { 
+              triggerTerm: e.target.value 
+            })}
+            className="bg-[#333] border-[#444] text-white placeholder:text-zinc-500"
+          />
+        </div>
       )}
 
       {trigger.triggerType === "integration" && (

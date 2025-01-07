@@ -33,8 +33,8 @@ export function StartNode({ data }: { data: StartNodeData }) {
   };
 
   return (
-    <div className="relative bg-[#1f1f2a] rounded-xl border border-[#434358] p-4 w-[300px] shadow-lg shadow-black/20">
-      <div className="bg-[#272733]/50 px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+    <div className="relative bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
+      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
         <div className="flex items-center gap-2">
           <Play className="h-4 w-4 text-orange-500" />
           <h3 className="text-sm font-medium text-zinc-100">Início</h3>
