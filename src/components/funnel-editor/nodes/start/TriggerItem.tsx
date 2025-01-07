@@ -14,7 +14,7 @@ interface TriggerItemProps {
 
 export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemProps) {
   return (
-    <div className="space-y-2 pt-4 relative bg-[#272733] border border-[#434358] rounded-lg p-4">
+    <div className="space-y-2 pt-4 relative bg-[#272733] border border-[#434358] rounded-lg p-4 mt-4">
       <div className="flex items-center justify-between mb-2">
         <Select 
           defaultValue={trigger.triggerType}
@@ -25,14 +25,14 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
             triggerTerm: undefined
           })}
         >
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-[200px] bg-[#333] border-[#444] text-white">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="contains">Contenha</SelectItem>
-            <SelectItem value="exact">Exata</SelectItem>
-            <SelectItem value="any">Qualquer mensagem</SelectItem>
-            <SelectItem value="integration">Integração</SelectItem>
+          <SelectContent className="bg-[#272733] border-[#434358]">
+            <SelectItem value="contains" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Contenha</SelectItem>
+            <SelectItem value="exact" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Exata</SelectItem>
+            <SelectItem value="any" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Qualquer mensagem</SelectItem>
+            <SelectItem value="integration" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Integração</SelectItem>
           </SelectContent>
         </Select>
 
@@ -40,7 +40,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
           variant="ghost" 
           size="sm" 
           onClick={() => onDelete(trigger.id)}
-          className="text-destructive hover:text-destructive"
+          className="text-white/50 hover:text-white/90 hover:bg-[#333]"
         >
           <X className="h-4 w-4" />
         </Button>
@@ -53,6 +53,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
           onChange={(e) => onUpdate(trigger.id, { 
             triggerTerm: e.target.value 
           })}
+          className="bg-[#333] border-[#444] text-white placeholder:text-white/50"
         />
       )}
 
@@ -64,12 +65,12 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
               platform: value as "kiwify" | "hotmart" 
             })}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-[#333] border-[#444] text-white">
               <SelectValue placeholder="Selecione a plataforma" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="kiwify">Kiwify</SelectItem>
-              <SelectItem value="hotmart">Hotmart</SelectItem>
+            <SelectContent className="bg-[#272733] border-[#434358]">
+              <SelectItem value="kiwify" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Kiwify</SelectItem>
+              <SelectItem value="hotmart" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Hotmart</SelectItem>
             </SelectContent>
           </Select>
 
@@ -80,25 +81,17 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
                 event: value as "abandoned" | "approved" 
               })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-[#333] border-[#444] text-white">
                 <SelectValue placeholder="Selecione o evento" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="abandoned">Carrinho abandonado</SelectItem>
-                <SelectItem value="approved">Venda aprovada</SelectItem>
+              <SelectContent className="bg-[#272733] border-[#434358]">
+                <SelectItem value="abandoned" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Carrinho abandonado</SelectItem>
+                <SelectItem value="approved" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Venda aprovada</SelectItem>
               </SelectContent>
             </Select>
           )}
         </div>
       )}
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`trigger-${trigger.id}`}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4em]"
-        style={{ right: '-4em' }}
-      />
     </div>
   );
 }

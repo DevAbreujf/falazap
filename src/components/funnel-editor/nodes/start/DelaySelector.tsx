@@ -17,7 +17,7 @@ interface DelaySelectorProps {
 export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
   return (
     <div className="space-y-2">
-      <Label>Tempo de Execução</Label>
+      <Label className="text-white/70">Tempo de Execução</Label>
       <div className="flex items-center gap-2">
         <Input
           type="number"
@@ -34,10 +34,10 @@ export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
           <SelectTrigger className="w-[180px] bg-[#333] border-[#444] text-white">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="seconds">Segundos</SelectItem>
-            <SelectItem value="minutes">Minutos</SelectItem>
-            <SelectItem value="hours">Horas</SelectItem>
+          <SelectContent className="bg-[#272733] border-[#434358]">
+            <SelectItem value="seconds" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Segundos</SelectItem>
+            <SelectItem value="minutes" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Minutos</SelectItem>
+            <SelectItem value="hours" className="text-white/90 hover:bg-[#333] focus:bg-[#333]">Horas</SelectItem>
           </SelectContent>
         </Select>
       </div>
