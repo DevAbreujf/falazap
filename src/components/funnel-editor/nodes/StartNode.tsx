@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Play } from "lucide-react";
 import { useState } from "react";
 import { DelaySelector } from "./start/DelaySelector";
 import { TriggerItem } from "./start/TriggerItem";
@@ -33,9 +33,12 @@ export function StartNode({ data }: { data: StartNodeData }) {
   };
 
   return (
-    <div className="relative bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
+    <div className="relative bg-[#1f1f2a] rounded-xl border border-[#434358] p-4 w-[300px] shadow-lg shadow-black/20">
       <div className="flow-node-header">
-        <h3>Início</h3>
+        <div className="flex items-center gap-2">
+          <Play className="h-4 w-4" />
+          <h3>Início</h3>
+        </div>
       </div>
 
       <div className="flow-node-content">
@@ -61,7 +64,7 @@ export function StartNode({ data }: { data: StartNodeData }) {
           variant="outline" 
           size="sm" 
           onClick={addTrigger}
-          className="w-full bg-background hover:bg-accent"
+          className="w-full bg-background hover:bg-background"
         >
           <Plus className="h-4 w-4 mr-2" />
           Adicionar Gatilho

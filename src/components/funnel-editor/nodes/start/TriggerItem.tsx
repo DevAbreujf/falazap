@@ -14,7 +14,7 @@ interface TriggerItemProps {
 
 export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemProps) {
   return (
-    <div className="space-y-2 border-t pt-4 relative">
+    <div className="space-y-2 pt-4 relative bg-[#272733] border border-[#434358] rounded-lg p-4">
       <div className="flex items-center justify-between mb-2">
         <Select 
           defaultValue={trigger.triggerType}
