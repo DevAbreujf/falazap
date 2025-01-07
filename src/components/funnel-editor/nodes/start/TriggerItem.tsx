@@ -14,7 +14,7 @@ interface TriggerItemProps {
 
 export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemProps) {
   return (
-    <div className="space-y-2 border-t pt-4 relative">
+    <div className="space-y-2 border border-[#434358] rounded-lg bg-[#272733] p-4 relative">
       <div className="flex items-center justify-between mb-2">
         <Select 
           defaultValue={trigger.triggerType}
@@ -25,7 +25,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
             triggerTerm: undefined
           })}
         >
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-[200px] bg-[#1f1f2a] border-[#434358]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -40,7 +40,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
           variant="ghost" 
           size="sm" 
           onClick={() => onDelete(trigger.id)}
-          className="text-destructive hover:text-destructive"
+          className="text-destructive hover:text-destructive hover:bg-destructive/10"
         >
           <X className="h-4 w-4" />
         </Button>
@@ -53,6 +53,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
           onChange={(e) => onUpdate(trigger.id, { 
             triggerTerm: e.target.value 
           })}
+          className="bg-[#1f1f2a] border-[#434358]"
         />
       )}
 
@@ -64,7 +65,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
               platform: value as "kiwify" | "hotmart" 
             })}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-[#1f1f2a] border-[#434358]">
               <SelectValue placeholder="Selecione a plataforma" />
             </SelectTrigger>
             <SelectContent>
@@ -80,7 +81,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
                 event: value as "abandoned" | "approved" 
               })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-[#1f1f2a] border-[#434358]">
                 <SelectValue placeholder="Selecione o evento" />
               </SelectTrigger>
               <SelectContent>
@@ -96,8 +97,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
         type="source"
         position={Position.Right}
         id={`trigger-${trigger.id}`}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4em]"
-        style={{ right: '-4em' }}
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
       />
     </div>
   );

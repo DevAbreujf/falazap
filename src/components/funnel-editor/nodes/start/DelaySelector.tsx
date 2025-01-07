@@ -17,13 +17,13 @@ interface DelaySelectorProps {
 export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
   return (
     <div className="space-y-2">
-      <Label>Tempo de Execução</Label>
+      <Label className="text-zinc-400">Tempo de Execução</Label>
       <div className="flex items-center gap-2">
         <Input
           type="number"
           value={value}
           onChange={(e) => onChange(Number(e.target.value), unit)}
-          className="bg-[#333] border-[#444] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          className="bg-[#1f1f2a] border-[#434358] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
         <Select
           value={unit}
@@ -31,7 +31,7 @@ export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
             onChange(value, newUnit as "seconds" | "minutes" | "hours")
           }
         >
-          <SelectTrigger className="w-[180px] bg-[#333] border-[#444] text-white">
+          <SelectTrigger className="w-[180px] bg-[#1f1f2a] border-[#434358] text-white">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
