@@ -34,6 +34,18 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
     }
   };
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB in bytes
+        alert("O arquivo é muito grande. O tamanho máximo permitido é 5MB.");
+        return;
+      }
+      // Here you would handle the file upload
+      console.log("File to upload:", file);
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col h-screen">
       <header className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
@@ -108,7 +120,13 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
 
       <div className="p-4 border-t border-primary/10 bg-card">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="relative">
+            <input
+              type="file"
+              onChange={handleFileUpload}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              accept="*/*"
+            />
             <Paperclip className="h-5 w-5" />
           </Button>
           <textarea
