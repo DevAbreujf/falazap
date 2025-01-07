@@ -20,7 +20,7 @@ interface ForwardingNodeData {
   rules?: ForwardingRule[];
 }
 
-export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
+export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: string }) {
   const [rules, setRules] = useState<ForwardingRule[]>(data.rules || []);
   const actions = [
     "Enviar para equipe A",
@@ -65,14 +65,31 @@ export function ForwardingNode({ data }: { data: ForwardingNodeData }) {
   };
 
   return (
-    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
+    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
       <Handle
         type="target"
         position={Position.Top}
         className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
       />
       
-      <div className="flow-node-content">
+      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+        <h3 className="text-sm font-medium text-zinc-100">Encaminhamento</h3>
+        <Button 
+          variant="ghost" 
+          size="sm"
+          className="hover:bg-accent"
+          onClick={() => {
+            const remove = document.querySelector(`[data-id="${id}"]`)?.querySelector('.react-flow__remove');
+            if (remove instanceof HTMLElement) {
+              remove.click();
+            }
+          }}
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
+      
+      <div className="flow-node-content p-4">
         {rules.map((rule) => (
           <div key={rule.id} className="space-y-2 border-t border-border pt-4 relative">
             <Button 
