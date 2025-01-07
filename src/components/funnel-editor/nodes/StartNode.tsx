@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { Handle, Position } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
 import { Plus, Play, HelpCircle } from "lucide-react";
+import { useState } from "react";
 import { DelaySelector } from "./start/DelaySelector";
 import { TriggerItem } from "./start/TriggerItem";
 import type { StartNodeData, Trigger } from "@/types/flow";
@@ -93,6 +94,13 @@ export function StartNode({ data }: { data: StartNodeData }) {
           Adicionar Gatilho
         </Button>
       </div>
+
+      <Handle
+        type="source"
+        position={Position.Right}
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+        style={{ right: '-4em' }}
+      />
     </div>
   );
 }
