@@ -14,6 +14,7 @@ import Privacy from "@/pages/Privacy";
 import Connection from "@/pages/Connection";
 import Funnels from "@/pages/Funnels";
 import FunnelEditor from "@/pages/FunnelEditor";
+import Chatboard from "@/pages/Chatboard";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/funnels" element={<Funnels />} />
           <Route path="/funnels/editor" element={<FunnelEditor />} />
           <Route path="/funnels/editor/:id" element={<FunnelEditor />} />
+          <Route path="/chatboard" element={<Chatboard />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

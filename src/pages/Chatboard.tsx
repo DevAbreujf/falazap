@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatContact, ChatMessage } from "@/types/chat";
+import { useState } from "react";
 
 // Mock data - Em produção, isso viria de uma API
 const mockContacts: ChatContact[] = [
