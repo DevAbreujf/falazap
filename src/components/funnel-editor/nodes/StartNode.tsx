@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
-import { Plus, Play } from "lucide-react";
+import { Plus, Play, HelpCircle } from "lucide-react";
 import { useState } from "react";
 import { DelaySelector } from "./start/DelaySelector";
 import { TriggerItem } from "./start/TriggerItem";
@@ -42,11 +42,29 @@ export function StartNode({ data }: { data: StartNodeData }) {
       </div>
 
       <div className="p-4 space-y-4">
-        <DelaySelector 
-          value={delay.value} 
-          unit={delay.unit} 
-          onChange={updateDelay}
-        />
+        <div className="relative">
+          <div className="flex items-start gap-2">
+            <div className="flex-1">
+              <p className="text-xs text-zinc-400 mb-2">
+                Definir tempo mínimo para o funil ser disparado novamente
+              </p>
+              <div className="flex gap-2">
+                <DelaySelector 
+                  value={delay.value} 
+                  unit={delay.unit} 
+                  onChange={updateDelay}
+                />
+              </div>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-orange-500 hover:text-orange-400"
+            >
+              <HelpCircle className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
 
         <div className="space-y-3">
           {triggers.map((trigger, index) => (
@@ -67,7 +85,7 @@ export function StartNode({ data }: { data: StartNodeData }) {
 
       <div className="px-4 py-3 border-t border-[#434358]/50 bg-[#272733]/30">
         <Button 
-          variant="outline" 
+          variant="secondary" 
           size="sm" 
           onClick={addTrigger}
           className="w-full bg-[#272733] hover:bg-[#2f2f3d] border-[#434358] text-zinc-200"
