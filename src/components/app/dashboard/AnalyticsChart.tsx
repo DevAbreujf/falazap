@@ -50,75 +50,79 @@ const config = {
 
 export function AnalyticsChart() {
   return (
-    <Card className="hover-glow transition-all duration-300">
+    <Card className="hover:shadow-lg transition-all duration-300 bg-transparent border-0">
       <CardHeader>
         <CardTitle className="text-xl flex items-center gap-2">
-          <TrendingUp className="h-6 w-6 text-primary" />
+          <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+            <TrendingUp className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
+          </div>
           Análise Comparativa
         </CardTitle>
       </CardHeader>
       <CardContent className="h-[450px] p-4">
         <ChartContainer config={config} className="w-full h-full">
-          <AreaChart 
-            data={mockData} 
-            margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-          >
-            <defs>
-              <linearGradient id="mensagensGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#1cd8b6" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="#1cd8b6" stopOpacity={0}/>
-              </linearGradient>
-              <linearGradient id="leadsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#4df1b5" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="#4df1b5" stopOpacity={0}/>
-              </linearGradient>
-              <linearGradient id="conversaoGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#39f18e" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="#39f18e" stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid 
-              strokeDasharray="3 3" 
-              stroke="hsl(var(--border))" 
-              opacity={0.2} 
-            />
-            <XAxis 
-              dataKey="name" 
-              stroke="hsl(var(--muted-foreground))"
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
-              dy={10}
-            />
-            <YAxis 
-              stroke="hsl(var(--muted-foreground))"
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
-              dx={-10}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Area
-              type="monotone"
-              dataKey="mensagens"
-              name="mensagens"
-              stroke="#1cd8b6"
-              fill="url(#mensagensGradient)"
-              strokeWidth={2}
-            />
-            <Area
-              type="monotone"
-              dataKey="leads"
-              name="leads"
-              stroke="#4df1b5"
-              fill="url(#leadsGradient)"
-              strokeWidth={2}
-            />
-            <Area
-              type="monotone"
-              dataKey="conversao"
-              name="conversao"
-              stroke="#39f18e"
-              fill="url(#conversaoGradient)"
-              strokeWidth={2}
-            />
-          </AreaChart>
+          <ResponsiveContainer>
+            <AreaChart 
+              data={mockData} 
+              margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+            >
+              <defs>
+                <linearGradient id="mensagensGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#FFE29F" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#FFE29F" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="leadsGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#FFA99F" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#FFA99F" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="conversaoGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#FF719A" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#FF719A" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                stroke="hsl(var(--border))" 
+                opacity={0.2} 
+              />
+              <XAxis 
+                dataKey="name" 
+                stroke="hsl(var(--muted-foreground))"
+                tick={{ fill: "hsl(var(--muted-foreground))" }}
+                dy={10}
+              />
+              <YAxis 
+                stroke="hsl(var(--muted-foreground))"
+                tick={{ fill: "hsl(var(--muted-foreground))" }}
+                dx={-10}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Area
+                type="monotone"
+                dataKey="mensagens"
+                name="mensagens"
+                stroke="#FFE29F"
+                fill="url(#mensagensGradient)"
+                strokeWidth={2}
+              />
+              <Area
+                type="monotone"
+                dataKey="leads"
+                name="leads"
+                stroke="#FFA99F"
+                fill="url(#leadsGradient)"
+                strokeWidth={2}
+              />
+              <Area
+                type="monotone"
+                dataKey="conversao"
+                name="conversao"
+                stroke="#FF719A"
+                fill="url(#conversaoGradient)"
+                strokeWidth={2}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>
