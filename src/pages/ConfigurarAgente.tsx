@@ -22,6 +22,10 @@ export default function ConfigurarAgente() {
     }
   };
 
+  const handleStepClick = (step: number) => {
+    setCurrentStep(step);
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -41,7 +45,7 @@ export default function ConfigurarAgente() {
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
           <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10 space-y-8">
-            <WizardSteps currentStep={currentStep} />
+            <WizardSteps currentStep={currentStep} onStepClick={handleStepClick} />
             <div className="bg-white rounded-lg shadow-sm">
               {renderStep()}
             </div>
