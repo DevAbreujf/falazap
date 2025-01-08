@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "@/pages/Dashboard";
 import Connection from "@/pages/Connection";
 import Chatboard from "@/pages/Chatboard";
-import Agents from "@/pages/Agents";
+import Agents from "@/pages/Agentes"; // Changed from Agents to Agentes
 import Funnels from "@/pages/Funnels";
 import Broadcasts from "@/pages/Broadcasts";
 import Reminders from "@/pages/Reminders";
@@ -18,7 +18,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/connection" element={<Connection />} />
         <Route path="/chatboard" element={<Chatboard />} />
-        <Route path="/agents" element={<Agents />} />
+        <Route path="/agentes" element={<Agents />} />
         <Route path="/funnels" element={<Funnels />} />
         <Route path="/broadcasts" element={<Broadcasts />} />
         <Route path="/reminders" element={<Reminders />} />
