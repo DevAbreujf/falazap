@@ -15,7 +15,6 @@ import {
   Calendar,
   Home,
   Bot,
-  UserCog,
 } from "lucide-react";
 
 export function SidebarNavigation() {
@@ -27,12 +26,6 @@ export function SidebarNavigation() {
       label: "Dashboard",
       description: "Visão geral",
       onClick: () => navigate("/dashboard"),
-    },
-    {
-      icon: UserCog,
-      label: "Usuários",
-      description: "Gerenciar usuários",
-      onClick: () => navigate("/users"),
     },
     {
       icon: Phone,
