@@ -10,6 +10,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { IndustrySelector } from "./IndustrySelector";
 import { VoiceSelector } from "./VoiceSelector";
 import { LanguageSelector } from "./LanguageSelector";
+import { MainObjectiveButtons } from "./MainObjectiveButtons";
+import { CommunicationStyleButtons } from "./CommunicationStyleButtons";
 
 export const ProfileStep = () => {
   const form = useForm({
@@ -21,8 +23,8 @@ export const ProfileStep = () => {
       communicationStyle: "normal",
       companyName: "",
       industry: "",
-      language: "pt-br", // Setting default language to Portuguese Brazil
-      voice: "", // Removing default voice selection
+      language: "pt-br",
+      voice: "",
       description: "",
     },
   });
@@ -121,35 +123,7 @@ export const ProfileStep = () => {
           control={form.control}
           name="mainObjective"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm font-medium text-gray-700">Objetivo principal do agente</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  className="flex gap-3"
-                  value={field.value}
-                  onValueChange={field.onChange}
-                >
-                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'vendas' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
-                    <RadioGroupItem value="vendas" id="vendas" className="hidden" />
-                    <label htmlFor="vendas" className="block text-center text-sm cursor-pointer">
-                      🛍️ Vendas
-                    </label>
-                  </div>
-                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'suporte' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
-                    <RadioGroupItem value="suporte" id="suporte" className="hidden" />
-                    <label htmlFor="suporte" className="block text-center text-sm cursor-pointer">
-                      📞 Suporte
-                    </label>
-                  </div>
-                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'qualificacao' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
-                    <RadioGroupItem value="qualificacao" id="qualificacao" className="hidden" />
-                    <label htmlFor="qualificacao" className="block text-center text-sm cursor-pointer">
-                      ✨ Qualificação (em breve)
-                    </label>
-                  </div>
-                </RadioGroup>
-              </FormControl>
-            </FormItem>
+            <MainObjectiveButtons value={field.value} onChange={field.onChange} />
           )}
         />
 
@@ -158,35 +132,7 @@ export const ProfileStep = () => {
           control={form.control}
           name="communicationStyle"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm font-medium text-gray-700">Forma de comunicação</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  className="flex gap-3"
-                  value={field.value}
-                  onValueChange={field.onChange}
-                >
-                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'normal' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
-                    <RadioGroupItem value="normal" id="normal" className="hidden" />
-                    <label htmlFor="normal" className="block text-center text-sm cursor-pointer">
-                      👋 Normal
-                    </label>
-                  </div>
-                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'formal' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
-                    <RadioGroupItem value="formal" id="formal" className="hidden" />
-                    <label htmlFor="formal" className="block text-center text-sm cursor-pointer">
-                      👔 Formal
-                    </label>
-                  </div>
-                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'descontraido' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
-                    <RadioGroupItem value="descontraido" id="descontraido" className="hidden" />
-                    <label htmlFor="descontraido" className="block text-center text-sm cursor-pointer">
-                      🎉 Descontraído
-                    </label>
-                  </div>
-                </RadioGroup>
-              </FormControl>
-            </FormItem>
+            <CommunicationStyleButtons value={field.value} onChange={field.onChange} />
           )}
         />
 
