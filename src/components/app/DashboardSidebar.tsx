@@ -13,6 +13,7 @@ import {
   LogOut,
   ChevronDown,
   Home,
+  Bot,
 } from "lucide-react";
 import {
   Sidebar,
@@ -51,6 +52,12 @@ export function DashboardSidebar() {
       label: "Conexão",
       description: "Configure seu WhatsApp",
       onClick: () => navigate("/connection"),
+    },
+    {
+      icon: Bot,
+      label: "Agentes",
+      description: "Gerencie seus agentes",
+      onClick: () => navigate("/agentes"),
     },
     {
       icon: Filter,
