@@ -52,28 +52,6 @@ export default function Dashboard() {
                   <p className="text-slate-600 text-base md:text-lg mt-4">
                     Bem-vindo ao seu painel de controle
                   </p>
-                  <div className="flex items-center gap-3 mt-3">
-                    <div className="flex items-center gap-2">
-                      <Circle
-                        className={`h-3 w-3 fill-current animate-pulse ${
-                          isConnected ? "text-emerald-500" : "text-red-500"
-                        }`}
-                      />
-                      <span className="text-sm text-slate-600">
-                        {isConnected ? "Conectado" : "Não conectado"}
-                      </span>
-                    </div>
-                    {!isConnected && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-sm hover:bg-slate-50"
-                        onClick={() => navigate("/connection")}
-                      >
-                        Conectar número
-                      </Button>
-                    )}
-                  </div>
                 </div>
 
                 <div className="w-full md:w-auto flex items-center gap-4">
