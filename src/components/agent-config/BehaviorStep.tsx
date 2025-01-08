@@ -87,15 +87,6 @@ export const BehaviorStep = () => {
           </div>
         </div>
       </div>
-
-      <div className="flex justify-between pt-4">
-        <Button variant="outline">
-          Voltar
-        </Button>
-        <Button variant="default" className="bg-primary text-white">
-          Avançar
-        </Button>
-      </div>
     </div>
   );
 };
