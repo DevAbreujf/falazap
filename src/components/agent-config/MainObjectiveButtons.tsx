@@ -43,9 +43,8 @@ export const MainObjectiveButtons = ({ value, onChange }: MainObjectiveButtonsPr
           <Button
             type="button"
             variant={value === 'qualificacao' ? 'default' : 'outline'}
-            className={`flex-1 opacity-70 cursor-not-allowed`}
+            className={`flex-1 ${value === 'qualificacao' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
             onClick={handleClick('qualificacao')}
-            disabled
           >
             <RadioGroupItem value="qualificacao" id="qualificacao" className="hidden" />
             ✨ Qualificação (em breve)
