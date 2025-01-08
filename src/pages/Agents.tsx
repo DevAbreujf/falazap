@@ -31,8 +31,8 @@ import {
   Edit,
   Copy,
   Trash2,
-  WhatsappIcon,
-  InstagramIcon,
+  MessageSquare,
+  Instagram,
   MessagesSquare,
   Filter,
 } from "lucide-react";
@@ -129,8 +129,8 @@ export default function Agents() {
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-2">
-                    <WhatsappIcon className="h-4 w-4 text-muted-foreground" />
-                    <InstagramIcon className="h-4 w-4 text-muted-foreground" />
+                    <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                    <Instagram className="h-4 w-4 text-muted-foreground" />
                     <MessagesSquare className="h-4 w-4 text-muted-foreground" />
                   </div>
                 </TableCell>
@@ -183,11 +183,11 @@ export default function Agents() {
               <h3 className="text-sm font-medium">Integrations</h3>
               <div className="grid grid-cols-2 gap-4">
                 <Button variant="outline" className="justify-start">
-                  <WhatsappIcon className="mr-2 h-4 w-4" />
+                  <MessageSquare className="mr-2 h-4 w-4" />
                   WhatsApp
                 </Button>
                 <Button variant="outline" className="justify-start">
-                  <InstagramIcon className="mr-2 h-4 w-4" />
+                  <Instagram className="mr-2 h-4 w-4" />
                   Instagram
                 </Button>
                 <Button variant="outline" className="justify-start">
