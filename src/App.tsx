@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Users from "./pages/Users";
+import UsersPage from "./pages/Users";
 import Departments from "./pages/Departments";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Trash2, Users } from "lucide-react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -40,7 +40,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/users" element={<Users />} />
+        <Route path="/users" element={<UsersPage />} />
         <Route path="/departments" element={<Departments />} />
       </Routes>
     </BrowserRouter>
