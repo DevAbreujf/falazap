@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 export const ProfileStep = () => {
   const form = useForm({
@@ -240,6 +241,12 @@ export const ProfileStep = () => {
             </FormItem>
           )}
         />
+        
+        <div className="flex justify-end pt-4">
+          <Button variant="primary" className="bg-primary text-white">
+            Avançar
+          </Button>
+        </div>
       </form>
     </Form>
   );
