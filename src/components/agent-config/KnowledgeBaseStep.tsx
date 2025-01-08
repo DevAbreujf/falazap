@@ -103,7 +103,7 @@ export function KnowledgeBaseStep() {
         <Button variant="outline">
           Voltar
         </Button>
-        <Button variant="primary" className="bg-primary text-white">
+        <Button variant="default" className="bg-primary text-white">
           Treinar e publicar
         </Button>
       </div>

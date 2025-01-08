@@ -243,7 +243,7 @@ export const ProfileStep = () => {
         />
         
         <div className="flex justify-end pt-4">
-          <Button variant="primary" className="bg-primary text-white">
+          <Button variant="default" className="bg-primary text-white">
             Avançar
           </Button>
         </div>

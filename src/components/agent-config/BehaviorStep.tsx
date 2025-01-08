@@ -92,7 +92,7 @@ export const BehaviorStep = () => {
         <Button variant="outline">
           Voltar
         </Button>
-        <Button variant="primary" className="bg-primary text-white">
+        <Button variant="default" className="bg-primary text-white">
           Avançar
         </Button>
       </div>
