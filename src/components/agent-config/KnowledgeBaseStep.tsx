@@ -98,15 +98,6 @@ export function KnowledgeBaseStep() {
           </div>
         </div>
       </div>
-
-      <div className="flex justify-between pt-4">
-        <Button variant="outline">
-          Voltar
-        </Button>
-        <Button className="bg-primary text-white">
-          Treinar e publicar
-        </Button>
-      </div>
     </div>
   );
 }
