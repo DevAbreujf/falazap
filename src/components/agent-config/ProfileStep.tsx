@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Camera, Wand2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { IndustrySelector } from "./IndustrySelector";
+import { VoiceSelector } from "./VoiceSelector";
+import { LanguageSelector } from "./LanguageSelector";
 
 export const ProfileStep = () => {
   const form = useForm({
@@ -19,27 +21,27 @@ export const ProfileStep = () => {
       communicationStyle: "normal",
       companyName: "",
       industry: "",
-      language: "Português do Brasil",
-      voice: "",
+      language: "pt-br",
+      voice: "Arla",
       description: "",
     },
   });
 
   return (
     <Form {...form}>
-      <form className="max-w-4xl mx-auto p-8 bg-gray-50/50 rounded-xl space-y-8">
+      <form className="max-w-4xl mx-auto p-8 bg-gray-50/50 rounded-xl space-y-6">
         {/* Avatar Section */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-4">
           <div className="relative">
-            <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center">
-              <div className="w-12 h-12 bg-white rounded-full" />
+            <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-white rounded-full" />
             </div>
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <button className="w-6 h-6 bg-white rounded-full shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors">
-                      <Camera className="w-3.5 h-3.5 text-gray-600" />
+                    <button className="w-5 h-5 bg-white rounded-full shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors">
+                      <Camera className="w-3 h-3 text-gray-600" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -50,8 +52,8 @@ export const ProfileStep = () => {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <button className="w-6 h-6 bg-white rounded-full shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors">
-                      <Wand2 className="w-3.5 h-3.5 text-gray-600" />
+                    <button className="w-5 h-5 bg-white rounded-full shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors">
+                      <Wand2 className="w-3 h-3 text-gray-600" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -64,7 +66,7 @@ export const ProfileStep = () => {
         </div>
 
         {/* Name and Signature */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="name"
@@ -72,13 +74,13 @@ export const ProfileStep = () => {
               <FormItem>
                 <FormLabel className="text-sm font-medium text-gray-700">Nome do agente *</FormLabel>
                 <FormControl>
-                  <Input placeholder="Máximo 30 caracteres" className="h-9" {...field} />
+                  <Input placeholder="Máximo 30 caracteres" className="h-8" {...field} />
                 </FormControl>
               </FormItem>
             )}
           />
           <div className="flex items-center gap-3 pt-6">
-            <Switch id="sign" className="scale-90" />
+            <Switch id="sign" className="scale-75" />
             <label htmlFor="sign" className="text-sm text-gray-600">Assinar conversa</label>
           </div>
         </div>
@@ -92,17 +94,17 @@ export const ProfileStep = () => {
               <FormLabel className="text-sm font-medium text-gray-700">Tipo de agente</FormLabel>
               <FormControl>
                 <RadioGroup
-                  className="flex gap-4"
+                  className="flex gap-3"
                   value={field.value}
                   onValueChange={field.onChange}
                 >
-                  <div className={`flex-1 p-3 border rounded-lg cursor-pointer transition-colors ${field.value === 'standard' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'standard' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
                     <RadioGroupItem value="standard" id="standard" className="hidden" />
                     <label htmlFor="standard" className="block text-center text-sm cursor-pointer">
                       Standard
                     </label>
                   </div>
-                  <div className={`flex-1 p-3 border rounded-lg cursor-pointer transition-colors ${field.value === 'expert' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'expert' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
                     <RadioGroupItem value="expert" id="expert" className="hidden" />
                     <label htmlFor="expert" className="block text-center text-sm cursor-pointer">
                       Expert
@@ -123,23 +125,23 @@ export const ProfileStep = () => {
               <FormLabel className="text-sm font-medium text-gray-700">Objetivo principal do agente</FormLabel>
               <FormControl>
                 <RadioGroup
-                  className="flex gap-4"
+                  className="flex gap-3"
                   value={field.value}
                   onValueChange={field.onChange}
                 >
-                  <div className={`flex-1 p-3 border rounded-lg cursor-pointer transition-colors ${field.value === 'vendas' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'vendas' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
                     <RadioGroupItem value="vendas" id="vendas" className="hidden" />
                     <label htmlFor="vendas" className="block text-center text-sm cursor-pointer">
                       🛍️ Vendas
                     </label>
                   </div>
-                  <div className={`flex-1 p-3 border rounded-lg cursor-pointer transition-colors ${field.value === 'suporte' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'suporte' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
                     <RadioGroupItem value="suporte" id="suporte" className="hidden" />
                     <label htmlFor="suporte" className="block text-center text-sm cursor-pointer">
                       📞 Suporte
                     </label>
                   </div>
-                  <div className={`flex-1 p-3 border rounded-lg cursor-pointer transition-colors ${field.value === 'qualificacao' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'qualificacao' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
                     <RadioGroupItem value="qualificacao" id="qualificacao" className="hidden" />
                     <label htmlFor="qualificacao" className="block text-center text-sm cursor-pointer">
                       ✨ Qualificação (em breve)
@@ -160,23 +162,23 @@ export const ProfileStep = () => {
               <FormLabel className="text-sm font-medium text-gray-700">Forma de comunicação</FormLabel>
               <FormControl>
                 <RadioGroup
-                  className="flex gap-4"
+                  className="flex gap-3"
                   value={field.value}
                   onValueChange={field.onChange}
                 >
-                  <div className={`flex-1 p-3 border rounded-lg cursor-pointer transition-colors ${field.value === 'normal' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'normal' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
                     <RadioGroupItem value="normal" id="normal" className="hidden" />
                     <label htmlFor="normal" className="block text-center text-sm cursor-pointer">
                       👋 Normal
                     </label>
                   </div>
-                  <div className={`flex-1 p-3 border rounded-lg cursor-pointer transition-colors ${field.value === 'formal' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'formal' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
                     <RadioGroupItem value="formal" id="formal" className="hidden" />
                     <label htmlFor="formal" className="block text-center text-sm cursor-pointer">
                       👔 Formal
                     </label>
                   </div>
-                  <div className={`flex-1 p-3 border rounded-lg cursor-pointer transition-colors ${field.value === 'descontraido' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
+                  <div className={`flex-1 p-2 border rounded-lg cursor-pointer transition-colors ${field.value === 'descontraido' ? 'border-primary bg-primary/5' : 'border-gray-200'}`}>
                     <RadioGroupItem value="descontraido" id="descontraido" className="hidden" />
                     <label htmlFor="descontraido" className="block text-center text-sm cursor-pointer">
                       🎉 Descontraído
@@ -189,7 +191,7 @@ export const ProfileStep = () => {
         />
 
         {/* Company and Industry */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="companyName"
@@ -197,7 +199,7 @@ export const ProfileStep = () => {
               <FormItem>
                 <FormLabel className="text-sm font-medium text-gray-700">Nome da empresa *</FormLabel>
                 <FormControl>
-                  <Input className="h-9" {...field} />
+                  <Input className="h-8" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -217,29 +219,19 @@ export const ProfileStep = () => {
         </div>
 
         {/* Language and Voice */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="language"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700">Idioma</FormLabel>
-                <FormControl>
-                  <Input className="h-9" {...field} />
-                </FormControl>
-              </FormItem>
+              <LanguageSelector value={field.value} onChange={field.onChange} />
             )}
           />
           <FormField
             control={form.control}
             name="voice"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700">Voz</FormLabel>
-                <FormControl>
-                  <Input className="h-9" {...field} />
-                </FormControl>
-              </FormItem>
+              <VoiceSelector value={field.value} onChange={field.onChange} />
             )}
           />
         </div>
