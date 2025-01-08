@@ -8,11 +8,6 @@ interface CommunicationStyleButtonsProps {
 }
 
 export const CommunicationStyleButtons = ({ value, onChange }: CommunicationStyleButtonsProps) => {
-  const handleClick = (newValue: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    onChange(newValue);
-  };
-
   return (
     <FormItem>
       <FormLabel className="text-sm font-medium text-gray-700">Forma de comunicação</FormLabel>
@@ -22,33 +17,41 @@ export const CommunicationStyleButtons = ({ value, onChange }: CommunicationStyl
           value={value}
           onValueChange={onChange}
         >
-          <Button
-            type="button"
-            variant={value === 'normal' ? 'default' : 'outline'}
-            className={`flex-1 ${value === 'normal' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
-            onClick={handleClick('normal')}
-          >
+          <div>
+            <Button
+              type="button"
+              variant={value === 'normal' ? 'default' : 'outline'}
+              className={`flex-1 ${value === 'normal' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
+              onClick={() => onChange('normal')}
+            >
+              👋 Normal
+            </Button>
             <RadioGroupItem value="normal" id="normal" className="hidden" />
-            👋 Normal
-          </Button>
-          <Button
-            type="button"
-            variant={value === 'formal' ? 'default' : 'outline'}
-            className={`flex-1 ${value === 'formal' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
-            onClick={handleClick('formal')}
-          >
+          </div>
+
+          <div>
+            <Button
+              type="button"
+              variant={value === 'formal' ? 'default' : 'outline'}
+              className={`flex-1 ${value === 'formal' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
+              onClick={() => onChange('formal')}
+            >
+              👔 Formal
+            </Button>
             <RadioGroupItem value="formal" id="formal" className="hidden" />
-            👔 Formal
-          </Button>
-          <Button
-            type="button"
-            variant={value === 'descontraido' ? 'default' : 'outline'}
-            className={`flex-1 ${value === 'descontraido' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
-            onClick={handleClick('descontraido')}
-          >
+          </div>
+
+          <div>
+            <Button
+              type="button"
+              variant={value === 'descontraido' ? 'default' : 'outline'}
+              className={`flex-1 ${value === 'descontraido' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
+              onClick={() => onChange('descontraido')}
+            >
+              🎉 Descontraído
+            </Button>
             <RadioGroupItem value="descontraido" id="descontraido" className="hidden" />
-            🎉 Descontraído
-          </Button>
+          </div>
         </RadioGroup>
       </FormControl>
     </FormItem>

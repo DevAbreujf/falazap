@@ -8,11 +8,6 @@ interface MainObjectiveButtonsProps {
 }
 
 export const MainObjectiveButtons = ({ value, onChange }: MainObjectiveButtonsProps) => {
-  const handleClick = (newValue: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    onChange(newValue);
-  };
-
   return (
     <FormItem>
       <FormLabel className="text-sm font-medium text-gray-700">Objetivo principal do agente</FormLabel>
@@ -22,33 +17,41 @@ export const MainObjectiveButtons = ({ value, onChange }: MainObjectiveButtonsPr
           value={value}
           onValueChange={onChange}
         >
-          <Button
-            type="button"
-            variant={value === 'vendas' ? 'default' : 'outline'}
-            className={`flex-1 ${value === 'vendas' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
-            onClick={handleClick('vendas')}
-          >
+          <div>
+            <Button
+              type="button"
+              variant={value === 'vendas' ? 'default' : 'outline'}
+              className={`flex-1 ${value === 'vendas' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
+              onClick={() => onChange('vendas')}
+            >
+              🛍️ Vendas
+            </Button>
             <RadioGroupItem value="vendas" id="vendas" className="hidden" />
-            🛍️ Vendas
-          </Button>
-          <Button
-            type="button"
-            variant={value === 'suporte' ? 'default' : 'outline'}
-            className={`flex-1 ${value === 'suporte' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
-            onClick={handleClick('suporte')}
-          >
+          </div>
+
+          <div>
+            <Button
+              type="button"
+              variant={value === 'suporte' ? 'default' : 'outline'}
+              className={`flex-1 ${value === 'suporte' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
+              onClick={() => onChange('suporte')}
+            >
+              📞 Suporte
+            </Button>
             <RadioGroupItem value="suporte" id="suporte" className="hidden" />
-            📞 Suporte
-          </Button>
-          <Button
-            type="button"
-            variant={value === 'qualificacao' ? 'default' : 'outline'}
-            className={`flex-1 ${value === 'qualificacao' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
-            onClick={handleClick('qualificacao')}
-          >
+          </div>
+
+          <div>
+            <Button
+              type="button"
+              variant={value === 'qualificacao' ? 'default' : 'outline'}
+              className={`flex-1 ${value === 'qualificacao' ? 'bg-primary text-white shadow-lg shadow-primary/30' : ''}`}
+              onClick={() => onChange('qualificacao')}
+            >
+              ✨ Qualificação
+            </Button>
             <RadioGroupItem value="qualificacao" id="qualificacao" className="hidden" />
-            ✨ Qualificação (em breve)
-          </Button>
+          </div>
         </RadioGroup>
       </FormControl>
     </FormItem>
