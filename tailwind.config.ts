@@ -22,40 +22,44 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: '#1E1E1E',
-        foreground: '#E5E5E5',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#39FF14',
-          light: '#39f18e',
-          dark: '#0D0D0D',
-          hover: '#00FF7F',
-          foreground: '#FFFFFF'
+          DEFAULT: '#FF5A1F',
+          light: '#FFE29F',
+          dark: '#243949',
+          hover: '#FF719A',
+          foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {
-          DEFAULT: '#4df1b5',
-          foreground: '#A0A0B3'
+          DEFAULT: '#517fa4',
+          foreground: 'hsl(var(--secondary-foreground))'
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
         },
         muted: {
-          DEFAULT: '#0D0D0D',
-          foreground: '#A0A0B3'
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))'
         },
         accent: {
-          DEFAULT: '#00FF7F',
-          foreground: '#FFFFFF'
+          DEFAULT: '#FFA99F',
+          foreground: 'hsl(var(--accent-foreground))'
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
         }
       },
-      backgroundImage: {
-        'gradient-primary': 'linear-gradient(to right, #39FF14, #39f18e)',
-        'gradient-secondary': 'linear-gradient(to right, #0D0D0D, #1E1E1E)',
-        'glass': 'linear-gradient(to right bottom, rgba(13, 13, 13, 0.7), rgba(13, 13, 13, 0.3))'
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        'float': 'float 3s ease-in-out infinite',
-        'fade-up': 'fade-up 0.5s ease-out',
-        'glow': 'glow 2s ease-in-out infinite',
-        'pulse-neon': 'pulse-neon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)'
       },
       keyframes: {
         "accordion-down": {
@@ -66,26 +70,25 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        'float': {
+        float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' }
         },
         'fade-up': {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' }
-        },
-        'glow': {
-          '0%, 100%': { boxShadow: '0 0 15px rgba(57, 255, 20, 0.5)' },
-          '50%': { boxShadow: '0 0 30px rgba(57, 255, 20, 0.8)' }
-        },
-        'pulse-neon': {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.5' }
         }
       },
-      boxShadow: {
-        'neon': '0 0 15px rgba(57, 255, 20, 0.5)',
-        'neon-hover': '0 0 30px rgba(57, 255, 20, 0.8)'
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        'float': 'float 3s ease-in-out infinite',
+        'fade-up': 'fade-up 0.5s ease-out'
+      },
+      backgroundImage: {
+        'gradient-primary': 'linear-gradient(225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%)',
+        'gradient-secondary': 'linear-gradient(to right, #243949 0%, #517fa4 100%)',
+        'glass': 'linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))'
       }
     }
   },
