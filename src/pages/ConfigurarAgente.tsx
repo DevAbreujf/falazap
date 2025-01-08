@@ -1,54 +1,34 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, X, Upload, HelpCircle } from "lucide-react";
+import { WizardHeader } from "@/components/agent-wizard/WizardHeader";
+import { WizardProgress } from "@/components/agent-wizard/WizardProgress";
 import { useNavigate } from "react-router-dom";
-import { Checkbox } from "@/components/ui/checkbox";
 
 type WizardStep = 1 | 2 | 3;
 
 export default function ConfigurarAgente() {
   const [step, setStep] = useState<WizardStep>(1);
-  const [agentType, setAgentType] = useState<"Standard" | "Expert">("Standard");
+  const [agentType] = useState<"Standard" | "Expert">("Standard");
   const navigate = useNavigate();
 
   const handleNext = () => {
     if (step < 3) {
       setStep((prev) => (prev + 1) as WizardStep);
+    } else {
+      navigate("/agentes");
     }
   };
 
   const handleBack = () => {
     if (step > 1) {
       setStep((prev) => (prev - 1) as WizardStep);
-    } else {
-      navigate("/agentes");
     }
   };
 
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={handleBack}>
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar
-            </Button>
-            <div>
-              <h1 className="text-2xl font-semibold">Agentes de IA</h1>
-              <p className="text-muted-foreground mt-1">
-                Aqui você consegue criar, configurar e treinar os seus agentes de IA. Lembrando que o agente IA é um especialista; portanto, se a tarefa dele for mais específica, provavelmente ele terá um nível de acertos em um tempo menor.
-              </p>
-            </div>
-          </div>
-          <Button variant="ghost" size="sm" onClick={() => navigate("/agentes")}>
-            <X className="w-4 h-4" />
-          </Button>
-        </div>
+        <WizardHeader />
 
         <div className="bg-card rounded-lg p-8 border">
           <div className="flex justify-between items-center mb-8">
@@ -58,28 +38,7 @@ export default function ConfigurarAgente() {
                 {agentType}
               </span>
             </h2>
-            <div className="flex gap-4">
-              <div className="flex items-center gap-8">
-                <div className={`flex items-center gap-2 ${step >= 1 ? "text-primary" : "text-muted-foreground"}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? "bg-primary text-white" : "bg-muted"}`}>
-                    1
-                  </div>
-                  Perfil
-                </div>
-                <div className={`flex items-center gap-2 ${step >= 2 ? "text-primary" : "text-muted-foreground"}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? "bg-primary text-white" : "bg-muted"}`}>
-                    2
-                  </div>
-                  Comportamento
-                </div>
-                <div className={`flex items-center gap-2 ${step >= 3 ? "text-primary" : "text-muted-foreground"}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? "bg-primary text-white" : "bg-muted"}`}>
-                    3
-                  </div>
-                  Base de conhecimento
-                </div>
-              </div>
-            </div>
+            <WizardProgress currentStep={step} />
           </div>
 
           {step === 1 && (
