@@ -25,27 +25,27 @@ export default {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#FF5A1F',
-          light: '#FFE29F',
-          dark: '#243949',
-          hover: '#FF719A',
+          DEFAULT: '#6366F1',
+          light: '#818CF8',
+          dark: '#4F46E5',
+          hover: '#4338CA',
           foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {
-          DEFAULT: '#517fa4',
-          foreground: 'hsl(var(--secondary-foreground))'
+          DEFAULT: '#F0F9FF',
+          foreground: '#0369A1'
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))'
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
+          DEFAULT: '#F8FAFC',
+          foreground: '#64748B'
         },
         accent: {
-          DEFAULT: '#FFA99F',
-          foreground: 'hsl(var(--accent-foreground))'
+          DEFAULT: '#F1F5F9',
+          foreground: '#0F172A'
         },
         popover: {
           DEFAULT: 'hsl(var(--popover))',
@@ -55,6 +55,11 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         }
+      },
+      backgroundImage: {
+        'gradient-primary': 'linear-gradient(to right, #6366F1, #818CF8)',
+        'gradient-secondary': 'linear-gradient(to right, #F0F9FF, #E0F2FE)',
+        'glass': 'linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3))'
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -85,11 +90,6 @@ export default {
         'float': 'float 3s ease-in-out infinite',
         'fade-up': 'fade-up 0.5s ease-out'
       },
-      backgroundImage: {
-        'gradient-primary': 'linear-gradient(225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%)',
-        'gradient-secondary': 'linear-gradient(to right, #243949 0%, #517fa4 100%)',
-        'glass': 'linear-gradient(to right bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))'
-      }
     }
   },
   plugins: [require("tailwindcss-animate")],

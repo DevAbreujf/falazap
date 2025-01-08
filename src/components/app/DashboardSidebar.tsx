@@ -12,6 +12,7 @@ import {
   User,
   LogOut,
   ChevronDown,
+  Home,
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,15 +34,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
 
   const menuItems = [
     {
-      icon: BarChart3,
-      label: "Métricas",
-      description: "Visualize suas estatísticas",
+      icon: Home,
+      label: "Dashboard",
+      description: "Visão geral",
       onClick: () => navigate("/dashboard"),
     },
     {
@@ -83,17 +85,17 @@ export function DashboardSidebar() {
   ];
 
   return (
-    <Sidebar className="border-r border-border/40">
+    <Sidebar className="border-r border-slate-200 bg-white">
       <div className="flex items-center gap-4 p-4">
         <div className="block lg:hidden">
           <Button 
             variant="ghost" 
             size="icon" 
             asChild 
-            className="hover:bg-primary/20 bg-black/50"
+            className="hover:bg-slate-100"
           >
             <SidebarTrigger>
-              <Menu className="h-6 w-6 text-primary" />
+              <Menu className="h-6 w-6 text-slate-600" />
             </SidebarTrigger>
           </Button>
         </div>
@@ -101,20 +103,27 @@ export function DashboardSidebar() {
       </div>
       
       <SidebarHeader>
-        <div className="p-3">
-          <div className="p-3 glass-card hover:bg-white/5 transition-all duration-300">
+        <div className="p-4">
+          <div className="p-4 bg-gradient-to-r from-slate-50 to-white rounded-xl border border-slate-200 hover:border-slate-300 transition-all duration-300">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <User className="h-5 w-5 text-primary" />
-                <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
-                <h3 className="text-lg font-semibold text-sidebar-foreground">
-                  João Silva
-                </h3>
+              <div className="flex items-center gap-3">
+                <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>JS</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="text-sm font-medium text-slate-900">
+                    João Silva
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Administrador
+                  </p>
+                </div>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="hover:bg-primary/20">
-                    <Settings className="h-5 w-5 text-primary" />
+                  <Button variant="ghost" size="icon" className="hover:bg-slate-100">
+                    <Settings className="h-4 w-4 text-slate-600" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
@@ -122,7 +131,7 @@ export function DashboardSidebar() {
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Configurações</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => console.log("Logout clicked")} className="text-destructive">
+                  <DropdownMenuItem onClick={() => console.log("Logout clicked")} className="text-red-600">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Sair</span>
                   </DropdownMenuItem>
@@ -130,13 +139,10 @@ export function DashboardSidebar() {
               </DropdownMenu>
             </div>
           </div>
-          <div className="mt-3">
-            <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />
-          </div>
         </div>
       </SidebarHeader>
       
-      <SidebarContent className="px-2">
+      <SidebarContent className="px-3">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
@@ -144,16 +150,16 @@ export function DashboardSidebar() {
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     onClick={item.onClick}
-                    className="group relative flex w-full items-center gap-3 p-4 transition-all duration-200 hover:bg-primary/10 rounded-lg"
+                    className="group relative flex w-full items-center gap-3 rounded-lg p-3 hover:bg-slate-50 transition-all duration-200"
                   >
-                    <div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary/20">
-                      <item.icon className="h-4 w-4" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
+                      <item.icon className="h-5 w-5 text-slate-600 group-hover:text-primary transition-colors" />
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="block font-medium text-white text-sm leading-tight">
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium text-slate-900">
                         {item.label}
                       </span>
-                      <span className="block text-xs text-muted-foreground/80 mt-0.5 leading-tight">
+                      <span className="text-xs text-slate-500">
                         {item.description}
                       </span>
                     </div>
