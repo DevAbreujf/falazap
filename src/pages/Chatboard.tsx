@@ -99,13 +99,28 @@ const mockMessages: Record<string, ChatMessage[]> = {
 export default function Chatboard() {
   const [contacts] = useState<ChatContact[]>(mockContacts);
   const [selectedContactId, setSelectedContactId] = useState<string | undefined>();
-  const [messages] = useState<Record<string, ChatMessage[]>>(mockMessages);
+  const [messages, setMessages] = useState<Record<string, ChatMessage[]>>(mockMessages);
   const [showIntro, setShowIntro] = useState(true);
   const [currentDepartment, setCurrentDepartment] = useState<Department | undefined>();
 
   const handleSendMessage = (content: string) => {
+    if (!selectedContactId) return;
+
+    const newMessage: ChatMessage = {
+      id: `msg_${Date.now()}`,
+      content,
+      senderId: "me",
+      timestamp: new Date().toISOString(),
+      status: "sent",
+      type: "text"
+    };
+
+    setMessages(prevMessages => ({
+      ...prevMessages,
+      [selectedContactId]: [...(prevMessages[selectedContactId] || []), newMessage]
+    }));
+
     console.log("Mensagem enviada:", content);
-    // Aqui você implementaria a lógica para enviar a mensagem
   };
 
   const handleDepartmentChange = (departmentId: string) => {
