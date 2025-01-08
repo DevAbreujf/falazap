@@ -40,6 +40,11 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
     }
   };
 
+  const formatMessage = (content: string) => {
+    // Processa o markdown básico para negrito e quebra de linha
+    return content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br />');
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)]">
       <div className="p-4 border-b border-primary/10 bg-card flex items-center gap-3">
@@ -74,7 +79,10 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
                     : 'bg-muted'
                 }`}
               >
-                <p className="text-sm">{message.content}</p>
+                <p 
+                  className="text-sm"
+                  dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }}
+                />
                 <div className="flex items-center justify-end gap-1 mt-1">
                   <span className="text-xs opacity-70">
                     {new Date(message.timestamp).toLocaleTimeString([], {

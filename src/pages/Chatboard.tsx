@@ -106,8 +106,8 @@ export default function Chatboard() {
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
 
-    // Formata a mensagem incluindo o nome do atendente e setor
-    const formattedContent = `[${currentDepartment?.name || 'Geral'}] John Doe: ${content}`;
+    // Formata a mensagem com o cabeçalho em negrito e a mensagem em nova linha
+    const formattedContent = `**[${currentDepartment?.name || 'Geral'}] John Doe:**\n${content}`;
 
     const newMessage: ChatMessage = {
       id: `msg_${Date.now()}`,
