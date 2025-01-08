@@ -41,14 +41,17 @@ export function ChatHeader({
       </div>
 
       <div className="flex items-center gap-4">
-        <span className="text-sm font-medium">
-          {userName}
+        <div className="text-sm">
+          <span className="font-medium">Meu nome: </span>
+          <span className="text-primary">{userName}</span>
           {currentDepartment && (
-            <span className="text-muted-foreground ml-2">
-              | {currentDepartment.name}
-            </span>
+            <>
+              <span className="mx-2">|</span>
+              <span className="font-medium">Meu setor: </span>
+              <span className="text-primary">{currentDepartment.name}</span>
+            </>
           )}
-        </span>
+        </div>
 
         <Select
           value={currentDepartment?.id}

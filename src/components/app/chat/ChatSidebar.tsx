@@ -75,9 +75,6 @@ function ContactItem({ contact, isSelected, onClick }: {
             <AvatarImage src={contact.avatar} />
             <AvatarFallback>{contact.name.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
-          {contact.status === 'online' && (
-            <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-500 ring-2 ring-background" />
-          )}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
