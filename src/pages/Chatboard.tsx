@@ -106,9 +106,12 @@ export default function Chatboard() {
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
 
+    // Formata a mensagem incluindo o nome do atendente e setor
+    const formattedContent = `[${currentDepartment?.name || 'Geral'}] John Doe: ${content}`;
+
     const newMessage: ChatMessage = {
       id: `msg_${Date.now()}`,
-      content,
+      content: formattedContent,
       senderId: "me",
       timestamp: new Date().toISOString(),
       status: "sent",
@@ -120,7 +123,7 @@ export default function Chatboard() {
       [selectedContactId]: [...(prevMessages[selectedContactId] || []), newMessage]
     }));
 
-    console.log("Mensagem enviada:", content);
+    console.log("Mensagem enviada:", formattedContent);
   };
 
   const handleDepartmentChange = (departmentId: string) => {
