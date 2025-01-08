@@ -11,7 +11,6 @@ import {
   Menu,
   User,
   LogOut,
-  ChevronDown,
 } from "lucide-react";
 import {
   Sidebar,
@@ -83,17 +82,17 @@ export function DashboardSidebar() {
   ];
 
   return (
-    <Sidebar className="border-r border-border/40">
+    <Sidebar className="border-r border-primary/10 bg-glass backdrop-blur-md">
       <div className="flex items-center gap-4 p-4">
         <div className="block lg:hidden">
           <Button 
             variant="ghost" 
             size="icon" 
             asChild 
-            className="hover:bg-primary/20 bg-black/50"
+            className="hover:bg-primary/20 text-primary"
           >
             <SidebarTrigger>
-              <Menu className="h-6 w-6 text-primary" />
+              <Menu className="h-6 w-6" />
             </SidebarTrigger>
           </Button>
         </div>
@@ -106,23 +105,23 @@ export function DashboardSidebar() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <User className="h-5 w-5 text-primary" />
-                <p className="text-sm font-medium text-gradient-primary">Bem-vindo,</p>
-                <h3 className="text-lg font-semibold text-sidebar-foreground">
+                <p className="text-sm font-medium text-primary">Bem-vindo,</p>
+                <h3 className="text-lg font-semibold text-foreground">
                   João Silva
                 </h3>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="hover:bg-primary/20">
-                    <Settings className="h-5 w-5 text-primary" />
+                  <Button variant="ghost" size="icon" className="hover:bg-primary/20 text-primary">
+                    <Settings className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={() => navigate("/settings")}>
+                <DropdownMenuContent align="end" className="w-48 bg-glass backdrop-blur-md border-primary/10">
+                  <DropdownMenuItem onClick={() => navigate("/settings")} className="hover:bg-primary/20">
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Configurações</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => console.log("Logout clicked")} className="text-destructive">
+                  <DropdownMenuItem onClick={() => console.log("Logout clicked")} className="text-destructive hover:bg-destructive/20">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Sair</span>
                   </DropdownMenuItem>
@@ -131,7 +130,7 @@ export function DashboardSidebar() {
             </div>
           </div>
           <div className="mt-3">
-            <div className="h-px w-full bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-30" />
+            <div className="h-px w-full bg-gradient-primary opacity-30" />
           </div>
         </div>
       </SidebarHeader>
@@ -144,13 +143,13 @@ export function DashboardSidebar() {
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     onClick={item.onClick}
-                    className="group relative flex w-full items-center gap-3 p-4 transition-all duration-200 hover:bg-primary/10 rounded-lg"
+                    className="group relative flex w-full items-center gap-3 p-4 transition-all duration-300 hover:bg-primary/10 rounded-lg"
                   >
                     <div className="rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary/20">
                       <item.icon className="h-4 w-4" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <span className="block font-medium text-white text-sm leading-tight">
+                      <span className="block font-medium text-foreground text-sm leading-tight">
                         {item.label}
                       </span>
                       <span className="block text-xs text-muted-foreground/80 mt-0.5 leading-tight">
