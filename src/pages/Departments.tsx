@@ -1,14 +1,14 @@
 import { useState } from "react";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { DashboardSidebar } from "@/components/app/DashboardSidebar";
+import { Button } from "@/components/ui/button";
+import { Plus, Users } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Plus, Users } from "lucide-react";
-import { DepartmentSelect } from "@/components/app/users/DepartmentSelect";
 import {
   Table,
   TableBody,
@@ -25,6 +25,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { DepartmentUsers } from "@/components/app/departments/DepartmentUsers";
 
 interface Department {
   id: number;
@@ -72,154 +73,134 @@ export default function Departments() {
     }
   };
 
-  const handleDepartmentClick = (department: Department) => {
-    setSelectedDepartment(department);
-  };
-
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Setores</h1>
-        <Dialog open={isAddingDepartment} onOpenChange={setIsAddingDepartment}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Adicionar Setor
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Adicionar Novo Setor</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium">Nome do Setor</label>
-                <input
-                  type="text"
-                  value={newDepartmentName}
-                  onChange={(e) => setNewDepartmentName(e.target.value)}
-                  className="w-full p-2 border rounded-md"
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-slate-50">
+        <DashboardSidebar />
+        <div className="flex-1 overflow-auto">
+          <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10">
+            {!selectedDepartment ? (
+              <>
+                <div className="flex justify-between items-center mb-6">
+                  <h1 className="text-2xl font-bold">Setores</h1>
+                  <Dialog open={isAddingDepartment} onOpenChange={setIsAddingDepartment}>
+                    <DialogTrigger asChild>
+                      <Button>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Adicionar Setor
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Adicionar Novo Setor</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="text-sm font-medium">Nome do Setor</label>
+                          <input
+                            type="text"
+                            value={newDepartmentName}
+                            onChange={(e) => setNewDepartmentName(e.target.value)}
+                            className="w-full p-2 border rounded-md"
+                          />
+                        </div>
+                        <Button onClick={handleAddDepartment}>Cadastrar Setor</Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+
+                <div className="bg-white rounded-lg shadow">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Nome do Setor</TableHead>
+                        <TableHead>Usuários</TableHead>
+                        <TableHead>Ações</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {currentDepartments.map((department) => (
+                        <TableRow
+                          key={department.id}
+                          className="cursor-pointer hover:bg-gray-50"
+                        >
+                          <TableCell>{department.name}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center">
+                              <Users className="h-4 w-4 mr-2" />
+                              {department.users.length} usuários
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => setSelectedDepartment(department)}
+                            >
+                              Ver Usuários
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+
+                  {totalPages > 1 && (
+                    <div className="py-4">
+                      <Pagination>
+                        <PaginationContent>
+                          <PaginationItem>
+                            <PaginationPrevious
+                              href="#"
+                              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            />
+                          </PaginationItem>
+                          {Array.from({ length: totalPages }).map((_, index) => (
+                            <PaginationItem key={index + 1}>
+                              <PaginationLink
+                                href="#"
+                                onClick={() => setCurrentPage(index + 1)}
+                                isActive={currentPage === index + 1}
+                              >
+                                {index + 1}
+                              </PaginationLink>
+                            </PaginationItem>
+                          ))}
+                          <PaginationItem>
+                            <PaginationNext
+                              href="#"
+                              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            />
+                          </PaginationItem>
+                        </PaginationContent>
+                      </Pagination>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <Button 
+                    variant="outline"
+                    onClick={() => setSelectedDepartment(null)}
+                  >
+                    Voltar
+                  </Button>
+                  <h1 className="text-2xl font-bold">
+                    Setor: {selectedDepartment.name}
+                  </h1>
+                </div>
+                <DepartmentUsers 
+                  departmentName={selectedDepartment.name}
+                  users={selectedDepartment.users}
                 />
               </div>
-              <Button onClick={handleAddDepartment}>Cadastrar Setor</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+            )}
+          </main>
+        </div>
       </div>
-
-      <div className="bg-white rounded-lg shadow">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nome do Setor</TableHead>
-              <TableHead>Usuários</TableHead>
-              <TableHead>Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {currentDepartments.map((department) => (
-              <TableRow
-                key={department.id}
-                className="cursor-pointer hover:bg-gray-50"
-                onClick={() => handleDepartmentClick(department)}
-              >
-                <TableCell>{department.name}</TableCell>
-                <TableCell>
-                  <div className="flex items-center">
-                    <Users className="h-4 w-4 mr-2" />
-                    {department.users.length} usuários
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Button variant="outline" size="sm">
-                    Ver Detalhes
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-
-        {totalPages > 1 && (
-          <div className="py-4">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.max(prev - 1, 1))
-                    }
-                    disabled={currentPage === 1}
-                  />
-                </PaginationItem>
-                {Array.from({ length: totalPages }).map((_, index) => (
-                  <PaginationItem key={index + 1}>
-                    <PaginationLink
-                      onClick={() => setCurrentPage(index + 1)}
-                      isActive={currentPage === index + 1}
-                    >
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() =>
-                      setCurrentPage((prev) =>
-                        Math.min(prev + 1, totalPages)
-                      )
-                    }
-                    disabled={currentPage === totalPages}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        )}
-      </div>
-
-      {selectedDepartment && (
-        <Dialog
-          open={!!selectedDepartment}
-          onOpenChange={() => setSelectedDepartment(null)}
-        >
-          <DialogContent className="max-w-3xl">
-            <DialogHeader>
-              <DialogTitle>
-                Usuários do Setor: {selectedDepartment.name}
-              </DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Adicionar Usuário ao Setor
-              </Button>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Nome</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Ações</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {selectedDepartment.users.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>
-                        <Button variant="outline" size="sm">
-                          Remover do Setor
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
-    </div>
+    </SidebarProvider>
   );
 }
