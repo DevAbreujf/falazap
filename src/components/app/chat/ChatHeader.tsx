@@ -28,7 +28,7 @@ export function ChatHeader({
   const navigate = useNavigate();
 
   return (
-    <header className="flex items-center justify-between px-4 py-2 bg-card border-b border-border">
+    <header className="h-16 flex items-center justify-between px-4 py-2 bg-card border-b border-border">
       <div className="flex items-center gap-4">
         <Button
           variant="ghost"
@@ -37,15 +37,6 @@ export function ChatHeader({
           className="hover:bg-primary/10"
         >
           <ArrowLeft className="h-5 w-5" />
-        </Button>
-        
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onShowIntro}
-          className="hover:bg-primary/10"
-        >
-          <Home className="h-5 w-5" />
         </Button>
       </div>
 
@@ -63,7 +54,7 @@ export function ChatHeader({
           value={currentDepartment?.id}
           onValueChange={onDepartmentChange}
         >
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Selecionar setor" />
           </SelectTrigger>
           <SelectContent>
@@ -74,6 +65,15 @@ export function ChatHeader({
             ))}
           </SelectContent>
         </Select>
+
+        <Button
+          variant="outline"
+          onClick={onShowIntro}
+          className="hover:bg-primary/10"
+        >
+          <Home className="h-4 w-4 mr-2" />
+          Voltar para Introdução
+        </Button>
       </div>
     </header>
   );

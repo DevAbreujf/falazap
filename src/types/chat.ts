@@ -5,6 +5,7 @@ export interface ChatContact {
   avatar?: string;
   unreadCount: number;
   isSupport?: boolean;
+  funnelName?: string;
   lastMessage?: {
     id: string;
     content: string;

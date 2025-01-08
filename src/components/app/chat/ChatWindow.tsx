@@ -47,8 +47,8 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
   };
 
   return (
-    <div className="flex-1 flex flex-col h-screen">
-      <header className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
+    <div className="flex flex-col h-[calc(100vh-4rem)]">
+      <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
             <AvatarImage src={contact.avatar} />
@@ -56,9 +56,14 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
           </Avatar>
           <div>
             <h2 className="font-semibold">{contact.name}</h2>
-            <p className="text-sm text-muted-foreground">
-              {contact.status === 'online' ? 'Online' : 'Offline'}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm text-muted-foreground">
+                {contact.status === 'online' ? 'Online' : 'Offline'}
+              </p>
+              <Badge variant="outline" className="text-xs">
+                {contact.funnelName || 'Geral'}
+              </Badge>
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -82,7 +87,7 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </header>
+      </div>
 
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
@@ -134,7 +139,7 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Digite uma mensagem..."
-            className="flex-1 bg-muted/50 rounded-md p-2 min-h-[2.5rem] max-h-32 resize-none focus:outline-none focus:ring-1 focus:ring-primary"
+            className="flex-1 bg-muted/50 rounded-md p-2 min-h-[2.5rem] max-h-32 resize-none focus:outline-none focus:ring-1 focus:ring-primary text-sm"
             rows={1}
           />
           <Button onClick={handleSend} size="icon" disabled={!newMessage.trim()}>
