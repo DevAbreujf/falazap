@@ -4,10 +4,11 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WizardSteps } from "@/components/agent-config/WizardSteps";
 import { BehaviorStep } from "@/components/agent-config/BehaviorStep";
+import { KnowledgeBaseStep } from "@/components/agent-config/KnowledgeBaseStep";
 
 export default function ConfigurarAgente() {
   const navigate = useNavigate();
-  const [step, setStep] = useState(2); // Set to 2 to show the Behavior step
+  const [step, setStep] = useState(3); // Set to 3 to show the Knowledge Base step
   const [agentType] = useState<"standard" | "expert">("standard");
 
   return (
@@ -40,6 +41,7 @@ export default function ConfigurarAgente() {
 
         {/* Step Content */}
         {step === 2 && <BehaviorStep />}
+        {step === 3 && <KnowledgeBaseStep />}
 
         {/* Navigation */}
         <div className="flex justify-between">
