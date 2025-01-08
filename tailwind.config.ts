@@ -25,15 +25,15 @@ export default {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#6366F1',
-          light: '#818CF8',
-          dark: '#4F46E5',
-          hover: '#4338CA',
+          DEFAULT: '#1cd8b6',
+          light: '#4df1b5',
+          dark: '#39f18e',
+          hover: '#1cd8b6',
           foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {
-          DEFAULT: '#F0F9FF',
-          foreground: '#0369A1'
+          DEFAULT: '#F8FAFC',
+          foreground: '#0F172A'
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -57,8 +57,8 @@ export default {
         }
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(to right, #6366F1, #818CF8)',
-        'gradient-secondary': 'linear-gradient(to right, #F0F9FF, #E0F2FE)',
+        'gradient-primary': 'linear-gradient(95.27deg, #1cd8b6 -0.85%, #4df1b5 39.07%, #39f18e 89.32%)',
+        'gradient-secondary': 'linear-gradient(to right, #F8FAFC, #F1F5F9)',
         'glass': 'linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3))'
       },
       borderRadius: {

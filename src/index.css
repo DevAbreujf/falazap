@@ -10,7 +10,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 248 90% 66%;
+    --primary: 167 77% 48%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -22,7 +22,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 248 90% 66%;
+    --ring: 167 77% 48%;
     --radius: 0.75rem;
   }
 }
@@ -39,15 +39,15 @@
 
 /* Flow Node Styles */
 .flow-node {
-  @apply bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-lg overflow-hidden min-w-[280px] shadow-lg;
+  @apply bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg overflow-hidden min-w-[280px] shadow-lg;
 }
 
 .flow-node-header {
-  @apply bg-zinc-800/50 px-4 py-2 flex items-center justify-between border-b border-zinc-700/50;
+  @apply bg-gray-50/50 px-4 py-2 flex items-center justify-between border-b border-gray-200/50;
 }
 
 .flow-node-header h3 {
-  @apply text-sm font-medium text-zinc-100;
+  @apply text-sm font-medium text-gray-900;
 }
 
 .flow-node-content {
@@ -55,7 +55,7 @@
 }
 
 .flow-node-footer {
-  @apply px-4 py-3 bg-zinc-900/50;
+  @apply px-4 py-3 bg-gray-50/50;
 }
 
 /* Handle Styles */
@@ -68,8 +68,8 @@
   width: 40px !important;
   height: 12px !important;
   border-radius: 6px !important;
-  background: #1e1e1e !important;
-  border: 2px solid #2e2e2e !important;
+  background: #ffffff !important;
+  border: 2px solid #e2e8f0 !important;
 }
 
 .react-flow__handle-bottom {
@@ -78,7 +78,7 @@
   height: 18px !important;
   border-radius: 50% !important;
   background: transparent !important;
-  border: 3px solid #ff9500 !important;
+  border: 3px solid #1cd8b6 !important;
 }
 
 .react-flow__handle-right {
@@ -87,7 +87,7 @@
   height: 18px !important;
   border-radius: 50% !important;
   background: transparent !important;
-  border: 3px solid #ff9500 !important;
+  border: 3px solid #1cd8b6 !important;
   transform: translateX(4em) !important;
 }
 
@@ -97,7 +97,7 @@
 
 /* ReactFlow Container */
 .react-flow {
-  @apply bg-zinc-950;
+  @apply bg-gray-50;
 }
 
 .react-flow__controls {
@@ -115,16 +115,16 @@
 
 /* Node Selection Styles */
 .react-flow__node.selected {
-  @apply ring-2 ring-orange-500 ring-offset-2 ring-offset-background;
+  @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
 }
 
 /* Edge Styles */
 .react-flow__edge-path {
-  @apply stroke-orange-500 stroke-2;
+  @apply stroke-primary stroke-2;
 }
 
 .react-flow__edge.selected .react-flow__edge-path {
-  @apply stroke-orange-400;
+  @apply stroke-primary-light;
 }
 
 /* Remove MiniMap */
@@ -134,7 +134,7 @@
 
 /* Modern Widget Styles */
 .react-flow__node {
-  @apply bg-zinc-900/90 backdrop-blur-sm border border-zinc-800 rounded-lg shadow-xl transition-shadow duration-200;
+  @apply bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-xl transition-shadow duration-200;
 }
 
 .react-flow__node-default,
@@ -144,7 +144,7 @@
 }
 
 .react-flow__node:hover {
-  @apply border-orange-500/30 shadow-orange-500/5;
+  @apply border-primary/30 shadow-primary/5;
 }
 
 /* Input Styles */
@@ -152,7 +152,7 @@ input[type="text"],
 input[type="number"],
 select,
 textarea {
-  @apply bg-zinc-800/50 border border-zinc-700/50 rounded-md px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/20 transition-all duration-200;
+  @apply bg-gray-50/50 border border-gray-200/50 rounded-md px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all duration-200;
 }
 
 /* Button Styles */
@@ -161,11 +161,11 @@ button {
 }
 
 .button-primary {
-  @apply bg-orange-500 hover:bg-orange-600 text-white rounded-md px-4 py-2 text-sm font-medium;
+  @apply bg-gradient-primary hover:opacity-90 text-white rounded-md px-4 py-2 text-sm font-medium;
 }
 
 .button-secondary {
-  @apply bg-zinc-800 hover:bg-zinc-700 text-zinc-100 rounded-md px-4 py-2 text-sm font-medium border border-zinc-700/50;
+  @apply bg-gray-50 hover:bg-gray-100 text-gray-900 rounded-md px-4 py-2 text-sm font-medium border border-gray-200/50;
 }
 
 /* Widget Content Styles */
@@ -178,9 +178,9 @@ button {
 }
 
 .widget-label {
-  @apply text-sm font-medium text-zinc-400;
+  @apply text-sm font-medium text-gray-600;
 }
 
 .widget-value {
-  @apply text-sm text-zinc-100;
+  @apply text-sm text-gray-900;
 }
