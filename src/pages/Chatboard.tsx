@@ -97,7 +97,7 @@ const mockMessages: Record<string, ChatMessage[]> = {
 };
 
 export default function Chatboard() {
-  const [contacts] = useState<ChatContact[]>(mockContacts);
+  const [contacts, setContacts] = useState<ChatContact[]>(mockContacts);
   const [selectedContactId, setSelectedContactId] = useState<string | undefined>();
   const [messages, setMessages] = useState<Record<string, ChatMessage[]>>(mockMessages);
   const [showIntro, setShowIntro] = useState(true);
@@ -106,7 +106,6 @@ export default function Chatboard() {
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
 
-    // Formata a mensagem com o cabeçalho em negrito e a mensagem em nova linha
     const formattedContent = `**[${currentDepartment?.name || 'Geral'}] John Doe:**\n${content}`;
 
     const newMessage: ChatMessage = {
@@ -124,6 +123,16 @@ export default function Chatboard() {
     }));
 
     console.log("Mensagem enviada:", formattedContent);
+  };
+
+  const handleUpdateContactStatus = (contactId: string, isSupport: boolean) => {
+    setContacts(prevContacts =>
+      prevContacts.map(contact =>
+        contact.id === contactId
+          ? { ...contact, isSupport }
+          : contact
+      )
+    );
   };
 
   const handleDepartmentChange = (departmentId: string) => {
@@ -159,6 +168,7 @@ export default function Chatboard() {
               contact={contacts.find(c => c.id === selectedContactId)!}
               messages={messages[selectedContactId]}
               onSendMessage={handleSendMessage}
+              onUpdateContactStatus={handleUpdateContactStatus}
             />
           )}
         </div>

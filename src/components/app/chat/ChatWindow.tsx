@@ -86,9 +86,12 @@ export function ChatWindow({
   const handleEndSupport = () => {
     const endMessage = "**Sistema:**\nAtendimento encerrado. Obrigado por utilizar nosso suporte!";
     onSendMessage(endMessage);
-    if (onUpdateContactStatus) {
+    
+    // Atualiza o status do contato para não estar mais em suporte
+    if (onUpdateContactStatus && contact.isSupport) {
       onUpdateContactStatus(contact.id, false);
     }
+    
     toast({
       title: "Atendimento encerrado",
       description: "O atendimento foi finalizado com sucesso.",
