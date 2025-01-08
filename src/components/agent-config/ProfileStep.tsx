@@ -5,6 +5,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
+import { Camera, Wand2 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const ProfileStep = () => {
   const form = useForm({
@@ -31,13 +33,31 @@ export const ProfileStep = () => {
             <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center">
               <div className="w-12 h-12 bg-white rounded-full" />
             </div>
-            <div className="absolute -bottom-2 right-0 flex gap-1">
-              <button className="w-6 h-6 bg-white rounded-full shadow flex items-center justify-center">
-                @
-              </button>
-              <button className="w-6 h-6 bg-white rounded-full shadow flex items-center justify-center">
-                ×
-              </button>
+            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button className="w-6 h-6 bg-white rounded-full shadow flex items-center justify-center hover:bg-gray-50 transition-colors">
+                      <Camera className="w-4 h-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Clique para selecionar uma imagem existente</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button className="w-6 h-6 bg-white rounded-full shadow flex items-center justify-center hover:bg-gray-50 transition-colors">
+                      <Wand2 className="w-4 h-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Gerar imagem com IA</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
         </div>
