@@ -18,7 +18,7 @@ export const VoiceSelector = ({ value, onChange }: VoiceSelectorProps) => {
       <FormControl>
         <Select value={value} onValueChange={onChange}>
           <SelectTrigger className="h-8">
-            <SelectValue placeholder="Selecione a voz" />
+            <SelectValue placeholder="Selecione uma voz para seu agente" />
           </SelectTrigger>
           <SelectContent>
             {voices.map((voice) => (

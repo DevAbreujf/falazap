@@ -21,8 +21,8 @@ export const ProfileStep = () => {
       communicationStyle: "normal",
       companyName: "",
       industry: "",
-      language: "pt-br",
-      voice: "Arla",
+      language: "pt-br", // Setting default language to Portuguese Brazil
+      voice: "", // Removing default voice selection
       description: "",
     },
   });
