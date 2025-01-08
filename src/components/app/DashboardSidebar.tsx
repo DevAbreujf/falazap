@@ -54,6 +54,12 @@ export function DashboardSidebar() {
       onClick: () => navigate("/connection"),
     },
     {
+      icon: MessageSquare,
+      label: "Conversas",
+      description: "Chat em tempo real",
+      onClick: () => navigate("/chatboard"),
+    },
+    {
       icon: Bot,
       label: "Agentes",
       description: "Gerencie seus agentes",
@@ -111,25 +117,23 @@ export function DashboardSidebar() {
       
       <SidebarHeader>
         <div className="p-4">
-          <div className="p-4 bg-gradient-to-r from-slate-50 to-white rounded-xl border border-slate-200 hover:border-slate-300 transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>JS</AvatarFallback>
-                </Avatar>
-                <div>
-                  <h3 className="text-sm font-medium text-slate-900">
-                    João Silva
-                  </h3>
-                  <p className="text-xs text-slate-500">
-                    Administrador
-                  </p>
-                </div>
+          <div className="p-3 bg-gradient-to-r from-slate-50 to-white rounded-lg border border-slate-200 hover:border-slate-300 transition-all duration-300">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-8 w-8 border-2 border-white shadow-sm">
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>JS</AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-medium text-slate-900 truncate">
+                  João Silva
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Administrador
+                </p>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="hover:bg-slate-100">
+                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-slate-100">
                     <Settings className="h-4 w-4 text-slate-600" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -157,16 +161,16 @@ export function DashboardSidebar() {
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     onClick={item.onClick}
-                    className="group relative flex w-full items-center gap-3 rounded-lg p-3 hover:bg-slate-50 transition-all duration-200"
+                    className="group relative flex w-full items-center gap-3 rounded-lg p-2.5 hover:bg-slate-50 transition-all duration-200"
                   >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
-                      <item.icon className="h-5 w-5 text-slate-600 group-hover:text-primary transition-colors" />
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
+                      <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-sm font-medium text-slate-900">
+                      <span className="text-sm font-medium text-slate-900 leading-tight">
                         {item.label}
                       </span>
-                      <span className="text-xs text-slate-500">
+                      <span className="text-xs text-slate-500 leading-tight">
                         {item.description}
                       </span>
                     </div>
