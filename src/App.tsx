@@ -18,6 +18,7 @@ import Chatboard from "@/pages/Chatboard";
 import Agentes from "@/pages/Agentes";
 import NovoAgente from "@/pages/NovoAgente";
 import ConfigurarAgente from "@/pages/ConfigurarAgente";
+import Users from "@/pages/Users";
 
 export default function App() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/agentes" element={<Agentes />} />
           <Route path="/agentes/novo" element={<NovoAgente />} />
           <Route path="/agentes/novo/configurar" element={<ConfigurarAgente />} />
+          <Route path="/users" element={<Users />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

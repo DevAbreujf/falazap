@@ -15,6 +15,7 @@ import {
   Calendar,
   Home,
   Bot,
+  User,
 } from "lucide-react";
 
 export function SidebarNavigation() {
@@ -44,6 +45,12 @@ export function SidebarNavigation() {
       label: "Agentes",
       description: "Gerencie seus agentes",
       onClick: () => navigate("/agentes"),
+    },
+    {
+      icon: User,
+      label: "Usuários",
+      description: "Gerencie seus usuários",
+      onClick: () => navigate("/users"),
     },
     {
       icon: Filter,
