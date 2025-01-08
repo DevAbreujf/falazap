@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WizardSteps } from "@/components/agent-config/WizardSteps";
+import { ProfileStep } from "@/components/agent-config/ProfileStep";
 import { BehaviorStep } from "@/components/agent-config/BehaviorStep";
 import { KnowledgeBaseStep } from "@/components/agent-config/KnowledgeBaseStep";
 
 export default function ConfigurarAgente() {
   const navigate = useNavigate();
-  const [step, setStep] = useState(3); // Set to 3 to show the Knowledge Base step
+  const [step, setStep] = useState(1);
   const [agentType] = useState<"standard" | "expert">("standard");
 
   return (
@@ -40,15 +41,22 @@ export default function ConfigurarAgente() {
         <WizardSteps currentStep={step} />
 
         {/* Step Content */}
-        {step === 2 && <BehaviorStep />}
-        {step === 3 && <KnowledgeBaseStep />}
+        <div className="bg-white rounded-lg shadow-sm p-8">
+          {step === 1 && <ProfileStep />}
+          {step === 2 && <BehaviorStep />}
+          {step === 3 && <KnowledgeBaseStep />}
+        </div>
 
         {/* Navigation */}
         <div className="flex justify-between">
-          <Button variant="outline" onClick={() => setStep(step - 1)}>
+          <Button 
+            variant="outline" 
+            onClick={() => step > 1 && setStep(step - 1)}
+            disabled={step === 1}
+          >
             Voltar
           </Button>
-          <Button onClick={() => setStep(step + 1)}>
+          <Button onClick={() => step < 3 && setStep(step + 1)}>
             Avançar
           </Button>
         </div>
