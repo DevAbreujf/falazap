@@ -17,6 +17,7 @@ import FunnelEditor from "@/pages/FunnelEditor";
 import Chatboard from "@/pages/Chatboard";
 import Agentes from "@/pages/Agentes";
 import NovoAgente from "@/pages/NovoAgente";
+import ConfigurarAgente from "@/pages/ConfigurarAgente";
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/chatboard" element={<Chatboard />} />
           <Route path="/agentes" element={<Agentes />} />
           <Route path="/agentes/novo" element={<NovoAgente />} />
+          <Route path="/agentes/novo/configurar" element={<ConfigurarAgente />} />
         </Routes>
       </BrowserRouter>
       <Toaster />
