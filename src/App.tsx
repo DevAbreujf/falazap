@@ -1,51 +1,48 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
-import ErrorBoundary from "@/components/ErrorBoundary";
-
-import Index from "@/pages/Index";
-import Auth from "@/pages/Auth";
-import Dashboard from "@/pages/Dashboard";
-import Contacts from "@/pages/Contacts";
-import Broadcasts from "@/pages/Broadcasts";
-import Reminders from "@/pages/Reminders";
-import Schedules from "@/pages/Schedules";
-import Settings from "@/pages/Settings";
-import Privacy from "@/pages/Privacy";
-import Connection from "@/pages/Connection";
-import Funnels from "@/pages/Funnels";
-import FunnelEditor from "@/pages/FunnelEditor";
-import Chatboard from "@/pages/Chatboard";
-import Agentes from "@/pages/Agentes";
-import NovoAgente from "@/pages/NovoAgente";
-import ConfigurarAgente from "@/pages/ConfigurarAgente";
-import Users from "@/pages/Users";
+import Users from "./pages/Users";
+import Departments from "./pages/Departments";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { DashboardSidebar } from "@/components/app/DashboardSidebar";
+import { Button } from "@/components/ui/button";
+import { Plus, Pencil, Trash2, Users } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { ContactsPagination } from "@/components/app/contacts/ContactsPagination";
 
 export default function App() {
   return (
-    <ErrorBoundary>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/broadcasts" element={<Broadcasts />} />
-          <Route path="/reminders" element={<Reminders />} />
-          <Route path="/schedules" element={<Schedules />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/connection" element={<Connection />} />
-          <Route path="/funnels" element={<Funnels />} />
-          <Route path="/funnels/editor" element={<FunnelEditor />} />
-          <Route path="/funnels/editor/:id" element={<FunnelEditor />} />
-          <Route path="/chatboard" element={<Chatboard />} />
-          <Route path="/agentes" element={<Agentes />} />
-          <Route path="/agentes/novo" element={<NovoAgente />} />
-          <Route path="/agentes/novo/configurar" element={<ConfigurarAgente />} />
-          <Route path="/users" element={<Users />} />
-        </Routes>
-      </BrowserRouter>
-      <Toaster />
-    </ErrorBoundary>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/users" element={<Users />} />
+        <Route path="/departments" element={<Departments />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
