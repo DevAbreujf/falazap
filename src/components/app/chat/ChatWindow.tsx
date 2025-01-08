@@ -2,14 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Paperclip, Send } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
-import { Archive, MoreVertical, Paperclip, Send, UserPlus } from "lucide-react";
 import { useState } from "react";
 
 interface ChatWindowProps {
@@ -38,55 +32,31 @@ export function ChatWindow({ contact, messages, onSendMessage }: ChatWindowProps
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB in bytes
+      if (file.size > 5 * 1024 * 1024) {
         alert("O arquivo é muito grande. O tamanho máximo permitido é 5MB.");
         return;
       }
-      // Here you would handle the file upload
       console.log("File to upload:", file);
     }
   };
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)]">
-      <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src={contact.avatar} />
-            <AvatarFallback>{contact.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-          </Avatar>
-          <div>
-            <h2 className="font-semibold">{contact.name}</h2>
-            <div className="flex items-center gap-2">
-              <p className="text-sm text-muted-foreground">
-                {contact.status === 'online' ? 'Online' : 'Offline'}
-              </p>
-              <Badge variant="outline" className="text-xs">
-                {contact.funnelName || 'Geral'}
-              </Badge>
-            </div>
+      <div className="p-4 border-b border-primary/10 bg-card flex items-center gap-3">
+        <Avatar className="h-10 w-10">
+          <AvatarImage src={contact.avatar} />
+          <AvatarFallback>{contact.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+        </Avatar>
+        <div>
+          <h2 className="font-semibold">{contact.name}</h2>
+          <div className="flex items-center gap-2">
+            <p className="text-sm text-muted-foreground">
+              {contact.status === 'online' ? 'Online' : 'Offline'}
+            </p>
+            <Badge variant="outline" className="text-xs">
+              {contact.funnelName || 'Geral'}
+            </Badge>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
-            <UserPlus className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon">
-            <Archive className="h-5 w-5" />
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <MoreVertical className="h-5 w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>Ver perfil</DropdownMenuItem>
-              <DropdownMenuItem>Editar contato</DropdownMenuItem>
-              <DropdownMenuItem>Arquivar conversa</DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive">Bloquear</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
 
