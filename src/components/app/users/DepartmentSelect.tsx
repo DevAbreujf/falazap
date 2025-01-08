@@ -19,16 +19,8 @@ interface DepartmentSelectProps {
 }
 
 export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps) {
-  console.log("Current department value:", value); // Debug log
-
   return (
-    <Select 
-      defaultValue={value} 
-      onValueChange={(newValue) => {
-        console.log("Selected new department:", newValue); // Debug log
-        onValueChange(newValue);
-      }}
-    >
+    <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger>
         <SelectValue placeholder="Selecione um setor" />
       </SelectTrigger>
