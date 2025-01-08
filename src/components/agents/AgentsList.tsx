@@ -1,8 +1,8 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { Badge } from "@/components/ui/badge"
-import { Edit, Copy, Trash2, MessageSquare, Instagram, MessagesSquare } from "lucide-react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Edit, Copy, Trash2 } from "lucide-react";
 
 interface AgentsListProps {
   filteredAgents: Array<{
@@ -21,12 +21,11 @@ export function AgentsList({ filteredAgents, onSelectAgent }: AgentsListProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
+            <TableHead>Nome</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Last Update</TableHead>
-            <TableHead>Monthly Interactions</TableHead>
-            <TableHead>Integrations</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>Última Atualização</TableHead>
+            <TableHead>Interações Mensais</TableHead>
+            <TableHead>Ações</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -36,16 +35,9 @@ export function AgentsList({ filteredAgents, onSelectAgent }: AgentsListProps) {
               <TableCell>
                 <Switch checked={agent.status} />
               </TableCell>
-              <TableCell>{new Date(agent.lastUpdate).toLocaleDateString()}</TableCell>
+              <TableCell>{new Date(agent.lastUpdate).toLocaleDateString('pt-BR')}</TableCell>
               <TableCell>
                 <Badge variant="secondary">{agent.interactions}</Badge>
-              </TableCell>
-              <TableCell>
-                <div className="flex gap-2">
-                  <MessageSquare className="h-4 w-4 text-muted-foreground" />
-                  <Instagram className="h-4 w-4 text-muted-foreground" />
-                  <MessagesSquare className="h-4 w-4 text-muted-foreground" />
-                </div>
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">
@@ -69,5 +61,5 @@ export function AgentsList({ filteredAgents, onSelectAgent }: AgentsListProps) {
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
