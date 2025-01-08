@@ -150,6 +150,35 @@ export function DashboardSidebar() {
               </DropdownMenu>
             </div>
           </div>
+          
+          {/* Phone number selection moved here */}
+          <div className="mt-2 p-2 bg-white border border-slate-200 hover:border-slate-300 rounded-lg transition-all duration-300">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-between hover:bg-slate-50 p-1.5 h-auto"
+                >
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-slate-600" />
+                    <span className="text-sm">+55 11 99999-9999</span>
+                    <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 text-xs">
+                      conectado
+                    </Badge>
+                  </div>
+                  <ChevronDown className="h-4 w-4 text-slate-400" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem className="hover:bg-slate-50">
+                  +55 11 88888-8888
+                </DropdownMenuItem>
+                <DropdownMenuItem className="hover:bg-slate-50">
+                  +55 11 77777-7777
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </SidebarHeader>
       

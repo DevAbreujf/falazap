@@ -77,34 +77,6 @@ export default function Dashboard() {
                 </div>
 
                 <div className="w-full md:w-auto flex items-center gap-4">
-                  <div className="bg-white border border-slate-200 hover:border-slate-300 p-3 rounded-lg flex-1 md:flex-none transition-all duration-300">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button 
-                          variant="ghost" 
-                          className="w-full justify-between hover:bg-slate-50"
-                        >
-                          <div className="flex items-center gap-2">
-                            <Phone className="h-4 w-4 text-slate-600" />
-                            <span>+55 11 99999-9999</span>
-                            <Badge variant="secondary" className="bg-emerald-50 text-emerald-700">
-                              conectado
-                            </Badge>
-                          </div>
-                          <ChevronDown className="h-4 w-4 text-slate-400" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-56">
-                        <DropdownMenuItem className="hover:bg-slate-50">
-                          +55 11 88888-8888
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="hover:bg-slate-50">
-                          +55 11 77777-7777
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-
                   <div className="text-center">
                     <p className="text-sm text-slate-600 mb-2">
                       Plano atual: <span className="font-medium text-primary">Pro</span>
