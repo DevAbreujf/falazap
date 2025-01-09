@@ -103,6 +103,7 @@ export interface WeekdaysNodeData extends BaseNodeData {
 }
 
 export interface TransferDepartmentNodeData extends BaseNodeData {
+  rule: 'specific' | 'previous';
   department?: string;
   requirePermission: boolean;
   activateFailureFlow: boolean;
