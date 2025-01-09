@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/table";
 import { UserActions } from "./UserActions";
 import { DepartmentChangeDialog } from "./DepartmentChangeDialog";
+import { useToast } from "@/components/ui/use-toast";
 
 interface User {
   id: number;
@@ -39,7 +40,7 @@ interface DepartmentUsersProps {
   users: User[];
   onAddUser: (user: User) => void;
   onRemoveUser: (userId: number) => void;
-  onChangeDepartment: (userId: number, newDepartment: string) => void;
+  onChangeDepartment: (userId: number, newDepartment: string, action: 'change' | 'add') => void;
   departments: { id: number; name: string }[];
 }
 
@@ -55,6 +56,7 @@ export function DepartmentUsers({
   const [searchTerm, setSearchTerm] = useState("");
   const [userToRemove, setUserToRemove] = useState<User | null>(null);
   const [userToChangeDepartment, setUserToChangeDepartment] = useState<User | null>(null);
+  const { toast } = useToast();
 
   // Mock data for all users - in a real app, this would come from an API
   const allUsers: User[] = [
@@ -70,25 +72,33 @@ export function DepartmentUsers({
   const handleAddUserToDepartment = (user: User) => {
     onAddUser(user);
     setIsAddingUser(false);
+    toast({
+      title: "Usuário adicionado",
+      description: `${user.name} foi adicionado ao setor ${departmentName}`,
+    });
   };
 
   const handleRemoveUser = () => {
     if (userToRemove) {
       onRemoveUser(userToRemove.id);
       setUserToRemove(null);
+      toast({
+        title: "Usuário removido",
+        description: `${userToRemove.name} foi removido do setor ${departmentName}`,
+      });
     }
   };
 
   const handleDepartmentChange = (newDepartment: string, action: 'change' | 'add') => {
     if (userToChangeDepartment) {
-      if (action === 'change') {
-        onChangeDepartment(userToChangeDepartment.id, newDepartment);
-      } else {
-        // Here you would handle adding the user to an additional department
-        // This would require modifying the onChangeDepartment prop to handle both cases
-        onChangeDepartment(userToChangeDepartment.id, newDepartment);
-      }
+      onChangeDepartment(userToChangeDepartment.id, newDepartment, action);
       setUserToChangeDepartment(null);
+      
+      const actionText = action === 'change' ? 'movido para' : 'adicionado ao';
+      toast({
+        title: action === 'change' ? "Setor alterado" : "Adicionado a novo setor",
+        description: `${userToChangeDepartment.name} foi ${actionText} setor ${newDepartment}`,
+      });
     }
   };
 
@@ -136,15 +146,13 @@ export function DepartmentUsers({
           </DialogHeader>
           <div className="space-y-4">
             <div className="flex">
-              <div className="relative w-full max-w-sm">
-                <input
-                  type="text"
-                  placeholder="Buscar usuários..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-md"
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="Buscar usuários..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md"
+              />
             </div>
             <Table>
               <TableHeader>

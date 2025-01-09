@@ -90,19 +90,21 @@ export default function Departments() {
     }
   };
 
-  const handleChangeDepartment = (userId: number, newDepartmentName: string) => {
+  const handleChangeDepartment = (userId: number, newDepartmentName: string, action: 'change' | 'add') => {
     if (selectedDepartment) {
       const userToMove = selectedDepartment.users.find(user => user.id === userId);
       if (!userToMove) return;
 
       const updatedDepartments = departments.map(dept => {
         if (dept.name === newDepartmentName) {
+          // Add user to new department
           return {
             ...dept,
             users: [...dept.users, { ...userToMove, department: newDepartmentName }]
           };
         }
-        if (dept.id === selectedDepartment.id) {
+        if (dept.id === selectedDepartment.id && action === 'change') {
+          // Remove user from current department only if action is 'change'
           return {
             ...dept,
             users: dept.users.filter(user => user.id !== userId)
@@ -112,10 +114,14 @@ export default function Departments() {
       });
       
       setDepartments(updatedDepartments);
-      setSelectedDepartment({
-        ...selectedDepartment,
-        users: selectedDepartment.users.filter(user => user.id !== userId)
-      });
+      
+      if (action === 'change') {
+        // Update selected department state only if user is being moved
+        setSelectedDepartment({
+          ...selectedDepartment,
+          users: selectedDepartment.users.filter(user => user.id !== userId)
+        });
+      }
     }
   };
 
