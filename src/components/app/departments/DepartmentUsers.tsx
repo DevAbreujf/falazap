@@ -92,13 +92,13 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
           <div className="space-y-4">
             <div className="flex">
               <div className="relative w-full max-w-sm">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Buscar usuários..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-2 border rounded-md"
+                  className="w-full pl-10 pr-4 py-2 border rounded-md placeholder:pl-2"
                 />
               </div>
             </div>
