@@ -6,7 +6,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Search } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -26,9 +25,10 @@ interface User {
 interface DepartmentUsersProps {
   departmentName: string;
   users: User[];
+  onAddUser: (user: User) => void;
 }
 
-export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps) {
+export function DepartmentUsers({ departmentName, users, onAddUser }: DepartmentUsersProps) {
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -46,6 +46,7 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
   const handleAddUserToDepartment = (user: User) => {
     // In a real app, this would make an API call to add the user to the department
     console.log(`Adding user ${user.name} to department ${departmentName}`);
+    onAddUser(user);
     setIsAddingUser(false);
   };
 
@@ -92,13 +93,12 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
           <div className="space-y-4">
             <div className="flex">
               <div className="relative w-full max-w-sm">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Buscar usuários..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-md placeholder:pl-2"
+                  className="w-full px-4 py-2 border rounded-md"
                 />
               </div>
             </div>

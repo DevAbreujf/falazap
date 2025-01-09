@@ -50,6 +50,26 @@ export default function Departments() {
     }
   };
 
+  const handleAddUserToDepartment = (user: User) => {
+    if (selectedDepartment) {
+      const updatedDepartments = departments.map(dept => {
+        if (dept.id === selectedDepartment.id) {
+          return {
+            ...dept,
+            users: [...dept.users, user]
+          };
+        }
+        return dept;
+      });
+      
+      setDepartments(updatedDepartments);
+      setSelectedDepartment({
+        ...selectedDepartment,
+        users: [...selectedDepartment.users, user]
+      });
+    }
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
@@ -86,6 +106,7 @@ export default function Departments() {
                 <DepartmentUsers 
                   departmentName={selectedDepartment.name}
                   users={selectedDepartment.users}
+                  onAddUser={handleAddUserToDepartment}
                 />
               </div>
             )}
