@@ -109,6 +109,7 @@ export function DepartmentsList({
               <TableRow
                 key={department.id}
                 className="cursor-pointer hover:bg-gray-50"
+                onClick={() => setSelectedDepartment(department)}
               >
                 <TableCell>{department.name}</TableCell>
                 <TableCell>
@@ -121,7 +122,10 @@ export function DepartmentsList({
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => setSelectedDepartment(department)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent row click when clicking the button
+                      setSelectedDepartment(department);
+                    }}
                   >
                     Ver Usuários
                   </Button>

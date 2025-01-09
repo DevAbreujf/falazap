@@ -43,10 +43,19 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleAddUserToDepartment = (user: User) => {
+    // In a real app, this would make an API call to add the user to the department
+    console.log(`Adding user ${user.name} to department ${departmentName}`);
+    setIsAddingUser(false);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Usuários do Setor: {departmentName}</h2>
+        <div className="space-y-1">
+          <h2 className="text-2xl font-bold text-gray-900">Usuários do Setor</h2>
+          <p className="text-sm text-gray-500">{departmentName}</p>
+        </div>
         <Button onClick={() => setIsAddingUser(true)}>
           Adicionar Usuário ao Setor
         </Button>
@@ -81,15 +90,17 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
             <DialogTitle>Adicionar Usuário ao Setor</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Buscar usuários..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 border rounded-md"
-              />
+            <div className="flex justify-end">
+              <div className="relative w-full max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Buscar usuários..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 border rounded-md"
+                />
+              </div>
             </div>
             <Table>
               <TableHeader>
@@ -105,7 +116,11 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
                     <TableCell>{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleAddUserToDepartment(user)}
+                      >
                         Adicionar ao Setor
                       </Button>
                     </TableCell>
