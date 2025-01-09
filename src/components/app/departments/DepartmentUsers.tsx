@@ -98,7 +98,7 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
                   placeholder="Buscar usuários..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-md"
+                  className="w-full pl-12 pr-4 py-2 border rounded-md"
                 />
               </div>
             </div>
