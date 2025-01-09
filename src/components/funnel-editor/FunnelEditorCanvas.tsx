@@ -1,11 +1,5 @@
 import { useCallback } from "react";
-import {
-  ReactFlow,
-  Background,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-} from "@xyflow/react";
+import { ReactFlow, Background, useNodesState, useEdgesState, addEdge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { StartNode } from "./nodes/StartNode";

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
-function EditTagsNode({ data }) {
+export const EditTagsNode = memo(({ data }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 min-w-[200px]">
       <Handle type="target" position={Position.Top} className="w-2 h-2" />
@@ -12,6 +12,6 @@ function EditTagsNode({ data }) {
       <Handle type="source" position={Position.Bottom} className="w-2 h-2" />
     </div>
   );
-}
+});
 
-export default memo(EditTagsNode);
+EditTagsNode.displayName = 'EditTagsNode';

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
-function EndChatNode({ data }) {
+export const EndChatNode = memo(({ data }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 min-w-[200px]">
       <Handle type="target" position={Position.Top} className="w-2 h-2" />
@@ -11,6 +11,6 @@ function EndChatNode({ data }) {
       </div>
     </div>
   );
-}
+});
 
-export default memo(EndChatNode);
+EndChatNode.displayName = 'EndChatNode';
