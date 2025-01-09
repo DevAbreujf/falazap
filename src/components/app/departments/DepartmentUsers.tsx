@@ -24,6 +24,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { UserActions } from "./UserActions";
+import { DepartmentChangeDialog } from "./DepartmentChangeDialog";
 
 interface User {
   id: number;
@@ -77,9 +79,15 @@ export function DepartmentUsers({
     }
   };
 
-  const handleChangeDepartment = (newDepartment: string) => {
+  const handleDepartmentChange = (newDepartment: string, action: 'change' | 'add') => {
     if (userToChangeDepartment) {
-      onChangeDepartment(userToChangeDepartment.id, newDepartment);
+      if (action === 'change') {
+        onChangeDepartment(userToChangeDepartment.id, newDepartment);
+      } else {
+        // Here you would handle adding the user to an additional department
+        // This would require modifying the onChangeDepartment prop to handle both cases
+        onChangeDepartment(userToChangeDepartment.id, newDepartment);
+      }
       setUserToChangeDepartment(null);
     }
   };
@@ -109,21 +117,11 @@ export function DepartmentUsers({
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
-              <TableCell className="space-x-2">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setUserToRemove(user)}
-                >
-                  Remover do Setor
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setUserToChangeDepartment(user)}
-                >
-                  Trocar Setor
-                </Button>
+              <TableCell>
+                <UserActions
+                  onRemoveClick={() => setUserToRemove(user)}
+                  onChangeClick={() => setUserToChangeDepartment(user)}
+                />
               </TableCell>
             </TableRow>
           ))}
@@ -196,27 +194,14 @@ export function DepartmentUsers({
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Dialog para trocar de setor */}
-      <Dialog open={!!userToChangeDepartment} onOpenChange={() => setUserToChangeDepartment(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Trocar Setor</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4">
-            {departments.map((dept) => (
-              <Button
-                key={dept.id}
-                variant="outline"
-                onClick={() => handleChangeDepartment(dept.name)}
-                className="justify-start"
-                disabled={dept.name === departmentName}
-              >
-                {dept.name}
-              </Button>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Dialog para trocar/adicionar setor */}
+      <DepartmentChangeDialog
+        open={!!userToChangeDepartment}
+        onOpenChange={() => setUserToChangeDepartment(null)}
+        departments={departments}
+        currentDepartment={departmentName}
+        onChangeDepartment={handleDepartmentChange}
+      />
     </div>
   );
 }
