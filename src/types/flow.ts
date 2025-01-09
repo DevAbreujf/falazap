@@ -83,6 +83,61 @@ export interface PathsNodeData extends BaseNodeData {
   fallback?: boolean;
 }
 
+export interface ScheduleNodeData extends BaseNodeData {
+  timezone: string;
+  intervals: Array<{
+    start: string;
+    end: string;
+  }>;
+}
+
+export interface WeekdaysNodeData extends BaseNodeData {
+  days: Array<{
+    day: string;
+    enabled: boolean;
+    schedule?: {
+      start: string;
+      end: string;
+    };
+  }>;
+}
+
+export interface TransferDepartmentNodeData extends BaseNodeData {
+  department?: string;
+  requirePermission: boolean;
+  activateFailureFlow: boolean;
+}
+
+export interface RequestRatingNodeData extends BaseNodeData {
+  message: string;
+  showAsMenu: boolean;
+  activateInvalidFlow: boolean;
+  activateNoResponseFlow: boolean;
+}
+
+export interface TransferAgentNodeData extends BaseNodeData {
+  agent?: string;
+  onlyIfAvailable: boolean;
+  activateFailureFlow: boolean;
+}
+
+export interface EditTagsNodeData extends BaseNodeData {
+  action: "add" | "remove";
+  tags: string[];
+}
+
+export interface NotifyAgentNodeData extends BaseNodeData {
+  title: string;
+  message: string;
+  rule: "current" | "specific";
+  agent?: string;
+  onlyIfAvailable: boolean;
+}
+
+export interface EndChatNodeData extends BaseNodeData {
+  closedBy: "system" | "agent" | "user" | "none";
+}
+
 export type NodeData = 
   | StartNodeData 
   | TextNodeData 
@@ -93,7 +148,15 @@ export type NodeData =
   | DelayNodeData 
   | QuestionNodeData 
   | TagsNodeData 
-  | PathsNodeData;
+  | PathsNodeData
+  | ScheduleNodeData
+  | WeekdaysNodeData
+  | TransferDepartmentNodeData
+  | RequestRatingNodeData
+  | TransferAgentNodeData
+  | EditTagsNodeData
+  | NotifyAgentNodeData
+  | EndChatNodeData;
 
 export interface FlowNode extends Node {
   id: string;

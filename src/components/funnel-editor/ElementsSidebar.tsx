@@ -1,4 +1,4 @@
-import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags, Share2, FileText } from "lucide-react";
+import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags, Share2, FileText, Calendar, Users, Star, UserCheck, Tag, Bell, XCircle } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 const widgets = [
@@ -29,6 +29,62 @@ const widgets = [
     icon: FileText,
     group: "Mensagens",
     description: "Envie um arquivo"
+  },
+  {
+    type: "schedule",
+    label: "Horários",
+    icon: Clock,
+    group: "Configurações",
+    description: "Configure horários de atendimento"
+  },
+  {
+    type: "weekdays",
+    label: "Dias da Semana",
+    icon: Calendar,
+    group: "Configurações",
+    description: "Configure dias de atendimento"
+  },
+  {
+    type: "transferDepartment",
+    label: "Transferir para Setor",
+    icon: Users,
+    group: "Transferências",
+    description: "Transfere para um setor"
+  },
+  {
+    type: "requestRating",
+    label: "Pedir Avaliação",
+    icon: Star,
+    group: "Interações",
+    description: "Solicita avaliação do cliente"
+  },
+  {
+    type: "transferAgent",
+    label: "Transferir p/ Atendente",
+    icon: UserCheck,
+    group: "Transferências",
+    description: "Transfere para um atendente"
+  },
+  {
+    type: "editTags",
+    label: "Editar Etiquetas",
+    icon: Tag,
+    group: "Gerenciamento",
+    description: "Gerencia etiquetas da conversa"
+  },
+  {
+    type: "notifyAgent",
+    label: "Notificar Atendente",
+    icon: Bell,
+    group: "Notificações",
+    description: "Envia notificação ao atendente"
+  },
+  {
+    type: "endChat",
+    label: "Finalizar Conversa",
+    icon: XCircle,
+    group: "Gerenciamento",
+    description: "Encerra a conversa atual"
   },
   {
     type: "paths",
@@ -90,34 +146,36 @@ export function ElementsSidebar() {
         </p>
       </div>
       
-      <div className="p-3">
-        {Object.entries(groupedWidgets).map(([group, items]) => (
-          <div key={group} className="mb-4">
-            <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 px-1">
-              {group}
-            </h3>
-            <div className="grid grid-cols-2 gap-2">
-              {items.map((widget) => (
-                <div
-                  key={widget.type}
-                  draggable
-                  onDragStart={(e) => onDragStart(e, widget.type)}
-                  className="relative group rounded-lg border border-zinc-800/50 bg-zinc-900/50 hover:bg-zinc-800/50 hover:border-orange-500/30 p-2.5 cursor-move transition-all duration-200"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="rounded-md bg-orange-500/10 p-2">
-                      <widget.icon className="h-4 w-4 text-orange-500" />
+      <ScrollArea className="h-[calc(100vh-5rem)]">
+        <div className="p-3">
+          {Object.entries(groupedWidgets).map(([group, items]) => (
+            <div key={group} className="mb-4">
+              <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 px-1">
+                {group}
+              </h3>
+              <div className="grid grid-cols-2 gap-2">
+                {items.map((widget) => (
+                  <div
+                    key={widget.type}
+                    draggable
+                    onDragStart={(e) => onDragStart(e, widget.type)}
+                    className="relative group rounded-lg border border-zinc-800/50 bg-zinc-900/50 hover:bg-zinc-800/50 hover:border-orange-500/30 p-2.5 cursor-move transition-all duration-200"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="rounded-md bg-orange-500/10 p-2">
+                        <widget.icon className="h-4 w-4 text-orange-500" />
+                      </div>
+                      <span className="text-sm font-medium text-zinc-200">
+                        {widget.label}
+                      </span>
                     </div>
-                    <span className="text-sm font-medium text-zinc-200">
-                      {widget.label}
-                    </span>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </ScrollArea>
     </div>
   );
 }

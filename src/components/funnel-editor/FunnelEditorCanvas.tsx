@@ -21,6 +21,14 @@ import { DelayNode } from "./nodes/DelayNode";
 import { QuestionNode } from "./nodes/QuestionNode";
 import { TagsNode } from "./nodes/TagsNode";
 import { ForwardingNode } from "./nodes/ForwardingNode";
+import { ScheduleNode } from "./nodes/ScheduleNode";
+import { WeekdaysNode } from "./nodes/WeekdaysNode";
+import { TransferDepartmentNode } from "./nodes/TransferDepartmentNode";
+import { RequestRatingNode } from "./nodes/RequestRatingNode";
+import { TransferAgentNode } from "./nodes/TransferAgentNode";
+import { EditTagsNode } from "./nodes/EditTagsNode";
+import { NotifyAgentNode } from "./nodes/NotifyAgentNode";
+import { EndChatNode } from "./nodes/EndChatNode";
 
 const nodeTypes = {
   start: StartNode,
@@ -34,6 +42,14 @@ const nodeTypes = {
   question: QuestionNode,
   tags: TagsNode,
   forwarding: ForwardingNode,
+  schedule: ScheduleNode,
+  weekdays: WeekdaysNode,
+  transferDepartment: TransferDepartmentNode,
+  requestRating: RequestRatingNode,
+  transferAgent: TransferAgentNode,
+  editTags: EditTagsNode,
+  notifyAgent: NotifyAgentNode,
+  endChat: EndChatNode,
 };
 
 const initialNodes = [
@@ -88,10 +104,6 @@ export function FunnelEditorCanvas() {
         position,
         data: {
           label: `${type} node`,
-          ...(type === "start" && {
-            triggers: [],
-            delay: { value: 0, unit: "seconds" },
-          }),
         },
         deletable: type !== "start",
       };
