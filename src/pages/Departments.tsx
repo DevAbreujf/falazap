@@ -1,30 +1,7 @@
 import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
-import { Button } from "@/components/ui/button";
-import { Plus, Users } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { DepartmentsList } from "@/components/app/departments/DepartmentsList";
 import { DepartmentUsers } from "@/components/app/departments/DepartmentUsers";
 
 interface Department {
@@ -80,114 +57,28 @@ export default function Departments() {
         <div className="flex-1 overflow-auto">
           <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10">
             {!selectedDepartment ? (
-              <>
-                <div className="flex justify-between items-center mb-6">
-                  <h1 className="text-2xl font-bold">Setores</h1>
-                  <Dialog open={isAddingDepartment} onOpenChange={setIsAddingDepartment}>
-                    <DialogTrigger asChild>
-                      <Button>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Adicionar Setor
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Adicionar Novo Setor</DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="text-sm font-medium">Nome do Setor</label>
-                          <input
-                            type="text"
-                            value={newDepartmentName}
-                            onChange={(e) => setNewDepartmentName(e.target.value)}
-                            className="w-full p-2 border rounded-md"
-                          />
-                        </div>
-                        <Button onClick={handleAddDepartment}>Cadastrar Setor</Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-
-                <div className="bg-white rounded-lg shadow">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Nome do Setor</TableHead>
-                        <TableHead>Usuários</TableHead>
-                        <TableHead>Ações</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {currentDepartments.map((department) => (
-                        <TableRow
-                          key={department.id}
-                          className="cursor-pointer hover:bg-gray-50"
-                        >
-                          <TableCell>{department.name}</TableCell>
-                          <TableCell>
-                            <div className="flex items-center">
-                              <Users className="h-4 w-4 mr-2" />
-                              {department.users.length} usuários
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              onClick={() => setSelectedDepartment(department)}
-                            >
-                              Ver Usuários
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-
-                  {totalPages > 1 && (
-                    <div className="py-4">
-                      <Pagination>
-                        <PaginationContent>
-                          <PaginationItem>
-                            <PaginationPrevious
-                              href="#"
-                              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                            />
-                          </PaginationItem>
-                          {Array.from({ length: totalPages }).map((_, index) => (
-                            <PaginationItem key={index + 1}>
-                              <PaginationLink
-                                href="#"
-                                onClick={() => setCurrentPage(index + 1)}
-                                isActive={currentPage === index + 1}
-                              >
-                                {index + 1}
-                              </PaginationLink>
-                            </PaginationItem>
-                          ))}
-                          <PaginationItem>
-                            <PaginationNext
-                              href="#"
-                              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                            />
-                          </PaginationItem>
-                        </PaginationContent>
-                      </Pagination>
-                    </div>
-                  )}
-                </div>
-              </>
+              <DepartmentsList
+                departments={departments}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+                currentDepartments={currentDepartments}
+                setSelectedDepartment={setSelectedDepartment}
+                isAddingDepartment={isAddingDepartment}
+                setIsAddingDepartment={setIsAddingDepartment}
+                newDepartmentName={newDepartmentName}
+                setNewDepartmentName={setNewDepartmentName}
+                handleAddDepartment={handleAddDepartment}
+              />
             ) : (
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <Button 
-                    variant="outline"
+                  <button 
+                    className="px-4 py-2 border rounded-md hover:bg-slate-50"
                     onClick={() => setSelectedDepartment(null)}
                   >
                     Voltar
-                  </Button>
+                  </button>
                   <h1 className="text-2xl font-bold">
                     Setor: {selectedDepartment.name}
                   </h1>
