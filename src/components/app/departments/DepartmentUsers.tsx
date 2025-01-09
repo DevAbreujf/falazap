@@ -90,7 +90,7 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
             <DialogTitle>Adicionar Usuário ao Setor</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="flex justify-end">
+            <div className="flex">
               <div className="relative w-full max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
@@ -98,7 +98,7 @@ export function DepartmentUsers({ departmentName, users }: DepartmentUsersProps)
                   placeholder="Buscar usuários..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 border rounded-md"
+                  className="w-full pl-10 pr-4 py-2 border rounded-md"
                 />
               </div>
             </div>
