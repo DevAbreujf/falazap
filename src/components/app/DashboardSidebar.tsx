@@ -1,5 +1,6 @@
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +15,8 @@ import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 
 export function DashboardSidebar() {
+  const navigate = useNavigate();
+  
   // Mock data for connected phones - in a real app, this would come from a context or API
   const connectedPhones: { number: string; isConnected: boolean }[] = [
     { number: "+55 11 99999-9999", isConnected: true },
@@ -46,7 +49,7 @@ export function DashboardSidebar() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => window.location.href = '/departments'}
+              onClick={() => navigate('/departments')}
               className="w-full justify-start"
             >
               <span className="truncate">Setores</span>
@@ -54,7 +57,7 @@ export function DashboardSidebar() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => window.location.href = '/users'}
+              onClick={() => navigate('/users')}
               className="w-full justify-start"
             >
               <span className="truncate">Usuários</span>
