@@ -5,8 +5,6 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
-  Connection,
-  Edge,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -74,7 +72,7 @@ export function FunnelEditorCanvas() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const onConnect = useCallback(
-    (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
+    (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
 
@@ -104,6 +102,11 @@ export function FunnelEditorCanvas() {
         position,
         data: {
           label: `${type} node`,
+          triggers: [],
+          delay: {
+            value: 0,
+            unit: "seconds",
+          },
         },
         deletable: type !== "start",
       };
