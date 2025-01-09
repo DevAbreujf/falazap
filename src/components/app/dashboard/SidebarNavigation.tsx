@@ -8,14 +8,12 @@ import {
   BarChart3,
   Filter,
   MessageSquare,
-  Users,
   Phone,
   Send,
   Bell,
   Calendar,
   Home,
   Bot,
-  User,
 } from "lucide-react";
 
 export function SidebarNavigation() {
@@ -47,12 +45,6 @@ export function SidebarNavigation() {
       onClick: () => navigate("/agentes"),
     },
     {
-      icon: User,
-      label: "Usuários",
-      description: "Gerencie seus usuários",
-      onClick: () => navigate("/users"),
-    },
-    {
       icon: Filter,
       label: "Funis",
       description: "Gerencie seus funis",
@@ -75,12 +67,6 @@ export function SidebarNavigation() {
       label: "Lista de Agendamentos",
       description: "Visualize seus agendamentos",
       onClick: () => navigate("/schedules"),
-    },
-    {
-      icon: Users,
-      label: "Contatos",
-      description: "Gerencie seus contatos",
-      onClick: () => navigate("/contacts"),
     },
   ];
 

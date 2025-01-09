@@ -42,6 +42,24 @@ export function DashboardSidebar() {
       <SidebarHeader>
         <div className="p-4">
           <SidebarUserProfile />
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.location.href = '/departments'}
+              className="w-full justify-start"
+            >
+              <span className="truncate">Setores</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.location.href = '/users'}
+              className="w-full justify-start"
+            >
+              <span className="truncate">Usuários</span>
+            </Button>
+          </div>
           <SidebarPhoneSection connectedPhones={connectedPhones} />
         </div>
       </SidebarHeader>
