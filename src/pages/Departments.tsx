@@ -70,6 +70,55 @@ export default function Departments() {
     }
   };
 
+  const handleRemoveUserFromDepartment = (userId: number) => {
+    if (selectedDepartment) {
+      const updatedDepartments = departments.map(dept => {
+        if (dept.id === selectedDepartment.id) {
+          return {
+            ...dept,
+            users: dept.users.filter(user => user.id !== userId)
+          };
+        }
+        return dept;
+      });
+      
+      setDepartments(updatedDepartments);
+      setSelectedDepartment({
+        ...selectedDepartment,
+        users: selectedDepartment.users.filter(user => user.id !== userId)
+      });
+    }
+  };
+
+  const handleChangeDepartment = (userId: number, newDepartmentName: string) => {
+    if (selectedDepartment) {
+      const userToMove = selectedDepartment.users.find(user => user.id === userId);
+      if (!userToMove) return;
+
+      const updatedDepartments = departments.map(dept => {
+        if (dept.name === newDepartmentName) {
+          return {
+            ...dept,
+            users: [...dept.users, { ...userToMove, department: newDepartmentName }]
+          };
+        }
+        if (dept.id === selectedDepartment.id) {
+          return {
+            ...dept,
+            users: dept.users.filter(user => user.id !== userId)
+          };
+        }
+        return dept;
+      });
+      
+      setDepartments(updatedDepartments);
+      setSelectedDepartment({
+        ...selectedDepartment,
+        users: selectedDepartment.users.filter(user => user.id !== userId)
+      });
+    }
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
@@ -107,6 +156,9 @@ export default function Departments() {
                   departmentName={selectedDepartment.name}
                   users={selectedDepartment.users}
                   onAddUser={handleAddUserToDepartment}
+                  onRemoveUser={handleRemoveUserFromDepartment}
+                  onChangeDepartment={handleChangeDepartment}
+                  departments={departments}
                 />
               </div>
             )}
