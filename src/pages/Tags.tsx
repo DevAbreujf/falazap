@@ -8,17 +8,7 @@ import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
-
-const EMOJI_CATEGORIES = [
-  { id: 'nature', label: '🌿', title: 'Natureza' },
-  { id: 'food', label: '🍔', title: 'Comida e Bebida' },
-  { id: 'people', label: '😊', title: 'Pessoas' },
-  { id: 'sports', label: '⚽', title: 'Esporte' },
-  { id: 'objects', label: '💡', title: 'Objetos' },
-  { id: 'travel', label: '✈️', title: 'Viagem' },
-  { id: 'symbols', label: '💕', title: 'Símbolos' },
-  { id: 'flags', label: '🏁', title: 'Bandeiras' },
-];
+import EmojiPicker from 'emoji-picker-react';
 
 const BACKGROUND_COLORS = [
   '#E3F2FD', '#E8F5E9', '#FFF3E0', '#F3E5F5', '#E1F5FE', 
@@ -31,8 +21,9 @@ export default function Tags() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState("🐻");
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
-  const [emojiSearch, setEmojiSearch] = useState("");
   const [selectedColor, setSelectedColor] = useState(BACKGROUND_COLORS[0]);
+  const [tagName, setTagName] = useState("");
+  const [tagDescription, setTagDescription] = useState("");
 
   return (
     <SidebarProvider>
@@ -97,39 +88,31 @@ export default function Tags() {
                         <Button
                           variant="outline"
                           className="w-12 h-10 p-0"
+                          style={{ backgroundColor: selectedColor }}
                         >
                           {selectedEmoji}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-80 p-0" align="start">
-                        <div className="p-4 border-b">
-                          <Input
-                            placeholder="Nome do emoji"
-                            value={emojiSearch}
-                            onChange={(e) => setEmojiSearch(e.target.value)}
-                            className="w-full"
+                      <PopoverContent className="w-full p-0" align="start">
+                        <div className="w-full">
+                          <EmojiPicker 
+                            onEmojiClick={(emojiData) => {
+                              setSelectedEmoji(emojiData.emoji);
+                              setIsEmojiPickerOpen(false);
+                            }}
+                            width="100%"
+                            height="350px"
                           />
-                        </div>
-                        <div className="grid grid-cols-8 gap-1 p-4">
-                          {EMOJI_CATEGORIES.map((category) => (
-                            <button
-                              key={category.id}
-                              className={cn(
-                                "p-2 rounded hover:bg-slate-100 transition-colors",
-                                category.id === 'people' && "bg-blue-50"
-                              )}
-                              title={category.title}
-                            >
-                              {category.label}
-                            </button>
-                          ))}
-                        </div>
-                        <div className="grid grid-cols-8 gap-1 p-4 max-h-[300px] overflow-y-auto">
-                          {/* Here you would map through the actual emojis based on the selected category */}
                         </div>
                       </PopoverContent>
                     </Popover>
-                    <Input placeholder="Nome da etiqueta" className="flex-1" maxLength={30} />
+                    <Input 
+                      placeholder="Nome da etiqueta" 
+                      className="flex-1" 
+                      maxLength={30}
+                      value={tagName}
+                      onChange={(e) => setTagName(e.target.value)}
+                    />
                   </div>
                 </div>
 
@@ -137,7 +120,11 @@ export default function Tags() {
                   <label className="block text-sm font-medium mb-2">
                     Descrição (opcional)
                   </label>
-                  <Textarea placeholder="Descreva a finalidade desta etiqueta" />
+                  <Textarea 
+                    placeholder="Descreva a finalidade desta etiqueta"
+                    value={tagDescription}
+                    onChange={(e) => setTagDescription(e.target.value)}
+                  />
                 </div>
 
                 <div>
@@ -149,8 +136,8 @@ export default function Tags() {
                       <button
                         key={color}
                         className={cn(
-                          "w-6 h-6 rounded-md border",
-                          selectedColor === color && "ring-2 ring-blue-500"
+                          "w-6 h-6 rounded-md border transition-all",
+                          selectedColor === color && "ring-2 ring-blue-500 scale-110"
                         )}
                         style={{ backgroundColor: color }}
                         onClick={() => setSelectedColor(color)}
@@ -158,15 +145,26 @@ export default function Tags() {
                     ))}
                   </div>
                 </div>
-              </div>
 
-              <div className="flex justify-end gap-3">
-                <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                  Cancelar
-                </Button>
-                <Button className="bg-blue-500 hover:bg-blue-600">
-                  Criar
-                </Button>
+                <div className="flex justify-between gap-3 pt-4">
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="px-3 py-1.5 rounded-md flex items-center gap-2"
+                      style={{ backgroundColor: selectedColor }}
+                    >
+                      <span>{selectedEmoji}</span>
+                      <span className="font-medium">{tagName || "Nome da etiqueta"}</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                      Cancelar
+                    </Button>
+                    <Button className="bg-blue-500 hover:bg-blue-600">
+                      Criar
+                    </Button>
+                  </div>
+                </div>
               </div>
             </DialogContent>
           </Dialog>
