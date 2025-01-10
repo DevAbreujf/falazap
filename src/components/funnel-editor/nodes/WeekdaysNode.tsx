@@ -1,15 +1,24 @@
 import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
+import { WeekdaysNodeData } from '@/types/flow';
 
-export const WeekdaysNode = memo(({ data }) => {
+interface WeekdaysNodeProps {
+  data: WeekdaysNodeData;
+}
+
+export const WeekdaysNode = memo(({ data }: WeekdaysNodeProps) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 min-w-[200px]">
       <Handle type="target" position={Position.Top} className="w-2 h-2" />
-      <div className="font-medium mb-2">Dias Semanais</div>
+      <div className="font-medium mb-2">Dias da Semana</div>
       <div className="text-sm text-gray-600">
-        {data.label || 'Configure os dias da semana'}
+        {data.days.map((day) => (
+          <div key={day.day} className={`flex items-center ${day.enabled ? 'text-gray-900' : 'text-gray-400'}`}>
+            <span className="mr-2">{day.day}</span>
+            <span className={`inline-block w-3 h-3 rounded-full ${day.enabled ? 'bg-green-500' : 'bg-red-500'}`}></span>
+          </div>
+        ))}
       </div>
-      <Handle type="source" position={Position.Bottom} className="w-2 h-2" />
     </div>
   );
 });

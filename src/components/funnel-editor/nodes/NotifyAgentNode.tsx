@@ -1,7 +1,12 @@
 import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
+import { NotifyAgentNodeData } from '@/types/flow';
 
-export const NotifyAgentNode = memo(({ data }) => {
+interface NotifyAgentNodeProps {
+  data: NotifyAgentNodeData;
+}
+
+export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 min-w-[200px]">
       <Handle type="target" position={Position.Top} className="w-2 h-2" />
@@ -9,7 +14,6 @@ export const NotifyAgentNode = memo(({ data }) => {
       <div className="text-sm text-gray-600">
         {data.label || 'Configure a notificação'}
       </div>
-      <Handle type="source" position={Position.Bottom} className="w-2 h-2" />
     </div>
   );
 });
