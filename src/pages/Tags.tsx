@@ -7,14 +7,14 @@ import { Plus, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import { EmojiPicker } from "@/components/tags/EmojiPicker";
+import { TagList } from "@/components/tags/TagList";
 
 const BACKGROUND_COLORS = [
   '#E3F2FD', '#E8F5E9', '#FFF3E0', '#F3E5F5', '#E1F5FE', 
   '#E0F2F1', '#FBE9E7', '#F1F8E9', '#FFEBEE', '#EDE7F6',
-  '#E0F7FA', '#FFF8E1', '#F9FBE7', '#E8EAF6', '#EFEBE9',
-  '#FAFAFA', '#ECEFF1', '#F3E5F5', '#E8F5E9', '#FFF3E0'
+  '#F0F4C3', '#B3E5FC', '#C8E6C9', '#FFE0B2', '#E1BEE7',
+  '#B2EBF2', '#FFECB3', '#DCEDC8', '#C5CAE9', '#D7CCC8'
 ];
 
 interface Tag {
@@ -23,6 +23,7 @@ interface Tag {
   name: string;
   description: string;
   backgroundColor: string;
+  createdAt: Date;
 }
 
 export default function Tags() {
@@ -33,6 +34,7 @@ export default function Tags() {
   const [tagName, setTagName] = useState("");
   const [tagDescription, setTagDescription] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
+  const [editingTag, setEditingTag] = useState<Tag | null>(null);
 
   const handleEmojiSelect = (emoji: any) => {
     setSelectedEmoji(emoji.native);
@@ -42,22 +44,42 @@ export default function Tags() {
   const handleCreateTag = () => {
     if (tagName.trim()) {
       const newTag: Tag = {
-        id: crypto.randomUUID(),
+        id: editingTag?.id || crypto.randomUUID(),
         emoji: selectedEmoji,
         name: tagName,
         description: tagDescription,
         backgroundColor: selectedColor,
+        createdAt: editingTag?.createdAt || new Date(),
       };
 
-      setTags((prevTags) => [...prevTags, newTag]);
+      setTags((prevTags) => {
+        if (editingTag) {
+          return prevTags.map((tag) => (tag.id === editingTag.id ? newTag : tag));
+        }
+        return [...prevTags, newTag];
+      });
       
       // Reset form
       setTagName("");
       setTagDescription("");
       setSelectedEmoji("🏷️");
       setSelectedColor(BACKGROUND_COLORS[0]);
+      setEditingTag(null);
       setIsDialogOpen(false);
     }
+  };
+
+  const handleEditTag = (tag: Tag) => {
+    setEditingTag(tag);
+    setTagName(tag.name);
+    setTagDescription(tag.description);
+    setSelectedEmoji(tag.emoji);
+    setSelectedColor(tag.backgroundColor);
+    setIsDialogOpen(true);
+  };
+
+  const handleDeleteTag = (id: string) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag.id !== id));
   };
 
   return (
@@ -97,23 +119,11 @@ export default function Tags() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {tags.map((tag) => (
-                  <div 
-                    key={tag.id}
-                    className="p-4 rounded-lg border border-slate-200 bg-white"
-                    style={{ backgroundColor: tag.backgroundColor }}
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span>{tag.emoji}</span>
-                      <h3 className="font-medium">{tag.name}</h3>
-                    </div>
-                    {tag.description && (
-                      <p className="text-sm text-slate-600">{tag.description}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
+              <TagList
+                tags={tags}
+                onDeleteTag={handleDeleteTag}
+                onEditTag={handleEditTag}
+              />
             )}
           </div>
 
@@ -121,7 +131,7 @@ export default function Tags() {
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <div className="flex items-center justify-between">
-                  <DialogTitle>Criar etiqueta</DialogTitle>
+                  <DialogTitle>{editingTag ? 'Editar etiqueta' : 'Criar etiqueta'}</DialogTitle>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -204,7 +214,7 @@ export default function Tags() {
                       className="bg-blue-500 hover:bg-blue-600"
                       onClick={handleCreateTag}
                     >
-                      Criar
+                      {editingTag ? 'Salvar' : 'Criar'}
                     </Button>
                   </div>
                 </div>
@@ -212,52 +222,11 @@ export default function Tags() {
             </DialogContent>
           </Dialog>
 
-          <Dialog open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
-            <DialogContent className="p-0 border-0 shadow-xl w-[370px]">
-              <DialogHeader className="px-4 py-2 border-b flex flex-row items-center justify-between">
-                <DialogTitle className="text-lg">Escolha um emoji</DialogTitle>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsEmojiPickerOpen(false)}
-                  className="h-8 w-8 p-0 hover:bg-slate-100 rounded-full"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </DialogHeader>
-              <div className="p-2">
-                <Picker
-                  data={data}
-                  onEmojiSelect={handleEmojiSelect}
-                  locale="pt"
-                  theme="light"
-                  previewPosition="none"
-                  skinTonePosition="none"
-                  className="!border-0"
-                  style={{
-                    '--em-rgb-background': '255, 255, 255',
-                    '--em-rgb-input': '241, 245, 249',
-                    '--em-rgb-color': '15, 23, 42',
-                  } as React.CSSProperties}
-                  i18n={{
-                    search: 'Pesquisar',
-                    categories: {
-                      recent: 'Recentes',
-                      smileys: 'Sorrisos e Emoções',
-                      people: 'Pessoas',
-                      nature: 'Natureza',
-                      foods: 'Comidas',
-                      activity: 'Atividades',
-                      places: 'Viagens',
-                      objects: 'Objetos',
-                      symbols: 'Símbolos',
-                      flags: 'Bandeiras'
-                    }
-                  }}
-                />
-              </div>
-            </DialogContent>
-          </Dialog>
+          <EmojiPicker
+            isOpen={isEmojiPickerOpen}
+            onClose={() => setIsEmojiPickerOpen(false)}
+            onEmojiSelect={handleEmojiSelect}
+          />
         </div>
       </div>
     </SidebarProvider>
