@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Trash2, Edit } from "lucide-react";
+import { Search, Trash2, Edit, HelpCircle, X } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
@@ -14,6 +14,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Tag {
   id: string;
@@ -33,6 +46,7 @@ interface TagListProps {
 export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [tagToDelete, setTagToDelete] = useState<string | null>(null);
+  const [selectedTagDescription, setSelectedTagDescription] = useState<Tag | null>(null);
 
   const filteredTags = tags.filter(
     (tag) =>
@@ -54,9 +68,9 @@ export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
 
       <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
         {/* Header */}
-        <div className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 bg-slate-50 border-b border-slate-200">
+        <div className="grid grid-cols-[2fr_1fr_auto] gap-4 p-4 bg-slate-50 border-b border-slate-200">
           <div className="font-medium text-slate-700">Etiqueta</div>
-          <div className="font-medium text-slate-700">Criada</div>
+          <div className="font-medium text-slate-700 text-center">Criada</div>
           <div className="font-medium text-slate-700 text-right">Ações</div>
         </div>
 
@@ -65,7 +79,7 @@ export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
           {filteredTags.map((tag) => (
             <div
               key={tag.id}
-              className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 items-center hover:bg-slate-50"
+              className="grid grid-cols-[2fr_1fr_auto] gap-4 p-4 items-center hover:bg-slate-50"
             >
               <div className="flex items-center gap-2">
                 <div
@@ -75,8 +89,25 @@ export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
                   <span>{tag.emoji}</span>
                   <span className="font-medium">{tag.name}</span>
                 </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 hover:bg-slate-200/50"
+                        onClick={() => setSelectedTagDescription(tag)}
+                      >
+                        <HelpCircle className="h-4 w-4 text-slate-500" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Ver descrição</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
-              <div className="text-sm text-slate-600">
+              <div className="text-sm text-slate-600 text-center">
                 {formatDistanceToNow(tag.createdAt || new Date(), {
                   locale: ptBR,
                   addSuffix: true,
@@ -128,6 +159,25 @@ export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog open={!!selectedTagDescription} onOpenChange={() => setSelectedTagDescription(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <HelpCircle className="h-5 w-5" />
+              Descrição
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-slate-600">{selectedTagDescription?.description}</p>
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setSelectedTagDescription(null)}>
+              Fechar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
