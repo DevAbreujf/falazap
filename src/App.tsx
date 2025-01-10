@@ -20,6 +20,7 @@ import NovoAgente from "@/pages/NovoAgente";
 import ConfigurarAgente from "@/pages/ConfigurarAgente";
 import Users from "@/pages/Users";
 import Departments from "@/pages/Departments";
+import Tags from "@/pages/Tags";
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/agentes/novo/configurar" element={<ConfigurarAgente />} />
           <Route path="/users" element={<Users />} />
           <Route path="/departments" element={<Departments />} />
+          <Route path="/etiquetas" element={<Tags />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

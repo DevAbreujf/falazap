@@ -14,6 +14,7 @@ import {
   Calendar,
   Home,
   Bot,
+  Tag,
 } from "lucide-react";
 
 export function SidebarNavigation() {
@@ -49,6 +50,12 @@ export function SidebarNavigation() {
       label: "Funis",
       description: "Gerencie seus funis",
       onClick: () => navigate("/funnels"),
+    },
+    {
+      icon: Tag,
+      label: "Etiquetas",
+      description: "Gerencie suas etiquetas",
+      onClick: () => navigate("/etiquetas"),
     },
     {
       icon: Send,
