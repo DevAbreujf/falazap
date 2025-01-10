@@ -16,19 +16,7 @@ export const settingsFormSchema = z.object({
   state: z.string().min(2, "Estado inválido"),
   senhaAtual: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
   novaSenha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
-  tipoConta: z.enum(["PF", "PJ"]),
-  cnpj: z.string().refine((val) => {
-    if (!val) return true;
-    const cleanVal = val.replace(/\D/g, '');
-    if (cleanVal.length === 11) {
-      return validarCPF(cleanVal);
-    } else if (cleanVal.length === 14) {
-      return validarCNPJ(cleanVal);
-    }
-    return false;
-  }, {
-    message: "Documento inválido",
-  }),
+  cnpj: z.string().min(14, "CNPJ inválido"),
   autenticadorDoisFatores: z.boolean(),
 });
 
