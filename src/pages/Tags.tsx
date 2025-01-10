@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, X } from "lucide-react";
 import { useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import data from '@emoji-mart/data'
@@ -89,46 +88,14 @@ export default function Tags() {
                     Nome (Máximo 30 caracteres)
                   </label>
                   <div className="flex gap-2">
-                    <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className="w-12 h-10 p-0"
-                          style={{ backgroundColor: selectedColor }}
-                        >
-                          {selectedEmoji}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent 
-                        className="w-full p-0" 
-                        align="start"
-                        sideOffset={5}
-                      >
-                        <Picker
-                          data={data}
-                          onEmojiSelect={handleEmojiSelect}
-                          locale="pt"
-                          theme="light"
-                          previewPosition="none"
-                          skinTonePosition="none"
-                          i18n={{
-                            search: 'Pesquisar',
-                            categories: {
-                              recent: 'Recentes',
-                              smileys: 'Sorrisos e Emoções',
-                              people: 'Pessoas',
-                              nature: 'Natureza',
-                              foods: 'Comidas',
-                              activity: 'Atividades',
-                              places: 'Viagens',
-                              objects: 'Objetos',
-                              symbols: 'Símbolos',
-                              flags: 'Bandeiras'
-                            }
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <Button
+                      variant="outline"
+                      className="w-12 h-10 p-0"
+                      style={{ backgroundColor: selectedColor }}
+                      onClick={() => setIsEmojiPickerOpen(true)}
+                    >
+                      {selectedEmoji}
+                    </Button>
                     <Input 
                       placeholder="Nome da etiqueta" 
                       className="flex-1" 
@@ -189,6 +156,34 @@ export default function Tags() {
                   </div>
                 </div>
               </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
+            <DialogContent className="p-0">
+              <Picker
+                data={data}
+                onEmojiSelect={handleEmojiSelect}
+                locale="pt"
+                theme="light"
+                previewPosition="none"
+                skinTonePosition="none"
+                i18n={{
+                  search: 'Pesquisar',
+                  categories: {
+                    recent: 'Recentes',
+                    smileys: 'Sorrisos e Emoções',
+                    people: 'Pessoas',
+                    nature: 'Natureza',
+                    foods: 'Comidas',
+                    activity: 'Atividades',
+                    places: 'Viagens',
+                    objects: 'Objetos',
+                    symbols: 'Símbolos',
+                    flags: 'Bandeiras'
+                  }
+                }}
+              />
             </DialogContent>
           </Dialog>
         </div>
