@@ -17,8 +17,10 @@ export function EmojiPicker({ onEmojiSelect, selectedEmoji }: EmojiPickerProps) 
   const [isOpen, setIsOpen] = useState(false);
 
   const handleEmojiSelect = (emoji: any) => {
-    onEmojiSelect(emoji.native);
-    setIsOpen(false);
+    if (emoji && emoji.native) {
+      onEmojiSelect(emoji.native);
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -41,6 +43,10 @@ export function EmojiPicker({ onEmojiSelect, selectedEmoji }: EmojiPickerProps) 
           searchPosition="top"
           navPosition="top"
           perLine={8}
+          emojiButtonColors={["#000000"]}
+          emojiSize={24}
+          maxFrequentRows={4}
+          icons="auto"
         />
       </PopoverContent>
     </Popover>
