@@ -37,14 +37,6 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
           <Tag className="h-4 w-4" />
           <h3>Editar Etiquetas</h3>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-6 w-6"
-          onClick={() => setIsTagSelectorOpen(false)}
-        >
-          <X className="h-4 w-4" />
-        </Button>
       </div>
 
       <div className="flow-node-content">
