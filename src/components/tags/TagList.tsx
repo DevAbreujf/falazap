@@ -27,6 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ContactsPagination } from "@/components/app/contacts/ContactsPagination";
 
 interface Tag {
   id: string;
@@ -47,12 +48,18 @@ export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [tagToDelete, setTagToDelete] = useState<string | null>(null);
   const [selectedTagDescription, setSelectedTagDescription] = useState<Tag | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 8;
 
   const filteredTags = tags.filter(
     (tag) =>
       tag.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tag.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredTags.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedTags = filteredTags.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
     <div className="space-y-4">
@@ -76,7 +83,7 @@ export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
 
         {/* Tags */}
         <div className="divide-y divide-slate-200">
-          {filteredTags.map((tag) => (
+          {paginatedTags.map((tag) => (
             <div
               key={tag.id}
               className="grid grid-cols-[2fr_1fr_auto] gap-4 p-4 items-center hover:bg-slate-50"
@@ -135,6 +142,12 @@ export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
           ))}
         </div>
       </div>
+
+      <ContactsPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
 
       <AlertDialog open={!!tagToDelete} onOpenChange={() => setTagToDelete(null)}>
         <AlertDialogContent>
