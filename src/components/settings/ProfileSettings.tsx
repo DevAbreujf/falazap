@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { UseFormReturn } from 'react-hook-form';
 import { SettingsFormValues } from '@/types/settings';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Camera } from "lucide-react";
+import { validateCEP, formatCEP, fetchAddressFromCEP } from '@/utils/cepValidator';
+import { toast } from 'sonner';
 
 interface ProfileSettingsProps {
   form: UseFormReturn<SettingsFormValues>;
@@ -12,6 +16,34 @@ interface ProfileSettingsProps {
 }
 
 export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCEPBlur = async (event: React.FocusEvent<HTMLInputElement>) => {
+    const cep = event.target.value;
+    if (validateCEP(cep)) {
+      try {
+        const address = await fetchAddressFromCEP(cep);
+        form.setValue('street', address.street);
+        form.setValue('neighborhood', address.neighborhood);
+        form.setValue('city', address.city);
+        form.setValue('state', address.state);
+      } catch (error) {
+        toast.error('Erro ao buscar endereço. Verifique o CEP informado.');
+      }
+    }
+  };
+
   return (
     <Card className="glass-card">
       <CardHeader>
@@ -21,6 +53,30 @@ export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="flex justify-center mb-6">
+          <div className="relative">
+            <Avatar className="h-24 w-24">
+              <AvatarImage src={avatarUrl || ''} />
+              <AvatarFallback>
+                {form.getValues('nome')?.charAt(0)?.toUpperCase() || '?'}
+              </AvatarFallback>
+            </Avatar>
+            <label
+              htmlFor="avatar-upload"
+              className="absolute bottom-0 right-0 p-1 bg-primary rounded-full cursor-pointer hover:bg-primary/90 transition-colors"
+            >
+              <Camera className="h-4 w-4 text-white" />
+              <input
+                id="avatar-upload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </label>
+          </div>
+        </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -36,6 +92,7 @@ export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="email"
@@ -49,6 +106,144 @@ export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="whatsapp"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>WhatsApp</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="tel"
+                      placeholder="(00) 00000-0000"
+                      {...field}
+                      className="glass-card"
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, '');
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="cep"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>CEP</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="00000-000"
+                      {...field}
+                      className="glass-card"
+                      onBlur={(e) => {
+                        handleCEPBlur(e);
+                        field.onBlur();
+                      }}
+                      onChange={(e) => {
+                        const formatted = formatCEP(e.target.value);
+                        field.onChange(formatted);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="street"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Rua</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Nome da rua" {...field} className="glass-card" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="number"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Número</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Número" {...field} className="glass-card" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="complement"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Complemento</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Apartamento, sala, etc." {...field} className="glass-card" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="neighborhood"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bairro</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Seu bairro" {...field} className="glass-card" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cidade</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Sua cidade" {...field} className="glass-card" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Estado</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Seu estado" {...field} className="glass-card" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <Button type="submit" className="w-full">Salvar Alterações</Button>
           </form>
         </Form>
