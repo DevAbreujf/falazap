@@ -4,23 +4,54 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface EmojiPickerProps {
   onEmojiSelect: (emoji: string) => void;
   selectedEmoji: string;
 }
 
-// Simple emoji dataset organized by categories
+// WhatsApp-style emoji dataset organized by categories
 const emojiData = {
-  pessoas: ["😀", "😃", "😄", "😁", "😅", "😂", "🤣", "😊", "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "😚", "😋", "😛", "😝", "😜", "🤪", "🤨", "🧐", "🤓", "😎", "🤩", "🥳"],
-  natureza: ["🌱", "🌲", "🌳", "🌴", "🌵", "🌿", "☘️", "🍀", "🌺", "🌻", "🌼", "🌷", "🌹", "🌸", "💐", "🍄", "🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼"],
-  comidas: ["🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🍈", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝", "🍅", "🍆", "🥑", "🥦"],
-  objetos: ["📱", "💻", "⌚️", "📷", "🎥", "🔋", "💡", "🔍", "✂️", "📏", "📐", "📌", "📍", "📎", "🔒", "🔑", "🔨", "🛠", "⚙️", "🔧"],
+  recentes: ["😀", "❤️", "😊", "🎉", "👍", "🙏", "💕", "😍"],
+  pessoas: [
+    "😀", "😃", "😄", "😁", "😅", "😂", "🤣", "😊", "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰", 
+    "😘", "😗", "😙", "😚", "😋", "😛", "😝", "😜", "🤪", "🤨", "🧐", "🤓", "😎", "🤩", "🥳",
+    "😏", "😒", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣", "😖", "😫", "😩", "🥺", "😢", "😭",
+    "😤", "😠", "😡", "🤬", "🤯", "😳", "🥵", "🥶", "😱", "😨", "😰", "😥", "😓", "🤗", "🤔"
+  ],
+  natureza: [
+    "🌱", "🌲", "🌳", "🌴", "🌵", "🌿", "☘️", "🍀", "🌺", "🌻", "🌼", "🌷", "🌹", "🌸", "💐",
+    "🍄", "🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷", "🐸"
+  ],
+  comidas: [
+    "🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🍈", "🍒", "🍑", "🥭", "🍍", "🥥",
+    "🥝", "🍅", "🍆", "🥑", "🥦", "🥬", "🥒", "🌶", "🌽", "🥕", "🥔", "🍠", "🥐", "🥯", "🍞"
+  ],
+  atividades: [
+    "⚽️", "🏀", "🏈", "⚾️", "🥎", "🎾", "🏐", "🏉", "🥏", "🎱", "🪀", "🏓", "🏸", "🏒", "🏑",
+    "🥍", "🏏", "⛳️", "🪁", "🎣", "🤿", "🎽", "🛹", "🛼", "🛷", "⛸", "🥌", "🎿", "⛷", "🏂"
+  ],
+  viagem: [
+    "✈️", "🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻", "🚚", "🚛", "🚜",
+    "🛵", "🏍", "🛺", "🚲", "🛴", "🚨", "🚔", "🚍", "🚘", "🚖", "🛩", "🚀", "🛸", "🚁", "🛶"
+  ],
+  objetos: [
+    "📱", "💻", "⌚️", "📷", "🎥", "🔋", "💡", "🔍", "✂️", "📏", "📐", "📌", "📍", "📎", "🔒",
+    "🔑", "🔨", "🛠", "⚙️", "🔧", "🪛", "🔩", "⚡️", "📡", "🔋", "🔌", "💡", "🔦", "🕯", "🪔"
+  ],
+  simbolos: [
+    "❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "🤎", "💔", "❣️", "💕", "💞", "💓", "💗",
+    "💖", "💘", "💝", "💟", "☮️", "✝️", "☪️", "🕉", "☸️", "✡️", "🔯", "🕎", "☯️", "☦️", "🛕"
+  ]
 };
+
+type EmojiCategory = keyof typeof emojiData;
 
 export function EmojiPicker({ onEmojiSelect, selectedEmoji }: EmojiPickerProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<EmojiCategory>("recentes");
 
   const handleEmojiSelect = (emoji: string) => {
     onEmojiSelect(emoji);
@@ -32,6 +63,17 @@ export function EmojiPicker({ onEmojiSelect, selectedEmoji }: EmojiPickerProps) 
         .flat()
         .filter(emoji => emoji.includes(searchTerm))
     : null;
+
+  const categories: { key: EmojiCategory; icon: string }[] = [
+    { key: "recentes", icon: "🕒" },
+    { key: "pessoas", icon: "😀" },
+    { key: "natureza", icon: "🌲" },
+    { key: "comidas", icon: "🍔" },
+    { key: "atividades", icon: "⚽️" },
+    { key: "viagem", icon: "✈️" },
+    { key: "objetos", icon: "💡" },
+    { key: "simbolos", icon: "❤️" },
+  ];
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -55,6 +97,27 @@ export function EmojiPicker({ onEmojiSelect, selectedEmoji }: EmojiPickerProps) 
             />
           </div>
         </div>
+
+        {/* Category tabs */}
+        <div className="border-b">
+          <div className="flex p-2 gap-1">
+            {categories.map(({ key, icon }) => (
+              <Button
+                key={key}
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "w-8 h-8 p-0",
+                  activeCategory === key && "bg-blue-100 text-blue-600"
+                )}
+                onClick={() => setActiveCategory(key)}
+              >
+                {icon}
+              </Button>
+            ))}
+          </div>
+        </div>
+
         <ScrollArea className="h-[300px]">
           {filteredEmojis ? (
             <div className="grid grid-cols-8 gap-1 p-2">
@@ -69,24 +132,22 @@ export function EmojiPicker({ onEmojiSelect, selectedEmoji }: EmojiPickerProps) 
               ))}
             </div>
           ) : (
-            Object.entries(emojiData).map(([category, emojis]) => (
-              <div key={category} className="mb-4">
-                <h3 className="px-2 text-sm font-medium text-muted-foreground capitalize mb-2">
-                  {category}
-                </h3>
-                <div className="grid grid-cols-8 gap-1 px-2">
-                  {emojis.map((emoji, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleEmojiSelect(emoji)}
-                      className="p-2 hover:bg-muted rounded-md text-lg"
-                    >
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
+            <div className="p-2">
+              <h3 className="text-sm font-medium text-muted-foreground capitalize mb-2">
+                {activeCategory}
+              </h3>
+              <div className="grid grid-cols-8 gap-1">
+                {emojiData[activeCategory].map((emoji, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleEmojiSelect(emoji)}
+                    className="p-2 hover:bg-muted rounded-md text-lg"
+                  >
+                    {emoji}
+                  </button>
+                ))}
               </div>
-            ))
+            </div>
           )}
         </ScrollArea>
       </PopoverContent>
