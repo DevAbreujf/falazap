@@ -117,6 +117,7 @@ export interface RequestRatingNodeData extends BaseNodeData {
 }
 
 export interface TransferAgentNodeData extends BaseNodeData {
+  rule: 'specific' | 'random' | 'least_chats' | 'previous';
   agent?: string;
   onlyIfAvailable: boolean;
   activateFailureFlow: boolean;
