@@ -213,30 +213,49 @@ export default function Tags() {
           </Dialog>
 
           <Dialog open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
-            <DialogContent className="p-0">
-              <Picker
-                data={data}
-                onEmojiSelect={handleEmojiSelect}
-                locale="pt"
-                theme="light"
-                previewPosition="none"
-                skinTonePosition="none"
-                i18n={{
-                  search: 'Pesquisar',
-                  categories: {
-                    recent: 'Recentes',
-                    smileys: 'Sorrisos e Emoções',
-                    people: 'Pessoas',
-                    nature: 'Natureza',
-                    foods: 'Comidas',
-                    activity: 'Atividades',
-                    places: 'Viagens',
-                    objects: 'Objetos',
-                    symbols: 'Símbolos',
-                    flags: 'Bandeiras'
-                  }
-                }}
-              />
+            <DialogContent className="p-0 border-0 shadow-xl">
+              <DialogHeader className="px-4 py-2 border-b">
+                <DialogTitle className="text-lg">Escolha um emoji</DialogTitle>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsEmojiPickerOpen(false)}
+                  className="absolute right-2 top-2 hover:bg-slate-100 rounded-full"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </DialogHeader>
+              <div className="p-2">
+                <Picker
+                  data={data}
+                  onEmojiSelect={handleEmojiSelect}
+                  locale="pt"
+                  theme="light"
+                  previewPosition="none"
+                  skinTonePosition="none"
+                  className="!border-0"
+                  style={{
+                    '--em-rgb-background': '255, 255, 255',
+                    '--em-rgb-input': '241, 245, 249',
+                    '--em-rgb-color': '15, 23, 42',
+                  } as React.CSSProperties}
+                  i18n={{
+                    search: 'Pesquisar',
+                    categories: {
+                      recent: 'Recentes',
+                      smileys: 'Sorrisos e Emoções',
+                      people: 'Pessoas',
+                      nature: 'Natureza',
+                      foods: 'Comidas',
+                      activity: 'Atividades',
+                      places: 'Viagens',
+                      objects: 'Objetos',
+                      symbols: 'Símbolos',
+                      flags: 'Bandeiras'
+                    }
+                  }}
+                />
+              </div>
             </DialogContent>
           </Dialog>
         </div>
