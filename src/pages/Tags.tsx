@@ -17,6 +17,14 @@ const BACKGROUND_COLORS = [
   '#FAFAFA', '#ECEFF1', '#F3E5F5', '#E8F5E9', '#FFF3E0'
 ];
 
+interface Tag {
+  id: string;
+  emoji: string;
+  name: string;
+  description: string;
+  backgroundColor: string;
+}
+
 export default function Tags() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState("🏷️");
@@ -24,10 +32,32 @@ export default function Tags() {
   const [selectedColor, setSelectedColor] = useState(BACKGROUND_COLORS[0]);
   const [tagName, setTagName] = useState("");
   const [tagDescription, setTagDescription] = useState("");
+  const [tags, setTags] = useState<Tag[]>([]);
 
   const handleEmojiSelect = (emoji: any) => {
     setSelectedEmoji(emoji.native);
     setIsEmojiPickerOpen(false);
+  };
+
+  const handleCreateTag = () => {
+    if (tagName.trim()) {
+      const newTag: Tag = {
+        id: crypto.randomUUID(),
+        emoji: selectedEmoji,
+        name: tagName,
+        description: tagDescription,
+        backgroundColor: selectedColor,
+      };
+
+      setTags((prevTags) => [...prevTags, newTag]);
+      
+      // Reset form
+      setTagName("");
+      setTagDescription("");
+      setSelectedEmoji("🏷️");
+      setSelectedColor(BACKGROUND_COLORS[0]);
+      setIsDialogOpen(false);
+    }
   };
 
   return (
@@ -53,18 +83,38 @@ export default function Tags() {
               </Button>
             </div>
 
-            <div className="flex items-center justify-center h-[400px] bg-white rounded-lg border border-slate-200">
-              <div className="text-center">
-                <div className="flex justify-center mb-4">
-                  <img 
-                    src="/lovable-uploads/a9b06149-fad2-47aa-96ad-d7c74578a28e.png" 
-                    alt="Create tag" 
-                    className="w-32 h-32 opacity-50"
-                  />
+            {tags.length === 0 ? (
+              <div className="flex items-center justify-center h-[400px] bg-white rounded-lg border border-slate-200">
+                <div className="text-center">
+                  <div className="flex justify-center mb-4">
+                    <img 
+                      src="/lovable-uploads/a9b06149-fad2-47aa-96ad-d7c74578a28e.png" 
+                      alt="Create tag" 
+                      className="w-32 h-32 opacity-50"
+                    />
+                  </div>
+                  <p className="text-slate-600">Crie sua primeira etiqueta!</p>
                 </div>
-                <p className="text-slate-600">Crie sua primeira etiqueta!</p>
               </div>
-            </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {tags.map((tag) => (
+                  <div 
+                    key={tag.id}
+                    className="p-4 rounded-lg border border-slate-200 bg-white"
+                    style={{ backgroundColor: tag.backgroundColor }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span>{tag.emoji}</span>
+                      <h3 className="font-medium">{tag.name}</h3>
+                    </div>
+                    {tag.description && (
+                      <p className="text-sm text-slate-600">{tag.description}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -150,7 +200,10 @@ export default function Tags() {
                     <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
                       Cancelar
                     </Button>
-                    <Button className="bg-blue-500 hover:bg-blue-600">
+                    <Button 
+                      className="bg-blue-500 hover:bg-blue-600"
+                      onClick={handleCreateTag}
+                    >
                       Criar
                     </Button>
                   </div>
