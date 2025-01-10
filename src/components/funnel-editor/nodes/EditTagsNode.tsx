@@ -16,9 +16,7 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
   const [isTagSelectorOpen, setIsTagSelectorOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [tags] = useState<Array<{ id: string; name: string; color: string }>>([
-    { id: '1', name: 'Teste', color: '#10B981' }
-  ]);
+  const [tags] = useState<Array<{ id: string; name: string; color: string }>>([]);
 
   const handleTagSelect = (tagId: string) => {
     setSelectedTags(prev => 
