@@ -52,42 +52,57 @@ export function TagList({ tags, onDeleteTag, onEditTag }: TagListProps) {
         />
       </div>
 
-      <div className="space-y-3">
-        {filteredTags.map((tag) => (
-          <div
-            key={tag.id}
-            className="flex items-center justify-between p-4 rounded-lg border border-slate-200"
-            style={{ backgroundColor: tag.backgroundColor }}
-          >
-            <div className="flex items-center gap-4">
+      <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+        {/* Header */}
+        <div className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 bg-slate-50 border-b border-slate-200">
+          <div className="font-medium text-slate-700">Etiqueta</div>
+          <div className="font-medium text-slate-700">Criada</div>
+          <div className="font-medium text-slate-700 text-right">Ações</div>
+        </div>
+
+        {/* Tags */}
+        <div className="divide-y divide-slate-200">
+          {filteredTags.map((tag) => (
+            <div
+              key={tag.id}
+              className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 items-center hover:bg-slate-50"
+            >
               <div className="flex items-center gap-2">
-                <span>{tag.emoji}</span>
-                <span className="font-medium">{tag.name}</span>
+                <div
+                  className="px-3 py-1.5 rounded-md flex items-center gap-2"
+                  style={{ backgroundColor: tag.backgroundColor }}
+                >
+                  <span>{tag.emoji}</span>
+                  <span className="font-medium">{tag.name}</span>
+                </div>
               </div>
-              <span className="text-sm text-slate-600">
-                Criada {formatDistanceToNow(tag.createdAt || new Date(), { locale: ptBR, addSuffix: true })}
-              </span>
+              <div className="text-sm text-slate-600">
+                {formatDistanceToNow(tag.createdAt || new Date(), {
+                  locale: ptBR,
+                  addSuffix: true,
+                })}
+              </div>
+              <div className="flex items-center gap-2 justify-end">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => onEditTag(tag)}
+                  className="h-8 w-8 hover:bg-slate-200/50"
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setTagToDelete(tag.id)}
+                  className="h-8 w-8 hover:bg-slate-200/50"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => onEditTag(tag)}
-                className="h-8 w-8 hover:bg-slate-200/50"
-              >
-                <Edit className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTagToDelete(tag.id)}
-                className="h-8 w-8 hover:bg-slate-200/50"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <AlertDialog open={!!tagToDelete} onOpenChange={() => setTagToDelete(null)}>
