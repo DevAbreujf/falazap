@@ -89,10 +89,7 @@ export default function Tags() {
                     Nome (Máximo 30 caracteres)
                   </label>
                   <div className="flex gap-2">
-                    <Popover 
-                      open={isEmojiPickerOpen} 
-                      onOpenChange={setIsEmojiPickerOpen}
-                    >
+                    <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
@@ -105,20 +102,9 @@ export default function Tags() {
                       <PopoverContent 
                         className="w-full p-0" 
                         align="start"
-                        sideOffset={5}
-                        style={{ 
-                          position: 'relative',
-                          zIndex: 99999,
-                        }}
+                        onInteractOutside={() => setIsEmojiPickerOpen(false)}
                       >
-                        <div 
-                          className="emoji-picker-container"
-                          style={{ 
-                            position: 'relative',
-                            zIndex: 99999,
-                          }}
-                          onClick={(e) => e.stopPropagation()}
-                        >
+                        <div className="w-full" onClick={(e) => e.stopPropagation()}>
                           <Picker
                             data={data}
                             onEmojiSelect={handleEmojiSelect}
@@ -126,12 +112,6 @@ export default function Tags() {
                             theme="light"
                             previewPosition="none"
                             skinTonePosition="none"
-                            style={{
-                              width: '100%',
-                              height: '350px',
-                              position: 'relative',
-                              zIndex: 99999,
-                            }}
                             i18n={{
                               search: 'Pesquisar',
                               categories: {
