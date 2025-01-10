@@ -100,11 +100,16 @@ export default function Tags() {
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent 
-                        className="w-full p-0" 
+                        className="w-full p-0 relative" 
                         align="start"
                         onInteractOutside={() => setIsEmojiPickerOpen(false)}
+                        style={{ zIndex: 99999 }}
                       >
-                        <div className="w-full" onClick={(e) => e.stopPropagation()}>
+                        <div 
+                          className="w-full relative" 
+                          onClick={(e) => e.stopPropagation()}
+                          style={{ zIndex: 99999 }}
+                        >
                           <Picker
                             data={data}
                             onEmojiSelect={handleEmojiSelect}
