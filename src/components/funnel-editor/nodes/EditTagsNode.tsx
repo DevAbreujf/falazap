@@ -3,18 +3,19 @@ import { Handle, Position } from '@xyflow/react';
 import { EditTagsNodeData } from '@/types/flow';
 import { Tag, Plus, Minus, X, Check, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface EditTagsNodeProps {
   data: EditTagsNodeData;
 }
 
 export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isTagsVisible, setIsTagsVisible] = useState(false);
+  const [actionType, setActionType] = useState<'add' | 'remove'>('add');
   const [tags] = useState<Array<{ id: string; name: string; color: string }>>([
     { id: '1', name: 'Teste', color: '#10B981' }
   ]);
@@ -41,21 +42,26 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
       </div>
 
       <div className="flow-node-content">
-        <div className="flex gap-2 mb-4">
-          <Button className="flex-1 bg-blue-500 hover:bg-blue-600">
+        <ToggleGroup
+          type="single"
+          value={actionType}
+          onValueChange={(value) => value && setActionType(value as 'add' | 'remove')}
+          className="flex gap-2 mb-4"
+        >
+          <ToggleGroupItem value="add" className="flex-1 bg-blue-500 hover:bg-blue-600 data-[state=on]:bg-blue-700">
             <Plus className="h-4 w-4 mr-2" />
             Adicionar
-          </Button>
-          <Button variant="outline" className="flex-1">
+          </ToggleGroupItem>
+          <ToggleGroupItem value="remove" className="flex-1 data-[state=on]:bg-gray-700">
             <Minus className="h-4 w-4 mr-2" />
             Remover
-          </Button>
-        </div>
+          </ToggleGroupItem>
+        </ToggleGroup>
 
         <Button
           variant="outline"
           className="w-full justify-between"
-          onClick={() => setIsDialogOpen(true)}
+          onClick={() => setIsTagsVisible(!isTagsVisible)}
         >
           Selecionar etiquetas
           {selectedTags.length > 0 && (
@@ -81,6 +87,7 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
                   <button
                     onClick={() => handleRemoveTag(tag.id)}
                     className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Remover etiqueta"
                   >
                     <X className="h-3 w-3" />
                   </button>
@@ -89,24 +96,9 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
             })}
           </div>
         )}
-      </div>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <div className="flex items-center justify-between">
-              <DialogTitle>Etiquetas</DialogTitle>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsDialogOpen(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </DialogHeader>
-
-          <div className="space-y-4">
+        {isTagsVisible && (
+          <div className="mt-4 border rounded-lg p-4 space-y-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -119,9 +111,10 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
 
             {tags.length === 0 ? (
               <div className="text-center py-8 space-y-4">
+                <p className="text-gray-500">Nenhum item encontrado</p>
                 <Tag className="h-12 w-12 mx-auto text-gray-400" />
                 <p className="text-sm text-gray-600">
-                  Você pode criar etiquetas para utilizar nas conversas e contatos.
+                  Você pode criar etiquetas para utilizar
                 </p>
                 <Button>Criar Etiquetas</Button>
               </div>
@@ -154,8 +147,8 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
               </div>
             )}
           </div>
-        </DialogContent>
-      </Dialog>
+        )}
+      </div>
 
       <Handle
         type="target"
