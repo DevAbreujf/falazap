@@ -8,7 +8,8 @@ import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import EmojiPicker from 'emoji-picker-react';
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 const BACKGROUND_COLORS = [
   '#E3F2FD', '#E8F5E9', '#FFF3E0', '#F3E5F5', '#E1F5FE', 
@@ -19,11 +20,16 @@ const BACKGROUND_COLORS = [
 
 export default function Tags() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState("🐻");
+  const [selectedEmoji, setSelectedEmoji] = useState("🏷️");
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState(BACKGROUND_COLORS[0]);
   const [tagName, setTagName] = useState("");
   const [tagDescription, setTagDescription] = useState("");
+
+  const handleEmojiSelect = (emoji: any) => {
+    setSelectedEmoji(emoji.native);
+    setIsEmojiPickerOpen(false);
+  };
 
   return (
     <SidebarProvider>
@@ -93,15 +99,34 @@ export default function Tags() {
                           {selectedEmoji}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-full p-0" align="start">
-                        <div className="w-full">
-                          <EmojiPicker 
-                            onEmojiClick={(emojiData) => {
-                              setSelectedEmoji(emojiData.emoji);
-                              setIsEmojiPickerOpen(false);
+                      <PopoverContent 
+                        className="w-full p-0" 
+                        align="start"
+                        onInteractOutside={() => setIsEmojiPickerOpen(false)}
+                      >
+                        <div className="w-full" onClick={(e) => e.stopPropagation()}>
+                          <Picker
+                            data={data}
+                            onEmojiSelect={handleEmojiSelect}
+                            locale="pt"
+                            theme="light"
+                            previewPosition="none"
+                            skinTonePosition="none"
+                            i18n={{
+                              search: 'Pesquisar',
+                              categories: {
+                                recent: 'Recentes',
+                                smileys: 'Sorrisos e Emoções',
+                                people: 'Pessoas',
+                                nature: 'Natureza',
+                                foods: 'Comidas',
+                                activity: 'Atividades',
+                                places: 'Viagens',
+                                objects: 'Objetos',
+                                symbols: 'Símbolos',
+                                flags: 'Bandeiras'
+                              }
                             }}
-                            width="100%"
-                            height="350px"
                           />
                         </div>
                       </PopoverContent>
