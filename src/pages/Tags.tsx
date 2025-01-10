@@ -5,10 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, X } from "lucide-react";
 import { useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import EmojiPicker from 'emoji-picker-react';
+import { EmojiPicker } from "@/components/app/emoji/EmojiPicker";
 
 const BACKGROUND_COLORS = [
   '#E3F2FD', '#E8F5E9', '#FFF3E0', '#F3E5F5', '#E1F5FE', 
@@ -20,7 +19,6 @@ const BACKGROUND_COLORS = [
 export default function Tags() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState("🐻");
-  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState(BACKGROUND_COLORS[0]);
   const [tagName, setTagName] = useState("");
   const [tagDescription, setTagDescription] = useState("");
@@ -83,29 +81,10 @@ export default function Tags() {
                     Nome (Máximo 30 caracteres)
                   </label>
                   <div className="flex gap-2">
-                    <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className="w-12 h-10 p-0"
-                          style={{ backgroundColor: selectedColor }}
-                        >
-                          {selectedEmoji}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-full p-0" align="start">
-                        <div className="w-full">
-                          <EmojiPicker 
-                            onEmojiClick={(emojiData) => {
-                              setSelectedEmoji(emojiData.emoji);
-                              setIsEmojiPickerOpen(false);
-                            }}
-                            width="100%"
-                            height="350px"
-                          />
-                        </div>
-                      </PopoverContent>
-                    </Popover>
+                    <EmojiPicker
+                      selectedEmoji={selectedEmoji}
+                      onEmojiSelect={setSelectedEmoji}
+                    />
                     <Input 
                       placeholder="Nome da etiqueta" 
                       className="flex-1" 
