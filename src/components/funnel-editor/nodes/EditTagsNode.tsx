@@ -16,6 +16,7 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
       </div>
       <Handle type="source" position={Position.Bottom} className="w-2 h-2" />
     </div>
+  );
 });
 
 EditTagsNode.displayName = 'EditTagsNode';
