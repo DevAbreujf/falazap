@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { EditTagsNodeData } from '@/types/flow';
-import { Tag, Plus, Minus, X, Check, Search } from 'lucide-react';
+import { Tag, Plus, Minus, X, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -93,54 +93,65 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
           )}
 
           {isTagSelectorOpen && (
-            <div className="mt-4 border rounded-lg p-4 bg-white/50">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="Buscar"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9"
-                />
+            <div className="flow-node mt-4 border rounded-lg overflow-hidden">
+              <div className="flow-node-header">
+                <div className="flex items-center gap-2">
+                  <Tag className="h-4 w-4" />
+                  <h3>Etiquetas</h3>
+                </div>
               </div>
 
-              {tags.length === 0 ? (
-                <div className="text-center py-8 space-y-4">
-                  <p className="text-gray-500">Nenhum item encontrado</p>
-                  <Tag className="h-12 w-12 mx-auto text-gray-400" />
-                  <p className="text-sm text-gray-600">
-                    Você pode criar etiquetas para utilizar
-                  </p>
-                  <Button>Criar Etiquetas</Button>
-                </div>
-              ) : (
-                <div className="space-y-2 mt-4">
-                  {tags.map(tag => (
-                    <div
-                      key={tag.id}
-                      className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50"
-                    >
-                      <div
-                        className="px-2 py-1 rounded-md text-sm"
-                        style={{ backgroundColor: `${tag.color}20`, color: tag.color }}
-                      >
-                        {tag.name}
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleTagSelect(tag.id)}
-                        className={cn(
-                          "h-6 w-6",
-                          selectedTags.includes(tag.id) && "text-primary"
-                        )}
-                      >
-                        <Check className="h-4 w-4" />
-                      </Button>
+              <div className="flow-node-content">
+                {tags.length === 0 ? (
+                  <div className="text-center py-8 space-y-4">
+                    <p className="text-gray-500">Nenhum item encontrado</p>
+                    <Tag className="h-12 w-12 mx-auto text-gray-400" />
+                    <p className="text-sm text-gray-600">
+                      Você pode criar etiquetas para utilizar
+                    </p>
+                    <Button>Criar Etiquetas</Button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                      <Input
+                        placeholder="Buscar"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-9"
+                      />
                     </div>
-                  ))}
-                </div>
-              )}
+
+                    <div className="space-y-2 mt-4">
+                      {tags.map(tag => (
+                        <div
+                          key={tag.id}
+                          className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50"
+                        >
+                          <div
+                            className="px-2 py-1 rounded-md text-sm"
+                            style={{ backgroundColor: `${tag.color}20`, color: tag.color }}
+                          >
+                            {tag.name}
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleTagSelect(tag.id)}
+                            className={cn(
+                              "h-6 w-6",
+                              selectedTags.includes(tag.id) && "text-primary"
+                            )}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           )}
         </div>
