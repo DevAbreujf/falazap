@@ -102,33 +102,31 @@ export default function Tags() {
                       <PopoverContent 
                         className="w-full p-0" 
                         align="start"
-                        onInteractOutside={() => setIsEmojiPickerOpen(false)}
+                        sideOffset={5}
                       >
-                        <div className="w-full" onClick={(e) => e.stopPropagation()}>
-                          <Picker
-                            data={data}
-                            onEmojiSelect={handleEmojiSelect}
-                            locale="pt"
-                            theme="light"
-                            previewPosition="none"
-                            skinTonePosition="none"
-                            i18n={{
-                              search: 'Pesquisar',
-                              categories: {
-                                recent: 'Recentes',
-                                smileys: 'Sorrisos e Emoções',
-                                people: 'Pessoas',
-                                nature: 'Natureza',
-                                foods: 'Comidas',
-                                activity: 'Atividades',
-                                places: 'Viagens',
-                                objects: 'Objetos',
-                                symbols: 'Símbolos',
-                                flags: 'Bandeiras'
-                              }
-                            }}
-                          />
-                        </div>
+                        <Picker
+                          data={data}
+                          onEmojiSelect={handleEmojiSelect}
+                          locale="pt"
+                          theme="light"
+                          previewPosition="none"
+                          skinTonePosition="none"
+                          i18n={{
+                            search: 'Pesquisar',
+                            categories: {
+                              recent: 'Recentes',
+                              smileys: 'Sorrisos e Emoções',
+                              people: 'Pessoas',
+                              nature: 'Natureza',
+                              foods: 'Comidas',
+                              activity: 'Atividades',
+                              places: 'Viagens',
+                              objects: 'Objetos',
+                              symbols: 'Símbolos',
+                              flags: 'Bandeiras'
+                            }
+                          }}
+                        />
                       </PopoverContent>
                     </Popover>
                     <Input 
