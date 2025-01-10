@@ -89,7 +89,10 @@ export default function Tags() {
                     Nome (Máximo 30 caracteres)
                   </label>
                   <div className="flex gap-2">
-                    <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
+                    <Popover 
+                      open={isEmojiPickerOpen} 
+                      onOpenChange={setIsEmojiPickerOpen}
+                    >
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
@@ -100,15 +103,21 @@ export default function Tags() {
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent 
-                        className="w-full p-0 relative" 
+                        className="w-full p-0" 
                         align="start"
-                        onInteractOutside={() => setIsEmojiPickerOpen(false)}
-                        style={{ zIndex: 99999 }}
+                        sideOffset={5}
+                        style={{ 
+                          position: 'relative',
+                          zIndex: 99999,
+                        }}
                       >
                         <div 
-                          className="w-full relative" 
+                          className="emoji-picker-container"
+                          style={{ 
+                            position: 'relative',
+                            zIndex: 99999,
+                          }}
                           onClick={(e) => e.stopPropagation()}
-                          style={{ zIndex: 99999 }}
                         >
                           <Picker
                             data={data}
@@ -117,6 +126,12 @@ export default function Tags() {
                             theme="light"
                             previewPosition="none"
                             skinTonePosition="none"
+                            style={{
+                              width: '100%',
+                              height: '350px',
+                              position: 'relative',
+                              zIndex: 99999,
+                            }}
                             i18n={{
                               search: 'Pesquisar',
                               categories: {
