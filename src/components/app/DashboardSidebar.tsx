@@ -1,4 +1,4 @@
-import { Menu, CheckCircle2 } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import {
@@ -24,12 +24,6 @@ export function DashboardSidebar() {
     { number: "+55 11 77777-7777", isConnected: true },
   ];
 
-  // Mock company data - in a real app, this would come from a context or API
-  const companyData = {
-    nome_fantasia: "Empresa LTDA",
-    isConnected: false, // Set to false by default, only true when CNPJ is validated and saved
-  };
-
   return (
     <Sidebar className="border-r border-slate-200 bg-white">
       <div className="flex items-center gap-4 p-4">
@@ -50,12 +44,6 @@ export function DashboardSidebar() {
       
       <SidebarHeader>
         <div className="p-4">
-          {companyData.isConnected && (
-            <div className="flex items-center gap-2 mb-3 text-sm text-primary">
-              <span>{companyData.nome_fantasia}</span>
-              <CheckCircle2 className="h-4 w-4" />
-            </div>
-          )}
           <SidebarUserProfile />
           <div className="mt-3 grid grid-cols-2 gap-2">
             <Button

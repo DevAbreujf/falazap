@@ -1,104 +1,92 @@
-import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { UseFormReturn } from "react-hook-form";
 import { SettingsFormValues } from "@/types/settings";
-import { useToast } from "@/hooks/use-toast";
 
 interface CompanySettingsProps {
   form: UseFormReturn<SettingsFormValues>;
   onSubmit: (data: SettingsFormValues) => Promise<void>;
 }
 
-interface CNPJResponse {
-  razao_social: string;
-  nome_fantasia: string;
-  cnpj: string;
-}
-
 export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
-  const { toast } = useToast();
-  const [companyData, setCompanyData] = useState<CNPJResponse | null>(null);
-  const [isEditing, setIsEditing] = useState(true);
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const tipoConta = form.watch("tipoConta");
   
-  const formatCNPJ = (value: string) => {
+  const formatDocument = (value: string) => {
     const cleanValue = value.replace(/\D/g, '');
-    return cleanValue
-      .replace(/^(\d{2})(\d)/, '$1.$2')
-      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-      .replace(/\.(\d{3})(\d)/, '.$1/$2')
-      .replace(/(\d{4})(\d)/, '$1-$2')
-      .substring(0, 18);
-  };
-
-  const validateCNPJ = async (cnpj: string) => {
-    try {
-      const cleanCNPJ = cnpj.replace(/\D/g, '');
-      const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cleanCNPJ}`);
-      if (!response.ok) {
-        throw new Error('CNPJ inválido');
-      }
-      const data = await response.json();
-      setCompanyData(data);
-      setIsEditing(false);
-      return true;
-    } catch (error) {
-      toast({
-        title: "CNPJ Inválido",
-        description: "Por favor, verifique o CNPJ informado.",
-        variant: "destructive",
-      });
-      return false;
-    }
-  };
-
-  const handleSubmit = async (data: SettingsFormValues) => {
-    if (!termsAccepted) {
-      toast({
-        title: "Termos não aceitos",
-        description: "Por favor, aceite os termos antes de salvar.",
-        variant: "destructive",
-      });
-      return;
-    }
     
-    if (isEditing) {
-      const isValid = await validateCNPJ(data.cnpj);
-      if (!isValid) return;
+    if (tipoConta === "PF") {
+      // Format CPF: 000.000.000-00
+      return cleanValue
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+        .substring(0, 14);
+    } else {
+      // Format CNPJ: 00.000.000/0000-00
+      return cleanValue
+        .replace(/^(\d{2})(\d)/, '$1.$2')
+        .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+        .replace(/\.(\d{3})(\d)/, '.$1/$2')
+        .replace(/(\d{4})(\d)/, '$1-$2')
+        .substring(0, 18);
     }
-    
-    onSubmit(data);
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>CNPJ</CardTitle>
+        <CardTitle>Informações da Empresa</CardTitle>
         <CardDescription>
-          Configure as informações do CNPJ da sua empresa.
+          Configure suas informações empresariais.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="tipoConta"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tipo de Conta</FormLabel>
+                  <Select 
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      // Reset the document field when account type changes
+                      form.setValue('cnpj', '');
+                    }} 
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o tipo de conta" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="PF">Pessoa Física</SelectItem>
+                      <SelectItem value="PJ">Pessoa Jurídica</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="cnpj"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>CNPJ</FormLabel>
+                  <FormLabel>{tipoConta === "PF" ? "CPF" : "CNPJ"}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="00.000.000/0000-00"
+                      placeholder={tipoConta === "PF" ? "000.000.000-00" : "00.000.000/0000-00"}
                       {...field}
-                      disabled={!isEditing}
-                      maxLength={18}
+                      maxLength={tipoConta === "PF" ? 14 : 18}
                       onChange={(e) => {
-                        const formattedValue = formatCNPJ(e.target.value);
+                        const formattedValue = formatDocument(e.target.value);
                         e.target.value = formattedValue;
                         field.onChange(e);
                       }}
@@ -108,21 +96,6 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
                 </FormItem>
               )}
             />
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="terms"
-                checked={termsAccepted}
-                onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
-              />
-              <label
-                htmlFor="terms"
-                className="text-sm text-muted-foreground"
-              >
-                Eu concordo com os termos desse site por isso não utilizarei nenhum outro dado que não esteja sob minha responsabilidade.
-              </label>
-            </div>
-
             <Button type="submit">Salvar Informações</Button>
           </form>
         </Form>
