@@ -11,9 +11,15 @@ import { useNavigate } from "react-router-dom";
 
 export function SidebarUserProfile() {
   const navigate = useNavigate();
+  const razaoSocial = localStorage.getItem('razaoSocial');
 
   return (
     <div className="p-3 bg-gradient-to-r from-slate-50 to-white rounded-lg border border-slate-200 hover:border-slate-300 transition-all duration-300">
+      {razaoSocial && (
+        <div className="mb-2 text-sm font-medium text-slate-900 truncate">
+          {razaoSocial}
+        </div>
+      )}
       <div className="flex items-center gap-2">
         <Avatar className="h-8 w-8 border-2 border-white shadow-sm">
           <AvatarImage src="https://github.com/shadcn.png" />

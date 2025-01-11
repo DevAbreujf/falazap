@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
-import { SettingsHeader } from "@/components/settings/SettingsHeader";
 import { ProfileSettings } from "@/components/settings/ProfileSettings";
 import { SecuritySettings } from "@/components/settings/SecuritySettings";
 import { CompanySettings } from "@/components/settings/CompanySettings";
@@ -19,13 +18,16 @@ export default function Settings() {
     resolver: zodResolver(settingsFormSchema),
     defaultValues: {
       autenticadorDoisFatores: false,
-      tipoConta: "PF",
+      aceitouTermos: false,
     },
   });
 
   const onSubmit = async (data: SettingsFormValues) => {
     try {
-      console.log(data);
+      if (data.cnpj && data.razaoSocial) {
+        localStorage.setItem('razaoSocial', data.razaoSocial);
+      }
+      
       toast({
         title: "Configurações atualizadas",
         description: "Suas configurações foram atualizadas com sucesso!",
