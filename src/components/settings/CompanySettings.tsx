@@ -58,7 +58,6 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
   };
 
   const handleRequestChange = () => {
-    // In a real application, this would send an actual email
     const userEmail = form.getValues("email") || "seu email registrado";
     setEmailSent(true);
     toast({
@@ -124,17 +123,25 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
               <>
                 <FormItem>
                   <FormLabel>Razão Social</FormLabel>
-                  <Input value={companyData.razao_social} disabled />
+                  <Input 
+                    value={companyData.razao_social} 
+                    disabled 
+                    className="bg-gray-50"
+                  />
                 </FormItem>
                 <FormItem>
                   <FormLabel>Nome Fantasia</FormLabel>
-                  <Input value={companyData.nome_fantasia || "Não informado"} disabled />
+                  <Input 
+                    value={companyData.nome_fantasia || "Não informado"} 
+                    disabled 
+                    className="bg-gray-50"
+                  />
                 </FormItem>
                 <Button
                   type="button"
                   variant="link"
                   onClick={handleRequestChange}
-                  className="p-0 h-auto font-normal"
+                  className="p-0 h-auto font-normal text-primary hover:text-primary/80"
                 >
                   Solicitar Alteração do CNPJ
                 </Button>
