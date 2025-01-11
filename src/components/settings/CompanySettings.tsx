@@ -24,7 +24,6 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
   const [companyData, setCompanyData] = useState<CNPJResponse | null>(null);
   const [isEditing, setIsEditing] = useState(true);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
   
   const formatCNPJ = (value: string) => {
     const cleanValue = value.replace(/\D/g, '');
@@ -55,15 +54,6 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
       });
       return false;
     }
-  };
-
-  const handleRequestChange = () => {
-    const userEmail = form.getValues("email") || "seu email registrado";
-    setEmailSent(true);
-    toast({
-      title: "Solicitação Enviada",
-      description: `Um email foi enviado para ${userEmail} com instruções para alteração do CNPJ.`,
-    });
   };
 
   const handleSubmit = async (data: SettingsFormValues) => {
@@ -118,40 +108,6 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
                 </FormItem>
               )}
             />
-
-            {companyData && !isEditing && (
-              <>
-                <FormItem>
-                  <FormLabel>Razão Social</FormLabel>
-                  <Input 
-                    value={companyData.razao_social} 
-                    disabled 
-                    className="bg-gray-50"
-                  />
-                </FormItem>
-                <FormItem>
-                  <FormLabel>Nome Fantasia</FormLabel>
-                  <Input 
-                    value={companyData.nome_fantasia || "Não informado"} 
-                    disabled 
-                    className="bg-gray-50"
-                  />
-                </FormItem>
-                <Button
-                  type="button"
-                  variant="link"
-                  onClick={handleRequestChange}
-                  className="p-0 h-auto font-normal text-primary hover:text-primary/80"
-                >
-                  Solicitar Alteração do CNPJ
-                </Button>
-                {emailSent && (
-                  <p className="text-sm text-muted-foreground">
-                    Email de solicitação enviado. Verifique sua caixa de entrada.
-                  </p>
-                )}
-              </>
-            )}
 
             <div className="flex items-center space-x-2">
               <Checkbox
