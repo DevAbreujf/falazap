@@ -61,7 +61,7 @@ export function AuthenticationSettings({ form, onSubmit }: AuthenticationSetting
                           .replace(/(\d{5})(\d)/, '$1-$2')
                           .substring(0, 15);
                         e.target.value = phoneFormatted;
-                        field.onChange(e);
+                        field.onChange(phoneFormatted);
                       }}
                     />
                   </FormControl>
