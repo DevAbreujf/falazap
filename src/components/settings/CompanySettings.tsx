@@ -47,11 +47,13 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
         setCnpjError("");
         setCnpjValid(true);
         form.setValue('razaoSocial', response.data.razao_social);
+        localStorage.setItem('razaoSocial', response.data.razao_social);
       }
     } catch (error) {
       setCnpjError("Parece que você digitou um CNPJ incorreto, reveja por favor");
       setCnpjValid(false);
       form.setValue('razaoSocial', '');
+      localStorage.removeItem('razaoSocial');
     } finally {
       setIsValidatingCNPJ(false);
     }
@@ -106,42 +108,38 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
               )}
             />
 
-            {cnpjValid && (
-              <>
-                <FormField
-                  control={form.control}
-                  name="razaoSocial"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Razão Social</FormLabel>
-                      <FormControl>
-                        <Input {...field} disabled />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+            <FormField
+              control={form.control}
+              name="razaoSocial"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Razão Social</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-                <FormField
-                  control={form.control}
-                  name="aceitouTermos"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel>
-                          Concordo que as informações digitadas são verídicas e que está sob minha posse ou acesso
-                        </FormLabel>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </>
-            )}
+            <FormField
+              control={form.control}
+              name="aceitouTermos"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Concordo que as informações digitadas são verídicas e que está sob minha posse ou acesso
+                    </FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
 
             <Button 
               type="submit" 
