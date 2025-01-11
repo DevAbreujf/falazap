@@ -24,6 +24,7 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
   const [companyData, setCompanyData] = useState<CNPJResponse | null>(null);
   const [isEditing, setIsEditing] = useState(true);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   
   const formatCNPJ = (value: string) => {
     const cleanValue = value.replace(/\D/g, '');
@@ -56,6 +57,16 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
     }
   };
 
+  const handleRequestChange = () => {
+    // In a real application, this would send an actual email
+    const userEmail = form.getValues("email") || "seu email registrado";
+    setEmailSent(true);
+    toast({
+      title: "Solicitação Enviada",
+      description: `Um email foi enviado para ${userEmail} com instruções para alteração do CNPJ.`,
+    });
+  };
+
   const handleSubmit = async (data: SettingsFormValues) => {
     if (!termsAccepted) {
       toast({
@@ -77,9 +88,9 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Informações da Empresa</CardTitle>
+        <CardTitle>CNPJ</CardTitle>
         <CardDescription>
-          Configure suas informações empresariais.
+          Configure as informações do CNPJ da sua empresa.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -122,14 +133,16 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
                 <Button
                   type="button"
                   variant="link"
-                  onClick={() => {
-                    setIsEditing(true);
-                    setCompanyData(null);
-                    form.setValue('cnpj', '');
-                  }}
+                  onClick={handleRequestChange}
+                  className="p-0 h-auto font-normal"
                 >
-                  Alterar CNPJ
+                  Solicitar Alteração do CNPJ
                 </Button>
+                {emailSent && (
+                  <p className="text-sm text-muted-foreground">
+                    Email de solicitação enviado. Verifique sua caixa de entrada.
+                  </p>
+                )}
               </>
             )}
 

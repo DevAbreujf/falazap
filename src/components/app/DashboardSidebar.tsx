@@ -27,7 +27,7 @@ export function DashboardSidebar() {
   // Mock company data - in a real app, this would come from a context or API
   const companyData = {
     nome_fantasia: "Empresa LTDA",
-    isConnected: true,
+    isConnected: false, // Set to false by default, only true when CNPJ is validated and saved
   };
 
   return (
