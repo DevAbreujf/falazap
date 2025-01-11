@@ -77,7 +77,7 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>CNPJ</CardTitle>
+        <CardTitle>Informações da Empresa</CardTitle>
         <CardDescription>
           Configure suas informações empresariais.
         </CardDescription>

@@ -50,7 +50,7 @@ export function DashboardSidebar() {
       
       <SidebarHeader>
         <div className="p-4">
-          {companyData.isConnected && companyData.nome_fantasia && (
+          {companyData.isConnected && (
             <div className="flex items-center gap-2 mb-3 text-sm text-primary">
               <span>{companyData.nome_fantasia}</span>
               <CheckCircle2 className="h-4 w-4" />

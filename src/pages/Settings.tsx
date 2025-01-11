@@ -7,6 +7,7 @@ import { SettingsHeader } from "@/components/settings/SettingsHeader";
 import { ProfileSettings } from "@/components/settings/ProfileSettings";
 import { SecuritySettings } from "@/components/settings/SecuritySettings";
 import { CompanySettings } from "@/components/settings/CompanySettings";
+import { AuthenticationSettings } from "@/components/settings/AuthenticationSettings";
 import { settingsFormSchema, type SettingsFormValues } from "@/types/settings";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ export default function Settings() {
     resolver: zodResolver(settingsFormSchema),
     defaultValues: {
       autenticadorDoisFatores: false,
+      tipoConta: "PF",
     },
   });
 
@@ -68,7 +70,7 @@ export default function Settings() {
             </div>
 
             <Tabs defaultValue="perfil" className="space-y-8">
-              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3 gap-4">
+              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 gap-4">
                 <TabsTrigger value="perfil" className="data-[state=active]:bg-primary/20">
                   Perfil
                 </TabsTrigger>
@@ -76,7 +78,10 @@ export default function Settings() {
                   Segurança
                 </TabsTrigger>
                 <TabsTrigger value="empresa" className="data-[state=active]:bg-primary/20">
-                  CNPJ
+                  Empresa
+                </TabsTrigger>
+                <TabsTrigger value="autenticacao" className="data-[state=active]:bg-primary/20">
+                  Autenticação
                 </TabsTrigger>
               </TabsList>
 
@@ -91,6 +96,10 @@ export default function Settings() {
 
                 <TabsContent value="empresa">
                   <CompanySettings form={form} onSubmit={onSubmit} />
+                </TabsContent>
+
+                <TabsContent value="autenticacao">
+                  <AuthenticationSettings form={form} onSubmit={onSubmit} />
                 </TabsContent>
               </div>
             </Tabs>
