@@ -1,38 +1,56 @@
-import React from "react";
+import { Settings, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useNavigate } from "react-router-dom";
 
 export function SidebarUserProfile() {
-  const userName = "John Doe"; // In a real app, this would come from context/state
-  const companyName = localStorage.getItem('razaoSocial'); // Get saved company name
+  const navigate = useNavigate();
+  const razaoSocial = localStorage.getItem('razaoSocial');
 
   return (
-    <>
-      {companyName && (
-        <div className="text-xs text-slate-500 px-3 mb-1">
-          {companyName}
+    <div className="p-3 bg-gradient-to-r from-slate-50 to-white rounded-lg border border-slate-200 hover:border-slate-300 transition-all duration-300">
+      {razaoSocial && (
+        <div className="mb-2 text-sm font-medium text-slate-900 truncate">
+          {razaoSocial}
         </div>
       )}
-      <div className="p-3 bg-gradient-to-r from-slate-50 to-white rounded-lg border border-slate-200 hover:border-slate-300 transition-all duration-300">
-        <div className="flex items-center gap-3">
-          <Avatar>
-            <AvatarImage src="" />
-            <AvatarFallback>{userName.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium leading-none truncate">
-              {userName}
-            </p>
-            <p className="text-xs text-muted-foreground truncate">
-              admin@example.com
-            </p>
-          </div>
-          <Button variant="ghost" size="icon">
-            <LogOut className="h-4 w-4" />
-          </Button>
+      <div className="flex items-center gap-2">
+        <Avatar className="h-8 w-8 border-2 border-white shadow-sm">
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>JS</AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-medium text-slate-900 truncate">
+            João Silva
+          </h3>
+          <p className="text-xs text-slate-500">
+            Administrador
+          </p>
         </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-slate-100">
+              <Settings className="h-4 w-4 text-slate-600" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={() => navigate("/settings")}>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Configurações</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => console.log("Logout clicked")} className="text-red-600">
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Sair</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-    </>
+    </div>
   );
 }
