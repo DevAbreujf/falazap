@@ -2,7 +2,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatContact } from "@/types/chat";
-import { Search } from "lucide-react";
+import { Search, Building2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ChatSidebarProps {
   contacts: ChatContact[];
@@ -10,9 +19,29 @@ interface ChatSidebarProps {
   onSelectContact: (contact: ChatContact) => void;
 }
 
+// Mock departments data - In production, this would come from an API
+const mockDepartments = [
+  { id: "1", name: "Suporte Técnico" },
+  { id: "2", name: "Vendas" },
+  { id: "3", name: "Financeiro" },
+];
+
 export function ChatSidebar({ contacts, selectedContactId, onSelectContact }: ChatSidebarProps) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentDepartment, setCurrentDepartment] = useState(mockDepartments[0]);
+  const { toast } = useToast();
+  
   const supportContacts = contacts.filter(contact => contact.isSupport);
   const regularContacts = contacts.filter(contact => !contact.isSupport);
+
+  const handleDepartmentChange = (department: typeof mockDepartments[0]) => {
+    setCurrentDepartment(department);
+    setIsDialogOpen(false);
+    toast({
+      title: "Setor alterado",
+      description: `Alterado para o setor ${department.name}`,
+    });
+  };
 
   return (
     <div className="w-72 border-r border-primary/10 bg-card">
@@ -24,7 +53,41 @@ export function ChatSidebar({ contacts, selectedContactId, onSelectContact }: Ch
             className="w-full pl-8 pr-3 py-2 bg-muted/50 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary text-sm"
           />
         </div>
+        <div className="flex items-center gap-2 mt-3">
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full flex items-center gap-2"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            <Building2 className="h-4 w-4" />
+            Setores
+          </Button>
+          <Badge variant="outline" className="shrink-0">
+            {currentDepartment.name}
+          </Badge>
+        </div>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Selecionar Setor</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            {mockDepartments.map((dept) => (
+              <Button
+                key={dept.id}
+                variant="outline"
+                className="w-full justify-start"
+                onClick={() => handleDepartmentChange(dept)}
+              >
+                {dept.name}
+              </Button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <ScrollArea className="h-[calc(100vh-9rem)]">
         {supportContacts.length > 0 && (
