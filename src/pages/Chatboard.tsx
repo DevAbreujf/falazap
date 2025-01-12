@@ -23,7 +23,6 @@ const mockDepartments: Department[] = [
   },
 ];
 
-// Separate mock contacts by department
 const mockContactsByDepartment: Record<string, ChatContact[]> = {
   "1": [
     {
@@ -81,8 +80,8 @@ const mockContactsByDepartment: Record<string, ChatContact[]> = {
   ],
 };
 
-// Separate mock messages by department
-const mockMessagesByDepartment: Record<string, Record<string, ChatMessage[]>> = {
+// Create a state to store messages
+const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>> = {
   "1": {
     "1": [
       {
@@ -133,6 +132,7 @@ export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string | undefined>();
   const [showIntro, setShowIntro] = useState(true);
   const [currentDepartment, setCurrentDepartment] = useState<Department>(mockDepartments[0]);
+  const [messagesByDepartment, setMessagesByDepartment] = useState(initialMessagesByDepartment);
 
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
@@ -148,10 +148,18 @@ export default function Chatboard() {
       type: "text"
     };
 
-    const departmentMessages = mockMessagesByDepartment[currentDepartment.id] || {};
-    const contactMessages = departmentMessages[selectedContactId] || [];
-    departmentMessages[selectedContactId] = [...contactMessages, newMessage];
-    mockMessagesByDepartment[currentDepartment.id] = departmentMessages;
+    setMessagesByDepartment(prevMessages => {
+      const departmentMessages = prevMessages[currentDepartment.id] || {};
+      const contactMessages = departmentMessages[selectedContactId] || [];
+      
+      return {
+        ...prevMessages,
+        [currentDepartment.id]: {
+          ...departmentMessages,
+          [selectedContactId]: [...contactMessages, newMessage]
+        }
+      };
+    });
 
     console.log("Mensagem enviada:", formattedContent);
   };
@@ -170,15 +178,15 @@ export default function Chatboard() {
     const department = mockDepartments.find(d => d.id === departmentId);
     if (department) {
       setCurrentDepartment(department);
-      setSelectedContactId(undefined); // Reset selected contact when changing departments
-      setShowIntro(true); // Show intro when changing departments
+      setSelectedContactId(undefined);
+      setShowIntro(true);
     }
   };
 
   // Get contacts for current department
   const currentContacts = mockContactsByDepartment[currentDepartment.id] || [];
   const currentMessages = selectedContactId 
-    ? (mockMessagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
+    ? (messagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
     : [];
 
   return (
