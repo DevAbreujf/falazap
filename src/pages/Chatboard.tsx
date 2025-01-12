@@ -5,7 +5,6 @@ import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState } from "react";
 
-// Mock data - Em produção, isso viria de uma API
 const mockDepartments: Department[] = [
   {
     id: "1",
@@ -145,8 +144,6 @@ export default function Chatboard() {
       <ChatHeader
         userName="John Doe"
         currentDepartment={currentDepartment}
-        departments={mockDepartments}
-        onDepartmentChange={handleDepartmentChange}
         onShowIntro={() => setShowIntro(true)}
       />
       
