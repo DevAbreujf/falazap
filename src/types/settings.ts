@@ -5,6 +5,7 @@ export const settingsFormSchema = z.object({
   nome: z.string().min(3, "O nome deve ter no mínimo 3 caracteres"),
   email: z.string().email("Email inválido"),
   whatsapp: z.string().min(11, "Número de WhatsApp inválido"),
+  telefone: z.string().min(10, "Telefone inválido"),
   cep: z.string().refine((val) => validateCEP(val.replace(/\D/g, '')), {
     message: "CEP inválido",
   }),

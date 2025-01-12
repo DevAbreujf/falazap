@@ -17,7 +17,6 @@ export default function Settings() {
     resolver: zodResolver(settingsFormSchema),
     defaultValues: {
       autenticadorDoisFatores: false,
-      aceitouTermos: false,
     },
   });
 
