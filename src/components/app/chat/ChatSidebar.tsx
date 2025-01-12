@@ -1,9 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
 import { ChatContact } from "@/types/chat";
-import { Search, Users, Bot } from "lucide-react";
+import { Search } from "lucide-react";
 
 interface ChatSidebarProps {
   contacts: ChatContact[];
@@ -24,19 +23,6 @@ export function ChatSidebar({ contacts, selectedContactId, onSelectContact }: Ch
             placeholder="Buscar contatos..."
             className="w-full pl-8 pr-3 py-2 bg-muted/50 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary text-sm"
           />
-        </div>
-      </div>
-
-      <div className="p-3 border-b border-primary/10">
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="w-full">
-            <Users className="h-4 w-4 mr-2" />
-            Setores
-          </Button>
-          <Button variant="outline" size="sm" className="w-full">
-            <Bot className="h-4 w-4 mr-2" />
-            Bot
-          </Button>
         </div>
       </div>
 
