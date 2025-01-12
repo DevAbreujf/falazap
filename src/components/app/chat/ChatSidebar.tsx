@@ -13,12 +13,6 @@ import {
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
-interface ChatSidebarProps {
-  contacts: ChatContact[];
-  selectedContactId?: string;
-  onSelectContact: (contact: ChatContact) => void;
-}
-
 // Mock departments data - In production, this would come from an API
 const mockDepartments = [
   { id: "1", name: "Suporte Técnico" },
@@ -26,16 +20,23 @@ const mockDepartments = [
   { id: "3", name: "Financeiro" },
 ];
 
-export function ChatSidebar({ contacts, selectedContactId, onSelectContact }: ChatSidebarProps) {
+interface ChatSidebarProps {
+  contacts: ChatContact[];
+  selectedContactId?: string;
+  onSelectContact: (contact: ChatContact) => void;
+  onDepartmentChange: (departmentId: string) => void;
+  currentDepartment: typeof mockDepartments[0];
+}
+
+export function ChatSidebar({ contacts, selectedContactId, onSelectContact, onDepartmentChange, currentDepartment }: ChatSidebarProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [currentDepartment, setCurrentDepartment] = useState(mockDepartments[0]);
   const { toast } = useToast();
   
   const supportContacts = contacts.filter(contact => contact.isSupport);
   const regularContacts = contacts.filter(contact => !contact.isSupport);
 
   const handleDepartmentChange = (department: typeof mockDepartments[0]) => {
-    setCurrentDepartment(department);
+    onDepartmentChange(department.id);
     setIsDialogOpen(false);
     toast({
       title: "Setor alterado",

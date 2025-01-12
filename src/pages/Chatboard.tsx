@@ -100,7 +100,7 @@ export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string | undefined>();
   const [messages, setMessages] = useState<Record<string, ChatMessage[]>>(mockMessages);
   const [showIntro, setShowIntro] = useState(true);
-  const [currentDepartment, setCurrentDepartment] = useState<Department | undefined>();
+  const [currentDepartment, setCurrentDepartment] = useState<Department>(mockDepartments[0]);
 
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
@@ -136,7 +136,9 @@ export default function Chatboard() {
 
   const handleDepartmentChange = (departmentId: string) => {
     const department = mockDepartments.find(d => d.id === departmentId);
-    setCurrentDepartment(department);
+    if (department) {
+      setCurrentDepartment(department);
+    }
   };
 
   return (
@@ -155,6 +157,8 @@ export default function Chatboard() {
             setSelectedContactId(contact.id);
             setShowIntro(false);
           }}
+          onDepartmentChange={handleDepartmentChange}
+          currentDepartment={currentDepartment}
         />
         
         <div className="flex-1">
