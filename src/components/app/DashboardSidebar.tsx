@@ -13,12 +13,13 @@ import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
+import { SidebarNotifications } from "./dashboard/SidebarNotifications";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
   
   // Mock data for connected phones - in a real app, this would come from a context or API
-  const connectedPhones: { number: string; isConnected: boolean }[] = [
+  const connectedPhones = [
     { number: "+55 11 99999-9999", isConnected: true },
     { number: "+55 11 88888-8888", isConnected: true },
     { number: "+55 11 77777-7777", isConnected: true },
@@ -40,6 +41,9 @@ export function DashboardSidebar() {
           </Button>
         </div>
         <SidebarLogo />
+        <div className="ml-auto">
+          <SidebarNotifications />
+        </div>
       </div>
       
       <SidebarHeader>
