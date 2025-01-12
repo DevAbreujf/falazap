@@ -11,6 +11,7 @@ import Reminders from "@/pages/Reminders";
 import Schedules from "@/pages/Schedules";
 import Settings from "@/pages/Settings";
 import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
 import Connection from "@/pages/Connection";
 import Funnels from "@/pages/Funnels";
 import FunnelEditor from "@/pages/FunnelEditor";
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/schedules" element={<Schedules />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="/connection" element={<Connection />} />
           <Route path="/funnels" element={<Funnels />} />
           <Route path="/funnels/editor" element={<FunnelEditor />} />
