@@ -124,6 +124,7 @@ export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
                         <Input
                           placeholder="00.000.000/0000-00"
                           {...field}
+                          maxLength={18}
                           className="glass-card pr-10"
                           onChange={(e) => {
                             const formatted = formatCNPJ(e.target.value);
