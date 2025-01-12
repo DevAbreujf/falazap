@@ -1,11 +1,4 @@
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ArrowLeft, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Department } from "@/types/chat";
@@ -13,16 +6,12 @@ import { Department } from "@/types/chat";
 interface ChatHeaderProps {
   userName: string;
   currentDepartment?: Department;
-  departments: Department[];
-  onDepartmentChange: (departmentId: string) => void;
   onShowIntro: () => void;
 }
 
 export function ChatHeader({
   userName,
   currentDepartment,
-  departments,
-  onDepartmentChange,
   onShowIntro,
 }: ChatHeaderProps) {
   const navigate = useNavigate();
@@ -52,22 +41,6 @@ export function ChatHeader({
             </>
           )}
         </div>
-
-        <Select
-          value={currentDepartment?.id}
-          onValueChange={onDepartmentChange}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Selecionar setor" />
-          </SelectTrigger>
-          <SelectContent>
-            {departments.map((dept) => (
-              <SelectItem key={dept.id} value={dept.id}>
-                {dept.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
 
         <Button
           variant="outline"
