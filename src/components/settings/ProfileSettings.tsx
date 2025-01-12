@@ -305,7 +305,12 @@ export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
                   <FormItem>
                     <FormLabel>Cidade</FormLabel>
                     <FormControl>
-                      <Input placeholder="Sua cidade" {...field} className="glass-card" />
+                      <Input 
+                        placeholder="Sua cidade" 
+                        {...field} 
+                        className="glass-card bg-gray-100" 
+                        readOnly
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -319,7 +324,12 @@ export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
                   <FormItem>
                     <FormLabel>Estado</FormLabel>
                     <FormControl>
-                      <Input placeholder="Seu estado" {...field} className="glass-card" />
+                      <Input 
+                        placeholder="Seu estado" 
+                        {...field} 
+                        className="glass-card bg-gray-100" 
+                        readOnly
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
