@@ -35,7 +35,7 @@ export default function App() {
         <Route path="/schedules" element={<Schedules />} />
         <Route path="/broadcasts" element={<Broadcasts />} />
         <Route path="/reminders" element={<Reminders />} />
-        <Route path="/tags" element={<Tags />} />
+        <Route path="/etiquetas" element={<Tags />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/funnel-editor" element={<FunnelEditor />} />
