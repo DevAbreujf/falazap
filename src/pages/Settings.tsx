@@ -5,7 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { ProfileSettings } from "@/components/settings/ProfileSettings";
 import { SecuritySettings } from "@/components/settings/SecuritySettings";
-import { CompanySettings } from "@/components/settings/CompanySettings";
 import { AuthenticationSettings } from "@/components/settings/AuthenticationSettings";
 import { settingsFormSchema, type SettingsFormValues } from "@/types/settings";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -72,15 +71,12 @@ export default function Settings() {
             </div>
 
             <Tabs defaultValue="perfil" className="space-y-8">
-              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 gap-4">
+              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3 gap-4">
                 <TabsTrigger value="perfil" className="data-[state=active]:bg-primary/20">
                   Perfil
                 </TabsTrigger>
                 <TabsTrigger value="seguranca" className="data-[state=active]:bg-primary/20">
                   Segurança
-                </TabsTrigger>
-                <TabsTrigger value="empresa" className="data-[state=active]:bg-primary/20">
-                  Empresa
                 </TabsTrigger>
                 <TabsTrigger value="autenticacao" className="data-[state=active]:bg-primary/20">
                   Autenticação
@@ -94,10 +90,6 @@ export default function Settings() {
 
                 <TabsContent value="seguranca">
                   <SecuritySettings form={form} onSubmit={onSubmit} />
-                </TabsContent>
-
-                <TabsContent value="empresa">
-                  <CompanySettings form={form} onSubmit={onSubmit} />
                 </TabsContent>
 
                 <TabsContent value="autenticacao">

@@ -16,7 +16,7 @@ export const settingsFormSchema = z.object({
   state: z.string().min(2, "Estado inválido"),
   senhaAtual: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
   novaSenha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
-  cnpj: z.string(),
+  cnpj: z.string().min(14, "CNPJ inválido"),
   razaoSocial: z.string(),
   aceitouTermos: z.boolean(),
   autenticadorDoisFatores: z.boolean(),

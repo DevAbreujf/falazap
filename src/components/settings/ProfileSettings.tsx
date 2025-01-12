@@ -6,8 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { UseFormReturn } from 'react-hook-form';
 import { SettingsFormValues } from '@/types/settings';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Camera } from "lucide-react";
+import { Camera, Check, X } from "lucide-react";
 import { validateCEP, formatCEP, fetchAddressFromCEP } from '@/utils/cepValidator';
+import { validateCNPJ, formatCNPJ } from '@/utils/cnpjValidator';
 import { toast } from 'sonner';
 
 interface ProfileSettingsProps {
@@ -17,6 +18,8 @@ interface ProfileSettingsProps {
 
 export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [isValidatingCNPJ, setIsValidatingCNPJ] = useState(false);
+  const [cnpjIsValid, setCnpjIsValid] = useState<boolean | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -26,6 +29,22 @@ export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
         setAvatarUrl(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCNPJChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const cnpj = event.target.value.replace(/\D/g, '');
+    if (cnpj.length === 14) {
+      setIsValidatingCNPJ(true);
+      const { isValid, razaoSocial } = await validateCNPJ(cnpj);
+      setCnpjIsValid(isValid);
+      if (isValid && razaoSocial) {
+        form.setValue('razaoSocial', razaoSocial);
+      }
+      setIsValidatingCNPJ(false);
+    } else {
+      setCnpjIsValid(null);
+      form.setValue('razaoSocial', '');
     }
   };
 
@@ -79,19 +98,82 @@ export function ProfileSettings({ form, onSubmit }: ProfileSettingsProps) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="nome"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nome Completo</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Seu nome completo" {...field} className="glass-card" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="cnpj"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>CNPJ</FormLabel>
+                    <div className="relative">
+                      <FormControl>
+                        <Input
+                          placeholder="00.000.000/0000-00"
+                          {...field}
+                          className="glass-card pr-10"
+                          onChange={(e) => {
+                            const formatted = formatCNPJ(e.target.value);
+                            field.onChange(formatted);
+                            handleCNPJChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      {cnpjIsValid !== null && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          {cnpjIsValid ? (
+                            <Check className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <X className="h-4 w-4 text-red-500" />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
-              name="nome"
+              name="razaoSocial"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome Completo</FormLabel>
+                  <FormLabel>Razão Social</FormLabel>
                   <FormControl>
-                    <Input placeholder="Seu nome completo" {...field} className="glass-card" />
+                    <Input
+                      {...field}
+                      className="glass-card bg-gray-100"
+                      readOnly
+                      placeholder="Será preenchido automaticamente ao validar o CNPJ"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={!cnpjIsValid}
+            >
+              Salvar Empresa
+            </Button>
 
             <FormField
               control={form.control}
