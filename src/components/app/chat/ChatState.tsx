@@ -4,14 +4,17 @@ export const mockDepartments: Department[] = [
   {
     id: "1",
     name: "Vendas",
+    description: "Departamento responsável por vendas e negociações"
   },
   {
     id: "2",
     name: "Suporte",
+    description: "Suporte técnico e atendimento ao cliente"
   },
   {
     id: "3",
     name: "Financeiro",
+    description: "Departamento financeiro e cobranças"
   },
 ];
 
@@ -20,55 +23,104 @@ export const mockContactsByDepartment: Record<string, ChatContact[]> = {
     {
       id: "1",
       name: "João Silva",
-      lastMessage: "Olá, gostaria de mais informações",
-      lastMessageTime: "10:30",
+      status: "online",
       unreadCount: 2,
+      lastMessage: {
+        id: "1",
+        content: "Olá, gostaria de mais informações",
+        senderId: "contact-1",
+        timestamp: "2024-02-20T10:30:00",
+        status: "delivered",
+        type: "text"
+      },
     },
     {
       id: "2",
       name: "Maria Oliveira",
-      lastMessage: "Estou com um problema no pedido",
-      lastMessageTime: "09:15",
+      status: "offline",
       unreadCount: 1,
+      lastMessage: {
+        id: "2",
+        content: "Estou com um problema no pedido",
+        senderId: "contact-2",
+        timestamp: "2024-02-20T09:15:00",
+        status: "delivered",
+        type: "text"
+      },
     },
     {
       id: "3",
       name: "Carlos Pereira",
-      lastMessage: "Qual é o status da minha solicitação?",
-      lastMessageTime: "08:45",
+      status: "online",
       unreadCount: 0,
+      lastMessage: {
+        id: "3",
+        content: "Qual é o status da minha solicitação?",
+        senderId: "contact-3",
+        timestamp: "2024-02-20T08:45:00",
+        status: "delivered",
+        type: "text"
+      },
     },
   ],
   "2": [
     {
       id: "4",
       name: "Ana Costa",
-      lastMessage: "Preciso de ajuda com o sistema",
-      lastMessageTime: "11:00",
+      status: "online",
       unreadCount: 3,
+      lastMessage: {
+        id: "5",
+        content: "Preciso de ajuda com o sistema",
+        senderId: "contact-4",
+        timestamp: "2024-02-20T11:00:00",
+        status: "delivered",
+        type: "text"
+      },
     },
     {
       id: "5",
       name: "Ricardo Almeida",
-      lastMessage: "Aguardo retorno sobre meu chamado",
-      lastMessageTime: "10:50",
+      status: "offline",
       unreadCount: 0,
+      lastMessage: {
+        id: "6",
+        content: "Aguardo retorno sobre meu chamado",
+        senderId: "contact-5",
+        timestamp: "2024-02-20T10:50:00",
+        status: "delivered",
+        type: "text"
+      },
     },
   ],
   "3": [
     {
       id: "6",
       name: "Fernanda Lima",
-      lastMessage: "Qual é a previsão de pagamento?",
-      lastMessageTime: "12:30",
+      status: "online",
       unreadCount: 1,
+      lastMessage: {
+        id: "7",
+        content: "Qual é a previsão de pagamento?",
+        senderId: "contact-6",
+        timestamp: "2024-02-20T12:30:00",
+        status: "delivered",
+        type: "text"
+      },
     },
     {
       id: "7",
       name: "Bruno Santos",
-      lastMessage: "Gostaria de discutir o relatório financeiro",
-      lastMessageTime: "11:20",
+      status: "offline",
       unreadCount: 0,
+      lastMessage: {
+        id: "8",
+        content: "Gostaria de discutir o relatório financeiro",
+        senderId: "contact-7",
+        timestamp: "2024-02-20T11:20:00",
+        status: "delivered",
+        type: "text"
+      },
     },
   ],
 };
@@ -79,32 +131,36 @@ export const initialMessagesByDepartment: Record<string, Record<string, ChatMess
       {
         id: "1",
         content: "Olá, gostaria de mais informações",
-        sender: "contact",
+        senderId: "contact-1",
         timestamp: "2024-02-20T10:30:00",
-        type: "text",
+        status: "delivered",
+        type: "text"
       },
       {
         id: "2",
         content: "Claro! Sobre o que você gostaria de saber?",
-        sender: "user",
+        senderId: "user-1",
         timestamp: "2024-02-20T10:31:00",
-        type: "text",
+        status: "delivered",
+        type: "text"
       },
     ],
     "2": [
       {
         id: "3",
         content: "Estou com um problema no pedido",
-        sender: "contact",
+        senderId: "contact-2",
         timestamp: "2024-02-20T09:15:00",
-        type: "text",
+        status: "delivered",
+        type: "text"
       },
       {
         id: "4",
         content: "Pode me dar mais detalhes sobre o problema?",
-        sender: "user",
+        senderId: "user-1",
         timestamp: "2024-02-20T09:16:00",
-        type: "text",
+        status: "delivered",
+        type: "text"
       },
     ],
   },
@@ -113,16 +169,18 @@ export const initialMessagesByDepartment: Record<string, Record<string, ChatMess
       {
         id: "5",
         content: "Preciso de ajuda com o sistema",
-        sender: "contact",
+        senderId: "contact-4",
         timestamp: "2024-02-20T11:00:00",
-        type: "text",
+        status: "delivered",
+        type: "text"
       },
       {
         id: "6",
         content: "Claro! O que está acontecendo?",
-        sender: "user",
+        senderId: "user-1",
         timestamp: "2024-02-20T11:01:00",
-        type: "text",
+        status: "delivered",
+        type: "text"
       },
     ],
   },
@@ -131,16 +189,18 @@ export const initialMessagesByDepartment: Record<string, Record<string, ChatMess
       {
         id: "7",
         content: "Qual é a previsão de pagamento?",
-        sender: "contact",
+        senderId: "contact-6",
         timestamp: "2024-02-20T12:30:00",
-        type: "text",
+        status: "delivered",
+        type: "text"
       },
       {
         id: "8",
         content: "A previsão é para o final da semana.",
-        sender: "user",
+        senderId: "user-1",
         timestamp: "2024-02-20T12:31:00",
-        type: "text",
+        status: "delivered",
+        type: "text"
       },
     ],
   },

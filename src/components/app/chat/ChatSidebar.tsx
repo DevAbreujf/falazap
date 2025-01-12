@@ -15,9 +15,9 @@ import { useToast } from "@/components/ui/use-toast";
 
 // Mock departments data - In production, this would come from an API
 const mockDepartments = [
-  { id: "1", name: "Suporte Técnico" },
-  { id: "2", name: "Vendas" },
-  { id: "3", name: "Financeiro" },
+  { id: "1", name: "Suporte Técnico", description: "Suporte técnico e atendimento ao cliente" },
+  { id: "2", name: "Vendas", description: "Departamento responsável por vendas e negociações" },
+  { id: "3", name: "Financeiro", description: "Departamento financeiro e cobranças" },
 ];
 
 interface ChatSidebarProps {

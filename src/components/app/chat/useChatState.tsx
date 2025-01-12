@@ -16,8 +16,9 @@ export function useChatState() {
     const newMessage: ChatMessage = {
       id: crypto.randomUUID(),
       content: formattedContent,
-      sender: "user",
+      senderId: "user-1",
       timestamp: new Date().toISOString(),
+      status: "sent",
       type: "text"
     };
 
