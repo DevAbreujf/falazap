@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
 import { SettingsFormValues } from "@/types/settings";
 import { useToast } from "@/components/ui/use-toast";
@@ -121,29 +120,9 @@ export function CompanySettings({ form, onSubmit }: CompanySettingsProps) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="aceitouTermos"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      Concordo que as informações digitadas são verídicas e que está sob minha posse ou acesso
-                    </FormLabel>
-                  </div>
-                </FormItem>
-              )}
-            />
-
             <Button 
               type="submit" 
-              disabled={!cnpjValid || !form.watch('aceitouTermos')}
+              disabled={!cnpjValid}
             >
               Salvar Informações
             </Button>
