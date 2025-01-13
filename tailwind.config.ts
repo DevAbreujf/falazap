@@ -27,6 +27,7 @@ export default {
         primary: {
           DEFAULT: '#1E40AF',
           hover: '#2563EB',
+          light: '#60A5FA', // Added this new color
           foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {
