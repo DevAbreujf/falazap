@@ -14,11 +14,11 @@ import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 import { SidebarNotifications } from "./dashboard/SidebarNotifications";
+import { ThemeToggle } from "./dashboard/ThemeToggle";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
   
-  // Mock data for connected phones - in a real app, this would come from a context or API
   const connectedPhones = [
     { number: "+55 11 99999-9999", isConnected: true },
     { number: "+55 11 88888-8888", isConnected: true },
@@ -26,17 +26,17 @@ export function DashboardSidebar() {
   ];
 
   return (
-    <Sidebar className="border-r border-slate-200 bg-white">
+    <Sidebar className="border-r border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700">
       <div className="flex items-center gap-4 p-4">
         <div className="block lg:hidden">
           <Button 
             variant="ghost" 
             size="icon" 
             asChild 
-            className="hover:bg-slate-100"
+            className="hover:bg-slate-100 dark:hover:bg-slate-800"
           >
             <SidebarTrigger>
-              <Menu className="h-6 w-6 text-slate-600" />
+              <Menu className="h-6 w-6 text-slate-600 dark:text-slate-400" />
             </SidebarTrigger>
           </Button>
         </div>
@@ -54,7 +54,7 @@ export function DashboardSidebar() {
               variant="outline"
               size="sm"
               onClick={() => navigate('/departments')}
-              className="w-full justify-start"
+              className="w-full justify-start dark:border-slate-700 dark:hover:bg-slate-800"
             >
               <span className="truncate">Setores</span>
             </Button>
@@ -62,7 +62,7 @@ export function DashboardSidebar() {
               variant="outline"
               size="sm"
               onClick={() => navigate('/users')}
-              className="w-full justify-start"
+              className="w-full justify-start dark:border-slate-700 dark:hover:bg-slate-800"
             >
               <span className="truncate">Usuários</span>
             </Button>
@@ -78,6 +78,10 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      <div className="mt-auto">
+        <ThemeToggle />
+      </div>
     </Sidebar>
   );
 }

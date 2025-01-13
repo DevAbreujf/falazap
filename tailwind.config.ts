@@ -25,10 +25,8 @@ export default {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#1cd8b6',
-          light: '#4df1b5',
-          dark: '#39f18e',
-          hover: '#1cd8b6',
+          DEFAULT: '#1E40AF',
+          hover: '#2563EB',
           foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {
@@ -57,7 +55,7 @@ export default {
         }
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(95.27deg, #1cd8b6 -0.85%, #4df1b5 39.07%, #39f18e 89.32%)',
+        'gradient-primary': 'linear-gradient(95.27deg, #1E40AF -0.85%, #2563EB 89.32%)',
         'gradient-secondary': 'linear-gradient(to right, #F8FAFC, #F1F5F9)',
         'glass': 'linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3))'
       },
