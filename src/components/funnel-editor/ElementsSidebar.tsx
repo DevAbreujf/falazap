@@ -138,10 +138,10 @@ export function ElementsSidebar() {
   }, {} as Record<string, typeof widgets>);
 
   return (
-    <div className="w-72 bg-zinc-900/90 backdrop-blur-sm border-r border-zinc-800">
-      <div className="p-4 border-b border-zinc-800">
-        <h2 className="text-lg font-semibold text-zinc-100">Elementos</h2>
-        <p className="text-sm text-zinc-400">
+    <div className="w-72 bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm border-r border-[#334155]">
+      <div className="p-4 border-b border-[#334155]">
+        <h2 className="text-lg font-semibold text-white">Elementos</h2>
+        <p className="text-sm text-gray-400">
           Arraste os elementos para o canvas
         </p>
       </div>
@@ -150,7 +150,7 @@ export function ElementsSidebar() {
         <div className="p-3">
           {Object.entries(groupedWidgets).map(([group, items]) => (
             <div key={group} className="mb-4">
-              <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2 px-1">
+              <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2 px-1">
                 {group}
               </h3>
               <div className="grid grid-cols-2 gap-2">
@@ -159,13 +159,13 @@ export function ElementsSidebar() {
                     key={widget.type}
                     draggable
                     onDragStart={(e) => onDragStart(e, widget.type)}
-                    className="relative group rounded-lg border border-zinc-800/50 bg-zinc-900/50 hover:bg-zinc-800/50 hover:border-orange-500/30 p-2.5 cursor-move transition-all duration-200"
+                    className="relative group rounded-lg border border-[#334155] bg-white hover:bg-gray-50 hover:border-primary/30 p-2.5 cursor-move transition-all duration-200"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="rounded-md bg-orange-500/10 p-2">
-                        <widget.icon className="h-4 w-4 text-orange-500" />
+                      <div className="rounded-md bg-primary/10 p-2">
+                        <widget.icon className="h-4 w-4 text-primary" />
                       </div>
-                      <span className="text-sm font-medium text-zinc-200">
+                      <span className="text-sm font-medium text-gray-900">
                         {widget.label}
                       </span>
                     </div>

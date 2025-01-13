@@ -39,11 +39,11 @@
 
 /* Flow Node Styles */
 .flow-node {
-  @apply bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg overflow-hidden min-w-[280px] shadow-lg;
+  @apply bg-white backdrop-blur-sm border border-gray-200 rounded-lg overflow-hidden min-w-[280px] shadow-lg;
 }
 
 .flow-node-header {
-  @apply bg-gray-50/50 px-4 py-2 flex items-center justify-between border-b border-gray-200/50;
+  @apply bg-white px-4 py-2 flex items-center justify-between border-b border-gray-200;
 }
 
 .flow-node-header h3 {

@@ -32,15 +32,15 @@ export default function FunnelEditor() {
 
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden bg-background">
-      <header className="w-full border-b bg-zinc-900/50 backdrop-blur-sm">
+      <header className="w-full border-b bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm">
         <div className="flex items-center justify-between px-6 py-4 max-w-[1920px] mx-auto">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={handleBack}>
+            <Button variant="ghost" size="icon" onClick={handleBack} className="text-white hover:bg-white/10">
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-semibold">{funnelName}</h1>
-              <Button variant="ghost" size="sm" onClick={handleRename}>
+              <h1 className="text-xl font-semibold text-white">{funnelName}</h1>
+              <Button variant="ghost" size="sm" onClick={handleRename} className="text-gray-300 hover:text-white hover:bg-white/10">
                 Renomear
               </Button>
             </div>
@@ -48,7 +48,7 @@ export default function FunnelEditor() {
           
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-gray-300">
                 {isActive ? "Ativo" : "Inativo"}
               </span>
               <Switch
@@ -57,17 +57,17 @@ export default function FunnelEditor() {
               />
             </div>
             
-            <Button variant="outline" size="sm" onClick={handleImport}>
+            <Button variant="outline" size="sm" onClick={handleImport} className="text-white bg-white/10 hover:bg-white/20 border-[#334155]">
               <Upload className="h-4 w-4 mr-2" />
               Importar
             </Button>
             
-            <Button variant="outline" size="sm" onClick={handleExport}>
+            <Button variant="outline" size="sm" onClick={handleExport} className="text-white bg-white/10 hover:bg-white/20 border-[#334155]">
               <Download className="h-4 w-4 mr-2" />
               Exportar
             </Button>
             
-            <Button onClick={handleSave} className="bg-orange-600 hover:bg-orange-700">
+            <Button onClick={handleSave} className="bg-primary hover:bg-primary-hover text-white">
               <Save className="h-4 w-4 mr-2" />
               Salvar
             </Button>
