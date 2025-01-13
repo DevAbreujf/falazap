@@ -101,6 +101,18 @@ export function FunnelEditorCanvas() {
             value: 0,
             unit: "seconds",
           },
+          // Add default days data for weekdays node type
+          ...(type === 'weekdays' && {
+            days: [
+              { day: 'Segunda', enabled: true },
+              { day: 'Terça', enabled: true },
+              { day: 'Quarta', enabled: true },
+              { day: 'Quinta', enabled: true },
+              { day: 'Sexta', enabled: true },
+              { day: 'Sábado', enabled: false },
+              { day: 'Domingo', enabled: false },
+            ]
+          })
         },
         deletable: type !== "start",
       };
