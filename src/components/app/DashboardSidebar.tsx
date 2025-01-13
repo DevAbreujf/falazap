@@ -14,7 +14,6 @@ import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 import { SidebarNotifications } from "./dashboard/SidebarNotifications";
-import { ThemeToggle } from "./dashboard/ThemeToggle";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
@@ -27,17 +26,17 @@ export function DashboardSidebar() {
   ];
 
   return (
-    <Sidebar className="border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-gray-900">
-      <div className="flex items-center gap-4 p-4 border-b border-slate-200 dark:border-slate-800">
+    <Sidebar className="border-r border-slate-200 bg-white">
+      <div className="flex items-center gap-4 p-4">
         <div className="block lg:hidden">
           <Button 
             variant="ghost" 
             size="icon" 
             asChild 
-            className="hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="hover:bg-slate-100"
           >
             <SidebarTrigger>
-              <Menu className="h-6 w-6 text-slate-600 dark:text-slate-400" />
+              <Menu className="h-6 w-6 text-slate-600" />
             </SidebarTrigger>
           </Button>
         </div>
@@ -79,8 +78,6 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      <ThemeToggle />
     </Sidebar>
   );
 }
