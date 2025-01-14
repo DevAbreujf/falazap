@@ -25,7 +25,7 @@ const mockDepartments: Department[] = [
 const falaZAPContact: ChatContact = {
   id: "falazap",
   name: "FalaZAP",
-  status: "new",
+  status: "new", // Changed from "string" to "new"
   unreadCount: 1,
   isSupport: false,
   funnelName: "Onboarding",
