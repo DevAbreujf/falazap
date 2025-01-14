@@ -98,7 +98,7 @@ export function ChatWindow({
       const messageContent = chatMode === "notes" 
         ? `**Nota**\n${newMessage}`
         : isSignatureEnabled 
-          ? `[${currentDepartment?.name}] ${editedName}:\n${newMessage}`
+          ? `${editedName}:\n${newMessage}`
           : newMessage;
           
       onSendMessage(messageContent);
