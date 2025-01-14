@@ -8,6 +8,7 @@ import { ChatHeaderInfo } from "./ChatHeaderInfo";
 import { ChatActions } from "./ChatActions";
 import { ChatDetailsSidebar } from "./ChatDetailsSidebar";
 import { EmojiPicker } from "@/components/tags/EmojiPicker";
+import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
   TooltipContent,
@@ -21,7 +22,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useNavigate } from "react-router-dom";
+
+// Mock data for attendants and departments
+const mockAttendants = [
+  { id: "1", name: "John Doe", departmentId: "1" },
+  { id: "2", name: "Jane Smith", departmentId: "2" },
+];
+
+const mockDepartments = [
+  { id: "1", name: "Support" },
+  { id: "2", name: "Sales" },
+];
 
 interface ChatWindowProps {
   contact: ChatContact;
@@ -51,6 +62,7 @@ export function ChatWindow({
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
