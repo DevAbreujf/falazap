@@ -17,12 +17,7 @@ interface ChatActionsProps {
 }
 
 export function ChatActions({
-  onAddAttendant,
-  onChangeDepartment,
   onEndSupport,
-  onTransferChat,
-  attendants,
-  departments,
 }: ChatActionsProps) {
   return (
     <div className="flex items-center gap-2">
@@ -32,7 +27,6 @@ export function ChatActions({
             <Button
               variant="outline"
               size="icon"
-              onClick={() => onAddAttendant(attendants[0]?.id)}
             >
               <Plus className="h-4 w-4" />
             </Button>
@@ -47,7 +41,6 @@ export function ChatActions({
             <Button
               variant="outline"
               size="icon"
-              onClick={() => onTransferChat(attendants[0]?.id)}
             >
               <ArrowUp className="h-4 w-4" />
             </Button>
@@ -62,7 +55,6 @@ export function ChatActions({
             <Button
               variant="outline"
               size="icon"
-              onClick={() => onChangeDepartment(departments[0]?.id)}
             >
               <ArrowRight className="h-4 w-4" />
             </Button>
