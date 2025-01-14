@@ -313,19 +313,6 @@ export function ChatWindow({
                     <p>Inserir emoji</p>
                   </TooltipContent>
                 </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Bot className="h-5 w-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Usar chatbot</p>
-                  </TooltipContent>
-                </Tooltip>
               </TooltipProvider>
 
               <DropdownMenu>

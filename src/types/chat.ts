@@ -10,7 +10,7 @@ export interface ChatMessage {
   senderId: string;
   timestamp: string;
   status: 'sent' | 'delivered' | 'read';
-  type: 'text' | 'image' | 'file';
+  type: 'text' | 'image' | 'file' | 'note';
 }
 
 export interface ChatContact {
