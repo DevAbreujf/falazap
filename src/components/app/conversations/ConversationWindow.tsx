@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Smile, Paperclip, Image, Undo2, StickyNote, Edit2 } from "lucide-react";
+import { Smile, Paperclip, Image, Undo2, StickyNote, Edit2, MessageSquare } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -11,6 +11,7 @@ export function ConversationWindow() {
   const [signature, setSignature] = useState("João");
   const [isEditingSignature, setIsEditingSignature] = useState(false);
   const [tempSignature, setTempSignature] = useState(signature);
+  const [activeTab, setActiveTab] = useState<'message' | 'notes'>('message');
 
   const handleSaveSignature = () => {
     setSignature(tempSignature);
@@ -43,31 +44,55 @@ export function ConversationWindow() {
       </div>
 
       <div className="p-4 bg-white border-t">
-        <div className="bg-slate-50 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-4">
-            <Switch 
-              id="sign" 
-              checked={signatureEnabled}
-              onCheckedChange={setSignatureEnabled}
-            />
-            <label htmlFor="sign" className="text-sm">Assinar</label>
-            {signatureEnabled && (
-              <div className="flex items-center gap-2 ml-2">
-                <span className="text-sm text-slate-600">{signature}</span>
-                <button 
-                  onClick={() => setIsEditingSignature(true)}
-                  className="p-1 hover:bg-slate-200 rounded-full"
-                >
-                  <Edit2 className="h-3 w-3 text-slate-600" />
-                </button>
-              </div>
-            )}
+        <div className={`rounded-lg p-4 ${activeTab === 'notes' ? 'bg-yellow-50/50' : 'bg-slate-50'}`}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Switch 
+                id="sign" 
+                checked={signatureEnabled}
+                onCheckedChange={setSignatureEnabled}
+              />
+              <label htmlFor="sign" className="text-sm">Assinar</label>
+              {signatureEnabled && (
+                <div className="flex items-center gap-2 ml-2">
+                  <span className="text-sm text-slate-600">{signature}</span>
+                  <button 
+                    onClick={() => setIsEditingSignature(true)}
+                    className="p-1 hover:bg-slate-200 rounded-full"
+                  >
+                    <Edit2 className="h-3 w-3 text-slate-600" />
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant={activeTab === 'message' ? 'default' : 'outline'}
+                onClick={() => setActiveTab('message')}
+                className="flex items-center gap-2"
+              >
+                <MessageSquare className="h-4 w-4" />
+                Mensagem
+              </Button>
+              <Button
+                variant={activeTab === 'notes' ? 'default' : 'outline'}
+                onClick={() => setActiveTab('notes')}
+                className="flex items-center gap-2"
+              >
+                <StickyNote className="h-4 w-4" />
+                Notas
+              </Button>
+            </div>
           </div>
           
           <div className="flex items-end gap-2">
             <div className="flex-1">
               <Input 
-                placeholder="Digite sua mensagem ou arraste um arquivo..." 
+                placeholder={
+                  activeTab === 'message' 
+                    ? "Digite sua mensagem ou arraste um arquivo..." 
+                    : "Digite uma nota que só os atendentes do Umbler Talk podem ver..."
+                }
                 className="bg-white"
               />
             </div>
@@ -83,14 +108,6 @@ export function ConversationWindow() {
               </Button>
               <Button variant="ghost" size="icon">
                 <Undo2 className="h-5 w-5" />
-              </Button>
-            </div>
-            <div className="flex gap-1">
-              <Button>
-                Mensagem
-              </Button>
-              <Button variant="outline">
-                <StickyNote className="h-5 w-5" />
               </Button>
             </div>
           </div>
