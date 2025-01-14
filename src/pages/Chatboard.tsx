@@ -1,6 +1,5 @@
 import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
-import { ChatHeader } from "@/components/app/chat/ChatHeader";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState } from "react";
@@ -190,37 +189,29 @@ export default function Chatboard() {
     : [];
 
   return (
-    <div className="flex flex-col h-screen bg-background">
-      <ChatHeader
-        userName="John Doe"
+    <div className="flex h-screen bg-background">
+      <ChatSidebar
+        contacts={currentContacts}
+        selectedContactId={selectedContactId}
+        onSelectContact={(contact) => {
+          setSelectedContactId(contact.id);
+          setShowIntro(false);
+        }}
+        onDepartmentChange={handleDepartmentChange}
         currentDepartment={currentDepartment}
-        onShowIntro={() => setShowIntro(true)}
       />
       
-      <div className="flex flex-1 overflow-hidden">
-        <ChatSidebar
-          contacts={currentContacts}
-          selectedContactId={selectedContactId}
-          onSelectContact={(contact) => {
-            setSelectedContactId(contact.id);
-            setShowIntro(false);
-          }}
-          onDepartmentChange={handleDepartmentChange}
-          currentDepartment={currentDepartment}
-        />
-        
-        <div className="flex-1">
-          {showIntro ? (
-            <ChatIntro />
-          ) : selectedContactId && (
-            <ChatWindow
-              contact={currentContacts.find(c => c.id === selectedContactId)!}
-              messages={currentMessages}
-              onSendMessage={handleSendMessage}
-              onUpdateContactStatus={handleUpdateContactStatus}
-            />
-          )}
-        </div>
+      <div className="flex-1">
+        {showIntro ? (
+          <ChatIntro />
+        ) : selectedContactId && (
+          <ChatWindow
+            contact={currentContacts.find(c => c.id === selectedContactId)!}
+            messages={currentMessages}
+            onSendMessage={handleSendMessage}
+            onUpdateContactStatus={handleUpdateContactStatus}
+          />
+        )}
       </div>
     </div>
   );

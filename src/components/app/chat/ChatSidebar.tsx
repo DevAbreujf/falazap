@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatContact } from "@/types/chat";
-import { Search, Building2 } from "lucide-react";
+import { Search, Building2, MessageSquare, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,8 +12,13 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-// Mock departments data - In production, this would come from an API
 const mockDepartments = [
   { id: "1", name: "Suporte Técnico" },
   { id: "2", name: "Vendas" },
@@ -28,8 +33,16 @@ interface ChatSidebarProps {
   currentDepartment: typeof mockDepartments[0];
 }
 
-export function ChatSidebar({ contacts, selectedContactId, onSelectContact, onDepartmentChange, currentDepartment }: ChatSidebarProps) {
+export function ChatSidebar({ 
+  contacts, 
+  selectedContactId, 
+  onSelectContact, 
+  onDepartmentChange, 
+  currentDepartment 
+}: ChatSidebarProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showTeamChat, setShowTeamChat] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState<'incoming' | 'waiting' | 'finished'>('incoming');
   const { toast } = useToast();
   
   const supportContacts = contacts.filter(contact => contact.isSupport);
@@ -45,30 +58,135 @@ export function ChatSidebar({ contacts, selectedContactId, onSelectContact, onDe
   };
 
   return (
-    <div className="w-72 border-r border-primary/10 bg-card">
-      <div className="p-3 border-b border-primary/10">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <input
-            placeholder="Buscar contatos..."
-            className="w-full pl-8 pr-3 py-2 bg-muted/50 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary text-sm"
-          />
-        </div>
-        <div className="flex items-center gap-2 mt-3">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full flex items-center gap-2"
-            onClick={() => setIsDialogOpen(true)}
-          >
-            <Building2 className="h-4 w-4" />
-            Setores
-          </Button>
-          <Badge variant="outline" className="shrink-0">
-            {currentDepartment.name}
-          </Badge>
-        </div>
+    <div className="w-80 border-r border-primary/10 bg-card">
+      <div className="flex items-center justify-start gap-2 p-4 border-b border-primary/10">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={`${!showTeamChat ? 'bg-primary/10' : ''}`}
+                onClick={() => setShowTeamChat(false)}
+              >
+                <MessageSquare className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Conversas com os clientes</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={`${showTeamChat ? 'bg-primary/10' : ''}`}
+                onClick={() => setShowTeamChat(true)}
+              >
+                <Users className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Conversas com a equipe</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
+
+      {!showTeamChat ? (
+        <>
+          <div className="p-3 border-b border-primary/10">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <input
+                placeholder="Buscar contatos..."
+                className="w-full pl-8 pr-3 py-2 bg-muted/50 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              />
+            </div>
+            <div className="flex items-center gap-2 mt-3">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full flex items-center gap-2"
+                onClick={() => setIsDialogOpen(true)}
+              >
+                <Building2 className="h-4 w-4" />
+                Setores
+              </Button>
+              <Badge variant="outline" className="shrink-0">
+                {currentDepartment.name}
+              </Badge>
+            </div>
+          </div>
+
+          <div className="flex gap-1 p-2">
+            <Button
+              variant={currentFilter === 'incoming' ? 'default' : 'ghost'}
+              size="sm"
+              className="flex-1"
+              onClick={() => setCurrentFilter('incoming')}
+            >
+              Entrada
+            </Button>
+            <Button
+              variant={currentFilter === 'waiting' ? 'default' : 'ghost'}
+              size="sm"
+              className="flex-1"
+              onClick={() => setCurrentFilter('waiting')}
+            >
+              Esperando
+            </Button>
+            <Button
+              variant={currentFilter === 'finished' ? 'default' : 'ghost'}
+              size="sm"
+              className="flex-1"
+              onClick={() => setCurrentFilter('finished')}
+            >
+              Finalizados
+            </Button>
+          </div>
+
+          <ScrollArea className="h-[calc(100vh-12rem)]">
+            {supportContacts.length > 0 && (
+              <div className="p-3 border-b border-primary/10">
+                <h2 className="text-xs font-semibold text-primary mb-2">Suporte Pendente</h2>
+                {supportContacts.map((contact) => (
+                  <ContactItem
+                    key={contact.id}
+                    contact={contact}
+                    isSelected={contact.id === selectedContactId}
+                    onClick={() => onSelectContact(contact)}
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="p-3">
+              <h2 className="text-xs font-semibold text-muted-foreground mb-2">Todas as Conversas</h2>
+              {regularContacts.map((contact) => (
+                <ContactItem
+                  key={contact.id}
+                  contact={contact}
+                  isSelected={contact.id === selectedContactId}
+                  onClick={() => onSelectContact(contact)}
+                />
+              ))}
+            </div>
+          </ScrollArea>
+        </>
+      ) : (
+        <ScrollArea className="h-[calc(100vh-5rem)]">
+          <div className="p-3">
+            <h2 className="text-xs font-semibold text-muted-foreground mb-2">Equipe</h2>
+            {/* Here you would map through team members */}
+            <div className="text-sm text-muted-foreground p-4 text-center">
+              Lista de atendentes será implementada aqui
+            </div>
+          </div>
+        </ScrollArea>
+      )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
@@ -89,34 +207,6 @@ export function ChatSidebar({ contacts, selectedContactId, onSelectContact, onDe
           </div>
         </DialogContent>
       </Dialog>
-
-      <ScrollArea className="h-[calc(100vh-9rem)]">
-        {supportContacts.length > 0 && (
-          <div className="p-3 border-b border-primary/10">
-            <h2 className="text-xs font-semibold text-primary mb-2">Suporte Pendente</h2>
-            {supportContacts.map((contact) => (
-              <ContactItem
-                key={contact.id}
-                contact={contact}
-                isSelected={contact.id === selectedContactId}
-                onClick={() => onSelectContact(contact)}
-              />
-            ))}
-          </div>
-        )}
-
-        <div className="p-3">
-          <h2 className="text-xs font-semibold text-muted-foreground mb-2">Todas as Conversas</h2>
-          {regularContacts.map((contact) => (
-            <ContactItem
-              key={contact.id}
-              contact={contact}
-              isSelected={contact.id === selectedContactId}
-              onClick={() => onSelectContact(contact)}
-            />
-          ))}
-        </div>
-      </ScrollArea>
     </div>
   );
 }
