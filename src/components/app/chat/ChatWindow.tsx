@@ -184,16 +184,6 @@ export function ChatWindow({
             </Tooltip>
           </TooltipProvider>
           <ChatActions
-            onAddAttendant={(attendantId) => {
-              const attendant = mockAttendants.find(a => a.id === attendantId);
-              if (attendant) {
-                toast({
-                  title: "Atendente adicionado",
-                  description: `${attendant.name} foi adicionado ao atendimento.`,
-                });
-                setLastActivityTime(Date.now());
-              }
-            }}
             onChangeDepartment={onChangeDepartment}
             onEndSupport={onEndSupport}
             onTransferChat={onTransferChat}
