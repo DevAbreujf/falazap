@@ -20,6 +20,10 @@ interface ChatDetailsSidebarProps {
   onEditName: (newName: string) => void;
   currentDepartment: { id: string; name: string };
   currentUser: { id: string; name: string; avatar?: string };
+  isEditingName: boolean;
+  editedName: string;
+  onSaveName: () => void;
+  onCancelEdit: () => void;
 }
 
 export function ChatDetailsSidebar({
@@ -29,15 +33,16 @@ export function ChatDetailsSidebar({
   onEditName,
   currentDepartment,
   currentUser,
+  isEditingName,
+  editedName,
+  onSaveName,
+  onCancelEdit,
 }: ChatDetailsSidebarProps) {
   if (!isOpen) return null;
 
-  const createdAt = new Date(contact.lastMessage?.timestamp || new Date());
-  const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-
   return (
     <div className="fixed inset-0 z-50 bg-black/50">
-      <div className="absolute right-0 top-0 h-full w-80 bg-background shadow-lg">
+      <div className="absolute right-0 top-0 h-full w-96 bg-background shadow-lg">
         <div className="flex h-full flex-col">
           {/* Header */}
           <div className="flex items-center justify-between border-b p-4">
@@ -54,12 +59,48 @@ export function ChatDetailsSidebar({
                 <AvatarImage src={contact.avatar} />
                 <AvatarFallback>{contact.name.slice(0, 2).toUpperCase()}</AvatarFallback>
               </Avatar>
-              <div className="mt-2 flex items-center justify-center gap-2">
-                <h3 className="text-lg font-medium">{contact.name}</h3>
-                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onEditName(contact.name)}>
-                  <Edit2 className="h-4 w-4" />
-                </Button>
-              </div>
+              {isEditingName ? (
+                <div className="mt-4 space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Número</label>
+                    <input
+                      type="text"
+                      value="+55 11 99999-9999"
+                      disabled
+                      className="w-full rounded-md border bg-muted px-3 py-2"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Nome</label>
+                    <input
+                      type="text"
+                      value={editedName}
+                      onChange={(e) => onEditName(e.target.value)}
+                      className="w-full rounded-md border px-3 py-2"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" onClick={onCancelEdit} className="flex-1">
+                      Cancelar
+                    </Button>
+                    <Button onClick={onSaveName} className="flex-1">
+                      Salvar
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-2 flex items-center justify-center gap-2">
+                  <h3 className="text-lg font-medium">{contact.name}</h3>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => onEditName(contact.name)}
+                    className="h-6 w-6"
+                  >
+                    <Edit2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Tags */}
@@ -117,17 +158,16 @@ export function ChatDetailsSidebar({
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <p className="text-sm text-muted-foreground">
-                      {createdAt.toLocaleString('pt-BR')}
+                      {new Date(contact.lastMessage?.timestamp || new Date()).toLocaleString('pt-BR')}
                     </p>
                   </TooltipTrigger>
                   <TooltipContent>
                     <div className="text-sm">
-                      <p>Data: {createdAt.toLocaleDateString('pt-BR')}</p>
+                      <p>Data: {new Date(contact.lastMessage?.timestamp || new Date()).toLocaleDateString('pt-BR')}</p>
                       <p>
                         Tempo no sistema:{' '}
-                        {formatDistanceToNow(createdAt, { locale: ptBR, addSuffix: true })}
+                        {formatDistanceToNow(new Date(contact.lastMessage?.timestamp || new Date()), { locale: ptBR, addSuffix: true })}
                       </p>
-                      <p>Dia da semana: {weekdays[createdAt.getDay()]}</p>
                     </div>
                   </TooltipContent>
                 </Tooltip>

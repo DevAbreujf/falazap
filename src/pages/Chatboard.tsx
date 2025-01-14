@@ -2,7 +2,7 @@ import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatContact, ChatMessage, Department } from "@/types/chat";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const mockDepartments: Department[] = [
   {
@@ -140,7 +140,6 @@ export default function Chatboard() {
     }
   });
   const [hasUserReplied, setHasUserReplied] = useState(false);
-  const [falaZAPStep, setFalaZAPStep] = useState(0);
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
 
   const handleSendMessage = (content: string) => {
@@ -261,7 +260,7 @@ export default function Chatboard() {
   };
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen overflow-hidden bg-background">
       <ChatSidebar
         contacts={currentContacts}
         selectedContactId={selectedContactId}

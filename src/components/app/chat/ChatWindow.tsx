@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
 
 interface ChatWindowProps {
   contact: ChatContact;
@@ -44,20 +46,11 @@ export function ChatWindow({
   const [isDetailsSidebarOpen, setIsDetailsSidebarOpen] = useState(false);
   const [chatMode, setChatMode] = useState<"message" | "notes">("message");
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editedName, setEditedName] = useState(contact.name);
+  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const mockAttendants = [
-    { id: "1", name: "João Silva", departmentId: "1" },
-    { id: "2", name: "Maria Santos", departmentId: "1" },
-    { id: "3", name: "Pedro Souza", departmentId: "2" },
-  ];
-
-  const mockDepartments = [
-    { id: "1", name: "Suporte Técnico" },
-    { id: "2", name: "Vendas" },
-    { id: "3", name: "Financeiro" },
-  ];
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
@@ -141,8 +134,18 @@ export function ChatWindow({
     return date.toLocaleDateString('pt-BR');
   };
 
+  const handleSaveName = () => {
+    if (editedName.trim()) {
+      toast({
+        title: "Nome atualizado",
+        description: "O nome do lead foi atualizado com sucesso.",
+      });
+      setIsEditingName(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)]">
+    <div className="flex flex-col h-full overflow-hidden">
       <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
         <ChatHeaderInfo contact={contact} />
         <div className="flex items-center gap-2">
@@ -190,59 +193,61 @@ export function ChatWindow({
         </div>
       </div>
 
-      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-        {hoveredDate && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="sticky top-2 z-10 flex justify-center">
-                  <span className="bg-muted px-3 py-1 rounded-full text-sm">
-                    {formatMessageDate(hoveredDate)}
-                  </span>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{formatFullDate(hoveredDate)}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
-        <div className="space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
-              onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
-            >
-              <div
-                className={`max-w-[70%] rounded-lg p-3 ${
-                  message.type === 'note' 
-                    ? 'bg-[#fae389]'
-                    : message.senderId === 'me'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted'
-                }`}
-              >
-                <p 
-                  className="text-sm"
-                  dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }}
-                />
-                <div className="flex items-center justify-end gap-1 mt-1">
-                  <span className="text-xs opacity-70">
-                    {new Date(message.timestamp).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </span>
-                  {message.senderId === 'me' && (
-                    <span className="text-xs opacity-70">
-                      {message.status === 'read' ? '✓✓' : '✓'}
+      <ScrollArea className="flex-1">
+        <div className="p-4 space-y-4">
+          {hoveredDate && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="sticky top-2 z-10 flex justify-center">
+                    <span className="bg-muted px-3 py-1 rounded-full text-sm">
+                      {formatMessageDate(hoveredDate)}
                     </span>
-                  )}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{formatFullDate(hoveredDate)}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+          <div className="space-y-4">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
+                onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
+              >
+                <div
+                  className={`max-w-[70%] rounded-lg p-3 ${
+                    message.type === 'note' 
+                      ? 'bg-[#fae389]'
+                      : message.senderId === 'me'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted'
+                  }`}
+                >
+                  <p 
+                    className="text-sm"
+                    dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }}
+                  />
+                  <div className="flex items-center justify-end gap-1 mt-1">
+                    <span className="text-xs opacity-70">
+                      {new Date(message.timestamp).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </span>
+                    {message.senderId === 'me' && (
+                      <span className="text-xs opacity-70">
+                        {message.status === 'read' ? '✓✓' : '✓'}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </ScrollArea>
 
@@ -346,19 +351,40 @@ export function ChatWindow({
         onEmojiSelect={handleEmojiSelect}
       />
 
-      <ChatDetailsSidebar
-        contact={contact}
-        isOpen={isDetailsSidebarOpen}
-        onClose={() => setIsDetailsSidebarOpen(false)}
-        onEditName={(newName) => {
-          toast({
-            title: "Nome atualizado",
-            description: "O nome do lead foi atualizado com sucesso.",
-          });
-        }}
-        currentDepartment={currentDepartment}
-        currentUser={currentUser}
-      />
+      <Dialog open={isTagModalOpen} onOpenChange={setIsTagModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Etiquetas</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Button 
+              onClick={() => navigate('/tags')} 
+              className="w-full"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Criar nova etiqueta
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {isDetailsSidebarOpen && (
+        <ChatDetailsSidebar
+          contact={contact}
+          isOpen={isDetailsSidebarOpen}
+          onClose={() => setIsDetailsSidebarOpen(false)}
+          onEditName={(newName) => {
+            setEditedName(newName);
+            setIsEditingName(true);
+          }}
+          currentDepartment={currentDepartment}
+          currentUser={currentUser}
+          isEditingName={isEditingName}
+          editedName={editedName}
+          onSaveName={handleSaveName}
+          onCancelEdit={() => setIsEditingName(false)}
+        />
+      )}
     </div>
   );
 }
