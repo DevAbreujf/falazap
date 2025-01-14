@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Smile, Paperclip, Image, Undo2, StickyNote, Edit2, MessageSquare } from "lucide-react";
+import { Smile, Paperclip, Image, Undo2, StickyNote, Edit2, MessageSquare, Send } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 export function ConversationWindow() {
   const [signatureEnabled, setSignatureEnabled] = useState(false);
@@ -12,11 +13,22 @@ export function ConversationWindow() {
   const [isEditingSignature, setIsEditingSignature] = useState(false);
   const [tempSignature, setTempSignature] = useState(signature);
   const [activeTab, setActiveTab] = useState<'message' | 'notes'>('message');
+  const [message, setMessage] = useState("");
 
   const handleSaveSignature = () => {
     setSignature(tempSignature);
     setIsEditingSignature(false);
   };
+
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      // Here you would implement the logic to send the message
+      console.log("Sending message:", message);
+      setMessage("");
+    }
+  };
+
+  // ... keep existing code (conversation display section)
 
   return (
     <div className="flex-1 flex flex-col">
@@ -85,18 +97,28 @@ export function ConversationWindow() {
             </div>
           </div>
           
-          <div className="flex items-end gap-2">
-            <div className="flex-1">
-              <Input 
+          <div className="space-y-2">
+            <div className="relative">
+              <Textarea 
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 placeholder={
                   activeTab === 'message' 
                     ? "Digite sua mensagem ou arraste um arquivo..." 
                     : "Digite uma nota que só os atendentes do Umbler Talk podem ver..."
                 }
-                className="bg-white"
+                className="min-h-[100px] bg-white pr-16 resize-none"
               />
+              <Button
+                onClick={handleSendMessage}
+                className="absolute right-2 bottom-2"
+                size="icon"
+              >
+                <Send className="h-5 w-5" />
+              </Button>
             </div>
-            <div className="flex gap-1">
+            
+            <div className="flex gap-2 justify-start">
               <Button variant="ghost" size="icon">
                 <Paperclip className="h-5 w-5" />
               </Button>
