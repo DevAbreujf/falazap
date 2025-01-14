@@ -152,11 +152,9 @@ export default function Chatboard() {
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
 
-    const formattedContent = `**[${currentDepartment?.name || 'Geral'}] John Doe:**\n${content}`;
-
     const newMessage: ChatMessage = {
       id: `msg_${Date.now()}`,
-      content: formattedContent,
+      content: content,
       senderId: "me",
       timestamp: new Date().toISOString(),
       status: "sent",
