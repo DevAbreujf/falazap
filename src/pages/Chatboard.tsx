@@ -22,11 +22,10 @@ const mockDepartments: Department[] = [
   },
 ];
 
-// Add FalaZAP as the default contact
 const falaZAPContact: ChatContact = {
   id: "falazap",
   name: "FalaZAP",
-  status: "online",
+  status: "new", // Changed from 'online' to 'new'
   unreadCount: 1,
   isSupport: false,
   funnelName: "Onboarding",
@@ -176,38 +175,36 @@ export default function Chatboard() {
     if (selectedContactId === "falazap") {
       if (!hasUserReplied) {
         setHasUserReplied(true);
-        setTimeout(() => {
-          const autoResponses = [
-            "Perfeito, é isso aí mesmo!",
-            "Tá, mas agora precisamos configurar algumas coisas para você usar com seus clientes e contatos de verdade",
-            "Para isso, eu preciso que você crie um canal de atendimento e sincronize um aparelho celular seguindo as instruções desse link aqui:",
-            "Maaasss, como você precisa ler um QRCode, você precisa estar num computador, notebook etc...\nSe você não estiver, consegue um para continuarmos?",
-            "Cadastra lá um canal pelo link:\nEu não sei responder mais nada 😅"
-          ];
+        const autoResponses = [
+          "Perfeito, é isso aí mesmo!",
+          "Tá, mas agora precisamos configurar algumas coisas para você usar com seus clientes e contatos de verdade",
+          "Para isso, eu preciso que você crie um canal de atendimento e sincronize um aparelho celular seguindo as instruções desse link aqui:",
+          "Maaasss, como você precisa ler um QRCode, você precisa estar num computador, notebook etc...\nSe você não estiver, consegue um para continuarmos?",
+          "Cadastra lá um canal pelo link:\nEu não sei responder mais nada 😅"
+        ];
 
-          autoResponses.forEach((response, index) => {
-            setTimeout(() => {
-              const autoMessage: ChatMessage = {
-                id: `auto_${Date.now()}_${index}`,
-                content: response,
-                senderId: "falazap",
-                timestamp: new Date().toISOString(),
-                status: "delivered",
-                type: "text"
-              };
+        autoResponses.forEach((response, index) => {
+          setTimeout(() => {
+            const autoMessage: ChatMessage = {
+              id: `auto_${Date.now()}_${index}`,
+              content: response,
+              senderId: "falazap",
+              timestamp: new Date().toISOString(),
+              status: "delivered",
+              type: "text"
+            };
 
-              setMessagesByDepartment(prev => ({
-                ...prev,
-                [currentDepartment.id]: {
-                  ...prev[currentDepartment.id],
-                  falazap: [...prev[currentDepartment.id].falazap, autoMessage]
-                }
-              }));
-            }, index * 1000);
-          });
-        }, 1000);
+            setMessagesByDepartment(prev => ({
+              ...prev,
+              [currentDepartment.id]: {
+                ...prev[currentDepartment.id],
+                falazap: [...prev[currentDepartment.id].falazap, autoMessage]
+              }
+            }));
+          }, (index + 1) * 5000); // 5 second delay between messages
+        });
       } else {
-        // If user has already replied, only send the final message
+        // If user has already replied, only send the final message after 5 seconds
         setTimeout(() => {
           const finalMessage: ChatMessage = {
             id: `auto_${Date.now()}_final`,
@@ -225,11 +222,9 @@ export default function Chatboard() {
               falazap: [...prev[currentDepartment.id].falazap, finalMessage]
             }
           }));
-        }, 1000);
+        }, 5000);
       }
     }
-
-    console.log("Mensagem enviada:", formattedContent);
   };
 
   const handleUpdateContactStatus = (contactId: string, isSupport: boolean) => {
@@ -285,3 +280,4 @@ export default function Chatboard() {
     </div>
   );
 }
+

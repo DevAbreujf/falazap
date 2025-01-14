@@ -1,11 +1,17 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Paperclip, Send } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { ChatHeaderInfo } from "./ChatHeaderInfo";
 import { ChatActions } from "./ChatActions";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ChatWindowProps {
   contact: ChatContact;
@@ -22,9 +28,10 @@ export function ChatWindow({
 }: ChatWindowProps) {
   const [newMessage, setNewMessage] = useState("");
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
+  const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const { toast } = useToast();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Mock data - Em produção, isso viria de uma API
   const mockAttendants = [
     { id: "1", name: "João Silva", departmentId: "1" },
     { id: "2", name: "Maria Santos", departmentId: "1" },
@@ -98,6 +105,22 @@ export function ChatWindow({
     });
   };
 
+  const formatMessageDate = (date: Date) => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) return 'Hoje';
+    if (date.toDateString() === yesterday.toDateString()) return 'Ontem';
+
+    const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    return weekdays[date.getDay()];
+  };
+
+  const formatFullDate = (date: Date) => {
+    return date.toLocaleDateString('pt-BR');
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)]">
       <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
@@ -129,12 +152,29 @@ export function ChatWindow({
         />
       </div>
 
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+        {hoveredDate && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="sticky top-2 z-10 flex justify-center">
+                  <span className="bg-muted px-3 py-1 rounded-full text-sm">
+                    {formatMessageDate(hoveredDate)}
+                  </span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{formatFullDate(hoveredDate)}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
         <div className="space-y-4">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
+              onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
             >
               <div
                 className={`max-w-[70%] rounded-lg p-3 ${
