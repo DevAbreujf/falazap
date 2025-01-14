@@ -96,7 +96,13 @@ export function ChatWindow({
   const handleSend = () => {
     if (newMessage.trim()) {
       const messagePrefix = chatMode === "notes" ? "" : "";
-      onSendMessage(messagePrefix + newMessage);
+      const messageContent = chatMode === "notes" 
+        ? `**Nota**\n${newMessage}`
+        : isSignatureEnabled 
+          ? `**[${currentDepartment?.name}] ${editedName}:**\n${newMessage}`
+          : newMessage;
+          
+      onSendMessage(messageContent);
       setNewMessage("");
       setLastActivityTime(Date.now());
     }
@@ -232,47 +238,56 @@ export function ChatWindow({
             </TooltipProvider>
           )}
           <div className="space-y-4">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
-                onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
-              >
-                {message.senderId === 'me' && (
-                  <Avatar className="w-8 h-8 mr-2">
-                    <AvatarImage src={currentUser.avatar} />
-                    <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
-                  </Avatar>
-                )}
+            {messages.map((message) => {
+              const isNote = message.content.startsWith("**Nota**");
+              return (
                 <div
-                  className={`max-w-[70%] rounded-lg p-3 ${
-                    message.type === 'note' 
-                      ? 'bg-[#fae389]'
-                      : message.senderId === 'me'
-                      ? 'bg-[#f6ffed]'
-                      : 'bg-muted'
-                  }`}
+                  key={message.id}
+                  className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
+                  onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
                 >
-                  <p 
-                    className="text-sm"
-                    dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }}
-                  />
-                  <div className="flex items-center justify-end gap-1 mt-1">
-                    <span className="text-xs opacity-70">
-                      {new Date(message.timestamp).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </span>
-                    {message.senderId === 'me' && (
+                  {message.senderId === 'me' && (
+                    <Avatar className="w-8 h-8 mr-2">
+                      <AvatarImage src={currentUser.avatar} />
+                      <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
+                    </Avatar>
+                  )}
+                  <div
+                    className={`max-w-[70%] rounded-lg p-3 ${
+                      isNote 
+                        ? 'bg-[#fae389]'
+                        : message.senderId === 'me'
+                        ? 'bg-[#f6ffed]'
+                        : 'bg-muted'
+                    }`}
+                  >
+                    <p 
+                      className="text-sm"
+                      dangerouslySetInnerHTML={{ 
+                        __html: formatMessage(
+                          isNote 
+                            ? message.content.replace("**Nota**\n", "") 
+                            : message.content
+                        )
+                      }}
+                    />
+                    <div className="flex items-center justify-end gap-1 mt-1">
                       <span className="text-xs opacity-70">
-                        {message.status === 'read' ? '✓✓' : '✓'}
+                        {new Date(message.timestamp).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                       </span>
-                    )}
+                      {message.senderId === 'me' && (
+                        <span className="text-xs opacity-70">
+                          {message.status === 'read' ? '✓✓' : '✓'}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </ScrollArea>
