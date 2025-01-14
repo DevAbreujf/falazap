@@ -40,6 +40,13 @@ const falaZAPContact: ChatContact = {
   }
 };
 
+// First, declare mockContactsByDepartment
+const mockContactsByDepartment: Record<string, ChatContact[]> = {
+  "1": [falaZAPContact],
+  "2": [],
+  "3": [],
+};
+
 const initialFalaZAPMessages: ChatMessage[] = [
   {
     id: "msg1",
@@ -75,12 +82,6 @@ const initialFalaZAPMessages: ChatMessage[] = [
   }
 ];
 
-const mockContactsByDepartment: Record<string, ChatContact[]> = {
-  "1": [falaZAPContact, ...mockContactsByDepartment["1"] || []],
-  "2": mockContactsByDepartment["2"] || [],
-  "3": mockContactsByDepartment["3"] || [],
-};
-
 // Create a state to store messages
 const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>> = {
   "1": {
@@ -102,6 +103,7 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
         type: "text"
       }
     ],
+    falazap: initialFalaZAPMessages
   },
   "2": {
     "2": [
