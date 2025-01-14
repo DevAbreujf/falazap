@@ -7,6 +7,7 @@ import {
 import {
   BarChart3,
   Filter,
+  MessageSquare,
   Phone,
   Send,
   Bell,
@@ -14,7 +15,6 @@ import {
   Home,
   Bot,
   Tag,
-  MessageSquare,
 } from "lucide-react";
 
 export function SidebarNavigation() {
@@ -37,7 +37,7 @@ export function SidebarNavigation() {
       icon: MessageSquare,
       label: "Conversas",
       description: "Chat em tempo real",
-      onClick: () => navigate("/conversas"),
+      onClick: () => navigate("/chatboard"),
     },
     {
       icon: Bot,
