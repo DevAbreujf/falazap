@@ -14,6 +14,7 @@ import {
   Home,
   Bot,
   Tag,
+  MessageSquare,
 } from "lucide-react";
 
 export function SidebarNavigation() {
@@ -31,6 +32,12 @@ export function SidebarNavigation() {
       label: "Conexão",
       description: "Configure seu WhatsApp",
       onClick: () => navigate("/connection"),
+    },
+    {
+      icon: MessageSquare,
+      label: "Conversas",
+      description: "Chat em tempo real",
+      onClick: () => navigate("/conversas"),
     },
     {
       icon: Bot,

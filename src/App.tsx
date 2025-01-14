@@ -20,6 +20,7 @@ import Connection from "@/pages/Connection";
 import NovoAgente from "@/pages/NovoAgente";
 import ConfigurarAgente from "@/pages/ConfigurarAgente";
 import Agentes from "@/pages/Agentes";
+import Conversas from "@/pages/Conversas";
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/novo-agente" element={<NovoAgente />} />
           <Route path="/configurar-agente" element={<ConfigurarAgente />} />
           <Route path="/agentes" element={<Agentes />} />
+          <Route path="/conversas" element={<Conversas />} />
         </Routes>
         <Toaster />
       </BrowserRouter>
