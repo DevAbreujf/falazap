@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,7 @@ export function ChatWindow({
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const [isDetailsSidebarOpen, setIsDetailsSidebarOpen] = useState(false);
+  const [chatMode, setChatMode] = useState<"message" | "notes">("message");
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +64,8 @@ export function ChatWindow({
 
   const handleSend = () => {
     if (newMessage.trim()) {
-      onSendMessage(newMessage);
+      const messagePrefix = chatMode === "notes" ? "**[NOTA INTERNA]** " : "";
+      onSendMessage(messagePrefix + newMessage);
       setNewMessage("");
       setLastActivityTime(Date.now());
     }
@@ -229,28 +231,91 @@ export function ChatWindow({
         </div>
       </ScrollArea>
 
-      <div className="p-4 border-t border-primary/10 bg-card">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="relative">
-            <input
-              type="file"
-              onChange={handleFileUpload}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              accept="*/*"
-            />
-            <Paperclip className="h-5 w-5" />
+      <div className="p-4 border-t border-primary/10 bg-card space-y-4">
+        <div className="flex items-center gap-2 border-b border-primary/10 pb-2">
+          <Button
+            variant={chatMode === "message" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setChatMode("message")}
+            className="gap-2"
+          >
+            <MessageSquare className="h-4 w-4" />
+            Mensagem
           </Button>
+          <Button
+            variant={chatMode === "notes" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setChatMode("notes")}
+            className="gap-2"
+          >
+            <StickyNote className="h-4 w-4" />
+            Notas
+          </Button>
+        </div>
+
+        <div className="flex flex-col gap-2">
           <textarea
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={handleKeyPress}
-            placeholder="Digite uma mensagem..."
-            className="flex-1 bg-muted/50 rounded-md p-2 min-h-[2.5rem] max-h-32 resize-none focus:outline-none focus:ring-1 focus:ring-primary text-sm"
-            rows={1}
+            placeholder={chatMode === "notes" ? "Digite uma nota interna..." : "Digite uma mensagem..."}
+            className={`flex-1 bg-muted/50 rounded-md p-2 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm ${
+              chatMode === "notes" ? "border-yellow-400/50" : ""
+            }`}
           />
-          <Button onClick={handleSend} size="icon" disabled={!newMessage.trim()}>
-            <Send className="h-5 w-5" />
-          </Button>
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="relative">
+                      <input
+                        type="file"
+                        onChange={handleFileUpload}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        accept="*/*"
+                      />
+                      <Paperclip className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Anexar arquivo</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <SmilePlus className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Inserir emoji</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Bot className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Usar chatbot</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+
+            <Button onClick={handleSend} size="icon" disabled={!newMessage.trim()}>
+              <Send className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </div>
 
