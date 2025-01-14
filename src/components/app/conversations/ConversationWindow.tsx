@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Smile, Paperclip, Image, Undo2, StickyNote, Edit2, MessageSquare, Send } from "lucide-react";
+import { Smile, Paperclip, Image, Undo2, StickyNote, Edit2, MessageSquare, Mic } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,6 +14,8 @@ export function ConversationWindow() {
   const [tempSignature, setTempSignature] = useState(signature);
   const [activeTab, setActiveTab] = useState<'message' | 'notes'>('message');
   const [message, setMessage] = useState("");
+  const [isRecording, setIsRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
 
   const handleSaveSignature = () => {
     setSignature(tempSignature);
@@ -25,6 +27,48 @@ export function ConversationWindow() {
       // Here you would implement the logic to send the message
       console.log("Sending message:", message);
       setMessage("");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      const chunks: BlobPart[] = [];
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.push(e.data);
+        }
+      };
+
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        // Here you would handle the audio blob, e.g., send it to your server
+        console.log("Recording finished:", blob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      recorder.start();
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && isRecording) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      setMediaRecorder(null);
     }
   };
 
@@ -102,6 +146,7 @@ export function ConversationWindow() {
               <Textarea 
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={handleKeyPress}
                 placeholder={
                   activeTab === 'message' 
                     ? "Digite sua mensagem ou arraste um arquivo..." 
@@ -110,11 +155,12 @@ export function ConversationWindow() {
                 className="min-h-[100px] bg-white pr-16 resize-none"
               />
               <Button
-                onClick={handleSendMessage}
+                onClick={isRecording ? stopRecording : startRecording}
                 className="absolute right-2 bottom-2"
                 size="icon"
+                variant={isRecording ? "destructive" : "default"}
               >
-                <Send className="h-5 w-5" />
+                <Mic className="h-5 w-5" />
               </Button>
             </div>
             
