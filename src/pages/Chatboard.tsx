@@ -25,7 +25,7 @@ const mockDepartments: Department[] = [
 const falaZAPContact: ChatContact = {
   id: "falazap",
   name: "FalaZAP",
-  status: "new", // Now using a valid status type
+  status: "new",
   unreadCount: 1,
   isSupport: false,
   funnelName: "Onboarding",
@@ -232,7 +232,7 @@ export default function Chatboard() {
 
     const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
       contact.id === contactId
-        ? { ...contact, status: isSupport ? "finished" : "new" }
+        ? { ...contact, status: isSupport ? "finished" : "new" as const }
         : contact
     );
     mockContactsByDepartment[currentDepartment.id] = updatedContacts;
