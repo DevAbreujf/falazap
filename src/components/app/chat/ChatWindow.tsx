@@ -95,7 +95,6 @@ export function ChatWindow({
 
   const handleSend = () => {
     if (newMessage.trim()) {
-      const messagePrefix = chatMode === "notes" ? "" : "";
       const messageContent = chatMode === "notes" 
         ? `**Nota**\n${newMessage}`
         : isSignatureEnabled 
