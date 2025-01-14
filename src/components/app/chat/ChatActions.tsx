@@ -28,14 +28,23 @@ interface ChatActionsProps {
 export function ChatActions({
   onEndSupport,
   onTransferChat,
+  onChangeDepartment,
   attendants,
+  departments,
 }: ChatActionsProps) {
   const [isTransferOpen, setIsTransferOpen] = useState(false);
+  const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchDepartmentTerm, setSearchDepartmentTerm] = useState("");
   const [selectedAttendant, setSelectedAttendant] = useState<string | null>(null);
+  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
 
   const filteredAttendants = attendants.filter((attendant) =>
     attendant.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredDepartments = departments.filter((department) =>
+    department.name.toLowerCase().includes(searchDepartmentTerm.toLowerCase())
   );
 
   const handleTransfer = () => {
@@ -44,6 +53,15 @@ export function ChatActions({
       setIsTransferOpen(false);
       setSelectedAttendant(null);
       setSearchTerm("");
+    }
+  };
+
+  const handleDepartmentTransfer = () => {
+    if (selectedDepartment) {
+      onChangeDepartment(selectedDepartment);
+      setIsDepartmentOpen(false);
+      setSelectedDepartment(null);
+      setSearchDepartmentTerm("");
     }
   };
 
@@ -70,6 +88,7 @@ export function ChatActions({
             <Button
               variant="outline"
               size="icon"
+              onClick={() => setIsDepartmentOpen(true)}
             >
               <ArrowRight className="h-4 w-4" />
             </Button>
@@ -144,6 +163,69 @@ export function ChatActions({
               className="w-full" 
               disabled={!selectedAttendant}
               onClick={handleTransfer}
+            >
+              Transferir
+            </Button>
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={isDepartmentOpen} onOpenChange={setIsDepartmentOpen}>
+        <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
+          <SheetHeader className="mb-4">
+            <div className="flex items-center justify-between">
+              <SheetTitle className="text-left">Enviar para outro setor</SheetTitle>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsDepartmentOpen(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </SheetHeader>
+          
+          <div className="flex-1 space-y-4">
+            <div className="relative">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Pesquisar setor"
+                className="pl-8"
+                value={searchDepartmentTerm}
+                onChange={(e) => setSearchDepartmentTerm(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2 flex-1">
+              {filteredDepartments.length === 0 ? (
+                <div className="flex items-center gap-2 p-2">
+                  <span className="text-sm">Nenhum setor encontrado</span>
+                </div>
+              ) : (
+                filteredDepartments.map((department) => (
+                  <div
+                    key={department.id}
+                    className={cn(
+                      "flex items-center justify-between p-2 rounded-md cursor-pointer hover:bg-muted",
+                      selectedDepartment === department.id && "bg-muted"
+                    )}
+                    onClick={() => setSelectedDepartment(department.id)}
+                  >
+                    <span className="text-sm">{department.name}</span>
+                    {selectedDepartment === department.id && (
+                      <div className="h-2 w-2 rounded-full bg-green-500" />
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="pt-4 border-t">
+            <Button 
+              className="w-full" 
+              disabled={!selectedDepartment}
+              onClick={handleDepartmentTransfer}
             >
               Transferir
             </Button>
