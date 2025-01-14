@@ -44,9 +44,6 @@ export function ChatSidebar({
   const [showTeamChat, setShowTeamChat] = useState(false);
   const [currentFilter, setCurrentFilter] = useState<'incoming' | 'waiting' | 'finished'>('incoming');
   const { toast } = useToast();
-  
-  const supportContacts = contacts.filter(contact => contact.isSupport);
-  const regularContacts = contacts.filter(contact => !contact.isSupport);
 
   const handleDepartmentChange = (department: typeof mockDepartments[0]) => {
     onDepartmentChange(department.id);
@@ -149,23 +146,8 @@ export function ChatSidebar({
           </div>
 
           <ScrollArea className="h-[calc(100vh-12rem)]">
-            {supportContacts.length > 0 && (
-              <div className="p-3 border-b border-primary/10">
-                <h2 className="text-xs font-semibold text-primary mb-2">Suporte Pendente</h2>
-                {supportContacts.map((contact) => (
-                  <ContactItem
-                    key={contact.id}
-                    contact={contact}
-                    isSelected={contact.id === selectedContactId}
-                    onClick={() => onSelectContact(contact)}
-                  />
-                ))}
-              </div>
-            )}
-
             <div className="p-3">
-              <h2 className="text-xs font-semibold text-muted-foreground mb-2">Todas as Conversas</h2>
-              {regularContacts.map((contact) => (
+              {contacts.map((contact) => (
                 <ContactItem
                   key={contact.id}
                   contact={contact}
@@ -180,7 +162,6 @@ export function ChatSidebar({
         <ScrollArea className="h-[calc(100vh-5rem)]">
           <div className="p-3">
             <h2 className="text-xs font-semibold text-muted-foreground mb-2">Equipe</h2>
-            {/* Here you would map through team members */}
             <div className="text-sm text-muted-foreground p-4 text-center">
               Lista de atendentes será implementada aqui
             </div>
