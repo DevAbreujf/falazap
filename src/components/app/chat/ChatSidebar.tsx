@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatContact } from "@/types/chat";
-import { Search, Building2, MessageSquare, Users } from "lucide-react";
+import { Search, Building2, MessageSquare, Users, ArrowLeft, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,8 +10,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
   TooltipContent,
@@ -40,10 +46,32 @@ export function ChatSidebar({
   onDepartmentChange, 
   currentDepartment 
 }: ChatSidebarProps) {
+  const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showTeamChat, setShowTeamChat] = useState(false);
   const [currentFilter, setCurrentFilter] = useState<'incoming' | 'waiting' | 'finished'>('incoming');
+  const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
+
+  const filteredContacts = contacts.filter(contact => {
+    const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase());
+    switch (currentFilter) {
+      case 'incoming':
+        return matchesSearch && contact.status === 'new';
+      case 'waiting':
+        return matchesSearch && contact.status === 'waiting';
+      case 'finished':
+        return matchesSearch && contact.status === 'finished';
+      default:
+        return matchesSearch;
+    }
+  });
+
+  const unreadCounts = {
+    incoming: contacts.filter(c => c.status === 'new' && c.unreadCount > 0).length,
+    waiting: contacts.filter(c => c.status === 'waiting' && c.unreadCount > 0).length,
+    finished: contacts.filter(c => c.status === 'finished' && c.unreadCount > 0).length,
+  };
 
   const handleDepartmentChange = (department: typeof mockDepartments[0]) => {
     onDepartmentChange(department.id);
@@ -58,6 +86,22 @@ export function ChatSidebar({
     <div className="w-80 border-r border-primary/10 bg-card">
       <div className="flex items-center justify-start gap-2 p-4 border-b border-primary/10">
         <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate('/dashboard')}
+                className="hover:bg-primary/10"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Voltar para o dashboard</p>
+            </TooltipContent>
+          </Tooltip>
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -98,9 +142,36 @@ export function ChatSidebar({
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <input
-                placeholder="Buscar contatos..."
+                placeholder="Buscar leads..."
                 className="w-full pl-8 pr-3 py-2 bg-muted/50 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-1 top-1 h-7 w-7"
+                  >
+                    <Filter className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-56">
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Filtrar por:</h4>
+                    <Button variant="outline" className="w-full justify-start">
+                      Etiqueta
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      Atendente
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      Data
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
             <div className="flex items-center gap-2 mt-3">
               <Button
@@ -122,32 +193,47 @@ export function ChatSidebar({
             <Button
               variant={currentFilter === 'incoming' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-1"
+              className="flex-1 relative"
               onClick={() => setCurrentFilter('incoming')}
             >
               Entrada
+              {unreadCounts.incoming > 0 && (
+                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center">
+                  {unreadCounts.incoming}
+                </Badge>
+              )}
             </Button>
             <Button
               variant={currentFilter === 'waiting' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-1"
+              className="flex-1 relative"
               onClick={() => setCurrentFilter('waiting')}
             >
               Esperando
+              {unreadCounts.waiting > 0 && (
+                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center">
+                  {unreadCounts.waiting}
+                </Badge>
+              )}
             </Button>
             <Button
               variant={currentFilter === 'finished' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-1"
+              className="flex-1 relative"
               onClick={() => setCurrentFilter('finished')}
             >
               Finalizados
+              {unreadCounts.finished > 0 && (
+                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center">
+                  {unreadCounts.finished}
+                </Badge>
+              )}
             </Button>
           </div>
 
           <ScrollArea className="h-[calc(100vh-12rem)]">
             <div className="p-3">
-              {contacts.map((contact) => (
+              {filteredContacts.map((contact) => (
                 <ContactItem
                   key={contact.id}
                   contact={contact}
@@ -161,6 +247,13 @@ export function ChatSidebar({
       ) : (
         <ScrollArea className="h-[calc(100vh-5rem)]">
           <div className="p-3">
+            <div className="relative mb-4">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <input
+                placeholder="Buscar atendentes..."
+                className="w-full pl-8 pr-3 py-2 bg-muted/50 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              />
+            </div>
             <h2 className="text-xs font-semibold text-muted-foreground mb-2">Equipe</h2>
             <div className="text-sm text-muted-foreground p-4 text-center">
               Lista de atendentes será implementada aqui
