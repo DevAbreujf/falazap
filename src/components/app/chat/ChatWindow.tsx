@@ -7,12 +7,19 @@ import { useToast } from "@/components/ui/use-toast";
 import { ChatHeaderInfo } from "./ChatHeaderInfo";
 import { ChatActions } from "./ChatActions";
 import { ChatDetailsSidebar } from "./ChatDetailsSidebar";
+import { EmojiPicker } from "@/components/tags/EmojiPicker";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface ChatWindowProps {
   contact: ChatContact;
@@ -36,6 +43,7 @@ export function ChatWindow({
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const [isDetailsSidebarOpen, setIsDetailsSidebarOpen] = useState(false);
   const [chatMode, setChatMode] = useState<"message" | "notes">("message");
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +72,7 @@ export function ChatWindow({
 
   const handleSend = () => {
     if (newMessage.trim()) {
-      const messagePrefix = chatMode === "notes" ? "**[NOTA INTERNA]** " : "";
+      const messagePrefix = chatMode === "notes" ? "" : "";
       onSendMessage(messagePrefix + newMessage);
       setNewMessage("");
       setLastActivityTime(Date.now());
@@ -76,6 +84,11 @@ export function ChatWindow({
       e.preventDefault();
       handleSend();
     }
+  };
+
+  const handleEmojiSelect = (emoji: any) => {
+    setNewMessage(prev => prev + emoji.native);
+    setIsEmojiPickerOpen(false);
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,7 +216,9 @@ export function ChatWindow({
             >
               <div
                 className={`max-w-[70%] rounded-lg p-3 ${
-                  message.senderId === 'me'
+                  message.type === 'note' 
+                    ? 'bg-[#fae389]'
+                    : message.senderId === 'me'
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted'
                 }`}
@@ -258,9 +273,9 @@ export function ChatWindow({
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={handleKeyPress}
-            placeholder={chatMode === "notes" ? "Digite uma nota interna..." : "Digite uma mensagem..."}
+            placeholder={chatMode === "notes" ? "Digite uma nota..." : "Digite uma mensagem..."}
             className={`flex-1 bg-muted/50 rounded-md p-2 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm ${
-              chatMode === "notes" ? "border-yellow-400/50" : ""
+              chatMode === "notes" ? "border-[#fae389]" : ""
             }`}
           />
           
@@ -283,12 +298,14 @@ export function ChatWindow({
                     <p>Anexar arquivo</p>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
 
-              <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button 
+                      variant="ghost" 
+                      size="icon"
+                      onClick={() => setIsEmojiPickerOpen(true)}
+                    >
                       <SmilePlus className="h-5 w-5" />
                     </Button>
                   </TooltipTrigger>
@@ -296,20 +313,37 @@ export function ChatWindow({
                     <p>Inserir emoji</p>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
 
-              <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <Bot className="h-5 w-5" />
-                    </Button>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <Bot className="h-5 w-5" />
+                      </Button>
+                    </DropdownMenuTrigger>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Usar chatbot</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Bot className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-56">
+                  {/* Mock funnel data - replace with actual funnels */}
+                  <DropdownMenuItem onClick={() => console.log("Selected Funnel 1")}>
+                    Funil de Vendas
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => console.log("Selected Funnel 2")}>
+                    Funil de Suporte
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             <Button onClick={handleSend} size="icon" disabled={!newMessage.trim()}>
@@ -319,12 +353,17 @@ export function ChatWindow({
         </div>
       </div>
 
+      <EmojiPicker
+        isOpen={isEmojiPickerOpen}
+        onClose={() => setIsEmojiPickerOpen(false)}
+        onEmojiSelect={handleEmojiSelect}
+      />
+
       <ChatDetailsSidebar
         contact={contact}
         isOpen={isDetailsSidebarOpen}
         onClose={() => setIsDetailsSidebarOpen(false)}
         onEditName={(newName) => {
-          // Handle name edit
           toast({
             title: "Nome atualizado",
             description: "O nome do lead foi atualizado com sucesso.",
