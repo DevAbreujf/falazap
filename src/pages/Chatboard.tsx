@@ -5,6 +5,11 @@ import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
+const mockAttendants = [
+  { id: "1", name: "John Doe", departmentId: "1" },
+  { id: "2", name: "Jane Smith", departmentId: "2" },
+];
+
 const mockDepartments: Department[] = [
   {
     id: "1",
@@ -26,7 +31,7 @@ const mockDepartments: Department[] = [
 const falaZAPContact: ChatContact = {
   id: "falazap",
   name: "FalaZAP",
-  status: "new" as const,  // Explicitly set as "new" status
+  status: "new" as const,
   unreadCount: 1,
   isSupport: false,
   funnelName: "Onboarding",
@@ -171,7 +176,6 @@ export default function Chatboard() {
       };
     });
 
-    // Update contact status to 'waiting' when agent responds to a new chat
     const selectedContact = mockContactsByDepartment[currentDepartment.id].find(
       contact => contact.id === selectedContactId
     );
@@ -273,22 +277,17 @@ export default function Chatboard() {
   };
 
   const handleTransferChat = (contactId: string, attendantId: string) => {
-    // Move contact to new department's "new" queue
     const attendant = mockAttendants.find(a => a.id === attendantId);
     if (attendant) {
       const contact = mockContactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
       if (contact) {
-        // Remove from current department
         mockContactsByDepartment[currentDepartment.id] = mockContactsByDepartment[currentDepartment.id]
           .filter(c => c.id !== contactId);
-
-        // Add to new department
         const updatedContact = { ...contact, status: 'new' as const };
         if (!mockContactsByDepartment[attendant.departmentId]) {
           mockContactsByDepartment[attendant.departmentId] = [];
         }
         mockContactsByDepartment[attendant.departmentId].push(updatedContact);
-
         setSelectedContactId(undefined);
         toast({
           title: "Conversa transferida",
@@ -301,17 +300,13 @@ export default function Chatboard() {
   const handleChangeDepartment = (contactId: string, departmentId: string) => {
     const contact = mockContactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
     if (contact) {
-      // Remove from current department
       mockContactsByDepartment[currentDepartment.id] = mockContactsByDepartment[currentDepartment.id]
         .filter(c => c.id !== contactId);
-
-      // Add to new department
       const updatedContact = { ...contact, status: 'new' as const };
       if (!mockContactsByDepartment[departmentId]) {
         mockContactsByDepartment[departmentId] = [];
       }
       mockContactsByDepartment[departmentId].push(updatedContact);
-
       setSelectedContactId(undefined);
       const department = mockDepartments.find(d => d.id === departmentId);
       if (department) {

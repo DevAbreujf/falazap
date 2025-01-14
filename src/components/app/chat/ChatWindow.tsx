@@ -39,6 +39,9 @@ interface ChatWindowProps {
   messages: ChatMessage[];
   onSendMessage: (content: string) => void;
   onUpdateContactStatus?: (contactId: string, isSupport: boolean) => void;
+  onEndSupport: () => void;
+  onTransferChat: (attendantId: string) => void;
+  onChangeDepartment: (departmentId: string) => void;
   currentDepartment: { id: string; name: string };
   currentUser: { id: string; name: string; avatar?: string };
 }
@@ -48,6 +51,9 @@ export function ChatWindow({
   messages, 
   onSendMessage,
   onUpdateContactStatus,
+  onEndSupport,
+  onTransferChat,
+  onChangeDepartment,
   currentDepartment,
   currentUser
 }: ChatWindowProps) {
@@ -188,17 +194,9 @@ export function ChatWindow({
                 setLastActivityTime(Date.now());
               }
             }}
-            onChangeDepartment={(departmentId) => {
-              const department = mockDepartments.find(d => d.id === departmentId);
-              if (department) {
-                toast({
-                  title: "Setor alterado",
-                  description: `Conversa transferida para ${department.name}.`,
-                });
-                setLastActivityTime(Date.now());
-              }
-            }}
-            onEndSupport={handleEndSupport}
+            onChangeDepartment={onChangeDepartment}
+            onEndSupport={onEndSupport}
+            onTransferChat={onTransferChat}
             attendants={mockAttendants}
             departments={mockDepartments}
           />
