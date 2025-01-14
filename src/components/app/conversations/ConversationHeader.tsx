@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, MoreVertical } from "lucide-react";
+import { ArrowLeft, MoreVertical, User, Calendar, Archive, Forward, Check, X } from "lucide-react";
 
 export function ConversationHeader() {
   return (
@@ -20,9 +20,29 @@ export function ConversationHeader() {
           </div>
         </div>
       </div>
-      <button>
-        <MoreVertical className="h-5 w-5 text-slate-600" />
-      </button>
+      <div className="flex items-center gap-2">
+        <button className="p-2 hover:bg-slate-100 rounded-lg">
+          <User className="h-5 w-5 text-slate-600" />
+        </button>
+        <button className="p-2 hover:bg-slate-100 rounded-lg">
+          <Calendar className="h-5 w-5 text-slate-600" />
+        </button>
+        <button className="p-2 hover:bg-slate-100 rounded-lg">
+          <Archive className="h-5 w-5 text-slate-600" />
+        </button>
+        <button className="p-2 hover:bg-slate-100 rounded-lg">
+          <Forward className="h-5 w-5 text-slate-600" />
+        </button>
+        <button className="p-2 hover:bg-slate-100 rounded-lg">
+          <Check className="h-5 w-5 text-slate-600" />
+        </button>
+        <button className="p-2 hover:bg-slate-100 rounded-lg">
+          <X className="h-5 w-5 text-slate-600" />
+        </button>
+        <button className="p-2 hover:bg-slate-100 rounded-lg">
+          <MoreVertical className="h-5 w-5 text-slate-600" />
+        </button>
+      </div>
     </header>
   );
 }
