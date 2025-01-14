@@ -1,11 +1,12 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send } from "lucide-react";
+import { Paperclip, Send, Info } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { ChatHeaderInfo } from "./ChatHeaderInfo";
 import { ChatActions } from "./ChatActions";
+import { ChatDetailsSidebar } from "./ChatDetailsSidebar";
 import {
   Tooltip,
   TooltipContent,
@@ -18,17 +19,22 @@ interface ChatWindowProps {
   messages: ChatMessage[];
   onSendMessage: (content: string) => void;
   onUpdateContactStatus?: (contactId: string, isSupport: boolean) => void;
+  currentDepartment: { id: string; name: string };
+  currentUser: { id: string; name: string; avatar?: string };
 }
 
 export function ChatWindow({ 
   contact, 
   messages, 
   onSendMessage,
-  onUpdateContactStatus 
+  onUpdateContactStatus,
+  currentDepartment,
+  currentUser
 }: ChatWindowProps) {
   const [newMessage, setNewMessage] = useState("");
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
+  const [isDetailsSidebarOpen, setIsDetailsSidebarOpen] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -94,7 +100,6 @@ export function ChatWindow({
     const endMessage = "**Sistema:**\nAtendimento encerrado. Obrigado por utilizar nosso suporte!";
     onSendMessage(endMessage);
     
-    // Atualiza o status do contato para não estar mais em suporte
     if (onUpdateContactStatus && contact.isSupport) {
       onUpdateContactStatus(contact.id, false);
     }
@@ -125,31 +130,49 @@ export function ChatWindow({
     <div className="flex flex-col h-[calc(100vh-4rem)]">
       <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
         <ChatHeaderInfo contact={contact} />
-        <ChatActions
-          onAddAttendant={(attendantId) => {
-            const attendant = mockAttendants.find(a => a.id === attendantId);
-            if (attendant) {
-              toast({
-                title: "Atendente adicionado",
-                description: `${attendant.name} foi adicionado ao atendimento.`,
-              });
-              setLastActivityTime(Date.now());
-            }
-          }}
-          onChangeDepartment={(departmentId) => {
-            const department = mockDepartments.find(d => d.id === departmentId);
-            if (department) {
-              toast({
-                title: "Setor alterado",
-                description: `Conversa transferida para ${department.name}.`,
-              });
-              setLastActivityTime(Date.now());
-            }
-          }}
-          onEndSupport={handleEndSupport}
-          attendants={mockAttendants}
-          departments={mockDepartments}
-        />
+        <div className="flex items-center gap-2">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setIsDetailsSidebarOpen(true)}
+                >
+                  <Info className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Detalhes da conversa</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <ChatActions
+            onAddAttendant={(attendantId) => {
+              const attendant = mockAttendants.find(a => a.id === attendantId);
+              if (attendant) {
+                toast({
+                  title: "Atendente adicionado",
+                  description: `${attendant.name} foi adicionado ao atendimento.`,
+                });
+                setLastActivityTime(Date.now());
+              }
+            }}
+            onChangeDepartment={(departmentId) => {
+              const department = mockDepartments.find(d => d.id === departmentId);
+              if (department) {
+                toast({
+                  title: "Setor alterado",
+                  description: `Conversa transferida para ${department.name}.`,
+                });
+                setLastActivityTime(Date.now());
+              }
+            }}
+            onEndSupport={handleEndSupport}
+            attendants={mockAttendants}
+            departments={mockDepartments}
+          />
+        </div>
       </div>
 
       <ScrollArea className="flex-1 p-4" ref={scrollRef}>
@@ -230,6 +253,21 @@ export function ChatWindow({
           </Button>
         </div>
       </div>
+
+      <ChatDetailsSidebar
+        contact={contact}
+        isOpen={isDetailsSidebarOpen}
+        onClose={() => setIsDetailsSidebarOpen(false)}
+        onEditName={(newName) => {
+          // Handle name edit
+          toast({
+            title: "Nome atualizado",
+            description: "O nome do lead foi atualizado com sucesso.",
+          });
+        }}
+        currentDepartment={currentDepartment}
+        currentUser={currentUser}
+      />
     </div>
   );
 }

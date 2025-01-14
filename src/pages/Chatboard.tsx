@@ -25,7 +25,7 @@ const mockDepartments: Department[] = [
 const falaZAPContact: ChatContact = {
   id: "falazap",
   name: "FalaZAP",
-  status: "new", // Changed from 'online' to 'new'
+  status: "new",
   unreadCount: 1,
   isSupport: false,
   funnelName: "Onboarding",
@@ -39,11 +39,10 @@ const falaZAPContact: ChatContact = {
   }
 };
 
-// First, declare mockContactsByDepartment
 const mockContactsByDepartment: Record<string, ChatContact[]> = {
   "1": [falaZAPContact],
-  "2": [],
-  "3": [],
+  "2": [falaZAPContact],
+  "3": [falaZAPContact],
 };
 
 const initialFalaZAPMessages: ChatMessage[] = [
@@ -81,7 +80,6 @@ const initialFalaZAPMessages: ChatMessage[] = [
   }
 ];
 
-// Create a state to store messages
 const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>> = {
   "1": {
     "1": [
@@ -143,6 +141,7 @@ export default function Chatboard() {
   });
   const [hasUserReplied, setHasUserReplied] = useState(false);
   const [falaZAPStep, setFalaZAPStep] = useState(0);
+  const [hideFalaZAP, setHideFalaZAP] = useState(false);
 
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
@@ -171,7 +170,6 @@ export default function Chatboard() {
       };
     });
 
-    // Handle FalaZAP automated responses
     if (selectedContactId === "falazap") {
       if (!hasUserReplied) {
         setHasUserReplied(true);
@@ -201,10 +199,9 @@ export default function Chatboard() {
                 falazap: [...prev[currentDepartment.id].falazap, autoMessage]
               }
             }));
-          }, (index + 1) * 5000); // 5 second delay between messages
+          }, (index + 1) * 5000);
         });
       } else {
-        // If user has already replied, only send the final message after 5 seconds
         setTimeout(() => {
           const finalMessage: ChatMessage = {
             id: `auto_${Date.now()}_final`,
@@ -228,10 +225,14 @@ export default function Chatboard() {
   };
 
   const handleUpdateContactStatus = (contactId: string, isSupport: boolean) => {
-    const departmentContacts = mockContactsByDepartment[currentDepartment.id] || [];
-    const updatedContacts = departmentContacts.map(contact =>
+    if (contactId === "falazap") {
+      setHideFalaZAP(true);
+      return;
+    }
+
+    const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
       contact.id === contactId
-        ? { ...contact, isSupport }
+        ? { ...contact, status: isSupport ? "finished" : "new" }
         : contact
     );
     mockContactsByDepartment[currentDepartment.id] = updatedContacts;
@@ -246,11 +247,18 @@ export default function Chatboard() {
     }
   };
 
-  // Get contacts for current department
-  const currentContacts = mockContactsByDepartment[currentDepartment.id] || [];
+  const currentContacts = mockContactsByDepartment[currentDepartment.id]
+    .filter(contact => !hideFalaZAP || contact.id !== "falazap");
+    
   const currentMessages = selectedContactId 
     ? (messagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
     : [];
+
+  const mockCurrentUser = {
+    id: "1",
+    name: "John Doe",
+    avatar: undefined
+  };
 
   return (
     <div className="flex h-screen bg-background">
@@ -274,10 +282,11 @@ export default function Chatboard() {
             messages={currentMessages}
             onSendMessage={handleSendMessage}
             onUpdateContactStatus={handleUpdateContactStatus}
+            currentDepartment={currentDepartment}
+            currentUser={mockCurrentUser}
           />
         )}
       </div>
     </div>
   );
 }
-
