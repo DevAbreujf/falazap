@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,17 @@ import { ChatActions } from "./ChatActions";
 import { ChatDetailsSidebar } from "./ChatDetailsSidebar";
 import { EmojiPicker } from "@/components/tags/EmojiPicker";
 import { useNavigate } from "react-router-dom";
+import { Switch } from "@/components/ui/switch";
+import { Avatar } from "@/components/ui/avatar";
+import { AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
   Tooltip,
   TooltipContent,
@@ -21,7 +32,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 // Mock data for attendants and departments
 const mockAttendants = [
@@ -64,8 +74,10 @@ export function ChatWindow({
   const [chatMode, setChatMode] = useState<"message" | "notes">("message");
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
-  const [editedName, setEditedName] = useState(contact.name);
+  const [editedName, setEditedName] = useState(currentUser.name);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
+  const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
+  const [isEditingSignature, setIsEditingSignature] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -162,6 +174,14 @@ export function ChatWindow({
     }
   };
 
+  const handleSaveSignature = () => {
+    setIsEditingSignature(false);
+    toast({
+      title: "Assinatura atualizada",
+      description: "Sua assinatura foi atualizada com sucesso.",
+    });
+  };
+
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
@@ -218,12 +238,18 @@ export function ChatWindow({
                 className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
                 onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
               >
+                {message.senderId === 'me' && (
+                  <Avatar className="w-8 h-8 mr-2">
+                    <AvatarImage src={currentUser.avatar} />
+                    <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
+                  </Avatar>
+                )}
                 <div
                   className={`max-w-[70%] rounded-lg p-3 ${
                     message.type === 'note' 
                       ? 'bg-[#fae389]'
                       : message.senderId === 'me'
-                      ? 'bg-primary text-primary-foreground'
+                      ? 'bg-[#f6ffed]'
                       : 'bg-muted'
                   }`}
                 >
@@ -252,25 +278,46 @@ export function ChatWindow({
       </ScrollArea>
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
-        <div className="flex items-center gap-2 border-b border-primary/10 pb-2">
-          <Button
-            variant={chatMode === "message" ? "default" : "ghost"}
-            size="sm"
-            onClick={() => setChatMode("message")}
-            className="gap-2"
-          >
-            <MessageSquare className="h-4 w-4" />
-            Mensagem
-          </Button>
-          <Button
-            variant={chatMode === "notes" ? "default" : "ghost"}
-            size="sm"
-            onClick={() => setChatMode("notes")}
-            className="gap-2"
-          >
-            <StickyNote className="h-4 w-4" />
-            Notas
-          </Button>
+        <div className="flex items-center justify-between border-b border-primary/10 pb-2">
+          <div className="flex items-center gap-2">
+            <Switch
+              checked={isSignatureEnabled}
+              onCheckedChange={setIsSignatureEnabled}
+            />
+            <span className="text-sm">
+              {isSignatureEnabled ? (
+                <button 
+                  onClick={() => setIsEditingSignature(true)}
+                  className="flex items-center gap-1 hover:text-primary"
+                >
+                  {editedName}
+                  <Edit className="h-4 w-4" />
+                </button>
+              ) : (
+                "Assinar"
+              )}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant={chatMode === "message" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setChatMode("message")}
+              className="gap-2"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Mensagem
+            </Button>
+            <Button
+              variant={chatMode === "notes" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setChatMode("notes")}
+              className="gap-2"
+            >
+              <StickyNote className="h-4 w-4" />
+              Notas
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -327,7 +374,6 @@ export function ChatWindow({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56">
-                  {/* Mock funnel data - replace with actual funnels */}
                   <DropdownMenuItem onClick={() => console.log("Selected Funnel 1")}>
                     Funil de Vendas
                   </DropdownMenuItem>
@@ -345,28 +391,38 @@ export function ChatWindow({
         </div>
       </div>
 
+      <Dialog open={isEditingSignature} onOpenChange={setIsEditingSignature}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edição de assinatura</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Input
+              value={editedName}
+              onChange={(e) => setEditedName(e.target.value)}
+              placeholder="Digite sua assinatura"
+            />
+            <p className="text-sm text-muted-foreground mt-2">
+              Mantenha vazio se quiser utilizar o nome salvo no seu perfil como assinatura.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditingSignature(false)}>
+              <X className="h-4 w-4 mr-2" />
+              Cancelar
+            </Button>
+            <Button onClick={handleSaveSignature}>
+              Salvar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <EmojiPicker
         isOpen={isEmojiPickerOpen}
         onClose={() => setIsEmojiPickerOpen(false)}
         onEmojiSelect={handleEmojiSelect}
       />
-
-      <Dialog open={isTagModalOpen} onOpenChange={setIsTagModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Etiquetas</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <Button 
-              onClick={() => navigate('/tags')} 
-              className="w-full"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Criar nova etiqueta
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {isDetailsSidebarOpen && (
         <ChatDetailsSidebar
