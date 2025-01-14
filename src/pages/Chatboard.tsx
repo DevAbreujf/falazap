@@ -169,6 +169,20 @@ export default function Chatboard() {
       };
     });
 
+    // Update contact status to 'waiting' when agent responds to a new chat
+    const selectedContact = mockContactsByDepartment[currentDepartment.id].find(
+      contact => contact.id === selectedContactId
+    );
+
+    if (selectedContact && selectedContact.status === 'new') {
+      const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
+        contact.id === selectedContactId
+          ? { ...contact, status: 'waiting' as const }
+          : contact
+      );
+      mockContactsByDepartment[currentDepartment.id] = updatedContacts;
+    }
+
     if (selectedContactId === "falazap") {
       if (!hasUserReplied) {
         setHasUserReplied(true);
