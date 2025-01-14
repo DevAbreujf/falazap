@@ -3,6 +3,7 @@ import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const mockDepartments: Department[] = [
   {
@@ -141,6 +142,7 @@ export default function Chatboard() {
   });
   const [hasUserReplied, setHasUserReplied] = useState(false);
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
+  const { toast } = useToast();
 
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
@@ -260,6 +262,67 @@ export default function Chatboard() {
     }
   };
 
+  const handleEndSupport = (contactId: string) => {
+    const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
+      contact.id === contactId
+        ? { ...contact, status: 'finished' as const }
+        : contact
+    );
+    mockContactsByDepartment[currentDepartment.id] = updatedContacts;
+    setSelectedContactId(undefined);
+  };
+
+  const handleTransferChat = (contactId: string, attendantId: string) => {
+    // Move contact to new department's "new" queue
+    const attendant = mockAttendants.find(a => a.id === attendantId);
+    if (attendant) {
+      const contact = mockContactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
+      if (contact) {
+        // Remove from current department
+        mockContactsByDepartment[currentDepartment.id] = mockContactsByDepartment[currentDepartment.id]
+          .filter(c => c.id !== contactId);
+
+        // Add to new department
+        const updatedContact = { ...contact, status: 'new' as const };
+        if (!mockContactsByDepartment[attendant.departmentId]) {
+          mockContactsByDepartment[attendant.departmentId] = [];
+        }
+        mockContactsByDepartment[attendant.departmentId].push(updatedContact);
+
+        setSelectedContactId(undefined);
+        toast({
+          title: "Conversa transferida",
+          description: `Conversa transferida para ${attendant.name}`,
+        });
+      }
+    }
+  };
+
+  const handleChangeDepartment = (contactId: string, departmentId: string) => {
+    const contact = mockContactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
+    if (contact) {
+      // Remove from current department
+      mockContactsByDepartment[currentDepartment.id] = mockContactsByDepartment[currentDepartment.id]
+        .filter(c => c.id !== contactId);
+
+      // Add to new department
+      const updatedContact = { ...contact, status: 'new' as const };
+      if (!mockContactsByDepartment[departmentId]) {
+        mockContactsByDepartment[departmentId] = [];
+      }
+      mockContactsByDepartment[departmentId].push(updatedContact);
+
+      setSelectedContactId(undefined);
+      const department = mockDepartments.find(d => d.id === departmentId);
+      if (department) {
+        toast({
+          title: "Setor alterado",
+          description: `Conversa movida para ${department.name}`,
+        });
+      }
+    }
+  };
+
   const currentContacts = mockContactsByDepartment[currentDepartment.id]
     .filter(contact => !hideFalaZAP || contact.id !== "falazap");
     
@@ -295,6 +358,9 @@ export default function Chatboard() {
             messages={currentMessages}
             onSendMessage={handleSendMessage}
             onUpdateContactStatus={handleUpdateContactStatus}
+            onEndSupport={() => handleEndSupport(selectedContactId)}
+            onTransferChat={(attendantId) => handleTransferChat(selectedContactId, attendantId)}
+            onChangeDepartment={(departmentId) => handleChangeDepartment(selectedContactId, departmentId)}
             currentDepartment={currentDepartment}
             currentUser={mockCurrentUser}
           />
