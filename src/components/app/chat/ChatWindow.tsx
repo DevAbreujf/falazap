@@ -77,8 +77,6 @@ export function ChatWindow({
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
   const [isEditingSignature, setIsEditingSignature] = useState(false);
-  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-  const [showScrollButton, setShowScrollButton] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -94,29 +92,12 @@ export function ChatWindow({
     return () => clearInterval(inactivityTimer);
   }, [lastActivityTime]);
 
+  // Add auto-scroll effect when messages change
   useEffect(() => {
-    if (shouldAutoScroll && scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages, shouldAutoScroll]);
-
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-      const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
-      
-      setShouldAutoScroll(isNearBottom);
-      setShowScrollButton(!isNearBottom);
-    }
-  };
-
-  const scrollToBottom = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      setShouldAutoScroll(true);
-      setShowScrollButton(false);
     }
-  };
+  }, [messages]);
 
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -129,8 +110,6 @@ export function ChatWindow({
       onSendMessage(messageContent);
       setNewMessage("");
       setLastActivityTime(Date.now());
-      setShouldAutoScroll(true);
-      scrollToBottom();
     }
   };
 
@@ -247,7 +226,6 @@ export function ChatWindow({
 
       <ScrollArea 
         className="flex-1 relative"
-        onScroll={handleScroll}
         ref={scrollRef}
       >
         <div className="p-4 space-y-4">
