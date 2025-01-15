@@ -33,7 +33,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Mock data for attendants and departments
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
   { id: "2", name: "Jane Smith", departmentId: "2" },
@@ -81,6 +80,16 @@ export function ChatWindow({
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  // Auto-scroll effect when messages change
+  useEffect(() => {
+    if (scrollRef.current) {
+      const scrollElement = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollElement) {
+        scrollElement.scrollTop = scrollElement.scrollHeight;
+      }
+    }
+  }, [messages]);
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
@@ -218,7 +227,7 @@ export function ChatWindow({
         </div>
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1" ref={scrollRef}>
         <div className="p-4 space-y-4">
           {hoveredDate && (
             <TooltipProvider>
