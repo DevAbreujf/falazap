@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X, ArrowDown } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// Mock data for attendants and departments
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
   { id: "2", name: "Jane Smith", departmentId: "2" },
@@ -84,20 +85,13 @@ export function ChatWindow({
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
       const inactiveTime = Date.now() - lastActivityTime;
-      if (inactiveTime >= 15 * 60 * 1000) {
+      if (inactiveTime >= 15 * 60 * 1000) { // 15 minutes
         handleEndSupport();
       }
-    }, 60000);
+    }, 60000); // Check every minute
 
     return () => clearInterval(inactivityTimer);
   }, [lastActivityTime]);
-
-  // Add auto-scroll effect when messages change
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -224,10 +218,7 @@ export function ChatWindow({
         </div>
       </div>
 
-      <ScrollArea 
-        className="flex-1 relative"
-        ref={scrollRef}
-      >
+      <ScrollArea className="flex-1">
         <div className="p-4 space-y-4">
           {hoveredDate && (
             <TooltipProvider>
