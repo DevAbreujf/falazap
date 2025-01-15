@@ -298,17 +298,6 @@ export function ChatWindow({
             })}
           </div>
         </div>
-
-        {showScrollButton && (
-          <Button
-            variant="secondary"
-            size="icon"
-            className="fixed bottom-24 right-8 rounded-full shadow-lg"
-            onClick={scrollToBottom}
-          >
-            <ArrowDown className="h-4 w-4" />
-          </Button>
-        )}
       </ScrollArea>
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
