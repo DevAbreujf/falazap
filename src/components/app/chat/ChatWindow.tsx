@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X, ArrowDown } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -78,114 +78,45 @@ export function ChatWindow({
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
   const [isEditingSignature, setIsEditingSignature] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [autoScroll, setAutoScroll] = useState(true);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const inactivityTimer = setInterval(() => {
-      const inactiveTime = Date.now() - lastActivityTime;
-      if (inactiveTime >= 15 * 60 * 1000) { // 15 minutes
-        handleEndSupport();
-      }
-    }, 60000); // Check every minute
-
-    return () => clearInterval(inactivityTimer);
-  }, [lastActivityTime]);
-
-  const handleSend = () => {
-    if (newMessage.trim()) {
-      const messageContent = chatMode === "notes" 
-        ? `**Nota**\n${newMessage}`
-        : isSignatureEnabled 
-          ? `${editedName}:\n${newMessage}`
-          : newMessage;
-          
-      onSendMessage(messageContent);
-      setNewMessage("");
-      setLastActivityTime(Date.now());
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
-  const handleEmojiSelect = (emoji: any) => {
-    setNewMessage(prev => prev + emoji.native);
-    setIsEmojiPickerOpen(false);
-  };
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        toast({
-          title: "Erro",
-          description: "O arquivo é muito grande. O tamanho máximo permitido é 5MB.",
-          variant: "destructive",
-        });
-        return;
-      }
-      setLastActivityTime(Date.now());
-      console.log("File to upload:", file);
-    }
-  };
-
-  const formatMessage = (content: string) => {
-    return content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br />');
-  };
-
-  const handleEndSupport = () => {
-    const endMessage = "**Sistema:**\nAtendimento encerrado. Obrigado por utilizar nosso suporte!";
-    onSendMessage(endMessage);
-    
-    if (onUpdateContactStatus && contact.isSupport) {
-      onUpdateContactStatus(contact.id, false);
-    }
-    
-    toast({
-      title: "Atendimento encerrado",
-      description: "O atendimento foi finalizado com sucesso.",
-    });
-  };
-
-  const formatMessageDate = (date: Date) => {
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    if (date.toDateString() === today.toDateString()) return 'Hoje';
-    if (date.toDateString() === yesterday.toDateString()) return 'Ontem';
-
-    const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    return weekdays[date.getDay()];
-  };
-
-  const formatFullDate = (date: Date) => {
-    return date.toLocaleDateString('pt-BR');
-  };
-
-  const handleSaveName = () => {
-    if (editedName.trim()) {
-      toast({
-        title: "Nome atualizado",
-        description: "O nome do lead foi atualizado com sucesso.",
+  const scrollToBottom = () => {
+    if (scrollRef.current && autoScroll) {
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: "smooth"
       });
-      setIsEditingName(false);
     }
   };
 
-  const handleSaveSignature = () => {
-    setIsEditingSignature(false);
-    toast({
-      title: "Assinatura atualizada",
-      description: "Sua assinatura foi atualizada com sucesso.",
-    });
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+      const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 50;
+      
+      setShowScrollButton(!isAtBottom);
+      setAutoScroll(isAtBottom);
+    }
   };
+
+  const handleScrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+      setAutoScroll(true);
+      setShowScrollButton(false);
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -218,7 +149,11 @@ export function ChatWindow({
         </div>
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea 
+        className="flex-1 relative" 
+        ref={scrollRef}
+        onScroll={handleScroll}
+      >
         <div className="p-4 space-y-4">
           {hoveredDate && (
             <TooltipProvider>
@@ -289,6 +224,16 @@ export function ChatWindow({
             })}
           </div>
         </div>
+
+        {showScrollButton && (
+          <Button
+            className="absolute bottom-4 right-4 rounded-full shadow-lg"
+            size="icon"
+            onClick={handleScrollToBottom}
+          >
+            <ArrowDown className="h-4 w-4" />
+          </Button>
+        )}
       </ScrollArea>
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
