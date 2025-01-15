@@ -291,7 +291,6 @@ export function ChatWindow({
         isOpen={isEmojiPickerOpen}
         onClose={() => setIsEmojiPickerOpen(false)}
         onEmojiSelect={(emoji: any) => {
-          setNewMessage(prev => prev + emoji.native);
           setIsEmojiPickerOpen(false);
         }}
       />
