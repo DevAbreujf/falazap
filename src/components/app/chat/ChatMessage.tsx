@@ -21,7 +21,18 @@ export function ChatMessage({ message, isCurrentUser, currentUser, onMessageActi
   const isNote = message.content.startsWith("**Nota**");
 
   const formatMessage = (content: string) => {
-    return content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br />');
+    // Handle quoted text (replies)
+    const lines = content.split('\n');
+    const formattedLines = lines.map(line => {
+      if (line.startsWith('>')) {
+        return `<div class="text-muted-foreground bg-muted/50 p-2 rounded-md my-1 border-l-2 border-primary">${line.substring(2)}</div>`;
+      }
+      return line;
+    });
+    
+    return formattedLines
+      .join('<br />')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   };
 
   return (

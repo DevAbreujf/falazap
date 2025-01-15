@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Paperclip, Send, Bot, SmilePlus } from "lucide-react";
+import { Paperclip, Send, Bot, SmilePlus, X } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Edit } from "lucide-react";
 import {
@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ChatMessage } from "@/types/chat";
 
 interface ChatInputProps {
   onSendMessage: (content: string) => void;
@@ -26,6 +27,8 @@ interface ChatInputProps {
   setChatMode: (mode: "message" | "notes") => void;
   setIsEmojiPickerOpen: (open: boolean) => void;
   handleFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  replyingTo: ChatMessage | null;
+  onCancelReply: () => void;
 }
 
 export function ChatInput({
@@ -38,6 +41,8 @@ export function ChatInput({
   setChatMode,
   setIsEmojiPickerOpen,
   handleFileUpload,
+  replyingTo,
+  onCancelReply,
 }: ChatInputProps) {
   const [newMessage, setNewMessage] = useState("");
 
@@ -86,6 +91,22 @@ export function ChatInput({
       </div>
 
       <div className="flex flex-col gap-2">
+        {replyingTo && (
+          <div className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
+            <div className="flex-1 text-sm text-muted-foreground border-l-2 border-primary pl-2">
+              {replyingTo.content}
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onCancelReply}
+              className="h-5 w-5"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+        
         <textarea
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}

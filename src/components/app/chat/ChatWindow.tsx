@@ -59,6 +59,7 @@ export function ChatWindow({
   const [tempEditedName, setTempEditedName] = useState(editedName);
   const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
   const [isEditingSignature, setIsEditingSignature] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -129,7 +130,10 @@ export function ChatWindow({
   const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', messageId: string) => {
     switch (action) {
       case 'reply':
-        console.log('Reply to message:', messageId);
+        const messageToReply = messages.find(m => m.id === messageId);
+        if (messageToReply) {
+          setReplyingTo(messageToReply);
+        }
         break;
       case 'copy':
         const message = messages.find(m => m.id === messageId);
@@ -147,6 +151,16 @@ export function ChatWindow({
       case 'delete':
         console.log('Delete message:', messageId);
         break;
+    }
+  };
+
+  const handleSendMessage = (content: string) => {
+    if (replyingTo) {
+      const replyContent = `> ${replyingTo.content}\n\n${content}`;
+      onSendMessage(replyContent);
+      setReplyingTo(null);
+    } else {
+      onSendMessage(content);
     }
   };
 
@@ -220,7 +234,7 @@ export function ChatWindow({
       </ScrollArea>
 
       <ChatInput
-        onSendMessage={onSendMessage}
+        onSendMessage={handleSendMessage}
         isSignatureEnabled={isSignatureEnabled}
         setIsSignatureEnabled={setIsSignatureEnabled}
         editedName={editedName}
@@ -229,6 +243,8 @@ export function ChatWindow({
         setChatMode={setChatMode}
         setIsEmojiPickerOpen={setIsEmojiPickerOpen}
         handleFileUpload={handleFileUpload}
+        replyingTo={replyingTo}
+        onCancelReply={() => setReplyingTo(null)}
       />
 
       <Dialog open={isEditingSignature} onOpenChange={setIsEditingSignature}>
