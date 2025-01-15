@@ -32,6 +32,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 // Mock data for attendants and departments
 const mockAttendants = [
@@ -85,6 +86,7 @@ export function ChatWindow({
   const [autoScroll, setAutoScroll] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
@@ -195,6 +197,7 @@ export function ChatWindow({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     setAutoScroll(true);
     setShowScrollButton(false);
+    setUnreadCount(0);
   };
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -208,8 +211,13 @@ export function ChatWindow({
   useEffect(() => {
     if (autoScroll) {
       scrollToBottom();
+    } else if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.senderId !== 'me') {
+        setUnreadCount(prev => prev + 1);
+      }
     }
-  }, [messages]);
+  }, [messages, autoScroll]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -321,13 +329,30 @@ export function ChatWindow({
         <div ref={messagesEndRef} />
 
         {showScrollButton && (
-          <Button
-            className="absolute bottom-4 right-4 rounded-full"
-            size="icon"
-            onClick={scrollToBottom}
-          >
-            <ArrowDown className="h-4 w-4" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  className="absolute bottom-4 right-4 rounded-full"
+                  size="icon"
+                  onClick={scrollToBottom}
+                >
+                  <ArrowDown className="h-4 w-4" />
+                  {unreadCount > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 min-w-[20px] h-5 flex items-center justify-center"
+                    >
+                      {unreadCount}
+                    </Badge>
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Ir para novas mensagens</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
       </ScrollArea>
 
