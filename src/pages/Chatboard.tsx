@@ -330,7 +330,7 @@ export default function Chatboard() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="h-[calc(100vh-4rem)] flex overflow-hidden bg-background">
       <ChatSidebar
         contacts={currentContacts}
         selectedContactId={selectedContactId}
