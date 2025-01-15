@@ -33,7 +33,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Mock data for attendants and departments
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
   { id: "2", name: "Jane Smith", departmentId: "2" },
@@ -85,6 +84,17 @@ export function ChatWindow({
   const navigate = useNavigate();
 
   useEffect(() => {
+    const inactivityTimer = setInterval(() => {
+      const inactiveTime = Date.now() - lastActivityTime;
+      if (inactiveTime >= 15 * 60 * 1000) {
+        handleEndSupport();
+      }
+    }, 60000);
+
+    return () => clearInterval(inactivityTimer);
+  }, [lastActivityTime]);
+
+  useEffect(() => {
     if (shouldAutoScroll && scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
@@ -95,7 +105,7 @@ export function ChatWindow({
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
       const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
       
-      setShouldAutoScroll(false); // Changed this to false to prevent auto-scroll on new messages
+      setShouldAutoScroll(isNearBottom);
       setShowScrollButton(!isNearBottom);
     }
   };
@@ -108,23 +118,19 @@ export function ChatWindow({
     }
   };
 
-  useEffect(() => {
-    const inactivityTimer = setInterval(() => {
-      const inactiveTime = Date.now() - lastActivityTime;
-      if (inactiveTime >= 15 * 60 * 1000) { // 15 minutes
-        handleEndSupport();
-      }
-    }, 60000); // Check every minute
-
-    return () => clearInterval(inactivityTimer);
-  }, [lastActivityTime]);
-
   const handleSend = () => {
     if (newMessage.trim()) {
-      onSendMessage(newMessage.trim());
+      const messageContent = chatMode === "notes" 
+        ? `**Nota**\n${newMessage}`
+        : isSignatureEnabled 
+          ? `${editedName}:\n${newMessage}`
+          : newMessage;
+          
+      onSendMessage(messageContent);
       setNewMessage("");
       setLastActivityTime(Date.now());
       setShouldAutoScroll(true);
+      scrollToBottom();
     }
   };
 
@@ -239,75 +245,93 @@ export function ChatWindow({
         </div>
       </div>
 
-      <div 
-        ref={scrollRef}
+      <ScrollArea 
+        className="flex-1 relative"
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-transparent hover:scrollbar-thumb-primary/80"
+        ref={scrollRef}
       >
-        <div className="p-4 space-y-4 relative min-h-full">
-          {messages.map((message) => {
-            const isNote = message.content.startsWith("**Nota**");
-            return (
-              <div
-                key={message.id}
-                className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
-                onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
-              >
-                {message.senderId === 'me' && (
-                  <Avatar className="w-8 h-8 mr-2">
-                    <AvatarImage src={currentUser.avatar} />
-                    <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
-                  </Avatar>
-                )}
-                <div
-                  className={`max-w-[70%] rounded-lg p-3 ${
-                    isNote 
-                      ? 'bg-[#fae389]'
-                      : message.senderId === 'me'
-                      ? 'bg-[#f6ffed]'
-                      : 'bg-muted'
-                  }`}
-                >
-                  <p 
-                    className="text-sm"
-                    dangerouslySetInnerHTML={{ 
-                      __html: formatMessage(
-                        isNote 
-                          ? message.content.replace("**Nota**\n", "") 
-                          : message.content
-                      )
-                    }}
-                  />
-                  <div className="flex items-center justify-end gap-1 mt-1">
-                    <span className="text-xs opacity-70">
-                      {new Date(message.timestamp).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
+        <div className="p-4 space-y-4">
+          {hoveredDate && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="sticky top-2 z-10 flex justify-center">
+                    <span className="bg-muted px-3 py-1 rounded-full text-sm">
+                      {formatMessageDate(hoveredDate)}
                     </span>
-                    {message.senderId === 'me' && (
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{formatFullDate(hoveredDate)}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+          <div className="space-y-4">
+            {messages.map((message) => {
+              const isNote = message.content.startsWith("**Nota**");
+              return (
+                <div
+                  key={message.id}
+                  className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
+                  onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
+                >
+                  {message.senderId === 'me' && (
+                    <Avatar className="w-8 h-8 mr-2">
+                      <AvatarImage src={currentUser.avatar} />
+                      <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
+                    </Avatar>
+                  )}
+                  <div
+                    className={`max-w-[70%] rounded-lg p-3 ${
+                      isNote 
+                        ? 'bg-[#fae389]'
+                        : message.senderId === 'me'
+                        ? 'bg-[#f6ffed]'
+                        : 'bg-muted'
+                    }`}
+                  >
+                    <p 
+                      className="text-sm"
+                      dangerouslySetInnerHTML={{ 
+                        __html: formatMessage(
+                          isNote 
+                            ? message.content.replace("**Nota**\n", "") 
+                            : message.content
+                        )
+                      }}
+                    />
+                    <div className="flex items-center justify-end gap-1 mt-1">
                       <span className="text-xs opacity-70">
-                        {message.status === 'read' ? '✓✓' : '✓'}
+                        {new Date(message.timestamp).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                       </span>
-                    )}
+                      {message.senderId === 'me' && (
+                        <span className="text-xs opacity-70">
+                          {message.status === 'read' ? '✓✓' : '✓'}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-
-          {showScrollButton && (
-            <Button
-              variant="outline"
-              size="icon"
-              className="fixed bottom-32 right-8 rounded-full shadow-lg bg-white/90 hover:bg-white"
-              onClick={scrollToBottom}
-            >
-              <ArrowDown className="h-4 w-4" />
-            </Button>
-          )}
+              );
+            })}
+          </div>
         </div>
-      </div>
+
+        {showScrollButton && (
+          <Button
+            variant="secondary"
+            size="icon"
+            className="fixed bottom-24 right-8 rounded-full shadow-lg"
+            onClick={scrollToBottom}
+          >
+            <ArrowDown className="h-4 w-4" />
+          </Button>
+        )}
+      </ScrollArea>
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
         <div className="flex items-center justify-between border-b border-primary/10 pb-2">
