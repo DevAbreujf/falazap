@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Switch } from "@/components/ui/switch";
 import { Avatar } from "@/components/ui/avatar";
 import { AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { formatMessageDate, formatFullDate, formatMessage } from "@/utils/dateFormatters";
 import {
   Dialog,
   DialogContent,
@@ -178,6 +179,53 @@ export function ChatWindow({
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      toast({
+        title: "Upload de arquivo",
+        description: "Funcionalidade em desenvolvimento",
+      });
+    }
+  };
+
+  const handleSend = () => {
+    if (newMessage.trim()) {
+      const messageContent = chatMode === "notes" ? `**Nota**\n${newMessage}` : newMessage;
+      onSendMessage(isSignatureEnabled ? `${messageContent}\n\n${editedName}` : messageContent);
+      setNewMessage("");
+    }
+  };
+
+  const handleSaveSignature = () => {
+    setIsEditingSignature(false);
+    toast({
+      title: "Assinatura salva",
+      description: "Sua assinatura foi atualizada com sucesso",
+    });
+  };
+
+  const handleEmojiSelect = (emoji: { native: string }) => {
+    setNewMessage((prev) => prev + emoji.native);
+    setIsEmojiPickerOpen(false);
+  };
+
+  const handleSaveName = (newName: string) => {
+    setEditedName(newName);
+    setIsEditingName(false);
+    toast({
+      title: "Nome atualizado",
+      description: "O nome do contato foi atualizado com sucesso",
+    });
+  };
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
