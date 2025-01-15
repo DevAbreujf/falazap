@@ -84,9 +84,10 @@ export function ChatActions({
           <TooltipTrigger asChild>
             <Button
               variant="outline"
+              size="icon"
               onClick={() => setIsTransferOpen(true)}
             >
-              Transferir conversa
+              <ArrowUp className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -98,9 +99,10 @@ export function ChatActions({
           <TooltipTrigger asChild>
             <Button
               variant="outline"
+              size="icon"
               onClick={() => setIsDepartmentOpen(true)}
             >
-              Enviar para outro setor
+              <ArrowRight className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>

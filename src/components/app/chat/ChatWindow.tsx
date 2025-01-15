@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { Switch } from "@/components/ui/switch";
 import { Avatar } from "@/components/ui/avatar";
 import { AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { formatMessageDate, formatFullDate, formatMessage } from "@/utils/dateFormatters";
 import {
   Dialog,
   DialogContent,
@@ -33,21 +32,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const formatMessageDate = (date: Date) => {
-  return date.toLocaleDateString();
-};
-
-const formatFullDate = (date: Date) => {
-  return date.toLocaleString();
-};
-
-const formatMessage = (content: string) => {
-  return content.replace(
-    /(https?:\/\/[^\s]+)/g,
-    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">$1</a>'
-  );
-};
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
@@ -93,137 +77,121 @@ export function ChatWindow({
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
   const [isEditingSignature, setIsEditingSignature] = useState(false);
-  const [showScrollButton, setShowScrollButton] = useState(false);
-  const [autoScroll, setAutoScroll] = useState(true);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      toast({
-        title: "Upload de arquivo",
-        description: "Funcionalidade em desenvolvimento",
-      });
-    }
-  };
-
-  const handleSend = () => {
-    if (newMessage.trim()) {
-      onSendMessage(chatMode === "notes" ? `**Nota**\n${newMessage}` : newMessage);
-      setNewMessage("");
-      setLastActivityTime(Date.now());
-    }
-  };
-
-  const handleSaveSignature = () => {
-    setIsEditingSignature(false);
-    toast({
-      title: "Assinatura salva",
-      description: "Sua assinatura foi atualizada com sucesso",
-    });
-  };
-
-  const handleEmojiSelect = (emoji: any) => {
-    setNewMessage((prev) => prev + emoji.native);
-    setIsEmojiPickerOpen(false);
-  };
-
-  const handleSaveName = (newName: string) => {
-    setEditedName(newName);
-    setIsEditingName(false);
-    toast({
-      title: "Nome atualizado",
-      description: "O nome do contato foi atualizado com sucesso",
-    });
-  };
-
   const scrollToBottom = () => {
-    if (scrollRef.current && autoScroll) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth"
-      });
-    }
-  };
-
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-      const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 50;
-      
-      setShowScrollButton(!isAtBottom);
-      setAutoScroll(isAtBottom);
-    }
-  };
-
-  const handleScrollToBottom = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth"
-      });
-      setAutoScroll(true);
-      setShowScrollButton(false);
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  useEffect(() => {
+    const inactivityTimer = setInterval(() => {
+      const inactiveTime = Date.now() - lastActivityTime;
+      if (inactiveTime >= 15 * 60 * 1000) {
+        handleEndSupport();
+      }
+    }, 60000);
+
+    return () => clearInterval(inactivityTimer);
+  }, [lastActivityTime]);
+
+  const handleSend = () => {
+    if (newMessage.trim()) {
+      const messageContent = chatMode === "notes" 
+        ? `**Nota**\n${newMessage}`
+        : isSignatureEnabled 
+          ? `${editedName}:\n${newMessage}`
+          : newMessage;
+          
+      onSendMessage(messageContent);
+      setNewMessage("");
+      setLastActivityTime(Date.now());
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleEmojiSelect = (emoji: any) => {
+    setNewMessage(prev => prev + emoji.native);
+    setIsEmojiPickerOpen(false);
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
-      toast({
-        title: "Upload de arquivo",
-        description: "Funcionalidade em desenvolvimento",
-      });
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "Erro",
+          description: "O arquivo é muito grande. O tamanho máximo permitido é 5MB.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setLastActivityTime(Date.now());
+      console.log("File to upload:", file);
     }
   };
 
-  const handleSend = () => {
-    if (newMessage.trim()) {
-      const messageContent = chatMode === "notes" ? `**Nota**\n${newMessage}` : newMessage;
-      onSendMessage(isSignatureEnabled ? `${messageContent}\n\n${editedName}` : messageContent);
-      setNewMessage("");
+  const formatMessage = (content: string) => {
+    return content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br />');
+  };
+
+  const handleEndSupport = () => {
+    const endMessage = "**Sistema:**\nAtendimento encerrado. Obrigado por utilizar nosso suporte!";
+    onSendMessage(endMessage);
+    
+    if (onUpdateContactStatus && contact.isSupport) {
+      onUpdateContactStatus(contact.id, false);
+    }
+    
+    toast({
+      title: "Atendimento encerrado",
+      description: "O atendimento foi finalizado com sucesso.",
+    });
+  };
+
+  const formatMessageDate = (date: Date) => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) return 'Hoje';
+    if (date.toDateString() === yesterday.toDateString()) return 'Ontem';
+
+    const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    return weekdays[date.getDay()];
+  };
+
+  const formatFullDate = (date: Date) => {
+    return date.toLocaleDateString('pt-BR');
+  };
+
+  const handleSaveName = () => {
+    if (editedName.trim()) {
+      toast({
+        title: "Nome atualizado",
+        description: "O nome do lead foi atualizado com sucesso.",
+      });
+      setIsEditingName(false);
     }
   };
 
   const handleSaveSignature = () => {
     setIsEditingSignature(false);
     toast({
-      title: "Assinatura salva",
-      description: "Sua assinatura foi atualizada com sucesso",
-    });
-  };
-
-  const handleEmojiSelect = (emoji: { native: string }) => {
-    setNewMessage((prev) => prev + emoji.native);
-    setIsEmojiPickerOpen(false);
-  };
-
-  const handleSaveName = (newName: string) => {
-    setEditedName(newName);
-    setIsEditingName(false);
-    toast({
-      title: "Nome atualizado",
-      description: "O nome do contato foi atualizado com sucesso",
+      title: "Assinatura atualizada",
+      description: "Sua assinatura foi atualizada com sucesso.",
     });
   };
 
@@ -259,9 +227,8 @@ export function ChatWindow({
       </div>
 
       <ScrollArea 
-        className="flex-1 relative" 
+        className="flex-1 relative"
         ref={scrollRef}
-        onScroll={handleScroll}
       >
         <div className="p-4 space-y-4">
           {hoveredDate && (
@@ -331,18 +298,9 @@ export function ChatWindow({
                 </div>
               );
             })}
+            <div ref={messagesEndRef} />
           </div>
         </div>
-
-        {showScrollButton && (
-          <Button
-            className="absolute bottom-4 right-4 rounded-full shadow-lg"
-            size="icon"
-            onClick={handleScrollToBottom}
-          >
-            <ArrowDown className="h-4 w-4" />
-          </Button>
-        )}
       </ScrollArea>
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
