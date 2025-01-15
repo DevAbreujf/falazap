@@ -79,7 +79,16 @@ export function ChatWindow({
   const [isEditingSignature, setIsEditingSignature] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
@@ -91,13 +100,6 @@ export function ChatWindow({
 
     return () => clearInterval(inactivityTimer);
   }, [lastActivityTime]);
-
-  // Add auto-scroll effect when messages change
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -296,6 +298,7 @@ export function ChatWindow({
                 </div>
               );
             })}
+            <div ref={messagesEndRef} />
           </div>
         </div>
       </ScrollArea>
