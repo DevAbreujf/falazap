@@ -33,7 +33,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Mock data for attendants and departments
+const formatMessageDate = (date: Date) => {
+  return date.toLocaleDateString();
+};
+
+const formatFullDate = (date: Date) => {
+  return date.toLocaleString();
+};
+
+const formatMessage = (content: string) => {
+  return content.replace(
+    /(https?:\/\/[^\s]+)/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">$1</a>'
+  );
+};
+
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
   { id: "2", name: "Jane Smith", departmentId: "2" },
@@ -83,6 +97,53 @@ export function ChatWindow({
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      toast({
+        title: "Upload de arquivo",
+        description: "Funcionalidade em desenvolvimento",
+      });
+    }
+  };
+
+  const handleSend = () => {
+    if (newMessage.trim()) {
+      onSendMessage(chatMode === "notes" ? `**Nota**\n${newMessage}` : newMessage);
+      setNewMessage("");
+      setLastActivityTime(Date.now());
+    }
+  };
+
+  const handleSaveSignature = () => {
+    setIsEditingSignature(false);
+    toast({
+      title: "Assinatura salva",
+      description: "Sua assinatura foi atualizada com sucesso",
+    });
+  };
+
+  const handleEmojiSelect = (emoji: any) => {
+    setNewMessage((prev) => prev + emoji.native);
+    setIsEmojiPickerOpen(false);
+  };
+
+  const handleSaveName = (newName: string) => {
+    setEditedName(newName);
+    setIsEditingName(false);
+    toast({
+      title: "Nome atualizado",
+      description: "O nome do contato foi atualizado com sucesso",
+    });
+  };
 
   const scrollToBottom = () => {
     if (scrollRef.current && autoScroll) {
