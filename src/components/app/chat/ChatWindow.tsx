@@ -293,12 +293,12 @@ export function ChatWindow({
                   }}
                   onMouseLeave={() => setHoveredMessageId(null)}
                 >
-                  {!isCurrentUser ? null : (
+                  {isCurrentUser ? (
                     <Avatar className="w-8 h-8 mr-2">
                       <AvatarImage src={currentUser.avatar} />
                       <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
                     </Avatar>
-                  )}
+                  ) : null}
                   <div
                     className={`max-w-[70%] rounded-lg p-3 relative ${
                       isNote 
@@ -334,20 +334,15 @@ export function ChatWindow({
                     {hoveredMessageId === message.id && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="icon"
+                          <button 
                             className={`absolute top-1/2 -translate-y-1/2 ${
                               isCurrentUser ? '-left-8' : '-right-8'
                             } opacity-0 group-hover:opacity-100 transition-opacity`}
                           >
                             <MoreVertical className="h-4 w-4 text-gray-500 hover:text-gray-700" />
-                          </Button>
+                          </button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent 
-                          align={isCurrentUser ? "start" : "end"}
-                          className="bg-white"
-                        >
+                        <DropdownMenuContent align={isCurrentUser ? "start" : "end"}>
                           <DropdownMenuItem onClick={() => handleMessageAction('reply', message.id)}>
                             <Reply className="h-4 w-4 mr-2" />
                             Responder
