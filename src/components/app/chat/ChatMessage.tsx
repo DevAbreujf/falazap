@@ -62,11 +62,19 @@ export function ChatMessage({
     }
   }, [isRepliedMessage]);
 
+  const handleQuoteClick = (messageId: string) => {
+    if (onScrollToMessage) {
+      onScrollToMessage(messageId);
+    }
+  };
+
   const formatMessage = (content: string) => {
     const lines = content.split('\n');
     const formattedLines = lines.map(line => {
       if (line.startsWith('>')) {
-        return `<div class="text-muted-foreground bg-muted/50 p-2 rounded-md my-1 border-l-2 border-primary cursor-pointer" onclick="window.scrollToRepliedMessage('${message.id}')">${line.substring(2)}</div>`;
+        // Extract message ID from the quoted text if available
+        const messageId = message.id;
+        return `<div class="text-muted-foreground bg-muted/50 p-2 rounded-md my-1 border-l-2 border-primary cursor-pointer" data-message-id="${messageId}">${line.substring(2)}</div>`;
       }
       return line;
     });
@@ -82,6 +90,26 @@ export function ChatMessage({
       setNewContact(prev => ({ ...prev, avatar: file }));
     }
   };
+
+  useEffect(() => {
+    // Add click event listener to quoted messages
+    const quotedMessages = document.querySelectorAll('[data-message-id]');
+    quotedMessages.forEach(element => {
+      element.addEventListener('click', (e) => {
+        const messageId = (e.currentTarget as HTMLElement).getAttribute('data-message-id');
+        if (messageId) {
+          handleQuoteClick(messageId);
+        }
+      });
+    });
+
+    // Cleanup
+    return () => {
+      quotedMessages.forEach(element => {
+        element.removeEventListener('click', () => {});
+      });
+    };
+  }, [message.content]);
 
   return (
     <div
@@ -103,7 +131,7 @@ export function ChatMessage({
             : 'bg-muted'
         }`}
       >
-        <p 
+        <div 
           className="text-sm"
           dangerouslySetInnerHTML={{ 
             __html: formatMessage(
