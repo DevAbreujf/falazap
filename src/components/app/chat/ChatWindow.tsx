@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X, MoreVertical, Reply, Copy, Forward, Trash2 } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -74,14 +74,17 @@ export function ChatWindow({
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState(currentUser.name);
+  const [tempEditedName, setTempEditedName] = useState(editedName);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
   const [isEditingSignature, setIsEditingSignature] = useState(false);
+  const [hoveredMessageId, setHoveredMessageId] = useState<string | null>(null);
+  const [messageActionsPosition, setMessageActionsPosition] = useState<{ x: number; y: number } | null>(null);
+  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  // Auto-scroll effect when messages change
   useEffect(() => {
     if (scrollRef.current) {
       const scrollElement = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
@@ -94,10 +97,10 @@ export function ChatWindow({
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
       const inactiveTime = Date.now() - lastActivityTime;
-      if (inactiveTime >= 15 * 60 * 1000) { // 15 minutes
+      if (inactiveTime >= 15 * 60 * 1000) {
         handleEndSupport();
       }
-    }, 60000); // Check every minute
+    }, 60000);
 
     return () => clearInterval(inactivityTimer);
   }, [lastActivityTime]);
@@ -188,12 +191,43 @@ export function ChatWindow({
     }
   };
 
+  const handleCancelSignature = () => {
+    setTempEditedName(editedName);
+    setIsEditingSignature(false);
+  };
+
   const handleSaveSignature = () => {
+    setEditedName(tempEditedName);
     setIsEditingSignature(false);
     toast({
       title: "Assinatura atualizada",
       description: "Sua assinatura foi atualizada com sucesso.",
     });
+  };
+
+  const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', messageId: string) => {
+    switch (action) {
+      case 'reply':
+        console.log('Reply to message:', messageId);
+        break;
+      case 'copy':
+        const message = messages.find(m => m.id === messageId);
+        if (message) {
+          navigator.clipboard.writeText(message.content);
+          toast({
+            title: "Mensagem copiada",
+            description: "Conteúdo copiado para a área de transferência",
+          });
+        }
+        break;
+      case 'forward':
+        console.log('Forward message:', messageId);
+        break;
+      case 'delete':
+        console.log('Delete message:', messageId);
+        break;
+    }
+    setSelectedMessageId(null);
   };
 
   return (
@@ -248,23 +282,28 @@ export function ChatWindow({
           <div className="space-y-4">
             {messages.map((message) => {
               const isNote = message.content.startsWith("**Nota**");
+              const isCurrentUser = message.senderId === 'me';
               return (
                 <div
                   key={message.id}
-                  className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
-                  onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
+                  className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'} relative group`}
+                  onMouseEnter={() => {
+                    setHoveredMessageId(message.id);
+                    setHoveredDate(new Date(message.timestamp));
+                  }}
+                  onMouseLeave={() => setHoveredMessageId(null)}
                 >
-                  {message.senderId === 'me' && (
+                  {isCurrentUser ? (
                     <Avatar className="w-8 h-8 mr-2">
                       <AvatarImage src={currentUser.avatar} />
                       <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
                     </Avatar>
-                  )}
+                  ) : null}
                   <div
-                    className={`max-w-[70%] rounded-lg p-3 ${
+                    className={`max-w-[70%] rounded-lg p-3 relative ${
                       isNote 
                         ? 'bg-[#fae389]'
-                        : message.senderId === 'me'
+                        : isCurrentUser
                         ? 'bg-[#f6ffed]'
                         : 'bg-muted'
                     }`}
@@ -286,13 +325,53 @@ export function ChatWindow({
                           minute: '2-digit',
                         })}
                       </span>
-                      {message.senderId === 'me' && (
+                      {isCurrentUser && (
                         <span className="text-xs opacity-70">
                           {message.status === 'read' ? '✓✓' : '✓'}
                         </span>
                       )}
                     </div>
+                    {hoveredMessageId === message.id && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button 
+                            className={`absolute top-1/2 -translate-y-1/2 ${
+                              isCurrentUser ? '-left-8' : '-right-8'
+                            } opacity-0 group-hover:opacity-100 transition-opacity`}
+                          >
+                            <MoreVertical className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align={isCurrentUser ? "start" : "end"}>
+                          <DropdownMenuItem onClick={() => handleMessageAction('reply', message.id)}>
+                            <Reply className="h-4 w-4 mr-2" />
+                            Responder
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleMessageAction('copy', message.id)}>
+                            <Copy className="h-4 w-4 mr-2" />
+                            Copiar
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleMessageAction('forward', message.id)}>
+                            <Forward className="h-4 w-4 mr-2" />
+                            Encaminhar
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleMessageAction('delete', message.id)}
+                            className="text-red-600"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Apagar
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
                   </div>
+                  {!isCurrentUser && (
+                    <Avatar className="w-8 h-8 ml-2">
+                      <AvatarImage src={currentUser.avatar} />
+                      <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
+                    </Avatar>
+                  )}
                 </div>
               );
             })}
@@ -421,8 +500,8 @@ export function ChatWindow({
           </DialogHeader>
           <div className="py-4">
             <Input
-              value={editedName}
-              onChange={(e) => setEditedName(e.target.value)}
+              value={tempEditedName}
+              onChange={(e) => setTempEditedName(e.target.value)}
               placeholder="Digite sua assinatura"
             />
             <p className="text-sm text-muted-foreground mt-2">
@@ -430,7 +509,7 @@ export function ChatWindow({
             </p>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditingSignature(false)}>
+            <Button variant="outline" onClick={handleCancelSignature}>
               <X className="h-4 w-4 mr-2" />
               Cancelar
             </Button>
