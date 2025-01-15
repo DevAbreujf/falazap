@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X, ArrowDown } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -78,9 +78,35 @@ export function ChatWindow({
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
   const [isEditingSignature, setIsEditingSignature] = useState(false);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (shouldAutoScroll && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, shouldAutoScroll]);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+      
+      setShouldAutoScroll(isNearBottom);
+      setShowScrollButton(!isNearBottom);
+    }
+  };
+
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      setShouldAutoScroll(true);
+      setShowScrollButton(false);
+    }
+  };
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
@@ -95,15 +121,10 @@ export function ChatWindow({
 
   const handleSend = () => {
     if (newMessage.trim()) {
-      const messageContent = chatMode === "notes" 
-        ? `**Nota**\n${newMessage}`
-        : isSignatureEnabled 
-          ? `${editedName}:\n${newMessage}`
-          : newMessage;
-          
-      onSendMessage(messageContent);
+      onSendMessage(newMessage.trim());
       setNewMessage("");
       setLastActivityTime(Date.now());
+      setShouldAutoScroll(true);
     }
   };
 
@@ -218,78 +239,75 @@ export function ChatWindow({
         </div>
       </div>
 
-      <ScrollArea className="flex-1">
+      <div 
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto"
+      >
         <div className="p-4 space-y-4">
-          {hoveredDate && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="sticky top-2 z-10 flex justify-center">
-                    <span className="bg-muted px-3 py-1 rounded-full text-sm">
-                      {formatMessageDate(hoveredDate)}
-                    </span>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{formatFullDate(hoveredDate)}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-          <div className="space-y-4">
-            {messages.map((message) => {
-              const isNote = message.content.startsWith("**Nota**");
-              return (
+          {messages.map((message) => {
+            const isNote = message.content.startsWith("**Nota**");
+            return (
+              <div
+                key={message.id}
+                className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
+                onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
+              >
+                {message.senderId === 'me' && (
+                  <Avatar className="w-8 h-8 mr-2">
+                    <AvatarImage src={currentUser.avatar} />
+                    <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
+                  </Avatar>
+                )}
                 <div
-                  key={message.id}
-                  className={`flex ${message.senderId === 'me' ? 'justify-end' : 'justify-start'}`}
-                  onMouseEnter={() => setHoveredDate(new Date(message.timestamp))}
+                  className={`max-w-[70%] rounded-lg p-3 ${
+                    isNote 
+                      ? 'bg-[#fae389]'
+                      : message.senderId === 'me'
+                      ? 'bg-[#f6ffed]'
+                      : 'bg-muted'
+                  }`}
                 >
-                  {message.senderId === 'me' && (
-                    <Avatar className="w-8 h-8 mr-2">
-                      <AvatarImage src={currentUser.avatar} />
-                      <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
-                    </Avatar>
-                  )}
-                  <div
-                    className={`max-w-[70%] rounded-lg p-3 ${
-                      isNote 
-                        ? 'bg-[#fae389]'
-                        : message.senderId === 'me'
-                        ? 'bg-[#f6ffed]'
-                        : 'bg-muted'
-                    }`}
-                  >
-                    <p 
-                      className="text-sm"
-                      dangerouslySetInnerHTML={{ 
-                        __html: formatMessage(
-                          isNote 
-                            ? message.content.replace("**Nota**\n", "") 
-                            : message.content
-                        )
-                      }}
-                    />
-                    <div className="flex items-center justify-end gap-1 mt-1">
+                  <p 
+                    className="text-sm"
+                    dangerouslySetInnerHTML={{ 
+                      __html: formatMessage(
+                        isNote 
+                          ? message.content.replace("**Nota**\n", "") 
+                          : message.content
+                      )
+                    }}
+                  />
+                  <div className="flex items-center justify-end gap-1 mt-1">
+                    <span className="text-xs opacity-70">
+                      {new Date(message.timestamp).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </span>
+                    {message.senderId === 'me' && (
                       <span className="text-xs opacity-70">
-                        {new Date(message.timestamp).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
+                        {message.status === 'read' ? '✓✓' : '✓'}
                       </span>
-                      {message.senderId === 'me' && (
-                        <span className="text-xs opacity-70">
-                          {message.status === 'read' ? '✓✓' : '✓'}
-                        </span>
-                      )}
-                    </div>
+                    )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-      </ScrollArea>
+      </div>
+
+      {showScrollButton && (
+        <Button
+          variant="outline"
+          size="icon"
+          className="fixed bottom-24 right-8 rounded-full shadow-lg"
+          onClick={scrollToBottom}
+        >
+          <ArrowDown className="h-4 w-4" />
+        </Button>
+      )}
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
         <div className="flex items-center justify-between border-b border-primary/10 pb-2">
