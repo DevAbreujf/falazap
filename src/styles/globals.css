@@ -99,3 +99,26 @@
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
+
+@keyframes highlight {
+  0% {
+    border-color: theme('colors.primary.DEFAULT');
+    border-width: 2px;
+  }
+  100% {
+    border-color: transparent;
+    border-width: 0px;
+  }
+}
+
+.highlight-message {
+  animation: highlight 1.2s ease-out;
+}
+
+.lead-message {
+  /* Add any specific styles for lead messages */
+}
+
+.attendant-message {
+  /* Add any specific styles for attendant messages */
+}

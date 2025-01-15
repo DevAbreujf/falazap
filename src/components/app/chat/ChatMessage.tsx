@@ -6,26 +6,67 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
+import { useEffect, useRef } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { Search, Plus, Upload } from "lucide-react";
 
 interface ChatMessageProps {
   message: ChatMessageType;
   isCurrentUser: boolean;
   currentUser: { name: string; avatar?: string };
-  onMessageAction: (action: 'reply' | 'copy' | 'forward' | 'delete', messageId: string) => void;
+  onMessageAction: (action: 'reply' | 'copy' | 'forward' | 'delete', messageId: string, deleteType?: 'all' | 'me') => void;
+  onScrollToMessage?: (messageId: string) => void;
+  isRepliedMessage?: boolean;
 }
 
-export function ChatMessage({ message, isCurrentUser, currentUser, onMessageAction }: ChatMessageProps) {
+export function ChatMessage({ 
+  message, 
+  isCurrentUser, 
+  currentUser, 
+  onMessageAction,
+  onScrollToMessage,
+  isRepliedMessage 
+}: ChatMessageProps) {
   const { toast } = useToast();
   const isNote = message.content.startsWith("**Nota**");
+  const messageRef = useRef<HTMLDivElement>(null);
+  const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
+  const [isAddContactMode, setIsAddContactMode] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [newContact, setNewContact] = useState({ name: "", phone: "", avatar: null as File | null });
+
+  useEffect(() => {
+    if (isRepliedMessage && messageRef.current) {
+      messageRef.current.scrollIntoView({ behavior: 'smooth' });
+      messageRef.current.classList.add('highlight-message');
+      setTimeout(() => {
+        if (messageRef.current) {
+          messageRef.current.classList.remove('highlight-message');
+        }
+      }, 1200);
+    }
+  }, [isRepliedMessage]);
 
   const formatMessage = (content: string) => {
-    // Handle quoted text (replies)
     const lines = content.split('\n');
     const formattedLines = lines.map(line => {
       if (line.startsWith('>')) {
-        return `<div class="text-muted-foreground bg-muted/50 p-2 rounded-md my-1 border-l-2 border-primary">${line.substring(2)}</div>`;
+        return `<div class="text-muted-foreground bg-muted/50 p-2 rounded-md my-1 border-l-2 border-primary cursor-pointer" onclick="window.scrollToRepliedMessage('${message.id}')">${line.substring(2)}</div>`;
       }
       return line;
     });
@@ -35,11 +76,19 @@ export function ChatMessage({ message, isCurrentUser, currentUser, onMessageActi
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setNewContact(prev => ({ ...prev, avatar: file }));
+    }
+  };
+
   return (
     <div
-      className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'} relative group`}
+      ref={messageRef}
+      className={`flex ${isCurrentUser ? 'justify-end lead-message' : 'justify-start attendant-message'} relative group`}
     >
-      {isCurrentUser && (
+      {!isCurrentUser && (
         <Avatar className="w-8 h-8 mr-2">
           <AvatarImage src={currentUser.avatar} />
           <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
@@ -96,26 +145,122 @@ export function ChatMessage({ message, isCurrentUser, currentUser, onMessageActi
               <Copy className="h-4 w-4 mr-2" />
               Copiar
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onMessageAction('forward', message.id)}>
+            <DropdownMenuItem onClick={() => setIsForwardDialogOpen(true)}>
               <Forward className="h-4 w-4 mr-2" />
               Encaminhar
             </DropdownMenuItem>
-            <DropdownMenuItem 
-              onClick={() => onMessageAction('delete', message.id)}
-              className="text-red-600"
-            >
-              <Trash2 className="h-4 w-4 mr-2" />
-              Apagar
-            </DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="text-red-600">
+                <Trash2 className="h-4 w-4 mr-2" />
+                Apagar
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem onClick={() => onMessageAction('delete', message.id, 'all')}>
+                  Apagar para todos
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onMessageAction('delete', message.id, 'me')}>
+                  Apagar para mim
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      {!isCurrentUser && (
+      {isCurrentUser && (
         <Avatar className="w-8 h-8 ml-2">
           <AvatarImage src={currentUser.avatar} />
           <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
         </Avatar>
       )}
+
+      <Dialog open={isForwardDialogOpen} onOpenChange={setIsForwardDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
+              {isAddContactMode ? "Novo Contato" : "Lista de Contatos"}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {isAddContactMode ? (
+            <div className="space-y-4">
+              <div className="flex justify-center">
+                <div className="relative">
+                  <Avatar className="w-20 h-20">
+                    <AvatarImage src={newContact.avatar ? URL.createObjectURL(newContact.avatar) : undefined} />
+                    <AvatarFallback>
+                      <Upload className="h-8 w-8" />
+                    </AvatarFallback>
+                  </Avatar>
+                  <Input
+                    type="file"
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                    onChange={handleFileChange}
+                    accept="image/*"
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="name">Nome</Label>
+                <Input
+                  id="name"
+                  value={newContact.name}
+                  onChange={(e) => setNewContact(prev => ({ ...prev, name: e.target.value }))}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="phone">Celular</Label>
+                <Input
+                  id="phone"
+                  value={newContact.phone}
+                  onChange={(e) => setNewContact(prev => ({ ...prev, phone: e.target.value }))}
+                />
+              </div>
+              
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsAddContactMode(false)}>
+                  Cancelar
+                </Button>
+                <Button onClick={() => {
+                  // Handle save contact logic here
+                  setIsAddContactMode(false);
+                  toast({
+                    title: "Contato salvo",
+                    description: "O contato foi salvo com sucesso.",
+                  });
+                }}>
+                  Salvar
+                </Button>
+              </DialogFooter>
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar por nome ou número"
+                    className="pl-8"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <Button size="icon" onClick={() => setIsAddContactMode(true)}>
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              <div className="h-[300px] overflow-y-auto">
+                {/* Contact list would go here */}
+                <div className="text-center text-sm text-muted-foreground pt-8">
+                  Nenhum contato encontrado
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

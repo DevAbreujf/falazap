@@ -127,7 +127,7 @@ export function ChatWindow({
     });
   };
 
-  const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', messageId: string) => {
+  const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', messageId: string, deleteType?: 'all' | 'me') => {
     switch (action) {
       case 'reply':
         const messageToReply = messages.find(m => m.id === messageId);
@@ -149,7 +149,13 @@ export function ChatWindow({
         console.log('Forward message:', messageId);
         break;
       case 'delete':
-        console.log('Delete message:', messageId);
+        if (deleteType) {
+          console.log(`Delete message ${messageId} for ${deleteType}`);
+          toast({
+            title: "Mensagem apagada",
+            description: `Mensagem apagada ${deleteType === 'all' ? 'para todos' : 'para você'}`,
+          });
+        }
         break;
     }
   };
@@ -227,6 +233,13 @@ export function ChatWindow({
                 isCurrentUser={message.senderId === 'me'}
                 currentUser={currentUser}
                 onMessageAction={handleMessageAction}
+                onScrollToMessage={(messageId) => {
+                  const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+                  if (messageElement) {
+                    messageElement.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                isRepliedMessage={false}
               />
             ))}
           </div>
