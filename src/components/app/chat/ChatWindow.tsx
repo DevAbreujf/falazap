@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X, ArrowDown } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -81,10 +81,6 @@ export function ChatWindow({
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const [showScrollButton, setShowScrollButton] = useState(false);
-  const [autoScroll, setAutoScroll] = useState(true);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
@@ -191,26 +187,6 @@ export function ChatWindow({
     });
   };
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    setAutoScroll(true);
-    setShowScrollButton(false);
-  };
-
-  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
-    const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
-    
-    setAutoScroll(isNearBottom);
-    setShowScrollButton(!isNearBottom);
-  };
-
-  useEffect(() => {
-    if (autoScroll) {
-      scrollToBottom();
-    }
-  }, [messages]);
-
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
@@ -242,11 +218,7 @@ export function ChatWindow({
         </div>
       </div>
 
-      <ScrollArea 
-        className="flex-1 relative"
-        onScrollCapture={handleScroll}
-        ref={scrollAreaRef}
-      >
+      <ScrollArea className="flex-1">
         <div className="p-4 space-y-4">
           {hoveredDate && (
             <TooltipProvider>
@@ -317,18 +289,6 @@ export function ChatWindow({
             })}
           </div>
         </div>
-
-        <div ref={messagesEndRef} />
-
-        {showScrollButton && (
-          <Button
-            className="absolute bottom-4 right-4 rounded-full"
-            size="icon"
-            onClick={scrollToBottom}
-          >
-            <ArrowDown className="h-4 w-4" />
-          </Button>
-        )}
       </ScrollArea>
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
