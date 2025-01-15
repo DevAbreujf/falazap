@@ -79,10 +79,7 @@ export function ChatWindow({
   const [isEditingSignature, setIsEditingSignature] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const [autoScroll, setAutoScroll] = useState(true);
-  const [showScrollButton, setShowScrollButton] = useState(false);
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
@@ -95,23 +92,10 @@ export function ChatWindow({
     return () => clearInterval(inactivityTimer);
   }, [lastActivityTime]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    setAutoScroll(true);
-    setShowScrollButton(false);
-  };
-
-  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
-    const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
-    
-    setAutoScroll(isNearBottom);
-    setShowScrollButton(!isNearBottom);
-  };
-
+  // Add auto-scroll effect when messages change
   useEffect(() => {
-    if (autoScroll) {
-      scrollToBottom();
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -243,7 +227,6 @@ export function ChatWindow({
       <ScrollArea 
         className="flex-1 relative"
         ref={scrollRef}
-        onScroll={handleScroll}
       >
         <div className="p-4 space-y-4">
           {hoveredDate && (
@@ -313,18 +296,8 @@ export function ChatWindow({
                 </div>
               );
             })}
-            <div ref={messagesEndRef} />
           </div>
         </div>
-        {showScrollButton && (
-          <Button
-            className="fixed bottom-24 right-8 rounded-full p-2 shadow-lg"
-            onClick={scrollToBottom}
-            size="icon"
-          >
-            <ArrowDown className="h-4 w-4" />
-          </Button>
-        )}
       </ScrollArea>
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
