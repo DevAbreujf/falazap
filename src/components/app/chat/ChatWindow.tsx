@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X } from "lucide-react";
+import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X, ArrowDown } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -81,6 +81,8 @@ export function ChatWindow({
   const scrollRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [autoScroll, setAutoScroll] = useState(true);
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
   useEffect(() => {
     const inactivityTimer = setInterval(() => {
@@ -95,11 +97,22 @@ export function ChatWindow({
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    setAutoScroll(true);
+    setShowScrollButton(false);
   };
 
-  // Add auto-scroll effect when messages change
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+    const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+    
+    setAutoScroll(isNearBottom);
+    setShowScrollButton(!isNearBottom);
+  };
+
   useEffect(() => {
-    scrollToBottom();
+    if (autoScroll) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const handleSend = () => {
@@ -230,6 +243,7 @@ export function ChatWindow({
       <ScrollArea 
         className="flex-1 relative"
         ref={scrollRef}
+        onScroll={handleScroll}
       >
         <div className="p-4 space-y-4">
           {hoveredDate && (
@@ -302,6 +316,15 @@ export function ChatWindow({
             <div ref={messagesEndRef} />
           </div>
         </div>
+        {showScrollButton && (
+          <Button
+            className="fixed bottom-24 right-8 rounded-full p-2 shadow-lg"
+            onClick={scrollToBottom}
+            size="icon"
+          >
+            <ArrowDown className="h-4 w-4" />
+          </Button>
+        )}
       </ScrollArea>
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
