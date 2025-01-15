@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Paperclip, Send, Info, MessageSquare, StickyNote, SmilePlus, Bot, Plus, Edit, X, MoreVertical, Reply, Copy, Forward, Trash2 } from "lucide-react";
+import { Info, MessageSquare, StickyNote } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -8,10 +8,8 @@ import { ChatHeaderInfo } from "./ChatHeaderInfo";
 import { ChatActions } from "./ChatActions";
 import { ChatDetailsSidebar } from "./ChatDetailsSidebar";
 import { EmojiPicker } from "@/components/tags/EmojiPicker";
-import { useNavigate } from "react-router-dom";
-import { Switch } from "@/components/ui/switch";
-import { Avatar } from "@/components/ui/avatar";
-import { AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ChatMessage as ChatMessageComponent } from "./ChatMessage";
+import { ChatInput } from "./ChatInput";
 import {
   Dialog,
   DialogContent,
@@ -20,28 +18,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { X } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-const mockAttendants = [
-  { id: "1", name: "John Doe", departmentId: "1" },
-  { id: "2", name: "Jane Smith", departmentId: "2" },
-];
-
-const mockDepartments = [
-  { id: "1", name: "Support" },
-  { id: "2", name: "Sales" },
-];
 
 interface ChatWindowProps {
   contact: ChatContact;
@@ -66,7 +49,6 @@ export function ChatWindow({
   currentDepartment,
   currentUser
 }: ChatWindowProps) {
-  const [newMessage, setNewMessage] = useState("");
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const [isDetailsSidebarOpen, setIsDetailsSidebarOpen] = useState(false);
@@ -75,15 +57,10 @@ export function ChatWindow({
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState(currentUser.name);
   const [tempEditedName, setTempEditedName] = useState(editedName);
-  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
   const [isEditingSignature, setIsEditingSignature] = useState(false);
-  const [hoveredMessageId, setHoveredMessageId] = useState<string | null>(null);
-  const [messageActionsPosition, setMessageActionsPosition] = useState<{ x: number; y: number } | null>(null);
-  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -105,30 +82,18 @@ export function ChatWindow({
     return () => clearInterval(inactivityTimer);
   }, [lastActivityTime]);
 
-  const handleSend = () => {
-    if (newMessage.trim()) {
-      const messageContent = chatMode === "notes" 
-        ? `**Nota**\n${newMessage}`
-        : isSignatureEnabled 
-          ? `${editedName}:\n${newMessage}`
-          : newMessage;
-          
-      onSendMessage(messageContent);
-      setNewMessage("");
-      setLastActivityTime(Date.now());
+  const handleEndSupport = () => {
+    const endMessage = "**Sistema:**\nAtendimento encerrado. Obrigado por utilizar nosso suporte!";
+    onSendMessage(endMessage);
+    
+    if (onUpdateContactStatus && contact.isSupport) {
+      onUpdateContactStatus(contact.id, false);
     }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
-  const handleEmojiSelect = (emoji: any) => {
-    setNewMessage(prev => prev + emoji.native);
-    setIsEmojiPickerOpen(false);
+    
+    toast({
+      title: "Atendimento encerrado",
+      description: "O atendimento foi finalizado com sucesso.",
+    });
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,50 +109,6 @@ export function ChatWindow({
       }
       setLastActivityTime(Date.now());
       console.log("File to upload:", file);
-    }
-  };
-
-  const formatMessage = (content: string) => {
-    return content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br />');
-  };
-
-  const handleEndSupport = () => {
-    const endMessage = "**Sistema:**\nAtendimento encerrado. Obrigado por utilizar nosso suporte!";
-    onSendMessage(endMessage);
-    
-    if (onUpdateContactStatus && contact.isSupport) {
-      onUpdateContactStatus(contact.id, false);
-    }
-    
-    toast({
-      title: "Atendimento encerrado",
-      description: "O atendimento foi finalizado com sucesso.",
-    });
-  };
-
-  const formatMessageDate = (date: Date) => {
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    if (date.toDateString() === today.toDateString()) return 'Hoje';
-    if (date.toDateString() === yesterday.toDateString()) return 'Ontem';
-
-    const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    return weekdays[date.getDay()];
-  };
-
-  const formatFullDate = (date: Date) => {
-    return date.toLocaleDateString('pt-BR');
-  };
-
-  const handleSaveName = () => {
-    if (editedName.trim()) {
-      toast({
-        title: "Nome atualizado",
-        description: "O nome do lead foi atualizado com sucesso.",
-      });
-      setIsEditingName(false);
     }
   };
 
@@ -227,7 +148,6 @@ export function ChatWindow({
         console.log('Delete message:', messageId);
         break;
     }
-    setSelectedMessageId(null);
   };
 
   return (
@@ -255,8 +175,14 @@ export function ChatWindow({
             onChangeDepartment={onChangeDepartment}
             onEndSupport={onEndSupport}
             onTransferChat={onTransferChat}
-            attendants={mockAttendants}
-            departments={mockDepartments}
+            attendants={[
+              { id: "1", name: "John Doe", departmentId: "1" },
+              { id: "2", name: "Jane Smith", departmentId: "2" },
+            ]}
+            departments={[
+              { id: "1", name: "Support" },
+              { id: "2", name: "Sales" },
+            ]}
           />
         </div>
       </div>
@@ -269,229 +195,41 @@ export function ChatWindow({
                 <TooltipTrigger asChild>
                   <div className="sticky top-2 z-10 flex justify-center">
                     <span className="bg-muted px-3 py-1 rounded-full text-sm">
-                      {formatMessageDate(hoveredDate)}
+                      {new Date(hoveredDate).toLocaleDateString('pt-BR')}
                     </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{formatFullDate(hoveredDate)}</p>
+                  <p>{new Date(hoveredDate).toLocaleDateString('pt-BR')}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           )}
           <div className="space-y-4">
-            {messages.map((message) => {
-              const isNote = message.content.startsWith("**Nota**");
-              const isCurrentUser = message.senderId === 'me';
-              return (
-                <div
-                  key={message.id}
-                  className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'} relative group`}
-                  onMouseEnter={() => {
-                    setHoveredMessageId(message.id);
-                    setHoveredDate(new Date(message.timestamp));
-                  }}
-                  onMouseLeave={() => setHoveredMessageId(null)}
-                >
-                  {isCurrentUser ? (
-                    <Avatar className="w-8 h-8 mr-2">
-                      <AvatarImage src={currentUser.avatar} />
-                      <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
-                    </Avatar>
-                  ) : null}
-                  <div
-                    className={`max-w-[70%] rounded-lg p-3 relative ${
-                      isNote 
-                        ? 'bg-[#fae389]'
-                        : isCurrentUser
-                        ? 'bg-[#f6ffed]'
-                        : 'bg-muted'
-                    }`}
-                  >
-                    <p 
-                      className="text-sm"
-                      dangerouslySetInnerHTML={{ 
-                        __html: formatMessage(
-                          isNote 
-                            ? message.content.replace("**Nota**\n", "") 
-                            : message.content
-                        )
-                      }}
-                    />
-                    <div className="flex items-center justify-end gap-1 mt-1">
-                      <span className="text-xs opacity-70">
-                        {new Date(message.timestamp).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </span>
-                      {isCurrentUser && (
-                        <span className="text-xs opacity-70">
-                          {message.status === 'read' ? '✓✓' : '✓'}
-                        </span>
-                      )}
-                    </div>
-                    {hoveredMessageId === message.id && (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <button 
-                            className={`absolute top-1/2 -translate-y-1/2 ${
-                              isCurrentUser ? '-left-8' : '-right-8'
-                            } opacity-0 group-hover:opacity-100 transition-opacity`}
-                          >
-                            <MoreVertical className="h-4 w-4 text-gray-500 hover:text-gray-700" />
-                          </button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align={isCurrentUser ? "start" : "end"}>
-                          <DropdownMenuItem onClick={() => handleMessageAction('reply', message.id)}>
-                            <Reply className="h-4 w-4 mr-2" />
-                            Responder
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleMessageAction('copy', message.id)}>
-                            <Copy className="h-4 w-4 mr-2" />
-                            Copiar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleMessageAction('forward', message.id)}>
-                            <Forward className="h-4 w-4 mr-2" />
-                            Encaminhar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            onClick={() => handleMessageAction('delete', message.id)}
-                            className="text-red-600"
-                          >
-                            <Trash2 className="h-4 w-4 mr-2" />
-                            Apagar
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
-                  </div>
-                  {!isCurrentUser && (
-                    <Avatar className="w-8 h-8 ml-2">
-                      <AvatarImage src={currentUser.avatar} />
-                      <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
-                    </Avatar>
-                  )}
-                </div>
-              );
-            })}
+            {messages.map((message) => (
+              <ChatMessageComponent
+                key={message.id}
+                message={message}
+                isCurrentUser={message.senderId === 'me'}
+                currentUser={currentUser}
+                onMessageAction={handleMessageAction}
+              />
+            ))}
           </div>
         </div>
       </ScrollArea>
 
-      <div className="p-4 border-t border-primary/10 bg-card space-y-4">
-        <div className="flex items-center justify-between border-b border-primary/10 pb-2">
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={isSignatureEnabled}
-              onCheckedChange={setIsSignatureEnabled}
-            />
-            <span className="text-sm">
-              {isSignatureEnabled ? (
-                <button 
-                  onClick={() => setIsEditingSignature(true)}
-                  className="flex items-center gap-1 hover:text-primary"
-                >
-                  {editedName}
-                  <Edit className="h-4 w-4" />
-                </button>
-              ) : (
-                "Assinar"
-              )}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant={chatMode === "message" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setChatMode("message")}
-              className="gap-2"
-            >
-              <MessageSquare className="h-4 w-4" />
-              Mensagem
-            </Button>
-            <Button
-              variant={chatMode === "notes" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setChatMode("notes")}
-              className="gap-2"
-            >
-              <StickyNote className="h-4 w-4" />
-              Notas
-            </Button>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <textarea
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyDown={handleKeyPress}
-            placeholder={chatMode === "notes" ? "Digite uma nota..." : "Digite uma mensagem..."}
-            className={`flex-1 bg-muted/50 rounded-md p-2 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm ${
-              chatMode === "notes" ? "border-[#fae389]" : ""
-            }`}
-          />
-          
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="relative">
-                      <input
-                        type="file"
-                        onChange={handleFileUpload}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        accept="*/*"
-                      />
-                      <Paperclip className="h-5 w-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Anexar arquivo</p>
-                  </TooltipContent>
-                </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      size="icon"
-                      onClick={() => setIsEmojiPickerOpen(true)}
-                    >
-                      <SmilePlus className="h-5 w-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Inserir emoji</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Bot className="h-5 w-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-56">
-                  <DropdownMenuItem onClick={() => console.log("Selected Funnel 1")}>
-                    Funil de Vendas
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => console.log("Selected Funnel 2")}>
-                    Funil de Suporte
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-
-            <Button onClick={handleSend} size="icon" disabled={!newMessage.trim()}>
-              <Send className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-      </div>
+      <ChatInput
+        onSendMessage={onSendMessage}
+        isSignatureEnabled={isSignatureEnabled}
+        setIsSignatureEnabled={setIsSignatureEnabled}
+        editedName={editedName}
+        setIsEditingSignature={setIsEditingSignature}
+        chatMode={chatMode}
+        setChatMode={setChatMode}
+        setIsEmojiPickerOpen={setIsEmojiPickerOpen}
+        handleFileUpload={handleFileUpload}
+      />
 
       <Dialog open={isEditingSignature} onOpenChange={setIsEditingSignature}>
         <DialogContent>
@@ -523,7 +261,10 @@ export function ChatWindow({
       <EmojiPicker
         isOpen={isEmojiPickerOpen}
         onClose={() => setIsEmojiPickerOpen(false)}
-        onEmojiSelect={handleEmojiSelect}
+        onEmojiSelect={(emoji: any) => {
+          setNewMessage(prev => prev + emoji.native);
+          setIsEmojiPickerOpen(false);
+        }}
       />
 
       {isDetailsSidebarOpen && (
@@ -539,7 +280,15 @@ export function ChatWindow({
           currentUser={currentUser}
           isEditingName={isEditingName}
           editedName={editedName}
-          onSaveName={handleSaveName}
+          onSaveName={() => {
+            if (editedName.trim()) {
+              toast({
+                title: "Nome atualizado",
+                description: "O nome do lead foi atualizado com sucesso.",
+              });
+              setIsEditingName(false);
+            }
+          }}
           onCancelEdit={() => setIsEditingName(false)}
         />
       )}
