@@ -95,7 +95,7 @@ export function ChatWindow({
       const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
       const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
       
-      setShouldAutoScroll(isNearBottom);
+      setShouldAutoScroll(false); // Changed this to false to prevent auto-scroll on new messages
       setShowScrollButton(!isNearBottom);
     }
   };
@@ -242,9 +242,9 @@ export function ChatWindow({
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-transparent hover:scrollbar-thumb-primary/80"
       >
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-4 relative min-h-full">
           {messages.map((message) => {
             const isNote = message.content.startsWith("**Nota**");
             return (
@@ -295,19 +295,19 @@ export function ChatWindow({
               </div>
             );
           })}
+
+          {showScrollButton && (
+            <Button
+              variant="outline"
+              size="icon"
+              className="fixed bottom-32 right-8 rounded-full shadow-lg bg-white/90 hover:bg-white"
+              onClick={scrollToBottom}
+            >
+              <ArrowDown className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
-
-      {showScrollButton && (
-        <Button
-          variant="outline"
-          size="icon"
-          className="fixed bottom-24 right-8 rounded-full shadow-lg"
-          onClick={scrollToBottom}
-        >
-          <ArrowDown className="h-4 w-4" />
-        </Button>
-      )}
 
       <div className="p-4 border-t border-primary/10 bg-card space-y-4">
         <div className="flex items-center justify-between border-b border-primary/10 pb-2">
