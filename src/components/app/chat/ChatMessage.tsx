@@ -1,14 +1,11 @@
 import { ChatMessage as ChatMessageType } from "@/types/chat";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MoreVertical, Reply, Copy, Forward, Trash2 } from "lucide-react";
+import { MoreVertical, Reply, Copy, Forward, Trash2, Upload } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useRef } from "react";
@@ -18,12 +15,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { Search, Plus, Upload } from "lucide-react";
+import { Search, Plus } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -46,6 +54,7 @@ export function ChatMessage({
   const isNote = message.content.startsWith("**Nota**");
   const messageRef = useRef<HTMLDivElement>(null);
   const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isAddContactMode, setIsAddContactMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [newContact, setNewContact] = useState({ name: "", phone: "", avatar: null as File | null });
@@ -72,7 +81,6 @@ export function ChatMessage({
     const lines = content.split('\n');
     const formattedLines = lines.map(line => {
       if (line.startsWith('>')) {
-        // Extract message ID from the quoted text if available
         const messageId = message.id;
         return `<div class="text-muted-foreground bg-muted/50 p-2 rounded-md my-1 border-l-2 border-primary cursor-pointer" data-message-id="${messageId}">${line.substring(2)}</div>`;
       }
@@ -92,7 +100,6 @@ export function ChatMessage({
   };
 
   useEffect(() => {
-    // Add click event listener to quoted messages
     const quotedMessages = document.querySelectorAll('[data-message-id]');
     quotedMessages.forEach(element => {
       element.addEventListener('click', (e) => {
@@ -103,7 +110,6 @@ export function ChatMessage({
       });
     });
 
-    // Cleanup
     return () => {
       quotedMessages.forEach(element => {
         element.removeEventListener('click', () => {});
@@ -177,20 +183,10 @@ export function ChatMessage({
               <Forward className="h-4 w-4 mr-2" />
               Encaminhar
             </DropdownMenuItem>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="text-red-600">
-                <Trash2 className="h-4 w-4 mr-2" />
-                Apagar
-              </DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem onClick={() => onMessageAction('delete', message.id, 'all')}>
-                  Apagar para todos
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onMessageAction('delete', message.id, 'me')}>
-                  Apagar para mim
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
+            <DropdownMenuItem onClick={() => setIsDeleteDialogOpen(true)} className="text-red-600">
+              <Trash2 className="h-4 w-4 mr-2" />
+              Apagar
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -251,7 +247,6 @@ export function ChatMessage({
                   Cancelar
                 </Button>
                 <Button onClick={() => {
-                  // Handle save contact logic here
                   setIsAddContactMode(false);
                   toast({
                     title: "Contato salvo",
@@ -280,7 +275,6 @@ export function ChatMessage({
               </div>
               
               <div className="h-[300px] overflow-y-auto">
-                {/* Contact list would go here */}
                 <div className="text-center text-sm text-muted-foreground pt-8">
                   Nenhum contato encontrado
                 </div>
@@ -289,6 +283,40 @@ export function ChatMessage({
           )}
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Escolha como você deseja apagar esta mensagem
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col gap-2 sm:flex-row">
+            <AlertDialogCancel onClick={() => setIsDeleteDialogOpen(false)}>
+              Cancelar
+            </AlertDialogCancel>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                onMessageAction('delete', message.id, 'all');
+                setIsDeleteDialogOpen(false);
+              }}
+            >
+              Apagar para todos
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                onMessageAction('delete', message.id, 'me');
+                setIsDeleteDialogOpen(false);
+              }}
+            >
+              Apagar para mim
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
