@@ -83,7 +83,7 @@ export function ChatSidebar({
   };
 
   return (
-    <div className="w-96 border-r border-primary/10 bg-card">
+    <div className="w-80 border-r border-primary/10 bg-card">
       <div className="flex items-center justify-start gap-2 p-4 border-b border-primary/10">
         <TooltipProvider>
           <Tooltip>
