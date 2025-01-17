@@ -17,7 +17,7 @@ export function TextNode({ data, id }: { data: TextNodeData; id: string }) {
   };
 
   return (
-    <div className="flow-node">
+    <div className="flow-node" style={{ overflow: 'visible' }}>
       <div className="flow-node-header">
         <div className="flex items-center gap-2">
           <MessageSquare className="h-4 w-4 text-orange-500" />
@@ -50,7 +50,8 @@ export function TextNode({ data, id }: { data: TextNodeData; id: string }) {
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[2em]"
+        style={{ zIndex: 1000 }}
       />
     </div>
   );

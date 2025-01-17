@@ -29,7 +29,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
               ...node,
               data: {
                 ...node.data,
-                tags: [newTag], // Only store one tag
+                tags: [newTag],
               },
             };
           }
@@ -40,7 +40,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
   };
 
   return (
-    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
+    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white" style={{ overflow: 'visible', position: 'relative' }}>
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-medium">Tags</h3>
         <Button
@@ -86,7 +86,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
         type="source"
         position={Position.Right}
         className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[2em]"
-        style={{ overflow: 'visible' }}
+        style={{ zIndex: 1000 }}
       />
     </div>
   );
