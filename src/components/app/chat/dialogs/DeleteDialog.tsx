@@ -23,7 +23,7 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
 
   return (
     <AlertDialog open={isOpen} onOpenChange={handleClose}>
-      <AlertDialogContent onEscapeKeyDown={handleClose} onInteractOutside={handleClose}>
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
