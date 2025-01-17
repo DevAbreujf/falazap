@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { ReactFlow, Background, useNodesState, useEdgesState, addEdge, Edge } from "@xyflow/react";
+import { ReactFlow, Background, useNodesState, useEdgesState, addEdge, Edge, useReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { StartNode } from "./nodes/StartNode";
@@ -70,6 +70,7 @@ export function FunnelEditorCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showRemoveMessage, setShowRemoveMessage] = useState(false);
+  const { project } = useReactFlow();
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -86,6 +87,7 @@ export function FunnelEditorCanvas() {
 
   const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
     setEdges((edges) => edges.filter((e) => e.id !== edge.id));
+    setShowRemoveMessage(false);
   }, [setEdges]);
 
   const onDragOver = useCallback((event: React.DragEvent) => {
@@ -108,11 +110,11 @@ export function FunnelEditorCanvas() {
       
       if (!reactFlowBounds) return;
 
-      // Calcula a posição relativa do mouse
-      const position = {
+      // Calcula a posição relativa do mouse considerando scroll e zoom
+      const position = project({
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
-      };
+      });
 
       const newNode = {
         id: `${type}-${nodes.length + 1}`,
@@ -142,7 +144,7 @@ export function FunnelEditorCanvas() {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [nodes, setNodes],
+    [nodes, setNodes, project],
   );
 
   return (
