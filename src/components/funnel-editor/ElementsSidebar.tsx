@@ -1,8 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags, Share2, FileText, Calendar, Users, Star, UserCheck, Tag, Bell, XCircle } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, Building2, MessageSquare, Users, ArrowLeft, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import { useState, useMemo } from "react";
 
 const widgets = [
@@ -155,7 +154,7 @@ export function ElementsSidebar() {
   }, {} as Record<string, typeof widgets>);
 
   return (
-    <div className="w-[360px] my-5 ml-4 bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl">
+    <div className="w-[360px] ml-4 bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl">
       <div className="p-6 border-b border-[#334155]">
         <h2 className="text-xl font-semibold text-white mb-2">Elementos</h2>
         <p className="text-sm text-gray-400 mb-4">
@@ -172,8 +171,8 @@ export function ElementsSidebar() {
         </div>
       </div>
       
-      <ScrollArea className="h-[calc(100vh-12rem-40px)] px-4">
-        <div className="py-4 space-y-8 pb-8">
+      <ScrollArea className="h-[calc(100vh-12rem)] px-4 pb-8">
+        <div className="py-4 space-y-8">
           {Object.entries(groupedWidgets).map(([group, items]) => (
             <div key={group} className="space-y-4">
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider px-2">
