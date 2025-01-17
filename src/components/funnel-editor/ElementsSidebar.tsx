@@ -2,6 +2,7 @@ import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags, Share2, 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { useState, useMemo } from "react";
 
 const widgets = [
   {
@@ -126,12 +127,25 @@ const widgets = [
 ];
 
 export function ElementsSidebar() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const onDragStart = (event: React.DragEvent, nodeType: string) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
   };
 
-  const groupedWidgets = widgets.reduce((acc, widget) => {
+  const filteredWidgets = useMemo(() => {
+    if (!searchTerm.trim()) return widgets;
+    
+    const term = searchTerm.toLowerCase();
+    return widgets.filter(widget => 
+      widget.label.toLowerCase().includes(term) ||
+      widget.description.toLowerCase().includes(term) ||
+      widget.group.toLowerCase().includes(term)
+    );
+  }, [searchTerm]);
+
+  const groupedWidgets = filteredWidgets.reduce((acc, widget) => {
     if (!acc[widget.group]) {
       acc[widget.group] = [];
     }
@@ -140,7 +154,7 @@ export function ElementsSidebar() {
   }, {} as Record<string, typeof widgets>);
 
   return (
-    <div className="w-[320px] ml-4 bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl">
+    <div className="w-[360px] ml-4 bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl">
       <div className="p-6 border-b border-[#334155]">
         <h2 className="text-xl font-semibold text-white mb-2">Elementos</h2>
         <p className="text-sm text-gray-400 mb-4">
@@ -151,30 +165,32 @@ export function ElementsSidebar() {
           <Input 
             placeholder="Buscar elementos..." 
             className="pl-10 bg-white/5 border-[#334155] text-white placeholder:text-gray-400 focus-visible:ring-primary/30"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
       
-      <ScrollArea className="h-[calc(100vh-12rem)] px-4">
-        <div className="py-4 space-y-6">
+      <ScrollArea className="h-[calc(100vh-12rem)] px-4 pb-8">
+        <div className="py-4 space-y-8">
           {Object.entries(groupedWidgets).map(([group, items]) => (
-            <div key={group} className="space-y-3">
+            <div key={group} className="space-y-4">
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider px-2">
                 {group}
               </h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 {items.map((widget) => (
                   <div
                     key={widget.type}
                     draggable
                     onDragStart={(e) => onDragStart(e, widget.type)}
-                    className="group relative rounded-lg border border-[#334155] bg-white/5 hover:bg-white/10 hover:border-primary/30 p-3 cursor-move transition-all duration-200"
+                    className="group relative rounded-lg border border-[#334155] bg-white/5 hover:bg-white/10 hover:border-primary/30 p-4 cursor-move transition-all duration-200"
                   >
-                    <div className="flex flex-col items-start gap-2">
-                      <div className="rounded-lg bg-primary/10 p-2">
-                        <widget.icon className="h-4 w-4 text-primary-light" />
+                    <div className="flex flex-col items-start gap-3">
+                      <div className="rounded-lg bg-primary/10 p-2.5">
+                        <widget.icon className="h-5 w-5 text-primary-light" />
                       </div>
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <span className="block text-sm font-medium text-white group-hover:text-primary-light transition-colors">
                           {widget.label}
                         </span>
