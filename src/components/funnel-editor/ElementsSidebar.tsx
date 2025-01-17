@@ -154,8 +154,8 @@ export function ElementsSidebar() {
   }, {} as Record<string, typeof widgets>);
 
   return (
-    <div className="w-[360px] mx-4 my-6 bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl">
-      <div className="p-6 border-b border-[#334155]">
+    <div className="fixed left-4 top-24 w-[360px] h-[calc(100vh-6rem)] flex flex-col bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl overflow-hidden">
+      <div className="flex-shrink-0 p-6 border-b border-[#334155]">
         <h2 className="text-xl font-semibold text-white mb-2">Elementos</h2>
         <p className="text-sm text-gray-400 mb-4">
           Arraste os elementos para o canvas
@@ -171,8 +171,8 @@ export function ElementsSidebar() {
         </div>
       </div>
       
-      <ScrollArea className="h-[calc(100vh-12rem-3rem)] px-4">
-        <div className="py-4 space-y-8 pb-6">
+      <ScrollArea className="flex-1">
+        <div className="p-4 space-y-8">
           {Object.entries(groupedWidgets).map(([group, items]) => (
             <div key={group} className="space-y-4">
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider px-2">
