@@ -58,8 +58,8 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[2em]"
-        style={{ zIndex: 1000 }}
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+        style={{ top: '50%', transform: 'translateY(-50%) translateX(2em)', zIndex: 1000 }}
       />
     </div>
   );
