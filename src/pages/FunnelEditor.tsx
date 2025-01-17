@@ -75,9 +75,11 @@ export default function FunnelEditor() {
         </div>
       </header>
       
-      <div className="flex flex-1 overflow-hidden">
-        <ElementsSidebar />
+      <div className="flex-1 relative">
         <FunnelEditorCanvas />
+        <div className="absolute left-0 top-0 z-50">
+          <ElementsSidebar />
+        </div>
       </div>
     </div>
   );

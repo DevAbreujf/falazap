@@ -101,7 +101,6 @@ export function FunnelEditorCanvas() {
             value: 0,
             unit: "seconds",
           },
-          // Add default days data for weekdays node type
           ...(type === 'weekdays' && {
             days: [
               { day: 'Segunda', enabled: true },
@@ -123,7 +122,7 @@ export function FunnelEditorCanvas() {
   );
 
   return (
-    <div className="flex-1">
+    <div className="absolute inset-0">
       <ReactFlow
         nodes={nodes}
         edges={edges}
