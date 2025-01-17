@@ -55,46 +55,46 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
   );
 
   return (
-    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300"
       />
       
-      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
         <div className="flex items-center gap-2">
-          <Bell className="h-4 w-4 text-orange-500" />
-          <h3 className="text-sm font-medium text-zinc-100">Notificar Atendente</h3>
+          <Bell className="h-4 w-4 text-zinc-500" />
+          <h3 className="text-sm font-medium text-zinc-900">Notificar Atendente</h3>
         </div>
       </div>
 
       <div className="p-4">
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>Título</Label>
+            <Label className="text-zinc-700">Título</Label>
             <Input
               placeholder="Digite aqui seu título"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="bg-[#272733] border-[#434358] text-white"
+              className="bg-white border-zinc-200"
             />
           </div>
 
           <div className="space-y-2">
-            <Label>Mensagem</Label>
+            <Label className="text-zinc-700">Mensagem</Label>
             <Textarea
               placeholder="Digite a mensagem que será enviada"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="bg-[#272733] border-[#434358] text-white"
+              className="bg-white border-zinc-200"
             />
           </div>
 
           <div className="space-y-2">
-            <Label>Regra</Label>
+            <Label className="text-zinc-700">Regra</Label>
             <Select value={rule} onValueChange={(value: 'current' | 'specific') => setRule(value)}>
-              <SelectTrigger>
+              <SelectTrigger className="bg-white border-zinc-200">
                 <SelectValue placeholder="Selecione uma regra" />
               </SelectTrigger>
               <SelectContent>
@@ -106,10 +106,10 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
 
           {rule === 'specific' && (
             <div className="space-y-2">
-              <Label>Atendentes</Label>
+              <Label className="text-zinc-700">Atendentes</Label>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="w-full justify-start text-left">
+                  <Button variant="outline" className="w-full justify-start text-left bg-white border-zinc-200">
                     {selectedAgents.length > 0
                       ? `${selectedAgents.length} atendente(s) selecionado(s)`
                       : 'Selecione os atendentes'}
@@ -118,12 +118,12 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
                 <DropdownMenuContent className="w-[320px]">
                   <div className="p-2">
                     <div className="relative">
-                      <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <Search className="absolute left-2 top-2.5 h-4 w-4 text-zinc-400" />
                       <Input
                         placeholder="Buscar atendente..."
                         value={searchAgent}
                         onChange={(e) => setSearchAgent(e.target.value)}
-                        className="pl-8"
+                        className="pl-8 bg-white border-zinc-200"
                       />
                     </div>
                   </div>
@@ -175,7 +175,7 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
+        className="w-3 h-3 !bg-zinc-300"
       />
 
       {activateFailureFlow && (
@@ -183,8 +183,8 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
           type="source"
           position={Position.Right}
           id="failure-flow"
-          className="w-3 h-3 bg-zinc-300"
-          style={{ top: '75%', transform: 'translateY(-50%) translateX(2em)', zIndex: 1000 }}
+          className="w-3 h-3 !bg-zinc-300"
+          style={{ top: '75%' }}
         />
       )}
     </div>

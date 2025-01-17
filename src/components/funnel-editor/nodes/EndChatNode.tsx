@@ -9,20 +9,22 @@ interface EndChatNodeProps {
 
 export const EndChatNode = memo(({ data }: EndChatNodeProps) => {
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm min-w-[280px]">
-      <Handle type="target" position={Position.Top} className="w-3 h-3 !bg-zinc-500" />
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="w-3 h-3 !bg-zinc-300"
+      />
       
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="p-2 rounded-md bg-emerald-50">
-            <Check className="w-4 h-4 text-emerald-500" />
-          </div>
-          <span className="text-base font-medium text-zinc-900">
-            Finalizar conversa
-          </span>
+      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
+        <div className="flex items-center gap-2">
+          <Check className="h-4 w-4 text-zinc-500" />
+          <h3 className="text-sm font-medium text-zinc-900">Finalizar conversa</h3>
         </div>
+      </div>
 
-        <p className="text-sm text-zinc-500">
+      <div className="p-4">
+        <p className="text-sm text-zinc-600">
           A conversa é finalizada
         </p>
       </div>

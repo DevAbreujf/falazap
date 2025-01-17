@@ -33,24 +33,26 @@ export const TransferDepartmentNode = memo(({ data }: TransferDepartmentNodeProp
   const [activateFailureFlow, setActivateFailureFlow] = useState(data.activateFailureFlow || false);
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm min-w-[320px] relative" style={{ overflow: 'visible' }}>
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300"
       />
       
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-6">
+      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
+        <div className="flex items-center gap-2">
           <Building2 className="w-4 h-4 text-zinc-500" />
-          <span className="font-medium">Transferir para setor</span>
+          <span className="font-medium text-zinc-900">Transferir para setor</span>
         </div>
+      </div>
 
+      <div className="p-4">
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>Regra</Label>
+            <Label className="text-zinc-700">Regra</Label>
             <Select value={rule} onValueChange={(value: 'specific' | 'previous') => setRule(value)}>
-              <SelectTrigger>
+              <SelectTrigger className="bg-white border-zinc-200">
                 <SelectValue placeholder="Selecione uma regra" />
               </SelectTrigger>
               <SelectContent>
@@ -62,7 +64,7 @@ export const TransferDepartmentNode = memo(({ data }: TransferDepartmentNodeProp
 
           {rule === 'specific' && (
             <div className="space-y-2">
-              <Label>Setor</Label>
+              <Label className="text-zinc-700">Setor</Label>
               <DepartmentSelect 
                 value={department}
                 onValueChange={setDepartment}
@@ -97,21 +99,19 @@ export const TransferDepartmentNode = memo(({ data }: TransferDepartmentNodeProp
         </div>
       </div>
 
-      {/* Main handle for the node */}
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
+        className="w-3 h-3 !bg-zinc-300"
       />
 
-      {/* Conditional handle for failure flow */}
       {activateFailureFlow && (
         <Handle
           type="source"
           position={Position.Right}
           id="failure-flow"
-          className="w-3 h-3 bg-zinc-300"
-          style={{ top: '75%', transform: 'translateY(-50%) translateX(2em)', zIndex: 1000 }}
+          className="w-3 h-3 !bg-zinc-300"
+          style={{ top: '75%' }}
         />
       )}
     </div>
