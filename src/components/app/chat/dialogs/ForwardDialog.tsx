@@ -33,16 +33,16 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
 
   const handleAddContact = () => {
     if (newContact.name && newContact.phone) {
-      setIsAddContactMode(false);
       toast({
         title: "Contato salvo",
         description: "O contato foi salvo com sucesso.",
       });
       setNewContact({ name: "", phone: "", avatar: null });
+      setIsAddContactMode(false);
     }
   };
 
-  const handleClose = () => {
+  const resetAndClose = () => {
     setIsAddContactMode(false);
     setSearchTerm("");
     setNewContact({ name: "", phone: "", avatar: null });
@@ -50,7 +50,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={resetAndClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
