@@ -32,7 +32,7 @@ export default function FunnelEditor() {
 
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden bg-background">
-      <header className="w-full border-b bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm">
+      <header className="w-full border-b bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm z-10">
         <div className="flex items-center justify-between px-6 py-4 max-w-[1920px] mx-auto">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" onClick={handleBack} className="text-white hover:bg-white/10">
@@ -75,9 +75,13 @@ export default function FunnelEditor() {
         </div>
       </header>
       
-      <div className="flex flex-1 overflow-hidden">
-        <ElementsSidebar />
-        <FunnelEditorCanvas />
+      <div className="flex flex-1 overflow-hidden relative">
+        <div className="absolute inset-0">
+          <FunnelEditorCanvas />
+        </div>
+        <div className="relative z-10">
+          <ElementsSidebar />
+        </div>
       </div>
     </div>
   );

@@ -154,8 +154,8 @@ export function ElementsSidebar() {
   }, {} as Record<string, typeof widgets>);
 
   return (
-    <div className="w-[360px] mx-4 my-6 h-[calc(100vh-6rem)] flex flex-col bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl overflow-hidden">
-      <div className="flex-shrink-0 p-6 border-b border-[#334155]">
+    <div className="w-[360px] mx-4 my-6 h-[calc(100vh-6rem)] flex flex-col bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155]/50 shadow-xl overflow-hidden">
+      <div className="flex-shrink-0 p-6 border-b border-[#334155]/50">
         <h2 className="text-xl font-semibold text-white mb-2">Elementos</h2>
         <p className="text-sm text-gray-400 mb-4">
           Arraste os elementos para o canvas
@@ -164,7 +164,7 @@ export function ElementsSidebar() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <Input 
             placeholder="Buscar elementos..." 
-            className="pl-10 bg-white/5 border-[#334155] text-white placeholder:text-gray-400 focus-visible:ring-primary/30"
+            className="pl-10 bg-white/5 border-[#334155]/50 text-white placeholder:text-gray-400 focus-visible:ring-primary/30"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -184,7 +184,7 @@ export function ElementsSidebar() {
                     key={widget.type}
                     draggable
                     onDragStart={(e) => onDragStart(e, widget.type)}
-                    className="group relative rounded-lg border border-[#334155] bg-white/5 hover:bg-white/10 hover:border-primary/30 p-4 cursor-move transition-all duration-200"
+                    className="group relative rounded-lg border border-[#334155]/50 bg-white/5 hover:bg-white/10 hover:border-primary/30 p-4 cursor-move transition-all duration-200"
                   >
                     <div className="flex flex-col items-start gap-3">
                       <div className="rounded-lg bg-primary/10 p-2.5">
