@@ -102,7 +102,7 @@ export const TransferDepartmentNode = memo(({ data }: TransferDepartmentNodeProp
         type="source"
         position={Position.Right}
         className="w-3 h-3 bg-zinc-300"
-        style={{ top: '50%', transform: 'translateY(-50%) translateX(2em)', zIndex: 1000 }}
+        style={{ top: '50%', transform: 'translateY(-50%)' }}
       />
 
       {/* Conditional handle for failure flow */}

@@ -86,7 +86,7 @@ export function TagsNode({ id, data }: { id: string; data: TagsNodeData }) {
         type="source"
         position={Position.Right}
         className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[2em]"
-        style={{ zIndex: 1000 }}
+        style={{ top: '50%', transform: 'translateY(-50%)' }}
       />
     </div>
   );

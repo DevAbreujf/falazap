@@ -51,7 +51,8 @@ export function FileNode({ data, id }: { data: FileNodeData; id: string }) {
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+        style={{ top: '50%', transform: 'translateY(-50%)' }}
       />
     </div>
   );
