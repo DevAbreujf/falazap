@@ -1,4 +1,25 @@
 /* Estilos compartilhados para os nós do fluxo */
+.flow-node {
+  background: #1f1f2a;
+  border-radius: 1rem;
+  width: 300px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.flow-node-header {
+  background: #1f1f2a;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(67, 67, 88, 0.5);
+}
+
+.flow-node-content {
+  padding: 1rem;
+}
+
+/* Estilo padrão para o Handle de entrada (Target) */
 .flow-node-target {
   width: 40px !important;
   height: 12px !important;
@@ -11,6 +32,7 @@
   margin-left: -20px !important;
 }
 
+/* Estilo padrão para o Handle de saída (Source) */
 .flow-node-source {
   background-color: transparent !important;
   width: 18px !important;

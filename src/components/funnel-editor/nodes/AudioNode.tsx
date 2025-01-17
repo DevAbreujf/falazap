@@ -16,8 +16,8 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
-      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+    <div className="flow-node">
+      <div className="flow-node-header">
         <div className="flex items-center gap-2">
           <Music className="h-4 w-4 text-orange-500" />
           <h3 className="text-sm font-medium text-zinc-100">Áudio</h3>
@@ -32,7 +32,7 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
         </Button>
       </div>
       
-      <div className="p-4">
+      <div className="flow-node-content">
         {data.audioUrl ? (
           <div className="bg-[#272733] rounded-lg p-4 flex items-center gap-3">
             <Music className="h-6 w-6 text-zinc-400" />
