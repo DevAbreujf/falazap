@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { ReactFlow, Background, useNodesState, useEdgesState, addEdge, Edge, useReactFlow } from "@xyflow/react";
+import { ReactFlow, Background, useNodesState, useEdgesState, addEdge, Edge, ReactFlowProvider } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { StartNode } from "./nodes/StartNode";
@@ -66,11 +66,10 @@ const edgeStyles = {
   hover: { stroke: '#ff0000', strokeWidth: 2 },
 };
 
-export function FunnelEditorCanvas() {
+function Flow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showRemoveMessage, setShowRemoveMessage] = useState(false);
-  const { project } = useReactFlow();
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -110,11 +109,10 @@ export function FunnelEditorCanvas() {
       
       if (!reactFlowBounds) return;
 
-      // Calcula a posição relativa do mouse considerando scroll e zoom
-      const position = project({
+      const position = {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
-      });
+      };
 
       const newNode = {
         id: `${type}-${nodes.length + 1}`,
@@ -144,39 +142,47 @@ export function FunnelEditorCanvas() {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [nodes, setNodes, project],
+    [nodes, setNodes],
   );
 
   return (
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      nodeTypes={nodeTypes}
+      onEdgeMouseEnter={onEdgeMouseEnter}
+      onEdgeMouseLeave={onEdgeMouseLeave}
+      onEdgeClick={onEdgeClick}
+      edgeTypes={{}}
+      defaultEdgeOptions={{
+        style: edgeStyles.default,
+        className: 'custom-edge'
+      }}
+      fitView
+    >
+      <Background gap={24} size={1} />
+      {showRemoveMessage && (
+        <div 
+          className="absolute left-1/2 bottom-24 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-lg shadow-lg"
+        >
+          Clique na linha para remover esta conexão
+        </div>
+      )}
+    </ReactFlow>
+  );
+}
+
+export function FunnelEditorCanvas() {
+  return (
     <div className="absolute inset-0">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
-        nodeTypes={nodeTypes}
-        onEdgeMouseEnter={onEdgeMouseEnter}
-        onEdgeMouseLeave={onEdgeMouseLeave}
-        onEdgeClick={onEdgeClick}
-        edgeTypes={{}}
-        defaultEdgeOptions={{
-          style: edgeStyles.default,
-          className: 'custom-edge'
-        }}
-        fitView
-      >
-        <Background gap={24} size={1} />
-        {showRemoveMessage && (
-          <div 
-            className="absolute left-1/2 bottom-24 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-lg shadow-lg"
-          >
-            Clique na linha para remover esta conexão
-          </div>
-        )}
-      </ReactFlow>
+      <ReactFlowProvider>
+        <Flow />
+      </ReactFlowProvider>
     </div>
   );
 }
