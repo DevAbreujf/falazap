@@ -32,6 +32,13 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
   const [newContact, setNewContact] = useState({ name: "", phone: "", avatar: null as File | null });
   const { toast } = useToast();
 
+  const handleClose = () => {
+    setIsAddContactMode(false);
+    setSearchTerm("");
+    setNewContact({ name: "", phone: "", avatar: null });
+    onOpenChange(false);
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -40,8 +47,8 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isOpen} onOpenChange={handleClose} modal>
+      <DialogContent className="sm:max-w-[425px]" onInteractOutside={handleClose}>
         <DialogHeader>
           <DialogTitle>
             {isAddContactMode ? "Novo Contato" : "Lista de Contatos"}
