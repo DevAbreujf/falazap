@@ -47,7 +47,13 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
   );
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm min-w-[320px] relative">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm min-w-[320px] relative" style={{ overflow: 'visible' }}>
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+      />
+      
       <div className="p-4">
         <div className="flex items-center gap-2 mb-6">
           <Bell className="w-4 h-4 text-zinc-500" />
@@ -159,7 +165,7 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
         type="source"
         position={Position.Right}
         className="w-3 h-3 bg-zinc-300"
-        style={{ top: '50%', transform: 'translateY(-50%) translateX(1em)' }}
+        style={{ top: '50%', transform: 'translateY(-50%) translateX(2em)', zIndex: 1000 }}
       />
 
       {/* Conditional handle for failure flow */}
@@ -169,7 +175,7 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
           position={Position.Right}
           id="failure-flow"
           className="w-3 h-3 bg-zinc-300"
-          style={{ top: '75%', transform: 'translateY(-50%) translateX(1em)' }}
+          style={{ top: '75%', transform: 'translateY(-50%) translateX(2em)', zIndex: 1000 }}
         />
       )}
     </div>
