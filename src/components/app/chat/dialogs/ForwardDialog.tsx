@@ -46,7 +46,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose} modal>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
