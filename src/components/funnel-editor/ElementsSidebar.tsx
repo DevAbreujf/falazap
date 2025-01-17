@@ -154,7 +154,7 @@ export function ElementsSidebar() {
   }, {} as Record<string, typeof widgets>);
 
   return (
-    <div className="w-[360px] mx-4 my-6 h-[calc(100vh-6rem)] flex flex-col bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl overflow-hidden">
+    <div className="w-[360px] mx-4 mt-6 mb-12 h-[calc(100vh-8rem)] flex flex-col bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
       <div className="flex-shrink-0 p-6 border-b border-[#334155]">
         <h2 className="text-xl font-semibold text-white mb-2">Elementos</h2>
         <p className="text-sm text-gray-400 mb-4">
