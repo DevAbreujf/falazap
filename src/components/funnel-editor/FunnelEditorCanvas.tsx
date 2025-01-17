@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import { ReactFlow, Background, useNodesState, useEdgesState, addEdge } from "@xyflow/react";
+import { useCallback, useState } from "react";
+import { ReactFlow, Background, useNodesState, useEdgesState, addEdge, Edge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { StartNode } from "./nodes/StartNode";
@@ -61,14 +61,32 @@ const initialNodes = [
   },
 ];
 
+const edgeStyles = {
+  default: {},
+  hover: { stroke: '#ff0000', strokeWidth: 2 },
+};
+
 export function FunnelEditorCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [showRemoveMessage, setShowRemoveMessage] = useState(false);
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
+
+  const onEdgeMouseEnter = useCallback(() => {
+    setShowRemoveMessage(true);
+  }, []);
+
+  const onEdgeMouseLeave = useCallback(() => {
+    setShowRemoveMessage(false);
+  }, []);
+
+  const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
+    setEdges((edges) => edges.filter((e) => e.id !== edge.id));
+  }, [setEdges]);
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
@@ -85,9 +103,15 @@ export function FunnelEditorCanvas() {
         return;
       }
 
+      // Obtém a posição do ReactFlow element
+      const reactFlowBounds = document.querySelector('.react-flow')?.getBoundingClientRect();
+      
+      if (!reactFlowBounds) return;
+
+      // Calcula a posição relativa do mouse
       const position = {
-        x: event.clientX - 250,
-        y: event.clientY - 100,
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
       };
 
       const newNode = {
@@ -132,9 +156,24 @@ export function FunnelEditorCanvas() {
         onDragOver={onDragOver}
         onDrop={onDrop}
         nodeTypes={nodeTypes}
+        onEdgeMouseEnter={onEdgeMouseEnter}
+        onEdgeMouseLeave={onEdgeMouseLeave}
+        onEdgeClick={onEdgeClick}
+        edgeTypes={{}}
+        defaultEdgeOptions={{
+          style: edgeStyles.default,
+          className: 'custom-edge'
+        }}
         fitView
       >
         <Background gap={24} size={1} />
+        {showRemoveMessage && (
+          <div 
+            className="absolute left-1/2 bottom-24 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-lg shadow-lg"
+          >
+            Clique na linha para remover esta conexão
+          </div>
+        )}
       </ReactFlow>
     </div>
   );

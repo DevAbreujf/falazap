@@ -1,0 +1,8 @@
+.custom-edge {
+  transition: stroke 0.2s;
+}
+
+.custom-edge:hover {
+  stroke: #ff0000 !important;
+  stroke-width: 2px !important;
+}
