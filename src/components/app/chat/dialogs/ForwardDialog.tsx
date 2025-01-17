@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -18,7 +18,6 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Upload } from "lucide-react";
 
 interface ForwardDialogProps {
   isOpen: boolean;
@@ -48,7 +47,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose} modal>
-      <DialogContent className="sm:max-w-[425px]" onInteractOutside={handleClose}>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
             {isAddContactMode ? "Novo Contato" : "Lista de Contatos"}
