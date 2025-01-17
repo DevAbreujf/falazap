@@ -1,5 +1,7 @@
 import { MessageSquare, Video, Music, GitFork, Clock, HelpCircle, Tags, Share2, FileText, Calendar, Users, Star, UserCheck, Tag, Bell, XCircle } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
 const widgets = [
   {
@@ -138,36 +140,48 @@ export function ElementsSidebar() {
   }, {} as Record<string, typeof widgets>);
 
   return (
-    <div className="w-72 bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm border-r border-[#334155]">
-      <div className="p-4 border-b border-[#334155]">
-        <h2 className="text-lg font-semibold text-white">Elementos</h2>
-        <p className="text-sm text-gray-400">
+    <div className="w-[320px] ml-4 bg-gradient-to-b from-[#0f172a]/80 to-[#1e293b]/80 backdrop-blur-sm rounded-lg border border-[#334155] shadow-xl">
+      <div className="p-6 border-b border-[#334155]">
+        <h2 className="text-xl font-semibold text-white mb-2">Elementos</h2>
+        <p className="text-sm text-gray-400 mb-4">
           Arraste os elementos para o canvas
         </p>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Input 
+            placeholder="Buscar elementos..." 
+            className="pl-10 bg-white/5 border-[#334155] text-white placeholder:text-gray-400 focus-visible:ring-primary/30"
+          />
+        </div>
       </div>
       
-      <ScrollArea className="h-[calc(100vh-5rem)]">
-        <div className="p-3">
+      <ScrollArea className="h-[calc(100vh-12rem)] px-4">
+        <div className="py-4 space-y-6">
           {Object.entries(groupedWidgets).map(([group, items]) => (
-            <div key={group} className="mb-4">
-              <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2 px-1">
+            <div key={group} className="space-y-3">
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider px-2">
                 {group}
               </h3>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-3">
                 {items.map((widget) => (
                   <div
                     key={widget.type}
                     draggable
                     onDragStart={(e) => onDragStart(e, widget.type)}
-                    className="relative group rounded-lg border border-[#334155] bg-white hover:bg-gray-50 hover:border-primary/30 p-2.5 cursor-move transition-all duration-200"
+                    className="group relative rounded-lg border border-[#334155] bg-white/5 hover:bg-white/10 hover:border-primary/30 p-4 cursor-move transition-all duration-200"
                   >
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-md bg-primary/10 p-2">
-                        <widget.icon className="h-4 w-4 text-primary" />
+                    <div className="flex items-start gap-3">
+                      <div className="rounded-lg bg-primary/10 p-2.5">
+                        <widget.icon className="h-5 w-5 text-primary-light" />
                       </div>
-                      <span className="text-sm font-medium text-gray-900">
-                        {widget.label}
-                      </span>
+                      <div className="space-y-1">
+                        <span className="block text-sm font-medium text-white group-hover:text-primary-light transition-colors">
+                          {widget.label}
+                        </span>
+                        <span className="block text-xs text-gray-400">
+                          {widget.description}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
