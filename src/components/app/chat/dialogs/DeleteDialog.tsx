@@ -19,7 +19,7 @@ interface DeleteDialogProps {
 export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -27,8 +27,10 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex-col gap-2 sm:flex-row">
-          <AlertDialogCancel>
-            Cancelar
+          <AlertDialogCancel asChild>
+            <Button variant="outline" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
           </AlertDialogCancel>
           <Button
             variant="destructive"

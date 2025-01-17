@@ -51,7 +51,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
 
   return (
     <Dialog open={isOpen} onOpenChange={resetAndClose}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
             {isAddContactMode ? "Novo Contato" : "Lista de Contatos"}
