@@ -7,6 +7,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
 interface DeleteDialogProps {
@@ -16,33 +17,35 @@ interface DeleteDialogProps {
 }
 
 export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogProps) {
+  const handleDelete = (type: 'all' | 'me') => {
+    onDelete(type);
+    onOpenChange(false);
+  };
+
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
             Escolha como você deseja apagar esta mensagem
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => onOpenChange(false)}>
+        <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+          <AlertDialogCancel 
+            onClick={() => onOpenChange(false)}
+            className="mt-0"
+          >
             Cancelar
           </AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => {
-              onDelete('all');
-              onOpenChange(false);
-            }}
+            onClick={() => handleDelete('all')}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             Apagar para todos
           </AlertDialogAction>
           <AlertDialogAction
-            onClick={() => {
-              onDelete('me');
-              onOpenChange(false);
-            }}
+            onClick={() => handleDelete('me')}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             Apagar para mim

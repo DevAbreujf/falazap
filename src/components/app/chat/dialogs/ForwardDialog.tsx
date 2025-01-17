@@ -29,20 +29,23 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
         title: "Contato salvo",
         description: "O contato foi salvo com sucesso.",
       });
-      setNewContact({ name: "", phone: "", avatar: null });
-      setIsAddContactMode(false);
+      resetForm();
     }
   };
 
-  const resetAndClose = () => {
+  const resetForm = () => {
     setIsAddContactMode(false);
     setSearchTerm("");
     setNewContact({ name: "", phone: "", avatar: null });
+  };
+
+  const handleClose = () => {
+    resetForm();
     onOpenChange(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={resetAndClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
@@ -75,7 +78,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
             </div>
             
             <div className="space-y-2">
-              <label htmlFor="name">Nome</label>
+              <label htmlFor="name" className="text-sm font-medium">Nome</label>
               <Input
                 id="name"
                 value={newContact.name}
@@ -84,7 +87,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
             </div>
             
             <div className="space-y-2">
-              <label htmlFor="phone">Celular</label>
+              <label htmlFor="phone" className="text-sm font-medium">Celular</label>
               <Input
                 id="phone"
                 value={newContact.phone}
@@ -102,7 +105,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
             </div>
           </div>
         ) : (
-          <>
+          <div className="space-y-4">
             <div className="flex gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -123,7 +126,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
                 Nenhum contato encontrado
               </div>
             </div>
-          </>
+          </div>
         )}
       </DialogContent>
     </Dialog>
