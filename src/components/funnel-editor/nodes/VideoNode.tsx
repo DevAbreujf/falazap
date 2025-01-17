@@ -18,46 +18,52 @@ export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
-      <Handle
-        type="target"
-        position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
-      />
-      
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-medium">Vídeo</h3>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="h-6 w-6 text-muted-foreground hover:text-white"
-            onClick={handleDelete}
-          >
-            <X className="h-4 w-4" />
-          </Button>
+    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
+      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+        <div className="flex items-center gap-2">
+          <Video className="h-4 w-4 text-orange-500" />
+          <h3 className="text-sm font-medium text-zinc-100">Vídeo</h3>
         </div>
-        
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="h-6 w-6 text-zinc-400 hover:text-white hover:bg-white/5"
+          onClick={handleDelete}
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
+      
+      <div className="p-4 space-y-4">
         {data.videoUrl ? (
-          <div className="relative aspect-video bg-[#333] rounded-lg flex items-center justify-center">
-            <Video className="h-8 w-8 text-muted-foreground" />
+          <div className="relative aspect-video bg-[#272733] rounded-lg flex items-center justify-center">
+            <Video className="h-8 w-8 text-zinc-400" />
           </div>
         ) : (
-          <Button variant="outline" className="w-full bg-[#333] hover:bg-[#444] text-white">
+          <Button 
+            variant="outline" 
+            className="w-full bg-[#272733] hover:bg-[#323244] text-white border-[#434358]"
+          >
             <Upload className="h-4 w-4 mr-2" />
             Upload Vídeo
           </Button>
         )}
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Ação após o vídeo</label>
+          <label className="text-sm font-medium text-zinc-300">Ação após o vídeo</label>
           <Input
             placeholder="Ex: Clique para continuar"
             value={data.actionLabel}
-            className="bg-[#333] border-[#444] text-white"
+            className="bg-[#272733] border-[#434358] text-white focus:ring-1 focus:ring-orange-500/50"
           />
         </div>
       </div>
+
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+      />
       
       <Handle
         type="source"

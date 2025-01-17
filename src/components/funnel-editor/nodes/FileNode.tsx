@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
-import { Upload, X } from "lucide-react";
+import { FileText, Upload, X } from "lucide-react";
 import { useReactFlow } from "@xyflow/react";
 
 interface FileNodeData {
@@ -16,31 +16,37 @@ export function FileNode({ data, id }: { data: FileNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
+    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
+      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+        <div className="flex items-center gap-2">
+          <FileText className="h-4 w-4 text-orange-500" />
+          <h3 className="text-sm font-medium text-zinc-100">Arquivo</h3>
+        </div>
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="h-6 w-6 text-zinc-400 hover:text-white hover:bg-white/5"
+          onClick={handleDelete}
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
+      
+      <div className="p-4">
+        <Button 
+          variant="outline" 
+          className="w-full bg-[#272733] hover:bg-[#323244] text-white border-[#434358]"
+        >
+          <Upload className="h-4 w-4 mr-2" />
+          Upload Arquivo
+        </Button>
+      </div>
+
       <Handle
         type="target"
         position={Position.Top}
         className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
       />
-      
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-medium">Arquivo</h3>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="h-6 w-6 text-muted-foreground hover:text-white"
-            onClick={handleDelete}
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-        
-        <Button variant="outline" className="w-full bg-[#333] hover:bg-[#444] text-white">
-          <Upload className="h-4 w-4 mr-2" />
-          Upload Arquivo
-        </Button>
-      </div>
       
       <Handle
         type="source"
