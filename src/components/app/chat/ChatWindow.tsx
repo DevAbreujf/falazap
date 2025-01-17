@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Info, MessageSquare, StickyNote } from "lucide-react";
+import { Info } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,7 @@ interface ChatWindowProps {
   onChangeDepartment: (departmentId: string) => void;
   currentDepartment: { id: string; name: string };
   currentUser: { id: string; name: string; avatar?: string };
+  onMessageAction: (action: 'reply' | 'copy' | 'forward' | 'delete', message: ChatMessage) => void;
 }
 
 export function ChatWindow({ 
@@ -47,7 +48,8 @@ export function ChatWindow({
   onTransferChat,
   onChangeDepartment,
   currentDepartment,
-  currentUser
+  currentUser,
+  onMessageAction
 }: ChatWindowProps) {
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
@@ -72,29 +74,14 @@ export function ChatWindow({
     }
   }, [messages]);
 
-  useEffect(() => {
-    const inactivityTimer = setInterval(() => {
-      const inactiveTime = Date.now() - lastActivityTime;
-      if (inactiveTime >= 15 * 60 * 1000) {
-        handleEndSupport();
-      }
-    }, 60000);
-
-    return () => clearInterval(inactivityTimer);
-  }, [lastActivityTime]);
-
-  const handleEndSupport = () => {
-    const endMessage = "**Sistema:**\nAtendimento encerrado. Obrigado por utilizar nosso suporte!";
-    onSendMessage(endMessage);
-    
-    if (onUpdateContactStatus && contact.isSupport) {
-      onUpdateContactStatus(contact.id, false);
+  const handleSendMessage = (content: string) => {
+    if (replyingTo) {
+      const replyContent = `> ${replyingTo.content}\n\n${content}`;
+      onSendMessage(replyContent);
+      setReplyingTo(null);
+    } else {
+      onSendMessage(content);
     }
-    
-    toast({
-      title: "Atendimento encerrado",
-      description: "O atendimento foi finalizado com sucesso.",
-    });
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,46 +114,20 @@ export function ChatWindow({
     });
   };
 
-  const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', messageId: string, deleteType?: 'all' | 'me') => {
-    switch (action) {
-      case 'reply':
-        const messageToReply = messages.find(m => m.id === messageId);
-        if (messageToReply) {
-          setReplyingTo(messageToReply);
-        }
-        break;
-      case 'copy':
-        const message = messages.find(m => m.id === messageId);
-        if (message) {
-          navigator.clipboard.writeText(message.content);
-          toast({
-            title: "Mensagem copiada",
-            description: "Conteúdo copiado para a área de transferência",
-          });
-        }
-        break;
-      case 'forward':
-        console.log('Forward message:', messageId);
-        break;
-      case 'delete':
-        if (deleteType) {
-          console.log(`Delete message ${messageId} for ${deleteType}`);
-          toast({
-            title: "Mensagem apagada",
-            description: `Mensagem apagada ${deleteType === 'all' ? 'para todos' : 'para você'}`,
-          });
-        }
-        break;
-    }
-  };
+  const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', messageId: string) => {
+    const message = messages.find(m => m.id === messageId);
+    if (!message) return;
 
-  const handleSendMessage = (content: string) => {
-    if (replyingTo) {
-      const replyContent = `> ${replyingTo.content}\n\n${content}`;
-      onSendMessage(replyContent);
-      setReplyingTo(null);
+    if (action === 'reply') {
+      setReplyingTo(message);
+    } else if (action === 'copy') {
+      navigator.clipboard.writeText(message.content);
+      toast({
+        title: "Mensagem copiada",
+        description: "Conteúdo copiado para a área de transferência",
+      });
     } else {
-      onSendMessage(content);
+      onMessageAction(action, message);
     }
   };
 
@@ -175,22 +136,6 @@ export function ChatWindow({
       <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
         <ChatHeaderInfo contact={contact} />
         <div className="flex items-center gap-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setIsDetailsSidebarOpen(true)}
-                >
-                  <Info className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Detalhes da conversa</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
           <ChatActions
             onChangeDepartment={onChangeDepartment}
             onEndSupport={onEndSupport}

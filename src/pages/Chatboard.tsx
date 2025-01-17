@@ -1,6 +1,7 @@
 import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
+import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
 import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
@@ -148,6 +149,10 @@ export default function Chatboard() {
   const [hasUserReplied, setHasUserReplied] = useState(false);
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
   const { toast } = useToast();
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<ChatMessage | null>(null);
 
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
@@ -329,6 +334,43 @@ export default function Chatboard() {
     avatar: undefined
   };
 
+  const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', message: ChatMessage) => {
+    setSelectedMessage(message);
+    
+    switch (action) {
+      case 'forward':
+        setIsForwardDialogOpen(true);
+        break;
+      case 'delete':
+        setIsDeleteDialogOpen(true);
+        break;
+    }
+  };
+
+  const handleDelete = (type: 'all' | 'me') => {
+    if (selectedMessage) {
+      // Logic to delete the message
+      toast({
+        title: "Mensagem apagada",
+        description: `Mensagem apagada ${type === 'all' ? 'para todos' : 'para você'}`,
+      });
+    }
+    setIsDeleteDialogOpen(false);
+    setSelectedMessage(null);
+  };
+
+  const handleForward = (contactId: string) => {
+    if (selectedMessage) {
+      // Logic to forward the message
+      toast({
+        title: "Mensagem encaminhada",
+        description: "Mensagem encaminhada com sucesso",
+      });
+    }
+    setIsForwardDialogOpen(false);
+    setSelectedMessage(null);
+  };
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <ChatSidebar
@@ -356,9 +398,26 @@ export default function Chatboard() {
             onChangeDepartment={(departmentId) => handleChangeDepartment(selectedContactId, departmentId)}
             currentDepartment={currentDepartment}
             currentUser={mockCurrentUser}
+            onMessageAction={handleMessageAction}
           />
         )}
       </div>
+
+      <ChatDialogs
+        isDeleteDialogOpen={isDeleteDialogOpen}
+        isForwardDialogOpen={isForwardDialogOpen}
+        selectedMessage={selectedMessage}
+        onCloseDeleteDialog={() => {
+          setIsDeleteDialogOpen(false);
+          setSelectedMessage(null);
+        }}
+        onCloseForwardDialog={() => {
+          setIsForwardDialogOpen(false);
+          setSelectedMessage(null);
+        }}
+        onDelete={handleDelete}
+        onForward={handleForward}
+      />
     </div>
   );
 }
