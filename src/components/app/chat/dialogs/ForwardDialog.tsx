@@ -31,22 +31,19 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
   const [newContact, setNewContact] = useState({ name: "", phone: "", avatar: null as File | null });
   const { toast } = useToast();
 
-  const handleClose = () => {
-    setIsAddContactMode(false);
-    setSearchTerm("");
-    setNewContact({ name: "", phone: "", avatar: null });
-    onOpenChange(false);
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setNewContact(prev => ({ ...prev, avatar: file }));
+  const handleAddContact = () => {
+    if (newContact.name && newContact.phone) {
+      setIsAddContactMode(false);
+      toast({
+        title: "Contato salvo",
+        description: "O contato foi salvo com sucesso.",
+      });
+      setNewContact({ name: "", phone: "", avatar: null });
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
@@ -67,7 +64,12 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
                 <Input
                   type="file"
                   className="absolute inset-0 opacity-0 cursor-pointer"
-                  onChange={handleFileChange}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setNewContact(prev => ({ ...prev, avatar: file }));
+                    }
+                  }}
                   accept="image/*"
                 />
               </div>
@@ -95,13 +97,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
               <Button variant="outline" onClick={() => setIsAddContactMode(false)}>
                 Cancelar
               </Button>
-              <Button onClick={() => {
-                setIsAddContactMode(false);
-                toast({
-                  title: "Contato salvo",
-                  description: "O contato foi salvo com sucesso.",
-                });
-              }}>
+              <Button onClick={handleAddContact}>
                 Salvar
               </Button>
             </DialogFooter>
