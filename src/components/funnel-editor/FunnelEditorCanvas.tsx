@@ -115,7 +115,6 @@ function Flow() {
       
       if (!reactFlowBounds) return;
 
-      // Calcula a posição precisa considerando o scroll e o offset do elemento
       const position = screenToFlowPosition({
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
@@ -165,9 +164,9 @@ function Flow() {
       onEdgeMouseEnter={onEdgeMouseEnter}
       onEdgeMouseLeave={onEdgeMouseLeave}
       onEdgeClick={onEdgeClick}
-      defaultZoom={0.7}
       minZoom={0.2}
       maxZoom={1.5}
+      defaultViewport={{ x: 0, y: 0, zoom: 0.7 }}
       fitViewOptions={{
         padding: 0.2,
         maxZoom: 0.7,
