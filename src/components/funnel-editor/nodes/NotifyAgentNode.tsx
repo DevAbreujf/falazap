@@ -164,8 +164,7 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
       <Handle
         type="source"
         position={Position.Right}
-        className="w-3 h-3 bg-zinc-300"
-        style={{ top: '50%', transform: 'translateY(-50%)' }}
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
       />
 
       {/* Conditional handle for failure flow */}
