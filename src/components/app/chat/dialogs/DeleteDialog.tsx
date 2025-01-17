@@ -24,7 +24,7 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent onPointerDownOutside={(e) => e.preventDefault()}>
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -33,7 +33,7 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
         </AlertDialogHeader>
         <AlertDialogFooter className="flex-col gap-2 sm:flex-row">
           <AlertDialogCancel asChild>
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
+            <Button variant="outline">
               Cancelar
             </Button>
           </AlertDialogCancel>

@@ -51,7 +51,7 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>
             {isAddContactMode ? "Novo Contato" : "Lista de Contatos"}
