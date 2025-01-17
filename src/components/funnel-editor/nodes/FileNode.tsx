@@ -16,7 +16,7 @@ export function FileNode({ data, id }: { data: FileNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20" style={{ overflow: 'visible' }}>
+    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
       <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
         <div className="flex items-center gap-2">
           <FileText className="h-4 w-4 text-orange-500" />
@@ -51,8 +51,7 @@ export function FileNode({ data, id }: { data: FileNodeData; id: string }) {
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
-        style={{ top: '50%', transform: 'translateY(-50%) translateX(2em)', zIndex: 1000 }}
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
       />
     </div>
   );
