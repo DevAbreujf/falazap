@@ -26,62 +26,55 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
   };
 
   return (
-    <div className="bg-[#1A1A1A] rounded-xl border border-[#333] p-4 min-w-[300px] text-white">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-medium">Perguntar</h3>
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="w-3 h-3 !bg-zinc-300"
+      />
+      
+      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
+        <h3 className="text-sm font-medium text-zinc-900">Perguntar</h3>
         <Button 
           variant="ghost" 
           size="icon"
-          className="h-6 w-6 text-muted-foreground hover:text-white"
+          className="h-6 w-6 text-zinc-400 hover:text-zinc-500"
           onClick={handleDelete}
         >
           <X className="h-4 w-4" />
         </Button>
       </div>
-
-      <Handle
-        type="target"
-        position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
-      />
       
-      <div className="space-y-4">
+      <div className="p-4 space-y-4">
         <div className="space-y-2">
-          <label className="text-sm text-muted-foreground">Salvar Conteúdo:</label>
+          <label className="text-sm text-zinc-600">Salvar Conteúdo:</label>
           <Input
             placeholder="Escolha ou crie uma variável"
             value={data.variableName}
-            className="bg-[#333] border-[#444] text-white"
+            className="bg-white border-zinc-200"
           />
         </div>
 
-        <Handle
-          type="source"
-          position={Position.Right}
-          id="main"
-          className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
-        />
-
         <div className="space-y-2">
-          <label className="text-sm text-muted-foreground">Mensagem / Pergunta:</label>
+          <label className="text-sm text-zinc-600">Mensagem / Pergunta:</label>
           <Input
             placeholder="Sua pergunta. Ex.: Qual seu nome?"
             value={data.question}
-            className="bg-[#333] border-[#444] text-white"
+            className="bg-white border-zinc-200"
           />
         </div>
 
         {!showRecovery ? (
           <Button
-            variant="secondary"
-            className="w-full bg-[#333] hover:bg-[#444] text-white"
+            variant="outline"
+            className="w-full"
             onClick={() => setShowRecovery(true)}
           >
             Se não responder...
           </Button>
         ) : (
           <div className="space-y-3">
-            <label className="text-sm text-muted-foreground">
+            <label className="text-sm text-zinc-600">
               Caso o cliente não responda em:
             </label>
             <div className="flex gap-2">
@@ -89,7 +82,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
                 type="number"
                 value={recoveryTime}
                 onChange={(e) => setRecoveryTime(Number(e.target.value))}
-                className="w-20 bg-[#333] border-[#444] text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-20 bg-white border-zinc-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
               <Select
                 value={recoveryUnit}
@@ -97,7 +90,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
                   setRecoveryUnit(value)
                 }
               >
-                <SelectTrigger className="bg-[#333] border-[#444] text-white">
+                <SelectTrigger className="bg-white border-zinc-200">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -113,19 +106,24 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
               type="source"
               position={Position.Right}
               id="recovery"
-              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !right-0 !translate-x-[2em]"
-              style={{ top: "70%" }}
+              className="w-3 h-3 !bg-zinc-300"
             />
 
             <Button
-              variant="secondary"
-              className="w-full bg-[#333] hover:bg-[#444] text-white"
+              variant="outline"
+              className="w-full"
               onClick={() => setShowRecovery(false)}
             >
               Remover recuperação
             </Button>
           </div>
         )}
+
+        <Handle
+          type="source"
+          position={Position.Right}
+          className="w-3 h-3 !bg-zinc-300"
+        />
       </div>
     </div>
   );

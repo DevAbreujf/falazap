@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Handle, Position } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -5,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Plus, X, Check } from "lucide-react";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface ForwardingRule {
@@ -65,44 +65,33 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
   };
 
   return (
-    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300"
       />
       
-      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
-        <h3 className="text-sm font-medium text-zinc-100">Encaminhamento</h3>
-        <Button 
-          variant="ghost" 
-          size="sm"
-          className="hover:bg-accent"
-          onClick={() => {
-            const remove = document.querySelector(`[data-id="${id}"]`)?.querySelector('.react-flow__remove');
-            if (remove instanceof HTMLElement) {
-              remove.click();
-            }
-          }}
-        >
-          <X className="h-4 w-4" />
-        </Button>
+      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
+        <h3 className="text-sm font-medium text-zinc-900">Encaminhamento</h3>
       </div>
       
-      <div className="flow-node-content p-4">
+      <div className="p-4">
         {rules.map((rule) => (
-          <div key={rule.id} className="space-y-2 border-t border-border pt-4 relative">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => removeRule(rule.id)}
-              className="absolute right-0 top-4 hover:bg-accent"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+          <div key={rule.id} className="space-y-2 border-t border-zinc-200 pt-4 relative">
+            <div className="flex justify-between items-center">
+              <label className="text-sm text-zinc-600">Regra</label>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => removeRule(rule.id)}
+                className="text-zinc-400 hover:text-zinc-500"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Regra</label>
               <Select
                 value={rule.condition}
                 onValueChange={(value) => 
@@ -111,7 +100,7 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                   })
                 }
               >
-                <SelectTrigger className="bg-background border-input">
+                <SelectTrigger className="bg-white border-zinc-200">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -124,12 +113,12 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                 placeholder={rule.condition === "exact" ? "Mensagem exata" : "Contenha na mensagem"}
                 value={rule.term}
                 onChange={(e) => updateRule(rule.id, { term: e.target.value })}
-                className="bg-background border-input"
+                className="bg-white border-zinc-200"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Ação</label>
+              <label className="text-sm text-zinc-600">Ação</label>
               <Popover 
                 open={open[rule.id]} 
                 onOpenChange={(isOpen) => setOpen({ ...open, [rule.id]: isOpen })}
@@ -139,7 +128,7 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                     variant="outline"
                     role="combobox"
                     aria-expanded={open[rule.id]}
-                    className="w-full justify-between bg-background border-input hover:bg-accent"
+                    className="w-full justify-between bg-white border-zinc-200"
                   >
                     {rule.action || "Selecione uma ação..."}
                   </Button>
@@ -150,7 +139,7 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                     <CommandEmpty>
                       <Button 
                         variant="ghost" 
-                        className="w-full justify-start px-2 py-1.5 hover:bg-accent"
+                        className="w-full justify-start px-2 py-1.5"
                         onClick={() => handleCreateTeam(rule.id)}
                       >
                         <Plus className="mr-2 h-4 w-4" />
@@ -163,7 +152,6 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                           key={action}
                           value={action}
                           onSelect={() => handleActionSelect(rule.id, action)}
-                          className="hover:bg-accent"
                         >
                           <Check
                             className={cn(
@@ -184,7 +172,7 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
               type="source"
               position={Position.Right}
               id={`forwarding-${rule.id}`}
-              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
+              className="w-3 h-3 !bg-zinc-300"
             />
           </div>
         ))}
@@ -192,9 +180,8 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
         <div className="flex justify-center pt-2">
           <Button 
             onClick={addRule} 
-            variant="outline" 
-            size="sm"
-            className="bg-background hover:bg-accent"
+            variant="outline"
+            className="w-full bg-white border-zinc-200"
           >
             <Plus className="h-4 w-4 mr-2" />
             Adicionar Encaminhamento
