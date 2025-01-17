@@ -54,13 +54,6 @@ const widgets = [
     description: "Transfere para um setor"
   },
   {
-    type: "requestRating",
-    label: "Pedir Avaliação",
-    icon: Star,
-    group: "Interações",
-    description: "Solicita avaliação do cliente"
-  },
-  {
     type: "transferAgent",
     label: "Transferir p/ Atendente",
     icon: UserCheck,
@@ -68,11 +61,11 @@ const widgets = [
     description: "Transfere para um atendente"
   },
   {
-    type: "editTags",
-    label: "Editar Etiquetas",
-    icon: Tag,
-    group: "Gerenciamento",
-    description: "Gerencia etiquetas da conversa"
+    type: "requestRating",
+    label: "Pedir Avaliação",
+    icon: Star,
+    group: "Interações",
+    description: "Solicita avaliação do cliente"
   },
   {
     type: "notifyAgent",
@@ -80,6 +73,13 @@ const widgets = [
     icon: Bell,
     group: "Notificações",
     description: "Envia notificação ao atendente"
+  },
+  {
+    type: "editTags",
+    label: "Editar Etiquetas",
+    icon: Tag,
+    group: "Gerenciamento",
+    description: "Gerencia etiquetas da conversa"
   },
   {
     type: "endChat",
@@ -162,23 +162,23 @@ export function ElementsSidebar() {
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider px-2">
                 {group}
               </h3>
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {items.map((widget) => (
                   <div
                     key={widget.type}
                     draggable
                     onDragStart={(e) => onDragStart(e, widget.type)}
-                    className="group relative rounded-lg border border-[#334155] bg-white/5 hover:bg-white/10 hover:border-primary/30 p-4 cursor-move transition-all duration-200"
+                    className="group relative rounded-lg border border-[#334155] bg-white/5 hover:bg-white/10 hover:border-primary/30 p-3 cursor-move transition-all duration-200"
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="rounded-lg bg-primary/10 p-2.5">
-                        <widget.icon className="h-5 w-5 text-primary-light" />
+                    <div className="flex flex-col items-start gap-2">
+                      <div className="rounded-lg bg-primary/10 p-2">
+                        <widget.icon className="h-4 w-4 text-primary-light" />
                       </div>
                       <div className="space-y-1">
                         <span className="block text-sm font-medium text-white group-hover:text-primary-light transition-colors">
                           {widget.label}
                         </span>
-                        <span className="block text-xs text-gray-400">
+                        <span className="block text-xs text-gray-400 line-clamp-2">
                           {widget.description}
                         </span>
                       </div>
