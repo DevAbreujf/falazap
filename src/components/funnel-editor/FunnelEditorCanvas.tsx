@@ -1,5 +1,16 @@
 import { useCallback, useState } from "react";
-import { ReactFlow, Background, useNodesState, useEdgesState, addEdge, Edge, ReactFlowProvider } from "@xyflow/react";
+import { 
+  ReactFlow, 
+  Background, 
+  useNodesState, 
+  useEdgesState, 
+  addEdge,
+  Edge,
+  ReactFlowProvider,
+  useReactFlow,
+  Node,
+  XYPosition
+} from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { StartNode } from "./nodes/StartNode";
@@ -61,15 +72,11 @@ const initialNodes = [
   },
 ];
 
-const edgeStyles = {
-  default: {},
-  hover: { stroke: '#ff0000', strokeWidth: 2 },
-};
-
 function Flow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showRemoveMessage, setShowRemoveMessage] = useState(false);
+  const { screenToFlowPosition } = useReactFlow();
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -104,15 +111,15 @@ function Flow() {
         return;
       }
 
-      // Obtém a posição do ReactFlow element
       const reactFlowBounds = document.querySelector('.react-flow')?.getBoundingClientRect();
       
       if (!reactFlowBounds) return;
 
-      const position = {
+      // Calcula a posição precisa considerando o scroll e o offset do elemento
+      const position = screenToFlowPosition({
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
-      };
+      });
 
       const newNode = {
         id: `${type}-${nodes.length + 1}`,
@@ -142,7 +149,7 @@ function Flow() {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [nodes, setNodes],
+    [nodes, setNodes, screenToFlowPosition],
   );
 
   return (
@@ -158,10 +165,12 @@ function Flow() {
       onEdgeMouseEnter={onEdgeMouseEnter}
       onEdgeMouseLeave={onEdgeMouseLeave}
       onEdgeClick={onEdgeClick}
-      edgeTypes={{}}
-      defaultEdgeOptions={{
-        style: edgeStyles.default,
-        className: 'custom-edge'
+      defaultZoom={0.7}
+      minZoom={0.2}
+      maxZoom={1.5}
+      fitViewOptions={{
+        padding: 0.2,
+        maxZoom: 0.7,
       }}
       fitView
     >
