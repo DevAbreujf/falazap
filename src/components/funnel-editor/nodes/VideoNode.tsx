@@ -18,16 +18,22 @@ export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
   };
 
   return (
-    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
-      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="w-3 h-3 !bg-zinc-300"
+      />
+      
+      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
         <div className="flex items-center gap-2">
-          <Video className="h-4 w-4 text-orange-500" />
-          <h3 className="text-sm font-medium text-zinc-100">Vídeo</h3>
+          <Video className="h-4 w-4 text-zinc-500" />
+          <h3 className="text-sm font-medium text-zinc-900">Vídeo</h3>
         </div>
         <Button 
           variant="ghost" 
           size="icon"
-          className="h-6 w-6 text-zinc-400 hover:text-white hover:bg-white/5"
+          className="h-6 w-6 text-zinc-400 hover:text-zinc-500"
           onClick={handleDelete}
         >
           <X className="h-4 w-4" />
@@ -36,13 +42,13 @@ export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
       
       <div className="p-4 space-y-4">
         {data.videoUrl ? (
-          <div className="relative aspect-video bg-[#272733] rounded-lg flex items-center justify-center">
+          <div className="relative aspect-video bg-zinc-50 rounded-lg flex items-center justify-center">
             <Video className="h-8 w-8 text-zinc-400" />
           </div>
         ) : (
           <Button 
             variant="outline" 
-            className="w-full bg-[#272733] hover:bg-[#323244] text-white border-[#434358]"
+            className="w-full"
           >
             <Upload className="h-4 w-4 mr-2" />
             Upload Vídeo
@@ -50,25 +56,19 @@ export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
         )}
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-zinc-300">Ação após o vídeo</label>
+          <label className="text-sm font-medium text-zinc-600">Ação após o vídeo</label>
           <Input
             placeholder="Ex: Clique para continuar"
             value={data.actionLabel}
-            className="bg-[#272733] border-[#434358] text-white focus:ring-1 focus:ring-orange-500/50"
+            className="w-full"
           />
         </div>
       </div>
 
       <Handle
-        type="target"
-        position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
-      />
-      
-      <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
+        className="w-3 h-3 !bg-zinc-300"
       />
     </div>
   );

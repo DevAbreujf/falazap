@@ -42,17 +42,17 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   return (
-    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300"
       />
       
-      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
         <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4 text-orange-500" />
-          <h3 className="text-sm font-medium text-zinc-100">Horários</h3>
+          <Clock className="h-4 w-4 text-zinc-500" />
+          <h3 className="text-sm font-medium text-zinc-900">Horários</h3>
         </div>
       </div>
 
@@ -66,7 +66,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="America/Sao_Paulo">(UTC-03:00) America/Sao_Paulo</SelectItem>
-                {/* Add more timezone options */}
               </SelectContent>
             </Select>
           </div>
@@ -111,8 +110,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     type="source"
                     position={Position.Right}
                     id={`interval-${interval.id}`}
-                    className="w-3 h-3 bg-zinc-300"
-                    style={{ top: '50%', transform: 'translateY(-50%)' }}
+                    className="w-3 h-3 !bg-zinc-300"
                   />
                 </div>
               ))}
@@ -130,12 +128,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
           + intervalo
         </Button>
       </div>
-
-      <Handle
-        type="target"
-        position={Position.Top}
-        className="w-3 h-3 bg-zinc-300"
-      />
     </div>
   );
 });
