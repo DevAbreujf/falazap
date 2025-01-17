@@ -8,7 +8,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 
 interface DeleteDialogProps {
   isOpen: boolean;
@@ -19,37 +18,35 @@ interface DeleteDialogProps {
 export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="sm:max-w-[425px]">
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
             Escolha como você deseja apagar esta mensagem
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="flex-col gap-2 sm:flex-row">
-          <AlertDialogCancel asChild>
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Cancelar
-            </Button>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => onOpenChange(false)}>
+            Cancelar
           </AlertDialogCancel>
-          <Button
-            variant="destructive"
+          <AlertDialogAction
             onClick={() => {
               onDelete('all');
               onOpenChange(false);
             }}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             Apagar para todos
-          </Button>
-          <Button
-            variant="destructive"
+          </AlertDialogAction>
+          <AlertDialogAction
             onClick={() => {
               onDelete('me');
               onOpenChange(false);
             }}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             Apagar para mim
-          </Button>
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -8,15 +8,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface ForwardDialogProps {
@@ -100,14 +92,14 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
               />
             </div>
             
-            <DialogFooter>
+            <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setIsAddContactMode(false)}>
                 Cancelar
               </Button>
               <Button onClick={handleAddContact}>
                 Salvar
               </Button>
-            </DialogFooter>
+            </div>
           </div>
         ) : (
           <>
