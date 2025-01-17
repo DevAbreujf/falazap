@@ -17,9 +17,14 @@ interface DeleteDialogProps {
 }
 
 export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogProps) {
+  const handleDelete = (type: 'all' | 'me') => {
+    onDelete(type);
+    onOpenChange(false);
+  };
+
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -27,24 +32,20 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex-col gap-2 sm:flex-row">
-          <AlertDialogCancel onClick={() => onOpenChange(false)}>
-            Cancelar
+          <AlertDialogCancel asChild>
+            <Button variant="outline" onClick={() => onOpenChange(false)}>
+              Cancelar
+            </Button>
           </AlertDialogCancel>
           <Button
             variant="destructive"
-            onClick={() => {
-              onDelete('all');
-              onOpenChange(false);
-            }}
+            onClick={() => handleDelete('all')}
           >
             Apagar para todos
           </Button>
           <Button
             variant="destructive"
-            onClick={() => {
-              onDelete('me');
-              onOpenChange(false);
-            }}
+            onClick={() => handleDelete('me')}
           >
             Apagar para mim
           </Button>

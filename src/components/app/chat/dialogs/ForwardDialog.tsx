@@ -42,9 +42,16 @@ export function ForwardDialog({ isOpen, onOpenChange, onForward }: ForwardDialog
     }
   };
 
+  const handleClose = () => {
+    setIsAddContactMode(false);
+    setSearchTerm("");
+    setNewContact({ name: "", phone: "", avatar: null });
+    onOpenChange(false);
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>
             {isAddContactMode ? "Novo Contato" : "Lista de Contatos"}
