@@ -42,35 +42,37 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm min-w-[320px] relative">
-      <div className="p-4 border-b border-zinc-100">
-        <div className="flex items-center gap-2 mb-6">
-          <Clock className="w-4 h-4 text-zinc-500" />
-          <span className="font-medium text-zinc-700">Horários</span>
+    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+      />
+      
+      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+        <div className="flex items-center gap-2">
+          <Clock className="h-4 w-4 text-orange-500" />
+          <h3 className="text-sm font-medium text-zinc-100">Horários</h3>
         </div>
+      </div>
 
+      <div className="p-4">
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm text-zinc-600">
-              Fuso horário
-            </label>
+            <label className="text-sm text-zinc-600">Fuso horário</label>
             <Select defaultValue="America/Sao_Paulo">
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Selecione o fuso horário" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="America/Sao_Paulo">
-                  (UTC-03:00) America/Sao_Paulo
-                </SelectItem>
+                <SelectItem value="America/Sao_Paulo">(UTC-03:00) America/Sao_Paulo</SelectItem>
                 {/* Add more timezone options */}
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-zinc-600">
-              Intervalos de horários
-            </label>
+            <label className="text-sm text-zinc-600">Intervalos de horários</label>
             <div className="space-y-3">
               {intervals.map((interval, index) => (
                 <div key={interval.id} className="flex items-center gap-2 pr-6 relative">

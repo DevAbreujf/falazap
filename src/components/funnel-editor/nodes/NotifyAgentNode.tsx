@@ -21,7 +21,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
-import { NotifyAgentNodeData } from '@/types/flow';
+
+interface NotifyAgentNodeData {
+  title?: string;
+  message?: string;
+  rule: 'current' | 'specific';
+  agent?: string;
+  onlyIfAvailable: boolean;
+  activateFailureFlow: boolean;
+}
 
 interface NotifyAgentNodeProps {
   data: NotifyAgentNodeData;
@@ -47,19 +55,21 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
   );
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm min-w-[320px] relative" style={{ overflow: 'visible' }}>
+    <div className="bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
       <Handle
         type="target"
         position={Position.Top}
         className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
       />
       
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-6">
-          <Bell className="w-4 h-4 text-zinc-500" />
-          <span className="font-medium">Notificar Atendente</span>
+      <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
+        <div className="flex items-center gap-2">
+          <Bell className="h-4 w-4 text-orange-500" />
+          <h3 className="text-sm font-medium text-zinc-100">Notificar Atendente</h3>
         </div>
+      </div>
 
+      <div className="p-4">
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>Título</Label>
@@ -67,6 +77,7 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
               placeholder="Digite aqui seu título"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              className="bg-[#272733] border-[#434358] text-white"
             />
           </div>
 
@@ -76,6 +87,7 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
               placeholder="Digite a mensagem que será enviada"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              className="bg-[#272733] border-[#434358] text-white"
             />
           </div>
 
@@ -160,14 +172,12 @@ export const NotifyAgentNode = memo(({ data }: NotifyAgentNodeProps) => {
         </div>
       </div>
 
-      {/* Main handle for the node */}
       <Handle
         type="source"
         position={Position.Right}
         className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
       />
 
-      {/* Conditional handle for failure flow */}
       {activateFailureFlow && (
         <Handle
           type="source"
