@@ -1,6 +1,7 @@
 import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { Button } from "@/components/ui/button";
 import { Music, Upload, X } from "lucide-react";
+import "@/styles/flow-nodes.css";
 
 interface AudioNodeData {
   label: string;
@@ -51,13 +52,13 @@ export function AudioNode({ data, id }: { data: AudioNodeData; id: string }) {
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="flow-node-target"
       />
       
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[2em]"
+        className="flow-node-source"
       />
     </div>
   );

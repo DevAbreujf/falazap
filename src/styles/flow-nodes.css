@@ -1,0 +1,21 @@
+/* Estilos compartilhados para os nós do fluxo */
+.flow-node-target {
+  width: 40px !important;
+  height: 12px !important;
+  border-radius: 6px !important;
+  background-color: #FF8A3D !important;
+  border: 2px solid #E67E38 !important;
+  top: 0 !important;
+  transform: translateY(-30px) !important;
+  left: 50% !important;
+  margin-left: -20px !important;
+}
+
+.flow-node-source {
+  background-color: transparent !important;
+  width: 18px !important;
+  height: 18px !important;
+  border: 3px solid #FF8A3D !important;
+  transform: translateX(2em) !important;
+  right: 0 !important;
+}
