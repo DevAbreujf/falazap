@@ -113,6 +113,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 position={Position.Right}
                 id={path.id}
                 className="w-3 h-3 !bg-zinc-300"
+                style={{ transform: 'translateX(3em) !important' }}
               />
             </div>
           ))}
