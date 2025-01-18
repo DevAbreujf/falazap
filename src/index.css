@@ -39,7 +39,7 @@
 
 /* Flow Node Styles */
 .flow-node {
-  @apply bg-white backdrop-blur-sm border border-gray-200 rounded-lg overflow-hidden min-w-[280px] shadow-lg;
+  @apply bg-white backdrop-blur-sm border border-gray-200 rounded-lg overflow-hidden w-[300px] shadow-lg;
 }
 
 .flow-node-header {
@@ -64,7 +64,7 @@
 }
 
 .react-flow__handle-top {
-  @apply top-0 -translate-y-1/2 !important;
+  @apply !left-1/2 !-translate-x-1/2 top-0 -translate-y-1/2 !important;
   width: 40px !important;
   height: 12px !important;
   border-radius: 6px !important;
@@ -88,7 +88,7 @@
   border-radius: 50% !important;
   background: transparent !important;
   border: 3px solid #1cd8b6 !important;
-  transform: translateX(4em) !important;
+  transform: translateX(2em) !important;
 }
 
 .react-flow__handle:hover {

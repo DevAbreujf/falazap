@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { UserRound } from 'lucide-react';
+import { UserRound, Search } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
 
 interface TransferAgentNodeData {
   label?: string;
@@ -51,19 +50,21 @@ export const TransferAgentNode = memo(({ data }: TransferAgentNodeProps) => {
   );
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm min-w-[320px] relative" style={{ overflow: 'visible' }}>
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300"
       />
       
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-6">
+      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
+        <div className="flex items-center gap-2">
           <UserRound className="w-4 h-4 text-zinc-500" />
           <span className="font-medium">Transferir para atendente</span>
         </div>
+      </div>
 
+      <div className="p-4">
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>Regra</Label>
@@ -89,7 +90,7 @@ export const TransferAgentNode = memo(({ data }: TransferAgentNodeProps) => {
                     {agent ? mockAgents.find(a => a.id === agent)?.name : 'Selecione um atendente'}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[320px]">
+                <DropdownMenuContent className="w-[300px]">
                   <div className="p-2">
                     <div className="relative">
                       <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -141,21 +142,19 @@ export const TransferAgentNode = memo(({ data }: TransferAgentNodeProps) => {
         </div>
       </div>
 
-      {/* Main handle for the node */}
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500 !translate-x-[4.5em]"
+        className="w-3 h-3 !bg-zinc-300"
       />
 
-      {/* Conditional handle for failure flow */}
       {activateFailureFlow && (
         <Handle
           type="source"
           position={Position.Right}
           id="failure-flow"
-          className="w-3 h-3 bg-zinc-300"
-          style={{ top: '75%', transform: 'translateY(-50%) translateX(2em)', zIndex: 1000 }}
+          className="w-3 h-3 !bg-zinc-300"
+          style={{ top: '75%' }}
         />
       )}
     </div>
