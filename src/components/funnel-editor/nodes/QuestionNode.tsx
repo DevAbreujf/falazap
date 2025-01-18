@@ -30,7 +30,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300"
+        className="w-3 h-3 !bg-zinc-300 left-1/2 -translate-x-1/2"
       />
       
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
@@ -63,6 +63,12 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
             className="bg-white border-zinc-200"
           />
         </div>
+
+        <Handle
+          type="source"
+          position={Position.Right}
+          className="w-3 h-3 !bg-zinc-300 translate-x-8"
+        />
 
         {!showRecovery ? (
           <Button
@@ -106,7 +112,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
               type="source"
               position={Position.Right}
               id="recovery"
-              className="w-3 h-3 !bg-zinc-300"
+              className="w-3 h-3 !bg-zinc-300 translate-x-8 translate-y-[120px]"
             />
 
             <Button
@@ -118,12 +124,6 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
             </Button>
           </div>
         )}
-
-        <Handle
-          type="source"
-          position={Position.Right}
-          className="w-3 h-3 !bg-zinc-300"
-        />
       </div>
     </div>
   );

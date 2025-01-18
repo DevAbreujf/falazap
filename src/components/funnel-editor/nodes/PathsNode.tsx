@@ -40,7 +40,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300"
+        className="w-3 h-3 !bg-zinc-300 left-1/2 -translate-x-1/2"
       />
 
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
@@ -112,7 +112,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 type="source"
                 position={Position.Right}
                 id={path.id}
-                className="w-3 h-3 !bg-zinc-300"
+                className="w-3 h-3 !bg-zinc-300 translate-x-8"
               />
             </div>
           ))}
@@ -145,7 +145,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 type="source"
                 position={Position.Right}
                 id="fallback"
-                className="w-3 h-3 !bg-zinc-300"
+                className="w-3 h-3 !bg-zinc-300 translate-x-8"
               />
               <Button
                 variant="outline"
