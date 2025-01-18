@@ -22,7 +22,7 @@ export function ConditionNode({ data }: { data: ConditionNodeData }) {
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300"
       />
       
       <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
@@ -75,16 +75,16 @@ export function ConditionNode({ data }: { data: ConditionNodeData }) {
       
       <Handle
         type="source"
-        position={Position.Bottom}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+        position={Position.Right}
+        className="w-3 h-3 !bg-zinc-300"
         id="true"
       />
       <Handle
         type="source"
-        position={Position.Bottom}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+        position={Position.Right}
+        className="w-3 h-3 !bg-zinc-300"
         id="false"
-        style={{ left: "70%" }}
+        style={{ top: '75%' }}
       />
     </div>
   );

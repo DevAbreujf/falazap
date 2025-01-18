@@ -60,7 +60,15 @@
 
 /* Handle Styles */
 .react-flow__handle {
-  @apply transition-all duration-200;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.react-flow__handle-source {
+  right: -6px;
 }
 
 .react-flow__handle-top {
@@ -70,28 +78,6 @@
   border-radius: 6px !important;
   background: #ffffff !important;
   border: 2px solid #e2e8f0 !important;
-}
-
-.react-flow__handle-bottom {
-  @apply bottom-0 translate-y-[2em] !important;
-  width: 18px !important;
-  height: 18px !important;
-  border-radius: 50% !important;
-  background: transparent !important;
-  border: 3px solid #1cd8b6 !important;
-}
-
-.react-flow__handle-right {
-  width: 18px !important;
-  height: 18px !important;
-  border-radius: 50% !important;
-  background: transparent !important;
-  border: 3px solid #1cd8b6 !important;
-  transform: translateX(2em) !important;
-}
-
-.react-flow__handle:hover {
-  @apply scale-110;
 }
 
 /* ReactFlow Container */
