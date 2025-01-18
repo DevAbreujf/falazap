@@ -71,15 +71,6 @@
   right: -6px;
 }
 
-.react-flow__handle-top {
-  @apply !left-1/2 !-translate-x-1/2 top-0 -translate-y-1/2 !important;
-  width: 40px !important;
-  height: 12px !important;
-  border-radius: 6px !important;
-  background: #ffffff !important;
-  border: 2px solid #e2e8f0 !important;
-}
-
 /* ReactFlow Container */
 .react-flow {
   @apply bg-gray-50;

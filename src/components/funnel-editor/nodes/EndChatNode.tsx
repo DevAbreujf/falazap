@@ -28,6 +28,12 @@ export const EndChatNode = memo(({ data }: EndChatNodeProps) => {
           A conversa é finalizada
         </p>
       </div>
+
+      <Handle
+        type="source"
+        position={Position.Right}
+        className="w-3 h-3 !bg-zinc-300"
+      />
     </div>
   );
 });
