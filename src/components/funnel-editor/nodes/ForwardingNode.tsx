@@ -65,7 +65,7 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] relative">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
       <Handle
         type="target"
         position={Position.Top}
@@ -191,3 +191,5 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
     </div>
   );
 }
+
+ForwardingNode.displayName = 'ForwardingNode';
