@@ -42,7 +42,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] relative">
       <Handle
         type="target"
         position={Position.Top}
@@ -110,7 +110,8 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     type="source"
                     position={Position.Right}
                     id={`interval-${interval.id}`}
-                    className="w-3 h-3 !bg-zinc-300 translate-x-16"
+                    className="w-3 h-3 !bg-zinc-300 translate-x-8"
+                    style={{ transform: 'translateX(2em)' }}
                   />
                 </div>
               ))}

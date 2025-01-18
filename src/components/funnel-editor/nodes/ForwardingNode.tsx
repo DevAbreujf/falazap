@@ -65,7 +65,7 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] relative">
       <Handle
         type="target"
         position={Position.Top}
@@ -171,7 +171,8 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                 type="source"
                 position={Position.Right}
                 id={`forwarding-${rule.id}`}
-                className="w-3 h-3 !bg-zinc-300 translate-x-16"
+                className="w-3 h-3 !bg-zinc-300"
+                style={{ transform: 'translateX(2em)' }}
               />
             </div>
           </div>

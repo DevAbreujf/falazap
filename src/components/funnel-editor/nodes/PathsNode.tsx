@@ -36,7 +36,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] relative">
       <Handle
         type="target"
         position={Position.Top}
@@ -48,8 +48,8 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
         <Button 
           variant="ghost" 
           size="sm"
-          className="h-6 w-6 p-0 text-zinc-400 hover:text-zinc-500"
           onClick={handleDelete}
+          className="text-zinc-400 hover:text-zinc-500"
         >
           <X className="h-4 w-4" />
         </Button>
@@ -112,7 +112,8 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 type="source"
                 position={Position.Right}
                 id={path.id}
-                className="w-3 h-3 !bg-zinc-300 translate-x-16"
+                className="w-3 h-3 !bg-zinc-300"
+                style={{ transform: 'translateX(2em)' }}
               />
             </div>
           ))}
@@ -145,7 +146,8 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 type="source"
                 position={Position.Right}
                 id="fallback"
-                className="w-3 h-3 !bg-zinc-300 translate-x-16"
+                className="w-3 h-3 !bg-zinc-300"
+                style={{ transform: 'translateX(2em)' }}
               />
               <Button
                 variant="outline"
