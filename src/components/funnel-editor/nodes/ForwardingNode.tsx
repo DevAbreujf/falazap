@@ -172,7 +172,6 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                 position={Position.Right}
                 id={`forwarding-${rule.id}`}
                 className="w-3 h-3 !bg-zinc-300"
-                style={{ transform: 'translateX(2em)' }}
               />
             </div>
           </div>

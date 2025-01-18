@@ -67,7 +67,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
         <Handle
           type="source"
           position={Position.Right}
-          className="w-3 h-3 !bg-zinc-300 translate-x-16"
+          className="w-3 h-3 !bg-zinc-300"
         />
 
         {!showRecovery ? (
@@ -111,7 +111,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
                 type="source"
                 position={Position.Right}
                 id="recovery"
-                className="w-3 h-3 !bg-zinc-300 translate-x-16"
+                className="w-3 h-3 !bg-zinc-300"
               />
             </div>
 
