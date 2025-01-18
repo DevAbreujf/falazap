@@ -65,11 +65,11 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] relative">
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300"
+        className="w-3 h-3 !bg-zinc-300 left-1/2 -translate-x-1/2"
       />
       
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
@@ -172,6 +172,7 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                 position={Position.Right}
                 id={`forwarding-${rule.id}`}
                 className="w-3 h-3 !bg-zinc-300"
+                style={{ transform: 'translateX(3em)' }}
               />
             </div>
           </div>
@@ -191,5 +192,3 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
     </div>
   );
 }
-
-ForwardingNode.displayName = 'ForwardingNode';

@@ -40,7 +40,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300"
+        className="w-3 h-3 !bg-zinc-300 left-1/2 -translate-x-1/2"
       />
 
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
@@ -113,6 +113,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 position={Position.Right}
                 id={path.id}
                 className="w-3 h-3 !bg-zinc-300"
+                style={{ transform: 'translateX(3em)' }}
               />
             </div>
           ))}
@@ -137,7 +138,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
               Caso não se encaixe...
             </Button>
           ) : (
-            <div className="border-t border-zinc-200 pt-4 space-y-2">
+            <div className="border-t border-zinc-200 pt-4 space-y-2 relative">
               <p className="text-sm text-zinc-600">
                 Caso não for nenhum dos caminhos, envie...
               </p>
@@ -146,6 +147,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 position={Position.Right}
                 id="fallback"
                 className="w-3 h-3 !bg-zinc-300"
+                style={{ transform: 'translateX(3em)' }}
               />
               <Button
                 variant="outline"

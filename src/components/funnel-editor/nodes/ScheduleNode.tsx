@@ -46,7 +46,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300"
+        className="w-3 h-3 !bg-zinc-300 left-1/2 -translate-x-1/2"
       />
       
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
@@ -73,14 +73,13 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
           <div className="space-y-2">
             <label className="text-sm text-zinc-600">Intervalos de horários</label>
             <div className="space-y-3">
-              {intervals.map((interval) => (
+              {intervals.map((interval, index) => (
                 <div key={interval.id} className="flex items-center gap-2 pr-6 relative">
                   <Input
                     type="time"
                     value={interval.start}
                     onChange={(e) => {
                       const newIntervals = [...intervals];
-                      const index = newIntervals.findIndex(i => i.id === interval.id);
                       newIntervals[index].start = e.target.value;
                       setIntervals(newIntervals);
                     }}
@@ -92,13 +91,12 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     value={interval.end}
                     onChange={(e) => {
                       const newIntervals = [...intervals];
-                      const index = newIntervals.findIndex(i => i.id === interval.id);
                       newIntervals[index].end = e.target.value;
                       setIntervals(newIntervals);
                     }}
                     className="w-24"
                   />
-                  {intervals.length > 2 && (
+                  {index > 1 && (
                     <Button
                       variant="ghost"
                       size="icon"
@@ -113,6 +111,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     position={Position.Right}
                     id={`interval-${interval.id}`}
                     className="w-3 h-3 !bg-zinc-300"
+                    style={{ transform: 'translateX(3em)' }}
                   />
                 </div>
               ))}

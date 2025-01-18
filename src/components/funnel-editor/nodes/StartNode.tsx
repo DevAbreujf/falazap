@@ -34,12 +34,6 @@ export function StartNode({ data }: { data: StartNodeData }) {
 
   return (
     <div className="relative bg-[#1f1f2a] rounded-2xl w-[300px] shadow-lg shadow-black/20">
-      <Handle
-        type="target"
-        position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300"
-      />
-      
       <div className="bg-[#1f1f2a] px-4 py-2 flex items-center justify-between border-b border-[#434358]/50">
         <div className="flex items-center gap-2">
           <Play className="h-4 w-4 text-orange-500" />
