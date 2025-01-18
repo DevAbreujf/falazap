@@ -166,14 +166,14 @@ export function ForwardingNode({ data, id }: { data: ForwardingNodeData; id: str
                   </Command>
                 </PopoverContent>
               </Popover>
-            </div>
 
-            <Handle
-              type="source"
-              position={Position.Right}
-              id={`forwarding-${rule.id}`}
-              className="w-3 h-3 !bg-zinc-300 translate-x-8"
-            />
+              <Handle
+                type="source"
+                position={Position.Right}
+                id={`forwarding-${rule.id}`}
+                className="w-3 h-3 !bg-zinc-300 translate-x-16"
+              />
+            </div>
           </div>
         ))}
 
