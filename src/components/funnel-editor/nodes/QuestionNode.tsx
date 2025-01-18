@@ -79,7 +79,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
             Se não responder...
           </Button>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-3 pt-4 border-t border-zinc-200">
             <label className="text-sm text-zinc-600">
               Caso o cliente não responda em:
             </label>
@@ -112,7 +112,7 @@ export function QuestionNode({ id, data }: { id: string; data: QuestionNodeData 
               type="source"
               position={Position.Right}
               id="recovery"
-              className="w-3 h-3 !bg-zinc-300 translate-x-8 translate-y-[120px]"
+              className="w-3 h-3 !bg-zinc-300 translate-x-8 translate-y-[60px]"
             />
 
             <Button
