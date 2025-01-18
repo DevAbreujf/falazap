@@ -141,15 +141,6 @@ function Flow() {
               { day: 'Sábado', enabled: false },
               { day: 'Domingo', enabled: false },
             ]
-          }),
-          ...(type === 'paths' && {
-            paths: []
-          }),
-          ...(type === 'forwarding' && {
-            rules: []
-          }),
-          ...(type === 'schedule' && {
-            intervals: []
           })
         },
         deletable: type !== "start",
