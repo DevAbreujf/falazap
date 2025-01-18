@@ -87,7 +87,11 @@
   border-radius: 50% !important;
   background: transparent !important;
   border: 3px solid #1cd8b6 !important;
-  transform: translateX(3em) !important;
+  transform: translateX(2em) !important;
+}
+
+.react-flow__handle:hover {
+  @apply scale-110;
 }
 
 /* ReactFlow Container */
