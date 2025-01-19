@@ -113,7 +113,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                       type="source"
                       position={Position.Right}
                       id={`interval-${interval.id}`}
-                      className="!absolute !right-[-24px] !top-1/2 !-translate-y-1/2 !w-3 !h-3 !bg-zinc-300"
+                      className="!absolute !right-[-24px] !top-[10px] !w-3 !h-3 !bg-zinc-300"
                     />
                   </div>
                 </div>
