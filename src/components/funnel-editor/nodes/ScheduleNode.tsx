@@ -74,7 +74,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
             <label className="text-sm text-zinc-600">Intervalos de horários</label>
             <div className="space-y-3">
               {intervals.map((interval) => (
-                <div key={interval.id} className="flex items-center gap-2 pr-6 relative h-[38px]">
+                <div key={interval.id} className="grid grid-cols-[1fr,auto,1fr,auto] items-center gap-2 relative">
                   <Input
                     type="time"
                     value={interval.start}
@@ -84,7 +84,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                       newIntervals[index].start = e.target.value;
                       setIntervals(newIntervals);
                     }}
-                    className="w-24"
+                    className="w-full"
                   />
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
                   <Input
@@ -96,14 +96,14 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                       newIntervals[index].end = e.target.value;
                       setIntervals(newIntervals);
                     }}
-                    className="w-24"
+                    className="w-full"
                   />
                   {intervals.length > 2 && (
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => handleRemoveInterval(interval.id)}
-                      className="text-zinc-400 hover:text-red-500 absolute right-0"
+                      className="text-zinc-400 hover:text-red-500"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -112,13 +112,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     type="source"
                     position={Position.Right}
                     id={`interval-${interval.id}`}
-                    className="w-3 h-3 !bg-zinc-300"
-                    style={{ 
-                      position: 'absolute',
-                      right: '-24px',
-                      top: '50%',
-                      transform: 'translateY(-50%)'
-                    }}
+                    className="!absolute !right-[-24px] !top-1/2 !-translate-y-1/2 !w-3 !h-3 !bg-zinc-300"
                   />
                 </div>
               ))}
