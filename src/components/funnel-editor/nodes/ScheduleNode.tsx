@@ -103,7 +103,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleRemoveInterval(interval.id)}
-                      className="text-zinc-400 hover:text-red-500"
+                      className="text-zinc-400 hover:text-red-500 absolute right-0"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -113,6 +113,11 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     position={Position.Right}
                     id={`interval-${interval.id}`}
                     className="w-3 h-3 !bg-zinc-300"
+                    style={{ 
+                      right: '-1.2em',
+                      top: '50%',
+                      transform: 'translateY(-50%)'
+                    }}
                   />
                 </div>
               ))}
