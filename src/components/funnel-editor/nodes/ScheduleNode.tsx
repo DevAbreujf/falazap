@@ -74,7 +74,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
             <label className="text-sm text-zinc-600">Intervalos de horários</label>
             <div className="space-y-3">
               {intervals.map((interval) => (
-                <div key={interval.id} className="flex items-center gap-2 pr-6 relative">
+                <div key={interval.id} className="flex items-center gap-2 pr-6 relative h-[38px]">
                   <Input
                     type="time"
                     value={interval.start}
