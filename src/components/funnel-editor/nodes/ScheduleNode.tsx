@@ -114,7 +114,8 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     id={`interval-${interval.id}`}
                     className="w-3 h-3 !bg-zinc-300"
                     style={{ 
-                      right: '-1.2em',
+                      position: 'absolute',
+                      right: '-24px',
                       top: '50%',
                       transform: 'translateY(-50%)'
                     }}
