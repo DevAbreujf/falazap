@@ -113,6 +113,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 position={Position.Right}
                 id={path.id}
                 className="w-3 h-3 !bg-zinc-300"
+                style={{ right: '-1.2em' }}
               />
             </div>
           ))}
@@ -146,6 +147,7 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
                 position={Position.Right}
                 id="fallback"
                 className="w-3 h-3 !bg-zinc-300"
+                style={{ right: '-1.2em' }}
               />
               <Button
                 variant="outline"
