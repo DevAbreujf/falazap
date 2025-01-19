@@ -36,11 +36,11 @@ export function PathsNode({ id, data }: { id: string; data: PathsNodeData }) {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] relative">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300 left-1/2 -translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300 !-top-3"
       />
 
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">

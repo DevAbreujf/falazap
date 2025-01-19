@@ -22,7 +22,7 @@ export function VideoNode({ data, id }: { data: VideoNodeData; id: string }) {
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300"
+        className="w-3 h-3 !bg-zinc-300 !-top-3"
       />
       
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
