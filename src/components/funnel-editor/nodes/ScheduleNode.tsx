@@ -42,7 +42,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] relative">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
       <Handle
         type="target"
         position={Position.Top}
@@ -74,46 +74,48 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
             <label className="text-sm text-zinc-600">Intervalos de horários</label>
             <div className="space-y-3">
               {intervals.map((interval) => (
-                <div key={interval.id} className="grid grid-cols-[1fr,auto,1fr,auto] items-center gap-2 relative">
-                  <Input
-                    type="time"
-                    value={interval.start}
-                    onChange={(e) => {
-                      const newIntervals = [...intervals];
-                      const index = newIntervals.findIndex(i => i.id === interval.id);
-                      newIntervals[index].start = e.target.value;
-                      setIntervals(newIntervals);
-                    }}
-                    className="w-full"
-                  />
-                  <ArrowRight className="w-4 h-4 text-zinc-400" />
-                  <Input
-                    type="time"
-                    value={interval.end}
-                    onChange={(e) => {
-                      const newIntervals = [...intervals];
-                      const index = newIntervals.findIndex(i => i.id === interval.id);
-                      newIntervals[index].end = e.target.value;
-                      setIntervals(newIntervals);
-                    }}
-                    className="w-full"
-                  />
-                  {intervals.length > 2 && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleRemoveInterval(interval.id)}
-                      className="text-zinc-400 hover:text-red-500"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  )}
-                  <Handle
-                    type="source"
-                    position={Position.Right}
-                    id={`interval-${interval.id}`}
-                    className="!absolute !right-[-24px] !top-1/2 !-translate-y-1/2 !w-3 !h-3 !bg-zinc-300"
-                  />
+                <div key={interval.id} className="relative h-10">
+                  <div className="absolute inset-0 flex items-center gap-2">
+                    <Input
+                      type="time"
+                      value={interval.start}
+                      onChange={(e) => {
+                        const newIntervals = [...intervals];
+                        const index = newIntervals.findIndex(i => i.id === interval.id);
+                        newIntervals[index].start = e.target.value;
+                        setIntervals(newIntervals);
+                      }}
+                      className="w-full"
+                    />
+                    <ArrowRight className="w-4 h-4 text-zinc-400 flex-shrink-0" />
+                    <Input
+                      type="time"
+                      value={interval.end}
+                      onChange={(e) => {
+                        const newIntervals = [...intervals];
+                        const index = newIntervals.findIndex(i => i.id === interval.id);
+                        newIntervals[index].end = e.target.value;
+                        setIntervals(newIntervals);
+                      }}
+                      className="w-full"
+                    />
+                    {intervals.length > 2 && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleRemoveInterval(interval.id)}
+                        className="text-zinc-400 hover:text-red-500 flex-shrink-0"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    )}
+                    <Handle
+                      type="source"
+                      position={Position.Right}
+                      id={`interval-${interval.id}`}
+                      className="!absolute !right-[-24px] !top-1/2 !-translate-y-1/2 !w-3 !h-3 !bg-zinc-300"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
