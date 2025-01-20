@@ -9,7 +9,6 @@ import {
   ReactFlowProvider,
   useReactFlow,
   Node,
-  XYPosition
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -172,8 +171,9 @@ function Flow() {
         maxZoom: 0.7,
       }}
       fitView
+      style={{ background: '#687ea1' }}
     >
-      <Background gap={24} size={1} />
+      <Background gap={24} size={1} color="#FFFFFF" />
       {showRemoveMessage && (
         <div 
           className="absolute left-1/2 bottom-24 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-lg shadow-lg"
