@@ -21,6 +21,7 @@ export function DelayNode({ data, id }: { data: DelayNodeData; id: string }) {
         type="target"
         position={Position.Top}
         className="w-3 h-3 !bg-zinc-300 !-top-3"
+        style={{ top: "-20px !important" }}
       />
       
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
