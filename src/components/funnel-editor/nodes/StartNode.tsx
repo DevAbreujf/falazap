@@ -33,7 +33,7 @@ export function StartNode({ data }: { data: StartNodeData }) {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] overflow-hidden">
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
         <div className="flex items-center gap-2">
           <Play className="h-4 w-4 text-zinc-500" />
@@ -59,7 +59,7 @@ export function StartNode({ data }: { data: StartNodeData }) {
         ))}
       </div>
 
-      <div className="px-4 py-3 bg-zinc-50">
+      <div className="px-4 py-3 bg-zinc-50 rounded-b-lg">
         <Button 
           variant="outline" 
           size="sm" 

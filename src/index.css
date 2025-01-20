@@ -55,7 +55,7 @@
 }
 
 .flow-node-footer {
-  @apply px-4 py-3 bg-gray-50;
+  @apply px-4 py-3 bg-gray-50 rounded-b-lg;
 }
 
 /* Handle Styles */
@@ -114,7 +114,7 @@
 
 /* Node Selection Styles */
 .react-flow__node.selected {
-  @apply ring-0;
+  @apply ring-0 shadow-lg;
 }
 
 /* Edge Styles */

@@ -9,6 +9,7 @@ import {
   ReactFlowProvider,
   useReactFlow,
   Node,
+  Connection,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -78,7 +79,13 @@ function Flow() {
   const { screenToFlowPosition } = useReactFlow();
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params: Connection) => {
+      // Prevenir auto-conexões
+      if (params.source === params.target) {
+        return;
+      }
+      setEdges((eds) => addEdge(params, eds));
+    },
     [setEdges],
   );
 
@@ -170,6 +177,7 @@ function Flow() {
         padding: 0.2,
         maxZoom: 0.7,
       }}
+      disableDoubleClickZoom={true}
       fitView
       style={{ background: '#687ea1' }}
     >
