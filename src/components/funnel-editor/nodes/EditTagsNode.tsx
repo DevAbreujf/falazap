@@ -36,7 +36,6 @@ export const EditTagsNode = memo(({ data }: EditTagsNodeProps) => {
         type="target"
         position={Position.Top}
         className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !-top-[30px] !left-1/2 !-translate-x-1/2"
-        style={{ top: "-20px !important" }}
       />
       
       <div className="flow-node-header">
