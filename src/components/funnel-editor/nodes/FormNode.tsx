@@ -18,7 +18,7 @@ export function FormNode({ data }: { data: FormNodeData }) {
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-[40px] !h-[12px] !rounded-[6px] !bg-orange-600 !border-2 !border-orange-700 !top-0 !-translate-y-[30px] !left-1/2 !-translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300 !-top-3"
       />
       
       <div className="space-y-4">
