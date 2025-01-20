@@ -177,7 +177,7 @@ function Flow() {
         padding: 0.2,
         maxZoom: 0.7,
       }}
-      disableDoubleClick={true}
+      disableDoubleClickZoom
       fitView
       style={{ background: '#687ea1' }}
     >
