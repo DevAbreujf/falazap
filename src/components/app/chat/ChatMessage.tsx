@@ -34,6 +34,7 @@ export function ChatMessage({
   const messageRef = useRef<HTMLDivElement>(null);
   const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (isRepliedMessage && messageRef.current) {
@@ -88,10 +89,24 @@ export function ChatMessage({
 
   const handleCloseDeleteDialog = () => {
     setIsDeleteDialogOpen(false);
+    setDropdownOpen(false);
   };
 
   const handleCloseForwardDialog = () => {
     setIsForwardDialogOpen(false);
+    setDropdownOpen(false);
+  };
+
+  const handleMenuAction = (action: 'reply' | 'copy' | 'forward' | 'delete') => {
+    setDropdownOpen(false);
+    
+    if (action === 'forward') {
+      setIsForwardDialogOpen(true);
+    } else if (action === 'delete') {
+      setIsDeleteDialogOpen(true);
+    } else {
+      onMessageAction(action, message.id);
+    }
   };
 
   return (
@@ -137,7 +152,7 @@ export function ChatMessage({
             </span>
           )}
         </div>
-        <DropdownMenu>
+        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
           <DropdownMenuTrigger asChild>
             <button 
               className={`absolute top-1/2 -translate-y-1/2 ${
@@ -148,19 +163,19 @@ export function ChatMessage({
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align={isCurrentUser ? "start" : "end"}>
-            <DropdownMenuItem onClick={() => onMessageAction('reply', message.id)}>
+            <DropdownMenuItem onClick={() => handleMenuAction('reply')}>
               <Reply className="h-4 w-4 mr-2" />
               Responder
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onMessageAction('copy', message.id)}>
+            <DropdownMenuItem onClick={() => handleMenuAction('copy')}>
               <Copy className="h-4 w-4 mr-2" />
               Copiar
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setIsForwardDialogOpen(true)}>
+            <DropdownMenuItem onClick={() => handleMenuAction('forward')}>
               <Forward className="h-4 w-4 mr-2" />
               Encaminhar
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setIsDeleteDialogOpen(true)} className="text-red-600">
+            <DropdownMenuItem onClick={() => handleMenuAction('delete')} className="text-red-600">
               <Trash2 className="h-4 w-4 mr-2" />
               Apagar
             </DropdownMenuItem>
