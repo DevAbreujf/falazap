@@ -22,21 +22,21 @@ interface ScheduleNodeProps {
 }
 
 const mainTimeZones = [
-  { value: 'America/Sao_Paulo', label: 'Brasil (UTC-03:00)' },
-  { value: 'America/New_York', label: 'Estados Unidos (UTC-05:00)' },
-  { value: 'Europe/London', label: 'Reino Unido (UTC+00:00)' },
-  { value: 'Europe/Paris', label: 'França (UTC+01:00)' },
-  { value: 'Europe/Berlin', label: 'Alemanha (UTC+01:00)' },
-  { value: 'Asia/Tokyo', label: 'Japão (UTC+09:00)' },
-  { value: 'Asia/Shanghai', label: 'China (UTC+08:00)' },
-  { value: 'Australia/Sydney', label: 'Austrália (UTC+10:00)' },
-  { value: 'America/Mexico_City', label: 'México (UTC-06:00)' },
-  { value: 'America/Buenos_Aires', label: 'Argentina (UTC-03:00)' },
-  { value: 'Europe/Madrid', label: 'Espanha (UTC+01:00)' },
-  { value: 'Europe/Rome', label: 'Itália (UTC+01:00)' },
-  { value: 'Asia/Dubai', label: 'Emirados Árabes (UTC+04:00)' },
+  { value: 'America/Sao_Paulo', label: 'São Paulo (UTC-03:00)' },
+  { value: 'America/New_York', label: 'Nova York (UTC-05:00)' },
+  { value: 'Europe/London', label: 'Londres (UTC+00:00)' },
+  { value: 'Europe/Paris', label: 'Paris (UTC+01:00)' },
+  { value: 'Europe/Berlin', label: 'Berlim (UTC+01:00)' },
+  { value: 'Asia/Tokyo', label: 'Tóquio (UTC+09:00)' },
+  { value: 'Asia/Shanghai', label: 'Xangai (UTC+08:00)' },
+  { value: 'Australia/Sydney', label: 'Sydney (UTC+10:00)' },
+  { value: 'America/Mexico_City', label: 'Cidade do México (UTC-06:00)' },
+  { value: 'America/Buenos_Aires', label: 'Buenos Aires (UTC-03:00)' },
+  { value: 'Europe/Madrid', label: 'Madrid (UTC+01:00)' },
+  { value: 'Europe/Rome', label: 'Roma (UTC+01:00)' },
+  { value: 'Asia/Dubai', label: 'Dubai (UTC+04:00)' },
   { value: 'Asia/Singapore', label: 'Singapura (UTC+08:00)' },
-  { value: 'Africa/Johannesburg', label: 'África do Sul (UTC+02:00)' }
+  { value: 'Africa/Johannesburg', label: 'Joanesburgo (UTC+02:00)' }
 ];
 
 export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
