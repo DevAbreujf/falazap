@@ -86,6 +86,14 @@ export function ChatMessage({
     };
   }, [message.content]);
 
+  const handleCloseDeleteDialog = () => {
+    setIsDeleteDialogOpen(false);
+  };
+
+  const handleCloseForwardDialog = () => {
+    setIsForwardDialogOpen(false);
+  };
+
   return (
     <div
       ref={messageRef}
@@ -168,13 +176,13 @@ export function ChatMessage({
 
       <ForwardDialog
         isOpen={isForwardDialogOpen}
-        onOpenChange={setIsForwardDialogOpen}
+        onOpenChange={handleCloseForwardDialog}
         onForward={(contactId) => onMessageAction('forward', message.id)}
       />
 
       <DeleteDialog
         isOpen={isDeleteDialogOpen}
-        onOpenChange={setIsDeleteDialogOpen}
+        onOpenChange={handleCloseDeleteDialog}
         onDelete={(type) => onMessageAction('delete', message.id, type)}
       />
     </div>
