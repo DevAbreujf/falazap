@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useEffect, useRef, useState } from "react";
 import { ForwardDialog } from "./dialogs/ForwardDialog";
 import { DeleteDialog } from "./dialogs/DeleteDialog";
@@ -34,6 +34,7 @@ export function ChatMessage({
   const messageRef = useRef<HTMLDivElement>(null);
   const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (isRepliedMessage && messageRef.current) {
@@ -88,10 +89,22 @@ export function ChatMessage({
 
   const handleCloseDeleteDialog = () => {
     setIsDeleteDialogOpen(false);
+    setDropdownOpen(false);
   };
 
   const handleCloseForwardDialog = () => {
     setIsForwardDialogOpen(false);
+    setDropdownOpen(false);
+  };
+
+  const handleDelete = (type: 'all' | 'me') => {
+    onMessageAction('delete', message.id, type);
+    handleCloseDeleteDialog();
+  };
+
+  const handleForward = (contactId: string) => {
+    onMessageAction('forward', message.id);
+    handleCloseForwardDialog();
   };
 
   return (
@@ -137,7 +150,7 @@ export function ChatMessage({
             </span>
           )}
         </div>
-        <DropdownMenu>
+        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
           <DropdownMenuTrigger asChild>
             <button 
               className={`absolute top-1/2 -translate-y-1/2 ${
@@ -177,13 +190,13 @@ export function ChatMessage({
       <ForwardDialog
         isOpen={isForwardDialogOpen}
         onOpenChange={handleCloseForwardDialog}
-        onForward={(contactId) => onMessageAction('forward', message.id)}
+        onForward={handleForward}
       />
 
       <DeleteDialog
         isOpen={isDeleteDialogOpen}
         onOpenChange={handleCloseDeleteDialog}
-        onDelete={(type) => onMessageAction('delete', message.id, type)}
+        onDelete={handleDelete}
       />
     </div>
   );

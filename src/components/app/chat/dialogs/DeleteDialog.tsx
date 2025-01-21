@@ -21,10 +21,6 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
     onOpenChange(false);
   };
 
-  const handleCancel = () => {
-    onOpenChange(false);
-  };
-
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent className="sm:max-w-[425px]">
@@ -35,10 +31,7 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-          <AlertDialogCancel 
-            onClick={handleCancel}
-            className="mt-0"
-          >
+          <AlertDialogCancel onClick={() => onOpenChange(false)}>
             Cancelar
           </AlertDialogCancel>
           <AlertDialogAction
