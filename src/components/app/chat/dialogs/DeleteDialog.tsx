@@ -27,7 +27,7 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="sm:max-w-[425px]" onPointerDownOutside={handleCancel} onEscapeKeyDown={handleCancel}>
+      <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
