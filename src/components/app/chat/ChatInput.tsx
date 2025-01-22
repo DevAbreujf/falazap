@@ -169,19 +169,6 @@ export function ChatInput({
     };
   }, []);
 
-  const mockChatbots = [
-    {
-      id: "1",
-      name: "Assistente de Vendas",
-      description: "Auxilia em questões relacionadas a vendas e produtos"
-    },
-    {
-      id: "2",
-      name: "Suporte Técnico",
-      description: "Ajuda com problemas técnicos e dúvidas sobre o sistema"
-    }
-  ];
-
   return (
     <div className="p-4 border-t border-primary/10 bg-card space-y-4">
       <div className="flex items-center justify-between border-b border-primary/10 pb-2">
@@ -223,52 +210,15 @@ export function ChatInput({
           </div>
         )}
         
-        {isRecording ? (
-          <div className="flex items-center gap-4 p-2 bg-muted/10 rounded-lg">
-            <div className="flex-1 flex items-center gap-3">
-              <AudioMeter mediaRecorder={mediaRecorder.current} isRecording={isRecording && !isPaused} />
-              <span className="text-sm font-medium text-primary">
-                {formatTime(recordingTime)}
-              </span>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                variant="destructive"
-                size="icon"
-                onClick={cancelRecording}
-                className="h-8 w-8 rounded-full"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="default"
-                size="icon"
-                onClick={isPaused ? resumeRecording : pauseRecording}
-                className="h-8 w-8 rounded-full bg-blue-500 hover:bg-blue-600"
-              >
-                {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
-              </Button>
-              <Button
-                variant="default"
-                size="icon"
-                onClick={stopRecording}
-                className="h-8 w-8 rounded-full bg-green-500 hover:bg-green-600"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <textarea
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyDown={handleKeyPress}
-            placeholder={chatMode === "notes" ? "Digite uma nota..." : "Digite uma mensagem..."}
-            className={`flex-1 bg-muted/50 rounded-md p-2 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm ${
-              chatMode === "notes" ? "border-[#fae389]" : ""
-            }`}
-          />
-        )}
+        <textarea
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={handleKeyPress}
+          placeholder={chatMode === "notes" ? "Digite uma nota..." : "Digite uma mensagem..."}
+          className={`flex-1 bg-muted/50 rounded-md p-2 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm ${
+            chatMode === "notes" ? "border-[#fae389]" : ""
+          }`}
+        />
         
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -313,6 +263,41 @@ export function ChatInput({
             >
               <Bot className="h-5 w-5" />
             </Button>
+
+            {isRecording && (
+              <div className="flex items-center gap-3 bg-muted/10 rounded-lg px-3 py-1.5">
+                <AudioMeter mediaRecorder={mediaRecorder.current} isRecording={isRecording && !isPaused} />
+                <span className="text-sm font-medium text-primary min-w-[40px]">
+                  {formatTime(recordingTime)}
+                </span>
+                <div className="flex gap-2">
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    onClick={cancelRecording}
+                    className="h-8 w-8 rounded-full"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="default"
+                    size="icon"
+                    onClick={isPaused ? resumeRecording : pauseRecording}
+                    className="h-8 w-8 rounded-full bg-blue-500 hover:bg-blue-600"
+                  >
+                    {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+                  </Button>
+                  <Button
+                    variant="default"
+                    size="icon"
+                    onClick={stopRecording}
+                    className="h-8 w-8 rounded-full bg-green-500 hover:bg-green-600"
+                  >
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
 
           {newMessage.trim() ? (
@@ -325,6 +310,7 @@ export function ChatInput({
               size="icon"
               variant="default"
               className="rounded-full"
+              disabled={isRecording}
             >
               <Mic className="h-5 w-5" />
             </Button>
@@ -335,7 +321,18 @@ export function ChatInput({
       <ChatbotsDialog
         isOpen={isChatbotsOpen}
         onClose={() => setIsChatbotsOpen(false)}
-        chatbots={mockChatbots}
+        chatbots={[
+          {
+            id: "1",
+            name: "Assistente de Vendas",
+            description: "Auxilia em questões relacionadas a vendas e produtos"
+          },
+          {
+            id: "2",
+            name: "Suporte Técnico",
+            description: "Ajuda com problemas técnicos e dúvidas sobre o sistema"
+          }
+        ]}
         onSelectChatbot={(chatbotId) => {
           console.log('Selected chatbot:', chatbotId);
           setIsChatbotsOpen(false);

@@ -27,7 +27,7 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-[425px]">
+      <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -37,22 +37,24 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
         <AlertDialogFooter className="flex-col sm:flex-row gap-2">
           <AlertDialogCancel 
             onClick={handleCancel}
-            className="mt-0 w-full sm:w-auto"
+            className="mt-0 sm:mt-0"
           >
             Cancelar
           </AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => handleDelete('all')}
-            className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
-          >
-            Apagar para todos
-          </AlertDialogAction>
-          <AlertDialogAction
-            onClick={() => handleDelete('me')}
-            className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
-          >
-            Apagar para mim
-          </AlertDialogAction>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <AlertDialogAction
+              onClick={() => handleDelete('all')}
+              className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Apagar para todos
+            </AlertDialogAction>
+            <AlertDialogAction
+              onClick={() => handleDelete('me')}
+              className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Apagar para mim
+            </AlertDialogAction>
+          </div>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
