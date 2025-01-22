@@ -175,7 +175,10 @@ export function ChatMessage({
               <Forward className="h-4 w-4 mr-2" />
               Encaminhar
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleMenuAction('delete')} className="text-red-600">
+            <DropdownMenuItem 
+              onClick={() => handleMenuAction('delete')} 
+              className="text-destructive focus:text-destructive focus:bg-destructive/10"
+            >
               <Trash2 className="h-4 w-4 mr-2" />
               Apagar
             </DropdownMenuItem>

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Paperclip, Send, Bot, SmilePlus, X } from "lucide-react";
+import { Paperclip, Send, Bot, SmilePlus, X, Mic, StopCircle } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Edit } from "lucide-react";
 import {
@@ -16,6 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChatMessage } from "@/types/chat";
+import { ChatbotsDialog } from "./dialogs/ChatbotsDialog";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ChatInputProps {
   onSendMessage: (content: string) => void;
@@ -45,6 +47,10 @@ export function ChatInput({
   onCancelReply,
 }: ChatInputProps) {
   const [newMessage, setNewMessage] = useState("");
+  const [isRecording, setIsRecording] = useState(false);
+  const [isChatbotsOpen, setIsChatbotsOpen] = useState(false);
+  const mediaRecorder = useRef<MediaRecorder | null>(null);
+  const { toast } = useToast();
 
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -65,6 +71,54 @@ export function ChatInput({
       handleSend();
     }
   };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder.current = new MediaRecorder(stream);
+      
+      mediaRecorder.current.ondataavailable = async (e) => {
+        const audioBlob = new Blob([e.data], { type: 'audio/wav' });
+        // Here you would typically upload the audio file to your server
+        console.log('Audio recorded:', audioBlob);
+        toast({
+          title: "Áudio gravado com sucesso",
+          description: "O áudio será enviado em breve.",
+        });
+      };
+
+      mediaRecorder.current.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+      toast({
+        title: "Erro ao acessar microfone",
+        description: "Verifique as permissões do seu navegador.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
+      mediaRecorder.current.stop();
+      mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
+      setIsRecording(false);
+    }
+  };
+
+  const mockChatbots = [
+    {
+      id: "1",
+      name: "Assistente de Vendas",
+      description: "Auxilia em questões relacionadas a vendas e produtos"
+    },
+    {
+      id: "2",
+      name: "Suporte Técnico",
+      description: "Ajuda com problemas técnicos e dúvidas sobre o sistema"
+    }
+  ];
 
   return (
     <div className="p-4 border-t border-primary/10 bg-card space-y-4">
@@ -153,28 +207,44 @@ export function ChatInput({
               </Tooltip>
             </TooltipProvider>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Bot className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
-                <DropdownMenuItem onClick={() => console.log("Selected Funnel 1")}>
-                  Funil de Vendas
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => console.log("Selected Funnel 2")}>
-                  Funil de Suporte
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setIsChatbotsOpen(true)}
+            >
+              <Bot className="h-5 w-5" />
+            </Button>
           </div>
 
-          <Button onClick={handleSend} size="icon" disabled={!newMessage.trim()}>
-            <Send className="h-5 w-5" />
-          </Button>
+          {newMessage.trim() ? (
+            <Button onClick={handleSend} size="icon">
+              <Send className="h-5 w-5" />
+            </Button>
+          ) : (
+            <Button 
+              onClick={isRecording ? stopRecording : startRecording} 
+              size="icon"
+              variant={isRecording ? "destructive" : "default"}
+            >
+              {isRecording ? (
+                <StopCircle className="h-5 w-5" />
+              ) : (
+                <Mic className="h-5 w-5" />
+              )}
+            </Button>
+          )}
         </div>
       </div>
+
+      <ChatbotsDialog
+        isOpen={isChatbotsOpen}
+        onClose={() => setIsChatbotsOpen(false)}
+        chatbots={mockChatbots}
+        onSelectChatbot={(chatbotId) => {
+          console.log('Selected chatbot:', chatbotId);
+          setIsChatbotsOpen(false);
+        }}
+      />
     </div>
   );
 }
