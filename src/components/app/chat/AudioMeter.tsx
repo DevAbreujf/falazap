@@ -60,8 +60,8 @@ export function AudioMeter({ mediaRecorder, isRecording }: AudioMeterProps) {
   return (
     <canvas
       ref={canvasRef}
-      width={200}
-      height={60}
+      width={150}
+      height={40}
       className="rounded-lg bg-black/5"
     />
   );

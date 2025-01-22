@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Paperclip, Send, Bot, SmilePlus, X, Mic, StopCircle } from "lucide-react";
+import { Paperclip, Send, Bot, SmilePlus, X, Mic, StopCircle, Pause, Play } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Edit } from "lucide-react";
 import {
@@ -12,6 +12,7 @@ import {
 import { ChatMessage } from "@/types/chat";
 import { ChatbotsDialog } from "./dialogs/ChatbotsDialog";
 import { AudioMeter } from "./AudioMeter";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ChatInputProps {
   onSendMessage: (content: string) => void;
@@ -42,10 +43,13 @@ export function ChatInput({
 }: ChatInputProps) {
   const [newMessage, setNewMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [isChatbotsOpen, setIsChatbotsOpen] = useState(false);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
+  const audioChunks = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout>();
+  const { toast } = useToast();
 
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -77,15 +81,15 @@ export function ChatInput({
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder.current = new MediaRecorder(stream);
+      audioChunks.current = [];
       
-      mediaRecorder.current.ondataavailable = async (e) => {
-        const audioBlob = new Blob([e.data], { type: 'audio/wav' });
-        // Here you would typically upload the audio file to your server
-        console.log('Audio recorded:', audioBlob);
+      mediaRecorder.current.ondataavailable = (e) => {
+        audioChunks.current.push(e.data);
       };
 
-      mediaRecorder.current.start();
+      mediaRecorder.current.start(1000);
       setIsRecording(true);
+      setIsPaused(false);
       setRecordingTime(0);
       
       timerRef.current = setInterval(() => {
@@ -93,29 +97,68 @@ export function ChatInput({
       }, 1000);
     } catch (error) {
       console.error('Error accessing microphone:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível acessar o microfone",
+        variant: "destructive",
+      });
     }
   };
 
-  const stopRecording = () => {
+  const pauseRecording = () => {
     if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
-      mediaRecorder.current.stop();
-      mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
-      setIsRecording(false);
+      mediaRecorder.current.pause();
+      setIsPaused(true);
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
+    }
+  };
+
+  const resumeRecording = () => {
+    if (mediaRecorder.current && mediaRecorder.current.state === 'paused') {
+      mediaRecorder.current.resume();
+      setIsPaused(false);
+      timerRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+    }
+  };
+
+  const stopRecording = async () => {
+    if (mediaRecorder.current) {
+      mediaRecorder.current.stop();
+      mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
+      
+      const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      // Aqui você pode implementar a lógica para enviar o áudio
+      console.log('Audio recorded:', audioUrl);
+      
+      // Exemplo de como enviar como mensagem
+      onSendMessage(`[Audio Message - ${formatTime(recordingTime)}]`);
+      
+      resetRecording();
     }
   };
 
   const cancelRecording = () => {
-    if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
+    if (mediaRecorder.current) {
       mediaRecorder.current.stop();
       mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
-      setIsRecording(false);
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      resetRecording();
     }
+  };
+
+  const resetRecording = () => {
+    setIsRecording(false);
+    setIsPaused(false);
+    setRecordingTime(0);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    audioChunks.current = [];
   };
 
   useEffect(() => {
@@ -181,29 +224,37 @@ export function ChatInput({
         )}
         
         {isRecording ? (
-          <div className="flex items-center gap-4 p-4 bg-muted/10 rounded-lg">
-            <div className="flex-1">
-              <AudioMeter mediaRecorder={mediaRecorder.current} isRecording={isRecording} />
-              <div className="mt-2 text-sm font-medium text-primary">
+          <div className="flex items-center gap-4 p-2 bg-muted/10 rounded-lg">
+            <div className="flex-1 flex items-center gap-3">
+              <AudioMeter mediaRecorder={mediaRecorder.current} isRecording={isRecording && !isPaused} />
+              <span className="text-sm font-medium text-primary">
                 {formatTime(recordingTime)}
-              </div>
+              </span>
             </div>
             <div className="flex gap-2">
               <Button
                 variant="destructive"
                 size="icon"
                 onClick={cancelRecording}
-                className="rounded-full"
+                className="h-8 w-8 rounded-full"
               >
                 <X className="h-4 w-4" />
               </Button>
               <Button
                 variant="default"
                 size="icon"
-                onClick={stopRecording}
-                className="rounded-full bg-red-500 hover:bg-red-600"
+                onClick={isPaused ? resumeRecording : pauseRecording}
+                className="h-8 w-8 rounded-full bg-blue-500 hover:bg-blue-600"
               >
-                <StopCircle className="h-4 w-4" />
+                {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+              </Button>
+              <Button
+                variant="default"
+                size="icon"
+                onClick={stopRecording}
+                className="h-8 w-8 rounded-full bg-green-500 hover:bg-green-600"
+              >
+                <Send className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -270,16 +321,12 @@ export function ChatInput({
             </Button>
           ) : (
             <Button 
-              onClick={isRecording ? stopRecording : startRecording} 
+              onClick={startRecording} 
               size="icon"
-              variant={isRecording ? "destructive" : "default"}
-              className={isRecording ? "bg-red-500 hover:bg-red-600" : ""}
+              variant="default"
+              className="rounded-full"
             >
-              {isRecording ? (
-                <StopCircle className="h-5 w-5" />
-              ) : (
-                <Mic className="h-5 w-5" />
-              )}
+              <Mic className="h-5 w-5" />
             </Button>
           )}
         </div>
