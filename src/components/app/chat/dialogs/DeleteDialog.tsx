@@ -27,7 +27,7 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="sm:max-w-[425px]">
+      <AlertDialogContent className="max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja apagar?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -37,19 +37,19 @@ export function DeleteDialog({ isOpen, onOpenChange, onDelete }: DeleteDialogPro
         <AlertDialogFooter className="flex-col sm:flex-row gap-2">
           <AlertDialogCancel 
             onClick={handleCancel}
-            className="mt-0"
+            className="mt-0 w-full sm:w-auto"
           >
             Cancelar
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={() => handleDelete('all')}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             Apagar para todos
           </AlertDialogAction>
           <AlertDialogAction
             onClick={() => handleDelete('me')}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="w-full sm:w-auto bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             Apagar para mim
           </AlertDialogAction>

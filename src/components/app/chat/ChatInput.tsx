@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Paperclip, Send, Bot, SmilePlus, X, Mic, StopCircle } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -9,15 +9,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ChatMessage } from "@/types/chat";
 import { ChatbotsDialog } from "./dialogs/ChatbotsDialog";
-import { useToast } from "@/components/ui/use-toast";
+import { AudioMeter } from "./AudioMeter";
 
 interface ChatInputProps {
   onSendMessage: (content: string) => void;
@@ -48,9 +42,10 @@ export function ChatInput({
 }: ChatInputProps) {
   const [newMessage, setNewMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
   const [isChatbotsOpen, setIsChatbotsOpen] = useState(false);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
-  const { toast } = useToast();
+  const timerRef = useRef<NodeJS.Timeout>();
 
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -72,6 +67,12 @@ export function ChatInput({
     }
   };
 
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -81,21 +82,17 @@ export function ChatInput({
         const audioBlob = new Blob([e.data], { type: 'audio/wav' });
         // Here you would typically upload the audio file to your server
         console.log('Audio recorded:', audioBlob);
-        toast({
-          title: "Áudio gravado com sucesso",
-          description: "O áudio será enviado em breve.",
-        });
       };
 
       mediaRecorder.current.start();
       setIsRecording(true);
+      setRecordingTime(0);
+      
+      timerRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
     } catch (error) {
       console.error('Error accessing microphone:', error);
-      toast({
-        title: "Erro ao acessar microfone",
-        description: "Verifique as permissões do seu navegador.",
-        variant: "destructive",
-      });
     }
   };
 
@@ -104,8 +101,30 @@ export function ChatInput({
       mediaRecorder.current.stop();
       mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
       setIsRecording(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
     }
   };
+
+  const cancelRecording = () => {
+    if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
+      mediaRecorder.current.stop();
+      mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
+      setIsRecording(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, []);
 
   const mockChatbots = [
     {
@@ -161,15 +180,44 @@ export function ChatInput({
           </div>
         )}
         
-        <textarea
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={handleKeyPress}
-          placeholder={chatMode === "notes" ? "Digite uma nota..." : "Digite uma mensagem..."}
-          className={`flex-1 bg-muted/50 rounded-md p-2 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm ${
-            chatMode === "notes" ? "border-[#fae389]" : ""
-          }`}
-        />
+        {isRecording ? (
+          <div className="flex items-center gap-4 p-4 bg-muted/10 rounded-lg">
+            <div className="flex-1">
+              <AudioMeter mediaRecorder={mediaRecorder.current} isRecording={isRecording} />
+              <div className="mt-2 text-sm font-medium text-primary">
+                {formatTime(recordingTime)}
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant="destructive"
+                size="icon"
+                onClick={cancelRecording}
+                className="rounded-full"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="default"
+                size="icon"
+                onClick={stopRecording}
+                className="rounded-full bg-red-500 hover:bg-red-600"
+              >
+                <StopCircle className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <textarea
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={handleKeyPress}
+            placeholder={chatMode === "notes" ? "Digite uma nota..." : "Digite uma mensagem..."}
+            className={`flex-1 bg-muted/50 rounded-md p-2 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm ${
+              chatMode === "notes" ? "border-[#fae389]" : ""
+            }`}
+          />
+        )}
         
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -225,6 +273,7 @@ export function ChatInput({
               onClick={isRecording ? stopRecording : startRecording} 
               size="icon"
               variant={isRecording ? "destructive" : "default"}
+              className={isRecording ? "bg-red-500 hover:bg-red-600" : ""}
             >
               {isRecording ? (
                 <StopCircle className="h-5 w-5" />
