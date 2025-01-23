@@ -10,7 +10,6 @@ import { ChatDetailsSidebar } from "./ChatDetailsSidebar";
 import { EmojiPicker } from "@/components/tags/EmojiPicker";
 import { ChatMessage as ChatMessageComponent } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
-import { EndChatDialog } from "./dialogs/EndChatDialog";
 import {
   Dialog,
   DialogContent,
@@ -63,7 +62,6 @@ export function ChatWindow({
   const [isSignatureEnabled, setIsSignatureEnabled] = useState(false);
   const [isEditingSignature, setIsEditingSignature] = useState(false);
   const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
-  const [isEndChatDialogOpen, setIsEndChatDialogOpen] = useState(false);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -133,15 +131,6 @@ export function ChatWindow({
     }
   };
 
-  const handleEndChat = (message: string) => {
-    onSendMessage(message);
-    onEndSupport();
-    toast({
-      title: "Atendimento finalizado",
-      description: "O atendimento foi finalizado com sucesso.",
-    });
-  };
-
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
@@ -149,7 +138,7 @@ export function ChatWindow({
         <div className="flex items-center gap-2">
           <ChatActions
             onChangeDepartment={onChangeDepartment}
-            onEndSupport={() => setIsEndChatDialogOpen(true)}
+            onEndSupport={onEndSupport}
             onTransferChat={onTransferChat}
             attendants={[
               { id: "1", name: "John Doe", departmentId: "1" },
@@ -214,12 +203,6 @@ export function ChatWindow({
         handleFileUpload={handleFileUpload}
         replyingTo={replyingTo}
         onCancelReply={() => setReplyingTo(null)}
-      />
-
-      <EndChatDialog
-        isOpen={isEndChatDialogOpen}
-        onClose={() => setIsEndChatDialogOpen(false)}
-        onConfirm={handleEndChat}
       />
 
       <Dialog open={isEditingSignature} onOpenChange={setIsEditingSignature}>

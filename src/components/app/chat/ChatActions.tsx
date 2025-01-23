@@ -16,10 +16,9 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -54,7 +53,6 @@ export function ChatActions({
   const [searchDepartmentTerm, setSearchDepartmentTerm] = useState("");
   const [selectedAttendant, setSelectedAttendant] = useState<string | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
-  const [isConfirmEndOpen, setIsConfirmEndOpen] = useState(false);
   const [isEditMessageOpen, setIsEditMessageOpen] = useState(false);
   const [endMessage, setEndMessage] = useState("Atendimento finalizado");
   const { toast } = useToast();
@@ -90,9 +88,8 @@ export function ChatActions({
     }
   };
 
-  const handleConfirmEnd = () => {
+  const handleEndSupport = () => {
     onEndSupport();
-    setIsConfirmEndOpen(false);
     toast({
       title: "Atendimento finalizado",
       description: "O atendimento foi encerrado com sucesso.",
@@ -144,7 +141,7 @@ export function ChatActions({
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => setIsConfirmEndOpen(true)}
+                onClick={handleEndSupport}
               >
                 <XOctagon className="h-4 w-4" />
               </Button>
@@ -313,27 +310,6 @@ export function ChatActions({
           </div>
         </SheetContent>
       </Sheet>
-
-      <Dialog open={isConfirmEndOpen} onOpenChange={setIsConfirmEndOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Finalizar Atendimento</DialogTitle>
-            <DialogDescription>
-              Tem certeza que deseja finalizar este atendimento?
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsConfirmEndOpen(false)}>
-              <X className="mr-2 h-4 w-4" />
-              Cancelar
-            </Button>
-            <Button onClick={handleConfirmEnd}>
-              <CheckCircle className="mr-2 h-4 w-4" />
-              Confirmar
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={isEditMessageOpen} onOpenChange={setIsEditMessageOpen}>
         <DialogContent>
