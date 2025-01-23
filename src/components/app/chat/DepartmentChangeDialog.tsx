@@ -25,6 +25,8 @@ export function DepartmentChangeDialog({
   const [selectedAction, setSelectedAction] = useState<'change' | 'add' | null>(null);
   const { departments } = useDepartmentStore();
 
+  console.log("Current departments in dialog:", departments); // Debug log
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
