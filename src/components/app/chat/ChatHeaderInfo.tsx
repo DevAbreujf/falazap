@@ -7,11 +7,16 @@ interface ChatHeaderInfoProps {
 }
 
 export function ChatHeaderInfo({ contact }: ChatHeaderInfoProps) {
+  if (!contact) return null;
+
   return (
     <div className="flex items-center gap-3">
       <Avatar className="h-10 w-10">
-        <AvatarImage src={contact.avatar} />
-        <AvatarFallback>{contact.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+        {contact.avatar ? (
+          <AvatarImage src={contact.avatar} alt={contact.name} />
+        ) : (
+          <AvatarFallback>{contact.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+        )}
       </Avatar>
       <div>
         <h2 className="font-semibold">{contact.name}</h2>

@@ -3,7 +3,7 @@ export interface Department {
   name: string;
   description?: string;
   users?: Array<{
-    id: number;
+    id: string;
     name: string;
     email: string;
     department: string;

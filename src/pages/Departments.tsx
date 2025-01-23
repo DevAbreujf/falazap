@@ -7,6 +7,13 @@ import { useDepartmentStore } from "@/stores/departmentStore";
 import { useToast } from "@/components/ui/use-toast";
 import { Department } from "@/types/chat";
 
+interface DepartmentUser {
+  id: string;
+  name: string;
+  email: string;
+  department: string;
+}
+
 export default function Departments() {
   const { departments: storeDepartments, setDepartments: updateDepartments } = useDepartmentStore();
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +31,7 @@ export default function Departments() {
   const handleAddDepartment = () => {
     if (newDepartmentName.trim()) {
       const newDepartment: Department = {
-        id: `${Date.now()}`, // Convert to string
+        id: `${Date.now()}`,
         name: newDepartmentName.trim(),
         description: "",
         users: []
@@ -43,7 +50,7 @@ export default function Departments() {
     }
   };
 
-  const handleAddUserToDepartment = (user: { id: number; name: string; email: string; department: string; }) => {
+  const handleAddUserToDepartment = (user: DepartmentUser) => {
     if (selectedDepartment) {
       const updatedDepartments = storeDepartments.map(dept => {
         if (dept.id === selectedDepartment.id) {
@@ -63,7 +70,7 @@ export default function Departments() {
     }
   };
 
-  const handleRemoveUserFromDepartment = (userId: number) => {
+  const handleRemoveUserFromDepartment = (userId: string) => {
     if (selectedDepartment) {
       const updatedDepartments = storeDepartments.map(dept => {
         if (dept.id === selectedDepartment.id) {
@@ -83,7 +90,7 @@ export default function Departments() {
     }
   };
 
-  const handleChangeDepartment = (userId: number, newDepartmentName: string, action: 'change' | 'add') => {
+  const handleChangeDepartment = (userId: string, newDepartmentName: string, action: 'change' | 'add') => {
     if (selectedDepartment) {
       const userToMove = (selectedDepartment.users || []).find(user => user.id === userId);
       if (!userToMove) return;
