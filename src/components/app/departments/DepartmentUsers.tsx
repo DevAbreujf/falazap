@@ -1,4 +1,14 @@
-import { DepartmentUser } from "@/types/chat";
+import { Department, DepartmentUser } from "@/types/chat";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { UserActions } from "./UserActions";
 
 interface DepartmentUsersProps {
   departmentName: string;
@@ -6,7 +16,7 @@ interface DepartmentUsersProps {
   onAddUser: (user: DepartmentUser) => void;
   onRemoveUser: (userId: string) => void;
   onChangeDepartment: (userId: string, newDepartment: string, action: "change" | "add") => void;
-  departments: { id: string; name: string; }[];
+  departments: Department[];
 }
 
 export function DepartmentUsers({
@@ -20,23 +30,39 @@ export function DepartmentUsers({
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-bold">{departmentName}</h2>
-      <ul className="space-y-2">
-        {users.map(user => (
-          <li key={user.id} className="flex justify-between items-center">
-            <span>{user.name}</span>
-            <div className="flex items-center gap-2">
-              <button onClick={() => onRemoveUser(user.id)} className="text-red-500">Remover</button>
-              <select onChange={(e) => onChangeDepartment(user.id, e.target.value, 'change')}>
-                <option value="">Mudar setor</option>
-                {departments.map(department => (
-                  <option key={department.id} value={department.name}>{department.name}</option>
-                ))}
-              </select>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <button onClick={() => onAddUser({ id: `${Date.now()}`, name: "Novo Usuário", email: "", department: departmentName })} className="btn">Adicionar Usuário</button>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Nome</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Ações</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {users.map(user => (
+            <TableRow key={user.id}>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>
+                <UserActions
+                  onRemoveClick={() => onRemoveUser(user.id)}
+                  onChangeClick={() => onChangeDepartment(user.id, "", "change")}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Button 
+        onClick={() => onAddUser({ 
+          id: `${Date.now()}`, 
+          name: "Novo Usuário", 
+          email: "", 
+          department: departmentName 
+        })}
+      >
+        Adicionar Usuário
+      </Button>
     </div>
   );
 }

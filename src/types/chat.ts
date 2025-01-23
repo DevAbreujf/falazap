@@ -2,12 +2,7 @@ export interface Department {
   id: string;
   name: string;
   description?: string;
-  users?: Array<{
-    id: string;
-    name: string;
-    email: string;
-    department: string;
-  }>;
+  users?: DepartmentUser[];
 }
 
 export interface ChatMessage {
