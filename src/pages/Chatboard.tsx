@@ -3,8 +3,9 @@ import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
 import { ChatContact, ChatMessage, Department } from "@/types/chat";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { useDepartmentStore } from "@/stores/departmentStore";
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
@@ -138,7 +139,8 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
 export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string>("falazap");
   const [showIntro, setShowIntro] = useState(false);
-  const [currentDepartment, setCurrentDepartment] = useState<Department>(mockDepartments[0]);
+  const { departments } = useDepartmentStore();
+  const [currentDepartment, setCurrentDepartment] = useState(departments[0] || { id: "1", name: "Sem setor" });
   const [messagesByDepartment, setMessagesByDepartment] = useState({
     ...initialMessagesByDepartment,
     "1": {
@@ -150,9 +152,11 @@ export default function Chatboard() {
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
   const { toast } = useToast();
 
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState<ChatMessage | null>(null);
+  useEffect(() => {
+    if (departments.length > 0 && (!currentDepartment || !departments.find(d => d.id === currentDepartment.id))) {
+      setCurrentDepartment(departments[0]);
+    }
+  }, [departments]);
 
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
@@ -261,11 +265,12 @@ export default function Chatboard() {
   };
 
   const handleDepartmentChange = (departmentId: string) => {
-    const department = mockDepartments.find(d => d.id === departmentId);
+    const department = departments.find(d => String(d.id) === departmentId);
     if (department) {
       setCurrentDepartment(department);
       setSelectedContactId(undefined);
       setShowIntro(true);
+      console.log("Department changed to:", department);
     }
   };
 
@@ -311,7 +316,7 @@ export default function Chatboard() {
       }
       mockContactsByDepartment[departmentId].push(updatedContact);
       setSelectedContactId(undefined);
-      const department = mockDepartments.find(d => d.id === departmentId);
+      const department = departments.find(d => d.id === departmentId);
       if (department) {
         toast({
           title: "Setor alterado",
@@ -381,7 +386,10 @@ export default function Chatboard() {
           setShowIntro(false);
         }}
         onDepartmentChange={handleDepartmentChange}
-        currentDepartment={currentDepartment}
+        currentDepartment={{
+          id: String(currentDepartment.id),
+          name: currentDepartment.name
+        }}
       />
       
       <div className="flex-1">
