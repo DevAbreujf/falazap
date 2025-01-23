@@ -7,6 +7,10 @@ interface ChatHeaderInfoProps {
 }
 
 export function ChatHeaderInfo({ contact }: ChatHeaderInfoProps) {
+  if (!contact) {
+    return null;
+  }
+
   return (
     <div className="flex items-center gap-3">
       <Avatar className="h-10 w-10">
