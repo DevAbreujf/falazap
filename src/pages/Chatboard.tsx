@@ -3,8 +3,9 @@ import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
 import { ChatContact, ChatMessage, Department } from "@/types/chat";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { useDepartmentStore } from "@/stores/departmentStore";
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
@@ -154,6 +155,12 @@ export default function Chatboard() {
   const [hasUserReplied, setHasUserReplied] = useState(false);
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
   const { toast } = useToast();
+  const { departments: storeDepartments } = useDepartmentStore();
+
+  useEffect(() => {
+    // Sincroniza os departamentos com a store quando o componente monta
+    setDepartments(storeDepartments);
+  }, [storeDepartments]);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);

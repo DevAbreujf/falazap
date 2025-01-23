@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatContact, Department } from "@/types/chat";
-import { Search, Building2, MessageSquare, Users, ArrowLeft, Filter } from "lucide-react";
+import { Search, Building2, MessageSquare, Users, ArrowLeft, Filter, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,15 +15,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useDepartmentStore } from "@/stores/departmentStore";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface ChatSidebarProps {
   contacts: ChatContact[];
@@ -40,14 +43,20 @@ export function ChatSidebar({
   onSelectContact, 
   onDepartmentChange, 
   currentDepartment,
-  departments 
+  departments: propDepartments 
 }: ChatSidebarProps) {
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showTeamChat, setShowTeamChat] = useState(false);
   const [currentFilter, setCurrentFilter] = useState<'incoming' | 'waiting' | 'finished'>('incoming');
   const [searchTerm, setSearchTerm] = useState("");
+  const [departmentSearchTerm, setDepartmentSearchTerm] = useState("");
   const { toast } = useToast();
+  const { departments, setDepartments } = useDepartmentStore();
+
+  useEffect(() => {
+    setDepartments(propDepartments);
+  }, [propDepartments, setDepartments]);
 
   const filteredContacts = contacts.filter(contact => {
     const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -63,11 +72,11 @@ export function ChatSidebar({
     }
   });
 
-  const unreadCounts = {
-    incoming: contacts.filter(c => c.status === 'new' && c.unreadCount > 0).length,
-    waiting: contacts.filter(c => c.status === 'waiting' && c.unreadCount > 0).length,
-    finished: contacts.filter(c => c.status === 'finished' && c.unreadCount > 0).length,
-  };
+  const filteredDepartments = departments
+    .filter(dept => 
+      dept.name.toLowerCase().includes(departmentSearchTerm.toLowerCase())
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const handleDepartmentChange = (department: Department) => {
     onDepartmentChange(department.id);
@@ -76,6 +85,12 @@ export function ChatSidebar({
       title: "Setor alterado",
       description: `Alterado para o setor ${department.name}`,
     });
+  };
+
+  const unreadCounts = {
+    incoming: contacts.filter(c => c.status === 'new' && c.unreadCount > 0).length,
+    waiting: contacts.filter(c => c.status === 'waiting' && c.unreadCount > 0).length,
+    finished: contacts.filter(c => c.status === 'finished' && c.unreadCount > 0).length,
   };
 
   return (
@@ -267,19 +282,58 @@ export function ChatSidebar({
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Selecionar Setor</DialogTitle>
+            <DialogTitle className="text-xl font-semibold">Selecionar Setor</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            {departments.map((dept) => (
-              <Button
-                key={dept.id}
-                variant="outline"
-                className="w-full justify-start hover:bg-primary/5 transition-colors"
-                onClick={() => handleDepartmentChange(dept)}
-              >
-                {dept.name}
-              </Button>
-            ))}
+          
+          <div className="py-4 space-y-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Buscar setor..."
+                value={departmentSearchTerm}
+                onChange={(e) => setDepartmentSearchTerm(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+
+            <ScrollArea className="h-[300px] pr-4">
+              <div className="space-y-2">
+                {filteredDepartments.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center p-4 text-muted-foreground">
+                    <Building2 className="h-8 w-8 mb-2" />
+                    <p>Nenhum setor encontrado</p>
+                  </div>
+                ) : (
+                  filteredDepartments.map((dept) => (
+                    <div
+                      key={dept.id}
+                      onClick={() => handleDepartmentChange(dept)}
+                      className={cn(
+                        "p-3 rounded-lg cursor-pointer transition-all duration-200",
+                        "hover:bg-primary/5",
+                        "group flex items-center justify-between",
+                        currentDepartment.id === dept.id && "bg-primary/10 ring-2 ring-primary ring-offset-2"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <Building2 className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium">{dept.name}</p>
+                          {dept.description && (
+                            <p className="text-sm text-muted-foreground">{dept.description}</p>
+                          )}
+                        </div>
+                      </div>
+                      {currentDepartment.id === dept.id && (
+                        <CheckCircle2 className="h-5 w-5 text-primary animate-scale-in" />
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+            </ScrollArea>
           </div>
         </DialogContent>
       </Dialog>
