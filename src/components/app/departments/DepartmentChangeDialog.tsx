@@ -5,6 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Building2 } from "lucide-react";
 import { useState } from "react";
 
 interface DepartmentChangeDialogProps {
@@ -57,9 +58,10 @@ export function DepartmentChangeDialog({
                 key={dept.id}
                 variant="outline"
                 onClick={() => onChangeDepartment(dept.name, selectedAction)}
-                className="justify-start"
+                className="justify-start gap-2"
                 disabled={dept.name === currentDepartment && selectedAction === 'change'}
               >
+                <Building2 className="h-4 w-4" />
                 {dept.name}
               </Button>
             ))}
