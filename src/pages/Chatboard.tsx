@@ -121,7 +121,7 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
 export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string>("falazap");
   const [showIntro, setShowIntro] = useState(false);
-  const [currentDepartment, setCurrentDepartment] = useState<{ id: string, name: string }>({ id: "", name: "" });
+  const [currentDepartment, setCurrentDepartment] = useState<{ id: string, name: string, description: string }>({ id: "", name: "", description: "" });
   const { departments } = useDepartmentStore();
   const [messagesByDepartment, setMessagesByDepartment] = useState({
     ...initialMessagesByDepartment,
@@ -247,11 +247,15 @@ export default function Chatboard() {
   const handleDepartmentChange = (departmentId: string) => {
     const department = departments.find(d => d.id === Number(departmentId));
     if (department) {
-      setCurrentDepartment({ id: String(department.id), name: department.name });
+      setCurrentDepartment({ 
+        id: String(department.id), 
+        name: department.name,
+        description: department.description || '' // Add description
+      });
       setSelectedContactId(undefined);
       setShowIntro(true);
     } else {
-      setCurrentDepartment({ id: "", name: "" });
+      setCurrentDepartment({ id: "", name: "", description: "" });
     }
   };
 
@@ -372,14 +376,16 @@ export default function Chatboard() {
           <ChatIntro />
         ) : selectedContactId && (
           <ChatWindow
-            contact={currentContacts.find(c => c.id === selectedContactId)!}
             messages={currentMessages}
+            contact={currentContacts.find(c => c.id === selectedContactId)!}
+            userName={mockCurrentUser.name}
+            currentDepartment={currentDepartment}
             onSendMessage={handleSendMessage}
+            onShowIntro={() => setShowIntro(true)}
             onUpdateContactStatus={handleUpdateContactStatus}
             onEndSupport={() => handleEndSupport(selectedContactId)}
             onTransferChat={(attendantId) => handleTransferChat(selectedContactId, attendantId)}
             onChangeDepartment={(departmentId) => handleChangeDepartment(selectedContactId, departmentId)}
-            currentDepartment={currentDepartment}
             currentUser={mockCurrentUser}
             onMessageAction={handleMessageAction}
           />

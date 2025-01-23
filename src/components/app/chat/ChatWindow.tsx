@@ -2,28 +2,38 @@ import { ChatActions } from "./ChatActions";
 import { ChatHeader } from "./ChatHeader";
 import { ChatHeaderInfo } from "./ChatHeaderInfo";
 import { ChatInput } from "./ChatInput";
-import { ChatMessage } from "./ChatMessage";
-import { ChatContact, Department, Message } from "@/types/chat";
+import { ChatMessage as MessageComponent } from "./ChatMessage";
+import { ChatContact, Department, ChatMessage } from "@/types/chat";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatWindowProps {
-  messages: Message[];
-  selectedContact?: ChatContact;
-  userName: string;
+  messages: ChatMessage[];
+  contact: ChatContact;
   currentDepartment?: Department;
+  userName: string;
   onSendMessage: (content: string) => void;
   onShowIntro: () => void;
-  onSelectMessage: (message: Message) => void;
+  onUpdateContactStatus: (contactId: string, isSupport: boolean) => void;
+  onEndSupport: () => void;
+  onTransferChat: (attendantId: string) => void;
+  onChangeDepartment: (departmentId: string) => void;
+  currentUser: { id: string; name: string; avatar?: string };
+  onMessageAction: (action: 'reply' | 'copy' | 'forward' | 'delete', message: ChatMessage) => void;
 }
 
 export function ChatWindow({
   messages,
-  selectedContact,
+  contact,
   userName,
   currentDepartment,
   onSendMessage,
   onShowIntro,
-  onSelectMessage,
+  onUpdateContactStatus,
+  onEndSupport,
+  onTransferChat,
+  onChangeDepartment,
+  currentUser,
+  onMessageAction,
 }: ChatWindowProps) {
   return (
     <div className="flex flex-col h-full">
@@ -32,23 +42,47 @@ export function ChatWindow({
         currentDepartment={currentDepartment}
         onShowIntro={onShowIntro}
       >
-        {selectedContact && <ChatHeaderInfo contact={selectedContact} />}
+        {contact && <ChatHeaderInfo contact={contact} />}
       </ChatHeader>
 
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
           {messages.map((message, index) => (
-            <ChatMessage
+            <MessageComponent
               key={index}
               message={message}
-              onSelect={() => onSelectMessage(message)}
+              isCurrentUser={message.senderId === currentUser.id}
+              currentUser={currentUser}
+              onMessageAction={(action, messageId, deleteType) => 
+                onMessageAction(action, message)
+              }
             />
           ))}
         </div>
       </ScrollArea>
 
-      <ChatActions />
-      <ChatInput onSendMessage={onSendMessage} />
+      <ChatActions
+        onEndSupport={onEndSupport}
+        onTransferChat={onTransferChat}
+        onChangeDepartment={onChangeDepartment}
+        attendants={[]}
+        departments={[]}
+        onSendMessage={onSendMessage}
+      />
+      
+      <ChatInput 
+        onSendMessage={onSendMessage}
+        isSignatureEnabled={false}
+        setIsSignatureEnabled={() => {}}
+        editedName=""
+        setIsEditingSignature={() => {}}
+        chatMode="message"
+        setChatMode={() => {}}
+        setIsEmojiPickerOpen={() => {}}
+        handleFileUpload={() => {}}
+        replyingTo={null}
+        onCancelReply={() => {}}
+      />
     </div>
   );
 }
