@@ -152,8 +152,12 @@ export default function Chatboard() {
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
   const { toast } = useToast();
 
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<ChatMessage | null>(null);
+
   useEffect(() => {
-    if (departments.length > 0 && (!currentDepartment || !departments.find(d => d.id === currentDepartment.id))) {
+    if (departments.length > 0 && (!currentDepartment || !departments.find(d => String(d.id) === String(currentDepartment.id)))) {
       setCurrentDepartment(departments[0]);
     }
   }, [departments]);
@@ -354,7 +358,6 @@ export default function Chatboard() {
 
   const handleDelete = (type: 'all' | 'me') => {
     if (selectedMessage) {
-      // Logic to delete the message
       toast({
         title: "Mensagem apagada",
         description: `Mensagem apagada ${type === 'all' ? 'para todos' : 'para você'}`,
@@ -366,7 +369,6 @@ export default function Chatboard() {
 
   const handleForward = (contactId: string) => {
     if (selectedMessage) {
-      // Logic to forward the message
       toast({
         title: "Mensagem encaminhada",
         description: "Mensagem encaminhada com sucesso",
