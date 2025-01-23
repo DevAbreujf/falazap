@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowRight, ArrowUp, XOctagon, X, Search, User, CheckCircle, Circle } from "lucide-react";
+import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle } from "lucide-react";
 import { useState } from "react";
 import {
   Sheet,
@@ -126,25 +126,16 @@ export function ChatActions({
 
       <Sheet open={isTransferOpen} onOpenChange={setIsTransferOpen}>
         <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
-          <SheetHeader className="mb-4">
-            <div className="flex items-center justify-between">
-              <SheetTitle className="text-left">Transferir conversa</SheetTitle>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsTransferOpen(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
+          <SheetHeader className="mb-6 border-b pb-4">
+            <SheetTitle className="text-xl font-semibold">Transferir conversa</SheetTitle>
           </SheetHeader>
           
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-6">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Pesquisar atendente"
-                className="pl-8"
+                className="pl-9 bg-muted/50"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -152,61 +143,64 @@ export function ChatActions({
 
             <div className="space-y-2 flex-1">
               {filteredAttendants.length === 0 ? (
-                <div className="flex items-center gap-2 p-2">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback>
-                      <User className="h-4 w-4" />
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm">Nenhum atendente encontrado</span>
+                <div className="flex items-center justify-center gap-2 p-4 rounded-lg bg-muted/50">
+                  <User className="h-5 w-5 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Nenhum atendente encontrado</span>
                 </div>
               ) : (
-                filteredAttendants.map((attendant) => (
-                  <div
-                    key={attendant.id}
-                    className={cn(
-                      "flex items-center justify-between p-2 rounded-md cursor-pointer hover:bg-muted",
-                      selectedAttendant === attendant.id && "bg-muted"
-                    )}
-                    onClick={() => setSelectedAttendant(attendant.id)}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="relative">
-                        <Avatar className="h-8 w-8">
-                          {attendant.avatar ? (
-                            <AvatarImage src={attendant.avatar} alt={attendant.name} />
-                          ) : (
-                            <AvatarFallback>
-                              <User className="h-4 w-4" />
-                            </AvatarFallback>
-                          )}
-                        </Avatar>
-                        <div className="absolute -top-1 -right-1">
-                          {attendant.isOnline ? (
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                          ) : (
-                            <Circle className="h-4 w-4 text-muted stroke-[1.5]" />
-                          )}
+                <div className="grid gap-2">
+                  {filteredAttendants.map((attendant) => (
+                    <div
+                      key={attendant.id}
+                      className={cn(
+                        "flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200",
+                        "hover:bg-muted/80",
+                        selectedAttendant === attendant.id ? "bg-muted ring-2 ring-primary ring-offset-2" : "bg-muted/50"
+                      )}
+                      onClick={() => setSelectedAttendant(attendant.id)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="relative">
+                          <Avatar className="h-10 w-10 border-2 border-background">
+                            {attendant.avatar ? (
+                              <AvatarImage src={attendant.avatar} alt={attendant.name} />
+                            ) : (
+                              <AvatarFallback className="bg-primary/10">
+                                <User className="h-5 w-5 text-primary" />
+                              </AvatarFallback>
+                            )}
+                          </Avatar>
+                          <div className={cn(
+                            "absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-background",
+                            attendant.isOnline ? "bg-green-500" : "bg-gray-300"
+                          )} />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-medium">{attendant.name}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {attendant.isOnline ? "Online" : "Offline"}
+                          </span>
                         </div>
                       </div>
-                      <span className="text-sm">{attendant.name}</span>
+                      {selectedAttendant === attendant.id && (
+                        <CheckCircle className="h-5 w-5 text-primary" />
+                      )}
                     </div>
-                    {selectedAttendant === attendant.id && (
-                      <div className="h-2 w-2 rounded-full bg-green-500" />
-                    )}
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </div>
           </div>
 
-          <div className="pt-4 border-t">
+          <div className="pt-6 border-t mt-auto">
             <Button 
-              className="w-full" 
+              className="w-full"
+              size="lg"
               disabled={!selectedAttendant}
               onClick={handleTransfer}
             >
-              Transferir
+              Transferir conversa
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </SheetContent>
