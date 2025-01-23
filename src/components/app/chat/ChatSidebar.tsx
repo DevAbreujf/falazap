@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatContact } from "@/types/chat";
-import { Search, Building2, MessageSquare, Users, ArrowLeft, Filter } from "lucide-react";
+import { Search, Building2, MessageSquare, Users, ArrowLeft, Filter, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -192,7 +192,7 @@ export function ChatSidebar({
                   </span>
                 )
               ) : (
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground text-center">
                   Nenhum setor cadastrado
                 </span>
               )}
@@ -295,8 +295,17 @@ export function ChatSidebar({
               </Button>
             ))}
             {departments.length === 0 && (
-              <div className="text-sm text-muted-foreground text-center py-2">
-                Nenhum setor cadastrado. Crie setores na página de Departamentos.
+              <div className="space-y-4">
+                <div className="text-sm text-muted-foreground text-center py-2">
+                  Nenhum setor cadastrado. Crie setores na página de Departamentos.
+                </div>
+                <Button
+                  onClick={() => navigate('/departments')}
+                  className="w-full gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Criar setor
+                </Button>
               </div>
             )}
           </div>
