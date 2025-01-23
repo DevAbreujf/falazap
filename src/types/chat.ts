@@ -1,7 +1,7 @@
 export interface Department {
   id: string;
   name: string;
-  description: string;
+  description?: string;
 }
 
 export interface ChatMessage {

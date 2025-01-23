@@ -3,7 +3,8 @@ import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { ChatMessage } from "./ChatMessage";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import type { ChatContact, ChatMessage as ChatMessageType } from "@/types/chat";
+import type { ChatContact, ChatMessage as ChatMessageType, Department } from "@/types/chat";
+import { useState } from "react";
 
 interface ChatWindowProps {
   contact: ChatContact;
@@ -39,9 +40,24 @@ export function ChatWindow({
   onMessageAction,
   departments
 }: ChatWindowProps) {
+  const [isSignatureEnabled, setIsSignatureEnabled] = useState(true);
+  const [editedName, setEditedName] = useState(currentUser.name);
+  const [isEditingSignature, setIsEditingSignature] = useState(false);
+  const [chatMode, setChatMode] = useState<"message" | "notes">("message");
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<ChatMessageType | null>(null);
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('File upload:', event.target.files);
+  };
+
   return (
     <div className="flex flex-col h-full">
-      <ChatHeader contact={contact} />
+      <ChatHeader
+        userName={currentUser.name}
+        currentDepartment={currentDepartment}
+        onShowIntro={() => {}}
+      />
       
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
@@ -49,8 +65,9 @@ export function ChatWindow({
             <ChatMessage
               key={message.id}
               message={message}
-              isOwn={message.senderId === "me"}
-              onAction={onMessageAction}
+              isCurrentUser={message.senderId === currentUser.id}
+              currentUser={currentUser}
+              onMessageAction={onMessageAction}
             />
           ))}
         </div>
@@ -61,14 +78,22 @@ export function ChatWindow({
           onEndSupport={onEndSupport}
           onTransferChat={onTransferChat}
           onChangeDepartment={onChangeDepartment}
-          attendants={[
-            { id: "1", name: "John Doe", departmentId: "1", isOnline: true },
-            { id: "2", name: "Jane Smith", departmentId: "2", isOnline: false },
-          ]}
           departments={departments}
           onSendMessage={onSendMessage}
         />
-        <ChatInput onSendMessage={onSendMessage} />
+        <ChatInput
+          onSendMessage={onSendMessage}
+          isSignatureEnabled={isSignatureEnabled}
+          setIsSignatureEnabled={setIsSignatureEnabled}
+          editedName={editedName}
+          setIsEditingSignature={setIsEditingSignature}
+          chatMode={chatMode}
+          setChatMode={setChatMode}
+          setIsEmojiPickerOpen={setIsEmojiPickerOpen}
+          handleFileUpload={handleFileUpload}
+          replyingTo={replyingTo}
+          onCancelReply={() => setReplyingTo(null)}
+        />
       </div>
     </div>
   );
