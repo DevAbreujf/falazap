@@ -24,7 +24,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Department } from "@/types/chat";
+
+interface Department {
+  id: number;
+  name: string;
+  users: User[];
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  department: string;
+}
 
 interface DepartmentsListProps {
   departments: Department[];
@@ -103,7 +115,7 @@ export function DepartmentsList({
                 <TableCell>
                   <div className="flex items-center">
                     <Users className="h-4 w-4 mr-2" />
-                    {department.users?.length || 0} usuários
+                    {department.users.length} usuários
                   </div>
                 </TableCell>
                 <TableCell>
@@ -111,7 +123,7 @@ export function DepartmentsList({
                     variant="outline" 
                     size="sm"
                     onClick={(e) => {
-                      e.stopPropagation();
+                      e.stopPropagation(); // Prevent row click when clicking the button
                       setSelectedDepartment(department);
                     }}
                   >

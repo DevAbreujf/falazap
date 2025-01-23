@@ -1,8 +1,7 @@
 export interface Department {
   id: string;
   name: string;
-  description?: string;
-  users?: DepartmentUser[];
+  description: string;
 }
 
 export interface ChatMessage {
@@ -23,11 +22,4 @@ export interface ChatContact {
   funnelName?: string;
   avatar?: string;
   lastMessage?: ChatMessage;
-}
-
-export interface DepartmentUser {
-  id: string;
-  name: string;
-  email: string;
-  department: string;
 }

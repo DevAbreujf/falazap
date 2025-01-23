@@ -3,120 +3,123 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { DepartmentsList } from "@/components/app/departments/DepartmentsList";
 import { DepartmentUsers } from "@/components/app/departments/DepartmentUsers";
-import { useDepartmentStore } from "@/stores/departmentStore";
-import { useToast } from "@/components/ui/use-toast";
-import { Department } from "@/types/chat";
 
-interface DepartmentUser {
-  id: string;
+interface Department {
+  id: number;
+  name: string;
+  users: User[];
+}
+
+interface User {
+  id: number;
   name: string;
   email: string;
   department: string;
 }
 
 export default function Departments() {
-  const { departments: storeDepartments, setDepartments: updateDepartments } = useDepartmentStore();
+  const [departments, setDepartments] = useState<Department[]>([
+    { id: 1, name: "Suporte", users: [] },
+    { id: 2, name: "Vendas", users: [] },
+    { id: 3, name: "Financeiro", users: [] },
+    { id: 4, name: "Administrativo", users: [] },
+  ]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedDepartment, setSelectedDepartment] = useState<Department | null>(null);
+  const [selectedDepartment, setSelectedDepartment] = useState<Department | null>(
+    null
+  );
   const [isAddingDepartment, setIsAddingDepartment] = useState(false);
   const [newDepartmentName, setNewDepartmentName] = useState("");
-  const { toast } = useToast();
 
   const itemsPerPage = 8;
-  const totalPages = Math.ceil(storeDepartments.length / itemsPerPage);
+  const totalPages = Math.ceil(departments.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentDepartments = storeDepartments.slice(startIndex, endIndex);
+  const currentDepartments = departments.slice(startIndex, endIndex);
 
   const handleAddDepartment = () => {
     if (newDepartmentName.trim()) {
       const newDepartment: Department = {
-        id: `${Date.now()}`,
+        id: departments.length + 1,
         name: newDepartmentName.trim(),
-        description: "",
-        users: []
+        users: [],
       };
-      
-      const updatedDepartments = [...storeDepartments, newDepartment];
-      updateDepartments(updatedDepartments);
-      
+      setDepartments([...departments, newDepartment]);
       setNewDepartmentName("");
       setIsAddingDepartment(false);
-      
-      toast({
-        title: "Setor criado",
-        description: `O setor ${newDepartmentName} foi criado com sucesso.`,
-      });
     }
   };
 
-  const handleAddUserToDepartment = (user: DepartmentUser) => {
+  const handleAddUserToDepartment = (user: User) => {
     if (selectedDepartment) {
-      const updatedDepartments = storeDepartments.map(dept => {
+      const updatedDepartments = departments.map(dept => {
         if (dept.id === selectedDepartment.id) {
           return {
             ...dept,
-            users: [...(dept.users || []), user]
+            users: [...dept.users, user]
           };
         }
         return dept;
       });
       
-      updateDepartments(updatedDepartments);
+      setDepartments(updatedDepartments);
       setSelectedDepartment({
         ...selectedDepartment,
-        users: [...(selectedDepartment.users || []), user]
+        users: [...selectedDepartment.users, user]
       });
     }
   };
 
-  const handleRemoveUserFromDepartment = (userId: string) => {
+  const handleRemoveUserFromDepartment = (userId: number) => {
     if (selectedDepartment) {
-      const updatedDepartments = storeDepartments.map(dept => {
+      const updatedDepartments = departments.map(dept => {
         if (dept.id === selectedDepartment.id) {
           return {
             ...dept,
-            users: (dept.users || []).filter(user => user.id !== userId)
+            users: dept.users.filter(user => user.id !== userId)
           };
         }
         return dept;
       });
       
-      updateDepartments(updatedDepartments);
+      setDepartments(updatedDepartments);
       setSelectedDepartment({
         ...selectedDepartment,
-        users: (selectedDepartment.users || []).filter(user => user.id !== userId)
+        users: selectedDepartment.users.filter(user => user.id !== userId)
       });
     }
   };
 
-  const handleChangeDepartment = (userId: string, newDepartmentName: string, action: 'change' | 'add') => {
+  const handleChangeDepartment = (userId: number, newDepartmentName: string, action: 'change' | 'add') => {
     if (selectedDepartment) {
-      const userToMove = (selectedDepartment.users || []).find(user => user.id === userId);
+      const userToMove = selectedDepartment.users.find(user => user.id === userId);
       if (!userToMove) return;
 
-      const updatedDepartments = storeDepartments.map(dept => {
+      const updatedDepartments = departments.map(dept => {
         if (dept.name === newDepartmentName) {
+          // Add user to new department
           return {
             ...dept,
-            users: [...(dept.users || []), { ...userToMove, department: newDepartmentName }]
+            users: [...dept.users, { ...userToMove, department: newDepartmentName }]
           };
         }
         if (dept.id === selectedDepartment.id && action === 'change') {
+          // Remove user from current department only if action is 'change'
           return {
             ...dept,
-            users: (dept.users || []).filter(user => user.id !== userId)
+            users: dept.users.filter(user => user.id !== userId)
           };
         }
         return dept;
       });
       
-      updateDepartments(updatedDepartments);
+      setDepartments(updatedDepartments);
       
       if (action === 'change') {
+        // Update selected department state only if user is being moved
         setSelectedDepartment({
           ...selectedDepartment,
-          users: (selectedDepartment.users || []).filter(user => user.id !== userId)
+          users: selectedDepartment.users.filter(user => user.id !== userId)
         });
       }
     }
@@ -130,7 +133,7 @@ export default function Departments() {
           <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10">
             {!selectedDepartment ? (
               <DepartmentsList
-                departments={storeDepartments}
+                departments={departments}
                 currentPage={currentPage}
                 totalPages={totalPages}
                 setCurrentPage={setCurrentPage}
@@ -157,11 +160,11 @@ export default function Departments() {
                 </div>
                 <DepartmentUsers 
                   departmentName={selectedDepartment.name}
-                  users={selectedDepartment.users || []}
+                  users={selectedDepartment.users}
                   onAddUser={handleAddUserToDepartment}
                   onRemoveUser={handleRemoveUserFromDepartment}
                   onChangeDepartment={handleChangeDepartment}
-                  departments={storeDepartments}
+                  departments={departments}
                 />
               </div>
             )}
