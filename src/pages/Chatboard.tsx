@@ -52,11 +52,11 @@ const falaZAPContact: ChatContact = {
   }
 };
 
-const mockContactsByDepartment: Record<string, ChatContact[]> = {
-  "1": [falaZAPContact],
-  "2": [falaZAPContact],
-  "3": [falaZAPContact],
-};
+// Inicialização correta do mockContactsByDepartment para todos os departamentos
+const mockContactsByDepartment: Record<string, ChatContact[]> = departments.reduce((acc, dept) => ({
+  ...acc,
+  [dept.id]: dept.id === "1" ? [falaZAPContact] : []
+}), {});
 
 const initialFalaZAPMessages: ChatMessage[] = [
   {
@@ -158,7 +158,6 @@ export default function Chatboard() {
   const { departments: storeDepartments, setDepartments: updateDepartments } = useDepartmentStore();
 
   useEffect(() => {
-    // Sincroniza os departamentos com a store quando o componente monta
     updateDepartments(departments);
   }, [updateDepartments]);
 
@@ -333,8 +332,9 @@ export default function Chatboard() {
     }
   };
 
-  const currentContacts = mockContactsByDepartment[currentDepartment.id]
-    .filter(contact => !hideFalaZAP || contact.id !== "falazap");
+  const currentContacts = mockContactsByDepartment[currentDepartment.id]?.filter(
+    contact => !hideFalaZAP || contact.id !== "falazap"
+  ) || [];
     
   const currentMessages = selectedContactId 
     ? (messagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
