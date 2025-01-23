@@ -67,6 +67,11 @@ export function DepartmentChangeDialog({
                 {dept.name}
               </Button>
             ))}
+            {departments.length === 0 && (
+              <div className="text-sm text-muted-foreground text-center py-2">
+                Nenhum setor cadastrado. Crie setores na página de Departamentos.
+              </div>
+            )}
             <Button
               variant="outline"
               onClick={() => setSelectedAction(null)}

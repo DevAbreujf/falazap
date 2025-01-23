@@ -24,19 +24,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
-const mockDepartments = [
-  { id: "1", name: "Suporte Técnico" },
-  { id: "2", name: "Vendas" },
-  { id: "3", name: "Financeiro" },
-];
+import { useDepartmentStore } from "@/stores/departmentStore";
 
 interface ChatSidebarProps {
   contacts: ChatContact[];
   selectedContactId?: string;
   onSelectContact: (contact: ChatContact) => void;
   onDepartmentChange: (departmentId: string) => void;
-  currentDepartment: typeof mockDepartments[0];
+  currentDepartment: { id: string; name: string };
 }
 
 export function ChatSidebar({ 
@@ -52,6 +47,9 @@ export function ChatSidebar({
   const [currentFilter, setCurrentFilter] = useState<'incoming' | 'waiting' | 'finished'>('incoming');
   const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
+  const { departments } = useDepartmentStore();
+
+  console.log("Current departments in ChatSidebar:", departments); // Debug log
 
   const filteredContacts = contacts.filter(contact => {
     const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -73,8 +71,8 @@ export function ChatSidebar({
     finished: contacts.filter(c => c.status === 'finished' && c.unreadCount > 0).length,
   };
 
-  const handleDepartmentChange = (department: typeof mockDepartments[0]) => {
-    onDepartmentChange(department.id);
+  const handleDepartmentChange = (department: { id: number; name: string }) => {
+    onDepartmentChange(String(department.id));
     setIsDialogOpen(false);
     toast({
       title: "Setor alterado",
@@ -274,7 +272,7 @@ export function ChatSidebar({
             <DialogTitle>Selecionar Setor</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {mockDepartments.map((dept) => (
+            {departments.map((dept) => (
               <Button
                 key={dept.id}
                 variant="outline"
@@ -284,6 +282,11 @@ export function ChatSidebar({
                 {dept.name}
               </Button>
             ))}
+            {departments.length === 0 && (
+              <div className="text-sm text-muted-foreground text-center py-2">
+                Nenhum setor cadastrado. Crie setores na página de Departamentos.
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
