@@ -19,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -54,6 +55,7 @@ export function ChatActions({
   const [selectedAttendant, setSelectedAttendant] = useState<string | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   const [isEditMessageOpen, setIsEditMessageOpen] = useState(false);
+  const [isEndSupportOpen, setIsEndSupportOpen] = useState(false);
   const [endMessage, setEndMessage] = useState("Atendimento finalizado");
   const { toast } = useToast();
 
@@ -90,6 +92,7 @@ export function ChatActions({
 
   const handleEndSupport = () => {
     onEndSupport();
+    setIsEndSupportOpen(false);
     toast({
       title: "Atendimento finalizado",
       description: "O atendimento foi encerrado com sucesso.",
@@ -137,14 +140,13 @@ export function ChatActions({
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="relative">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleEndSupport}
-              >
-                <XOctagon className="h-4 w-4" />
-              </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="relative group hover:border-destructive/50 hover:bg-destructive/10"
+              onClick={() => setIsEndSupportOpen(true)}
+            >
+              <XOctagon className="h-4 w-4 text-destructive group-hover:text-destructive" />
               <Button
                 variant="ghost"
                 size="icon"
@@ -156,7 +158,7 @@ export function ChatActions({
               >
                 <Pencil className="h-3 w-3" />
               </Button>
-            </div>
+            </Button>
           </TooltipTrigger>
           <TooltipContent>
             <p>Finalizar atendimento</p>
@@ -332,6 +334,27 @@ export function ChatActions({
             <Button onClick={handleSaveEndMessage}>
               <CheckCircle className="mr-2 h-4 w-4" />
               Salvar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isEndSupportOpen} onOpenChange={setIsEndSupportOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Finalizar Atendimento</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja finalizar este atendimento?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEndSupportOpen(false)}>
+              <X className="mr-2 h-4 w-4" />
+              Cancelar
+            </Button>
+            <Button variant="destructive" onClick={handleEndSupport}>
+              <CheckCircle className="mr-2 h-4 w-4" />
+              Confirmar
             </Button>
           </DialogFooter>
         </DialogContent>
