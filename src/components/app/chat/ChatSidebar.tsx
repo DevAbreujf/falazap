@@ -181,13 +181,19 @@ export function ChatSidebar({
                 <Building2 className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 Setores
               </Button>
-              {currentDepartment.name ? (
-                <Badge variant="outline" className="shrink-0 bg-primary/5 hover:bg-primary/10 transition-colors self-start">
-                  {currentDepartment.name}
-                </Badge>
+              {departments.length > 0 ? (
+                currentDepartment?.name ? (
+                  <Badge variant="outline" className="shrink-0 bg-primary/5 hover:bg-primary/10 transition-colors self-start">
+                    {currentDepartment.name}
+                  </Badge>
+                ) : (
+                  <span className="text-sm text-muted-foreground">
+                    Selecione um setor
+                  </span>
+                )
               ) : (
                 <span className="text-sm text-muted-foreground">
-                  Nenhum setor selecionado
+                  Nenhum setor cadastrado
                 </span>
               )}
             </div>
