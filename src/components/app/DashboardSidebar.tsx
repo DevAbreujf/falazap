@@ -15,9 +15,16 @@ import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 import { SidebarNotifications } from "./dashboard/SidebarNotifications";
 import { ThemeToggle } from "./dashboard/ThemeToggle";
+import { useState } from "react";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
+  const [departments] = useState([
+    { id: 1, name: "Suporte", users: [] },
+    { id: 2, name: "Vendas", users: [] },
+    { id: 3, name: "Financeiro", users: [] },
+    { id: 4, name: "Administrativo", users: [] },
+  ]);
   
   const connectedPhones = [
     { number: "+55 11 99999-9999", isConnected: true },
@@ -66,6 +73,22 @@ export function DashboardSidebar() {
             >
               <span className="truncate">Usuários</span>
             </Button>
+          </div>
+          <div className="mt-3">
+            <h3 className="text-sm font-medium mb-2">Setores Disponíveis</h3>
+            <div className="space-y-1">
+              {departments.map((dept) => (
+                <Button
+                  key={dept.id}
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate(`/departments?id=${dept.id}`)}
+                  className="w-full justify-start text-sm hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  {dept.name}
+                </Button>
+              ))}
+            </div>
           </div>
           <SidebarPhoneSection connectedPhones={connectedPhones} />
         </div>

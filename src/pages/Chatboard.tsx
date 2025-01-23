@@ -276,7 +276,6 @@ export default function Chatboard() {
         : contact
     );
     mockContactsByDepartment[currentDepartment.id] = updatedContacts;
-    setSelectedContactId(undefined);
   };
 
   const handleTransferChat = (contactId: string, attendantId: string) => {
