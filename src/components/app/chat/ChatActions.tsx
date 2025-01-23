@@ -45,7 +45,6 @@ export function ChatActions({
   const [selectedAttendant, setSelectedAttendant] = useState<string | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
 
-  // Sort attendants by online status
   const sortedAttendants = [...attendants].sort((a, b) => {
     if (a.isOnline === b.isOnline) return 0;
     return (a.isOnline ? -1 : 1);
