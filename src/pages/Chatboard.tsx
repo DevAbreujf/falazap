@@ -340,6 +340,11 @@ export default function Chatboard() {
     avatar: undefined
   };
 
+  const formattedDepartments = departments.map(dept => ({
+    id: dept.id.toString(),
+    name: dept.name
+  }));
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <ChatSidebar
@@ -371,6 +376,7 @@ export default function Chatboard() {
             currentDepartment={currentDepartment}
             currentUser={mockCurrentUser}
             onMessageAction={handleMessageAction}
+            departments={formattedDepartments}
           />
         )}
       </div>
