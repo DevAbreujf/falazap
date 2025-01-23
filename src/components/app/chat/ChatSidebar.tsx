@@ -1,4 +1,4 @@
-import { Menu } from "lucide-react";
+import { Menu, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,46 +9,30 @@ import {
   SidebarHeader,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { ChatContact, Department } from "@/types/chat";
-import { useState } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Building2, CheckCircle2, Search } from "lucide-react";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { SidebarLogo } from "./dashboard/SidebarLogo";
+import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
+import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
+import { SidebarNavigation } from "./dashboard/SidebarNavigation";
+import { SidebarNotifications } from "./dashboard/SidebarNotifications";
+import { ThemeToggle } from "./dashboard/ThemeToggle";
 
-interface ChatSidebarProps {
-  contacts: ChatContact[];
-  selectedContactId?: string;
-  onSelectContact: (contact: ChatContact) => void;
-  onDepartmentChange: (departmentId: string) => void;
-  currentDepartment?: Department;
-  departments: Department[];
-  onCreateDepartment: () => void;
-}
-
-export function ChatSidebar({ 
-  contacts, 
-  selectedContactId, 
-  onSelectContact, 
-  onDepartmentChange, 
-  currentDepartment,
-  departments,
-  onCreateDepartment
-}: ChatSidebarProps) {
+export function ChatSidebar() {
   const navigate = useNavigate();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [showTeamChat, setShowTeamChat] = useState(false);
-  const [currentFilter, setCurrentFilter] = useState<'incoming' | 'waiting' | 'finished'>('incoming');
-  const [searchTerm, setSearchTerm] = useState("");
-  const [departmentSearchTerm, setDepartmentSearchTerm] = useState("");
+  
+  const connectedPhones = [
+    { number: "+55 11 99999-9999", isConnected: true },
+    { number: "+55 11 88888-8888", isConnected: true },
+    { number: "+55 11 77777-7777", isConnected: true },
+  ];
 
   return (
-    <div className="w-96 border-r border-primary/10 bg-gradient-to-b from-card to-card/95 backdrop-blur-sm">
+    <div className="w-96 border-r border-slate-200 bg-gradient-to-b from-card to-card/95 backdrop-blur-sm">
       <div className="flex items-center justify-start gap-2 p-4 border-b border-primary/10 bg-card/50">
         <TooltipProvider>
           <Tooltip>
@@ -68,92 +52,43 @@ export function ChatSidebar({
           </Tooltip>
         </TooltipProvider>
       </div>
-
+      
       <SidebarHeader>
         <div className="p-4">
-          <h1 className="text-lg font-semibold">Contatos</h1>
-          <div className="mt-3">
-            <Button onClick={() => setIsDialogOpen(true)} variant="outline" className="w-full">
-              Selecionar Setor
+          <SidebarUserProfile />
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/departments')}
+              className="w-full justify-start dark:border-slate-700 dark:hover:bg-slate-800"
+            >
+              <span className="truncate">Setores</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/users')}
+              className="w-full justify-start dark:border-slate-700 dark:hover:bg-slate-800"
+            >
+              <span className="truncate">Usuários</span>
             </Button>
           </div>
+          <SidebarPhoneSection connectedPhones={connectedPhones} />
         </div>
       </SidebarHeader>
-
+      
       <SidebarContent className="px-3">
         <SidebarGroup>
           <SidebarGroupContent>
-            {contacts.map(contact => (
-              <div key={contact.id} onClick={() => onSelectContact(contact)} className={`flex items-center p-2 rounded-lg cursor-pointer ${selectedContactId === contact.id ? 'bg-primary/10' : ''}`}>
-                <span className="font-medium">{contact.name}</span>
-              </div>
-            ))}
+            <SidebarNavigation />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold">Selecionar Setor</DialogTitle>
-          </DialogHeader>
-          
-          <div className="py-4 space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Buscar setor..."
-                value={departmentSearchTerm}
-                onChange={(e) => setDepartmentSearchTerm(e.target.value)}
-                className="pl-9"
-                disabled={departments.length === 0}
-              />
-            </div>
-
-            <ScrollArea className="h-[300px] pr-4">
-              {departments.length === 0 ? (
-                <div className="flex flex-col items-center justify-center p-6 space-y-4">
-                  <Building2 className="h-12 w-12 text-muted-foreground" />
-                  <div className="text-center">
-                    <h3 className="font-medium">Nenhum setor cadastrado</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Você precisa criar um setor antes de continuar
-                    </p>
-                  </div>
-                  <Button onClick={onCreateDepartment}>
-                    Criar Setor
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {departments.map((dept) => (
-                    <div
-                      key={dept.id}
-                      onClick={() => onDepartmentChange(dept.id)}
-                      className={`p-3 rounded-lg cursor-pointer transition-all duration-200 ${currentDepartment?.id === dept.id ? 'bg-primary/10 ring-2 ring-primary ring-offset-2' : ''}`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <Building2 className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="font-medium">{dept.name}</p>
-                          {dept.description && (
-                            <p className="text-sm text-muted-foreground">{dept.description}</p>
-                          )}
-                        </div>
-                      </div>
-                      {currentDepartment?.id === dept.id && (
-                        <CheckCircle2 className="h-5 w-5 text-primary animate-scale-in" />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </ScrollArea>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <div className="mt-auto">
+        <ThemeToggle />
+      </div>
     </div>
   );
 }
