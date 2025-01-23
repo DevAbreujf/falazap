@@ -371,6 +371,10 @@ export default function Chatboard() {
             currentDepartment={currentDepartment}
             currentUser={mockCurrentUser}
             onMessageAction={handleMessageAction}
+            departments={departments.map(d => ({
+              id: d.id.toString(),
+              name: d.name
+            }))}
           />
         )}
       </div>

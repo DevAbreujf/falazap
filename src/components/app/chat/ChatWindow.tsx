@@ -37,6 +37,7 @@ interface ChatWindowProps {
   currentDepartment: { id: string; name: string };
   currentUser: { id: string; name: string; avatar?: string };
   onMessageAction: (action: 'reply' | 'copy' | 'forward' | 'delete', message: ChatMessage) => void;
+  departments: Array<{ id: string; name: string }>;
 }
 
 export function ChatWindow({ 
@@ -49,7 +50,8 @@ export function ChatWindow({
   onChangeDepartment,
   currentDepartment,
   currentUser,
-  onMessageAction
+  onMessageAction,
+  departments
 }: ChatWindowProps) {
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
@@ -145,10 +147,7 @@ export function ChatWindow({
               { id: "1", name: "John Doe", departmentId: "1" },
               { id: "2", name: "Jane Smith", departmentId: "2" },
             ]}
-            departments={[
-              { id: "1", name: "Support" },
-              { id: "2", name: "Sales" },
-            ]}
+            departments={departments}
           />
         </div>
       </div>
