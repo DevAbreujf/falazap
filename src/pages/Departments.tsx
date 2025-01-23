@@ -1,35 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { DepartmentsList } from "@/components/app/departments/DepartmentsList";
 import { DepartmentUsers } from "@/components/app/departments/DepartmentUsers";
-
-interface Department {
-  id: number;
-  name: string;
-  users: User[];
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  department: string;
-}
+import { useDepartmentStore } from "@/stores/departmentStore";
+import type { Department, User } from "@/stores/departmentStore";
 
 export default function Departments() {
-  const [departments, setDepartments] = useState<Department[]>([
-    { id: 1, name: "Suporte", users: [] },
-    { id: 2, name: "Vendas", users: [] },
-    { id: 3, name: "Financeiro", users: [] },
-    { id: 4, name: "Administrativo", users: [] },
-  ]);
+  const { departments, setDepartments, addDepartment } = useDepartmentStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedDepartment, setSelectedDepartment] = useState<Department | null>(
     null
   );
   const [isAddingDepartment, setIsAddingDepartment] = useState(false);
   const [newDepartmentName, setNewDepartmentName] = useState("");
+
+  // Inicializa o store com os departamentos existentes
+  useEffect(() => {
+    if (departments.length === 0) {
+      setDepartments([
+        { id: 1, name: "Suporte", users: [] },
+        { id: 2, name: "Vendas", users: [] },
+        { id: 3, name: "Financeiro", users: [] },
+        { id: 4, name: "Administrativo", users: [] },
+      ]);
+    }
+  }, []);
 
   const itemsPerPage = 8;
   const totalPages = Math.ceil(departments.length / itemsPerPage);
@@ -44,7 +40,7 @@ export default function Departments() {
         name: newDepartmentName.trim(),
         users: [],
       };
-      setDepartments([...departments, newDepartment]);
+      addDepartment(newDepartment);
       setNewDepartmentName("");
       setIsAddingDepartment(false);
     }
