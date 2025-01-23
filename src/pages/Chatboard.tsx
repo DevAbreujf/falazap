@@ -52,46 +52,11 @@ const falaZAPContact: ChatContact = {
   }
 };
 
-// Inicialização correta do mockContactsByDepartment para todos os departamentos
-const mockContactsByDepartment: Record<string, ChatContact[]> = departments.reduce((acc, dept) => ({
+// Inicializa o mockContactsByDepartment com os departamentos do store
+const initialContactsByDepartment: Record<string, ChatContact[]> = departments.reduce((acc, dept) => ({
   ...acc,
   [dept.id]: dept.id === "1" ? [falaZAPContact] : []
 }), {});
-
-const initialFalaZAPMessages: ChatMessage[] = [
-  {
-    id: "msg1",
-    content: "Olá, eu sou a inteligencia do FalaZAP",
-    senderId: "falazap",
-    timestamp: new Date().toISOString(),
-    status: "delivered",
-    type: "text"
-  },
-  {
-    id: "msg2",
-    content: "Vamos fingir que eu sou uma pessoa com interesse nos produtos ou serviços da sua organização, ok?",
-    senderId: "falazap",
-    timestamp: new Date().toISOString(),
-    status: "delivered",
-    type: "text"
-  },
-  {
-    id: "msg3",
-    content: "Você e quem você quiser cadastrar da sua organização pode me responder por esse chat maravilhoso que eu (uma pessoa interessada) recebo tudo no celular, direto no WhatsApp!",
-    senderId: "falazap",
-    timestamp: new Date().toISOString(),
-    status: "delivered",
-    type: "text"
-  },
-  {
-    id: "msg4",
-    content: "Me responde aqui se achou legal...\n\nSério, responde aí alguma coisa para continuarmos...",
-    senderId: "falazap",
-    timestamp: new Date().toISOString(),
-    status: "delivered",
-    type: "text"
-  }
-];
 
 const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>> = {
   "1": {
@@ -113,7 +78,40 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
         type: "text"
       }
     ],
-    falazap: initialFalaZAPMessages
+    falazap: [
+      {
+        id: "msg1",
+        content: "Olá, eu sou a inteligencia do FalaZAP",
+        senderId: "falazap",
+        timestamp: new Date().toISOString(),
+        status: "delivered",
+        type: "text"
+      },
+      {
+        id: "msg2",
+        content: "Vamos fingir que eu sou uma pessoa com interesse nos produtos ou serviços da sua organização, ok?",
+        senderId: "falazap",
+        timestamp: new Date().toISOString(),
+        status: "delivered",
+        type: "text"
+      },
+      {
+        id: "msg3",
+        content: "Você e quem você quiser cadastrar da sua organização pode me responder por esse chat maravilhoso que eu (uma pessoa interessada) recebo tudo no celular, direto no WhatsApp!",
+        senderId: "falazap",
+        timestamp: new Date().toISOString(),
+        status: "delivered",
+        type: "text"
+      },
+      {
+        id: "msg4",
+        content: "Me responde aqui se achou legal...\n\nSério, responde aí alguma coisa para continuarmos...",
+        senderId: "falazap",
+        timestamp: new Date().toISOString(),
+        status: "delivered",
+        type: "text"
+      }
+    ]
   },
   "2": {
     "2": [
@@ -145,25 +143,38 @@ export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string>("falazap");
   const [showIntro, setShowIntro] = useState(false);
   const [currentDepartment, setCurrentDepartment] = useState<Department>(departments[0]);
-  const [messagesByDepartment, setMessagesByDepartment] = useState({
-    ...initialMessagesByDepartment,
-    "1": {
-      ...initialMessagesByDepartment["1"],
-      falazap: initialFalaZAPMessages
-    }
-  });
+  const [messagesByDepartment, setMessagesByDepartment] = useState(initialMessagesByDepartment);
   const [hasUserReplied, setHasUserReplied] = useState(false);
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
   const { toast } = useToast();
-  const { departments: storeDepartments, setDepartments: updateDepartments } = useDepartmentStore();
+  const { departments: storeDepartments } = useDepartmentStore();
 
+  // Inicializa o mockContactsByDepartment com os departamentos do store
+  const [contactsByDepartment, setContactsByDepartment] = useState(() => 
+    storeDepartments.reduce((acc, dept) => ({
+      ...acc,
+      [dept.id]: dept.id === "1" ? [falaZAPContact] : []
+    }), {})
+  );
+
+  // Atualiza o contactsByDepartment quando os departamentos mudarem
   useEffect(() => {
-    updateDepartments(departments);
-  }, [updateDepartments]);
-
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState<ChatMessage | null>(null);
+    setContactsByDepartment(prev => {
+      const newContacts = storeDepartments.reduce((acc, dept) => ({
+        ...acc,
+        [dept.id]: prev[dept.id] || []
+      }), {});
+      
+      // Mantém o FalaZAP no departamento 1
+      if (newContacts["1"]) {
+        newContacts["1"] = newContacts["1"].some(c => c.id === "falazap") 
+          ? newContacts["1"] 
+          : [...newContacts["1"], falaZAPContact];
+      }
+      
+      return newContacts;
+    });
+  }, [storeDepartments]);
 
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
@@ -190,17 +201,20 @@ export default function Chatboard() {
       };
     });
 
-    const selectedContact = mockContactsByDepartment[currentDepartment.id].find(
+    const selectedContact = contactsByDepartment[currentDepartment.id].find(
       contact => contact.id === selectedContactId
     );
 
     if (selectedContact && selectedContact.status === 'new') {
-      const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
+      const updatedContacts = contactsByDepartment[currentDepartment.id].map(contact =>
         contact.id === selectedContactId
           ? { ...contact, status: 'waiting' as const }
           : contact
       );
-      mockContactsByDepartment[currentDepartment.id] = updatedContacts;
+      setContactsByDepartment(prev => ({
+        ...prev,
+        [currentDepartment.id]: updatedContacts
+      }));
     }
 
     if (selectedContactId === "falazap") {
@@ -263,12 +277,15 @@ export default function Chatboard() {
       return;
     }
 
-    const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
+    const updatedContacts = contactsByDepartment[currentDepartment.id].map(contact =>
       contact.id === contactId
         ? { ...contact, status: isSupport ? "finished" as const : "new" as const }
         : contact
     );
-    mockContactsByDepartment[currentDepartment.id] = updatedContacts;
+    setContactsByDepartment(prev => ({
+      ...prev,
+      [currentDepartment.id]: updatedContacts
+    }));
   };
 
   const handleDepartmentChange = (departmentId: string) => {
@@ -281,27 +298,38 @@ export default function Chatboard() {
   };
 
   const handleEndSupport = (contactId: string) => {
-    const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
+    const updatedContacts = contactsByDepartment[currentDepartment.id].map(contact =>
       contact.id === contactId
         ? { ...contact, status: 'finished' as const }
         : contact
     );
-    mockContactsByDepartment[currentDepartment.id] = updatedContacts;
+    setContactsByDepartment(prev => ({
+      ...prev,
+      [currentDepartment.id]: updatedContacts
+    }));
     setSelectedContactId(undefined);
   };
 
   const handleTransferChat = (contactId: string, attendantId: string) => {
     const attendant = mockAttendants.find(a => a.id === attendantId);
     if (attendant) {
-      const contact = mockContactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
+      const contact = contactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
       if (contact) {
-        mockContactsByDepartment[currentDepartment.id] = mockContactsByDepartment[currentDepartment.id]
-          .filter(c => c.id !== contactId);
+        setContactsByDepartment(prev => ({
+          ...prev,
+          [currentDepartment.id]: prev[currentDepartment.id].filter(c => c.id !== contactId)
+        }));
         const updatedContact = { ...contact, status: 'new' as const };
-        if (!mockContactsByDepartment[attendant.departmentId]) {
-          mockContactsByDepartment[attendant.departmentId] = [];
+        if (!contactsByDepartment[attendant.departmentId]) {
+          setContactsByDepartment(prev => ({
+            ...prev,
+            [attendant.departmentId]: []
+          }));
         }
-        mockContactsByDepartment[attendant.departmentId].push(updatedContact);
+        setContactsByDepartment(prev => ({
+          ...prev,
+          [attendant.departmentId]: [...prev[attendant.departmentId], updatedContact]
+        }));
         setSelectedContactId(undefined);
         toast({
           title: "Conversa transferida",
@@ -312,15 +340,23 @@ export default function Chatboard() {
   };
 
   const handleChangeDepartment = (contactId: string, departmentId: string) => {
-    const contact = mockContactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
+    const contact = contactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
     if (contact) {
-      mockContactsByDepartment[currentDepartment.id] = mockContactsByDepartment[currentDepartment.id]
-        .filter(c => c.id !== contactId);
+      setContactsByDepartment(prev => ({
+        ...prev,
+        [currentDepartment.id]: prev[currentDepartment.id].filter(c => c.id !== contactId)
+      }));
       const updatedContact = { ...contact, status: 'new' as const };
-      if (!mockContactsByDepartment[departmentId]) {
-        mockContactsByDepartment[departmentId] = [];
+      if (!contactsByDepartment[departmentId]) {
+        setContactsByDepartment(prev => ({
+          ...prev,
+          [departmentId]: []
+        }));
       }
-      mockContactsByDepartment[departmentId].push(updatedContact);
+      setContactsByDepartment(prev => ({
+        ...prev,
+        [departmentId]: [...prev[departmentId], updatedContact]
+      }));
       setSelectedContactId(undefined);
       const department = departments.find(d => d.id === departmentId);
       if (department) {
@@ -332,7 +368,7 @@ export default function Chatboard() {
     }
   };
 
-  const currentContacts = mockContactsByDepartment[currentDepartment.id]?.filter(
+  const currentContacts = contactsByDepartment[currentDepartment.id]?.filter(
     contact => !hideFalaZAP || contact.id !== "falazap"
   ) || [];
     
@@ -347,40 +383,7 @@ export default function Chatboard() {
   };
 
   const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', message: ChatMessage) => {
-    setSelectedMessage(message);
-    
-    switch (action) {
-      case 'forward':
-        setIsForwardDialogOpen(true);
-        break;
-      case 'delete':
-        setIsDeleteDialogOpen(true);
-        break;
-    }
-  };
-
-  const handleDelete = (type: 'all' | 'me') => {
-    if (selectedMessage) {
-      // Logic to delete the message
-      toast({
-        title: "Mensagem apagada",
-        description: `Mensagem apagada ${type === 'all' ? 'para todos' : 'para você'}`,
-      });
-    }
-    setIsDeleteDialogOpen(false);
-    setSelectedMessage(null);
-  };
-
-  const handleForward = (contactId: string) => {
-    if (selectedMessage) {
-      // Logic to forward the message
-      toast({
-        title: "Mensagem encaminhada",
-        description: "Mensagem encaminhada com sucesso",
-      });
-    }
-    setIsForwardDialogOpen(false);
-    setSelectedMessage(null);
+    // Logic for handling message actions
   };
 
   return (
@@ -417,19 +420,13 @@ export default function Chatboard() {
       </div>
 
       <ChatDialogs
-        isDeleteDialogOpen={isDeleteDialogOpen}
-        isForwardDialogOpen={isForwardDialogOpen}
-        selectedMessage={selectedMessage}
-        onCloseDeleteDialog={() => {
-          setIsDeleteDialogOpen(false);
-          setSelectedMessage(null);
-        }}
-        onCloseForwardDialog={() => {
-          setIsForwardDialogOpen(false);
-          setSelectedMessage(null);
-        }}
-        onDelete={handleDelete}
-        onForward={handleForward}
+        isDeleteDialogOpen={false}
+        isForwardDialogOpen={false}
+        selectedMessage={null}
+        onCloseDeleteDialog={() => {}}
+        onCloseForwardDialog={() => {}}
+        onDelete={() => {}}
+        onForward={() => {}}
       />
     </div>
   );
