@@ -16,7 +16,7 @@ export function AudioMeter({ mediaRecorder, isRecording }: AudioMeterProps) {
     const audioContext = new AudioContext();
     const analyser = audioContext.createAnalyser();
     analyserRef.current = analyser;
-    analyser.fftSize = 256;
+    analyser.fftSize = 32; // Reduzido para um visual mais simples
 
     const source = audioContext.createMediaStreamSource(mediaRecorder.stream);
     source.connect(analyser);
@@ -35,16 +35,13 @@ export function AudioMeter({ mediaRecorder, isRecording }: AudioMeterProps) {
       canvasCtx.fillStyle = 'rgb(20, 20, 20)';
       canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-      const barWidth = (canvas.width / bufferLength) * 2.5;
-      let barHeight;
-      let x = 0;
+      // Calculando a média das frequências para uma única barra
+      const average = dataArray.reduce((a, b) => a + b, 0) / bufferLength;
+      const barHeight = (average / 255) * canvas.height;
 
-      for (let i = 0; i < bufferLength; i++) {
-        barHeight = dataArray[i] / 2;
-        canvasCtx.fillStyle = `rgb(${barHeight + 100}, 65, 255)`;
-        canvasCtx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight);
-        x += barWidth + 1;
-      }
+      // Desenhando uma única barra que pulsa
+      canvasCtx.fillStyle = `rgb(99, 102, 241)`;
+      canvasCtx.fillRect(0, canvas.height - barHeight, canvas.width, barHeight);
     }
 
     draw();
@@ -60,9 +57,9 @@ export function AudioMeter({ mediaRecorder, isRecording }: AudioMeterProps) {
   return (
     <canvas
       ref={canvasRef}
-      width={150}
-      height={40}
-      className="rounded-lg bg-black/5"
+      width={4}
+      height={20}
+      className="rounded-sm bg-black/5"
     />
   );
 }

@@ -263,58 +263,52 @@ export function ChatInput({
             >
               <Bot className="h-5 w-5" />
             </Button>
+          </div>
 
+          <div className="flex items-center gap-2">
             {isRecording && (
-              <div className="flex items-center gap-3 bg-muted/10 rounded-lg px-3 py-1.5">
+              <div className="flex items-center gap-2 bg-muted/10 rounded-lg px-3 py-1.5">
                 <AudioMeter mediaRecorder={mediaRecorder.current} isRecording={isRecording && !isPaused} />
-                <span className="text-sm font-medium text-primary min-w-[40px]">
+                <span className="text-xs font-medium text-primary min-w-[40px]">
                   {formatTime(recordingTime)}
                 </span>
-                <div className="flex gap-2">
+                <div className="flex gap-1">
                   <Button
-                    variant="destructive"
+                    variant="ghost"
                     size="icon"
                     onClick={cancelRecording}
-                    className="h-8 w-8 rounded-full"
+                    className="h-6 w-6"
                   >
-                    <X className="h-4 w-4" />
+                    <X className="h-4 w-4 text-red-500" />
                   </Button>
                   <Button
-                    variant="default"
+                    variant="ghost"
                     size="icon"
                     onClick={isPaused ? resumeRecording : pauseRecording}
-                    className="h-8 w-8 rounded-full bg-blue-500 hover:bg-blue-600"
+                    className="h-6 w-6"
                   >
                     {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
-                  </Button>
-                  <Button
-                    variant="default"
-                    size="icon"
-                    onClick={stopRecording}
-                    className="h-8 w-8 rounded-full bg-green-500 hover:bg-green-600"
-                  >
-                    <Send className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
             )}
-          </div>
 
-          {newMessage.trim() ? (
-            <Button onClick={handleSend} size="icon">
-              <Send className="h-5 w-5" />
-            </Button>
-          ) : (
-            <Button 
-              onClick={startRecording} 
-              size="icon"
-              variant="default"
-              className="rounded-full"
-              disabled={isRecording}
-            >
-              <Mic className="h-5 w-5" />
-            </Button>
-          )}
+            {newMessage.trim() ? (
+              <Button onClick={handleSend} size="icon" variant="ghost">
+                <Send className="h-5 w-5" />
+              </Button>
+            ) : (
+              <Button 
+                onClick={startRecording} 
+                size="icon"
+                variant="ghost"
+                className="text-primary hover:text-primary/90"
+                disabled={isRecording}
+              >
+                <Mic className="h-5 w-5" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
