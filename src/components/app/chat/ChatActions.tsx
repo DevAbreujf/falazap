@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle, X } from "lucide-react";
+import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle, X, Pencil } from "lucide-react";
 import { useState } from "react";
 import {
   Sheet,
@@ -13,9 +13,19 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 
 interface ChatActionsProps {
   onEndSupport: () => void;
@@ -44,6 +54,10 @@ export function ChatActions({
   const [searchDepartmentTerm, setSearchDepartmentTerm] = useState("");
   const [selectedAttendant, setSelectedAttendant] = useState<string | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
+  const [isConfirmEndOpen, setIsConfirmEndOpen] = useState(false);
+  const [isEditMessageOpen, setIsEditMessageOpen] = useState(false);
+  const [endMessage, setEndMessage] = useState("Atendimento finalizado");
+  const { toast } = useToast();
 
   const sortedAttendants = [...attendants].sort((a, b) => {
     if (a.isOnline === b.isOnline) return 0;
@@ -74,6 +88,23 @@ export function ChatActions({
       setSelectedDepartment(null);
       setSearchDepartmentTerm("");
     }
+  };
+
+  const handleConfirmEnd = () => {
+    onEndSupport();
+    setIsConfirmEndOpen(false);
+    toast({
+      title: "Atendimento finalizado",
+      description: "O atendimento foi encerrado com sucesso.",
+    });
+  };
+
+  const handleSaveEndMessage = () => {
+    setIsEditMessageOpen(false);
+    toast({
+      title: "Mensagem atualizada",
+      description: "A mensagem de finalização foi atualizada com sucesso.",
+    });
   };
 
   return (
@@ -109,13 +140,26 @@ export function ChatActions({
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={onEndSupport}
-            >
-              <XOctagon className="h-4 w-4" />
-            </Button>
+            <div className="relative">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsConfirmEndOpen(true)}
+              >
+                <XOctagon className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute -top-2 -right-2 h-4 w-4 rounded-full p-0 hover:bg-muted"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEditMessageOpen(true);
+                }}
+              >
+                <Pencil className="h-3 w-3" />
+              </Button>
+            </div>
           </TooltipTrigger>
           <TooltipContent>
             <p>Finalizar atendimento</p>
@@ -269,6 +313,53 @@ export function ChatActions({
           </div>
         </SheetContent>
       </Sheet>
+
+      <Dialog open={isConfirmEndOpen} onOpenChange={setIsConfirmEndOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Finalizar Atendimento</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja finalizar este atendimento?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsConfirmEndOpen(false)}>
+              <X className="mr-2 h-4 w-4" />
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmEnd}>
+              <CheckCircle className="mr-2 h-4 w-4" />
+              Confirmar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isEditMessageOpen} onOpenChange={setIsEditMessageOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Editar Mensagem de Finalização</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Textarea
+              value={endMessage}
+              onChange={(e) => setEndMessage(e.target.value)}
+              placeholder="Digite a mensagem de finalização"
+              className="min-h-[100px]"
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditMessageOpen(false)}>
+              <X className="mr-2 h-4 w-4" />
+              Cancelar
+            </Button>
+            <Button onClick={handleSaveEndMessage}>
+              <CheckCircle className="mr-2 h-4 w-4" />
+              Salvar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
