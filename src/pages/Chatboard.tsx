@@ -5,19 +5,28 @@ import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
 import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { DepartmentSelect } from "@/components/app/users/DepartmentSelect";
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
   { id: "2", name: "Jane Smith", departmentId: "2" },
 ];
 
-// Usando os mesmos departamentos do DepartmentSelect
 const mockDepartments: Department[] = [
-  { id: "1", name: "Suporte", description: "Atendimento para problemas técnicos" },
-  { id: "2", name: "Vendas", description: "Atendimento comercial" },
-  { id: "3", name: "Financeiro", description: "Atendimento financeiro" },
-  { id: "4", name: "Administrativo", description: "Atendimento administrativo" },
+  {
+    id: "1",
+    name: "Suporte Técnico",
+    description: "Atendimento para problemas técnicos",
+  },
+  {
+    id: "2",
+    name: "Vendas",
+    description: "Atendimento comercial",
+  },
+  {
+    id: "3",
+    name: "Financeiro",
+    description: "Atendimento financeiro",
+  },
 ];
 
 const falaZAPContact: ChatContact = {
@@ -41,7 +50,6 @@ const mockContactsByDepartment: Record<string, ChatContact[]> = {
   "1": [falaZAPContact],
   "2": [falaZAPContact],
   "3": [falaZAPContact],
-  "4": [falaZAPContact],
 };
 
 const initialFalaZAPMessages: ChatMessage[] = [
@@ -118,18 +126,6 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
       {
         id: "4",
         content: "Em que posso ajudar com sua fatura?",
-        senderId: "me",
-        timestamp: new Date().toISOString(),
-        status: "read",
-        type: "text"
-      },
-    ],
-  },
-  "4": {
-    "4": [
-      {
-        id: "5",
-        content: "Como posso ajudar?",
         senderId: "me",
         timestamp: new Date().toISOString(),
         status: "read",
@@ -280,6 +276,7 @@ export default function Chatboard() {
         : contact
     );
     mockContactsByDepartment[currentDepartment.id] = updatedContacts;
+    setSelectedContactId(undefined);
   };
 
   const handleTransferChat = (contactId: string, attendantId: string) => {
