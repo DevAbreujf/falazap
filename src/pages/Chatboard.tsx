@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useDepartmentStore } from "@/stores/departmentStore";
 import { useNavigate } from "react-router-dom";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
@@ -364,48 +365,50 @@ export default function Chatboard() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      <ChatSidebar
-        contacts={currentContacts}
-        selectedContactId={selectedContactId}
-        onSelectContact={(contact) => {
-          setSelectedContactId(contact.id);
-          setShowIntro(false);
-        }}
-        onDepartmentChange={handleDepartmentChange}
-        currentDepartment={currentDepartment}
-        departments={departments}
-        onCreateDepartment={() => navigate('/departments')}
-      />
-      
-      <div className="flex-1">
-        {showIntro ? (
-          <ChatIntro />
-        ) : selectedContactId && currentDepartment && (
-          <ChatWindow
-            contact={currentContacts.find(c => c.id === selectedContactId)!}
-            messages={currentMessages}
-            onSendMessage={handleSendMessage}
-            onUpdateContactStatus={handleUpdateContactStatus}
-            onEndSupport={() => handleEndSupport(selectedContactId)}
-            onTransferChat={(attendantId) => handleTransferChat(selectedContactId, attendantId)}
-            onChangeDepartment={(departmentId) => handleChangeDepartment(selectedContactId, departmentId)}
-            currentDepartment={currentDepartment}
-            currentUser={mockCurrentUser}
-            onMessageAction={handleMessageAction}
-          />
-        )}
-      </div>
+    <SidebarProvider>
+      <div className="flex h-screen overflow-hidden bg-background w-full">
+        <ChatSidebar
+          contacts={currentContacts}
+          selectedContactId={selectedContactId}
+          onSelectContact={(contact) => {
+            setSelectedContactId(contact.id);
+            setShowIntro(false);
+          }}
+          onDepartmentChange={handleDepartmentChange}
+          currentDepartment={currentDepartment}
+          departments={departments}
+          onCreateDepartment={() => navigate('/departments')}
+        />
+        
+        <div className="flex-1">
+          {showIntro ? (
+            <ChatIntro />
+          ) : selectedContactId && currentDepartment && (
+            <ChatWindow
+              contact={currentContacts.find(c => c.id === selectedContactId)!}
+              messages={currentMessages}
+              onSendMessage={handleSendMessage}
+              onUpdateContactStatus={handleUpdateContactStatus}
+              onEndSupport={() => handleEndSupport(selectedContactId)}
+              onTransferChat={(attendantId) => handleTransferChat(selectedContactId, attendantId)}
+              onChangeDepartment={(departmentId) => handleChangeDepartment(selectedContactId, departmentId)}
+              currentDepartment={currentDepartment}
+              currentUser={mockCurrentUser}
+              onMessageAction={handleMessageAction}
+            />
+          )}
+        </div>
 
-      <ChatDialogs
-        isDeleteDialogOpen={false}
-        isForwardDialogOpen={false}
-        selectedMessage={null}
-        onCloseDeleteDialog={() => {}}
-        onCloseForwardDialog={() => {}}
-        onDelete={() => {}}
-        onForward={() => {}}
-      />
-    </div>
+        <ChatDialogs
+          isDeleteDialogOpen={false}
+          isForwardDialogOpen={false}
+          selectedMessage={null}
+          onCloseDeleteDialog={() => {}}
+          onCloseForwardDialog={() => {}}
+          onDelete={() => {}}
+          onForward={() => {}}
+        />
+      </div>
+    </SidebarProvider>
   );
 }
