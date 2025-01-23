@@ -9,6 +9,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 
 interface EndChatDialogProps {
   isOpen: boolean;
@@ -19,10 +20,19 @@ interface EndChatDialogProps {
 export function EndChatDialog({ isOpen, onClose, onConfirm }: EndChatDialogProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [message, setMessage] = useState("Atendimento finalizado");
+  const { toast } = useToast();
 
   const handleConfirm = () => {
     onConfirm(message);
     onClose();
+  };
+
+  const handleSaveMessage = () => {
+    setIsEditing(false);
+    toast({
+      title: "Mensagem atualizada",
+      description: "A mensagem de finalização foi atualizada com sucesso.",
+    });
   };
 
   return (
@@ -69,7 +79,7 @@ export function EndChatDialog({ isOpen, onClose, onConfirm }: EndChatDialogProps
                   <X className="mr-2 h-4 w-4" />
                   Cancelar
                 </Button>
-                <Button onClick={handleConfirm}>
+                <Button onClick={handleSaveMessage}>
                   <Check className="mr-2 h-4 w-4" />
                   Confirmar
                 </Button>
