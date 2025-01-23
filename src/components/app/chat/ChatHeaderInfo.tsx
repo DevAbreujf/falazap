@@ -7,7 +7,9 @@ interface ChatHeaderInfoProps {
 }
 
 export function ChatHeaderInfo({ contact }: ChatHeaderInfoProps) {
-  if (!contact) return null;
+  if (!contact) {
+    return null;
+  }
 
   return (
     <div className="flex items-center gap-3">

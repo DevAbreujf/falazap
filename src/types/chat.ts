@@ -29,3 +29,10 @@ export interface ChatContact {
   avatar?: string;
   lastMessage?: ChatMessage;
 }
+
+export interface DepartmentUser {
+  id: string;
+  name: string;
+  email: string;
+  department: string;
+}
