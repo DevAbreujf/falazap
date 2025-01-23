@@ -155,12 +155,12 @@ export default function Chatboard() {
   const [hasUserReplied, setHasUserReplied] = useState(false);
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
   const { toast } = useToast();
-  const { departments: storeDepartments } = useDepartmentStore();
+  const { departments: storeDepartments, setDepartments: updateDepartments } = useDepartmentStore();
 
   useEffect(() => {
     // Sincroniza os departamentos com a store quando o componente monta
-    setDepartments(storeDepartments);
-  }, [storeDepartments]);
+    updateDepartments(departments);
+  }, [updateDepartments]);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
