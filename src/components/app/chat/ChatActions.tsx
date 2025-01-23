@@ -207,25 +207,16 @@ export function ChatActions({
 
       <Sheet open={isDepartmentOpen} onOpenChange={setIsDepartmentOpen}>
         <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
-          <SheetHeader className="mb-4">
-            <div className="flex items-center justify-between">
-              <SheetTitle className="text-left">Enviar para outro setor</SheetTitle>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsDepartmentOpen(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
+          <SheetHeader className="mb-6 border-b pb-4">
+            <SheetTitle className="text-xl font-semibold">Enviar para outro setor</SheetTitle>
           </SheetHeader>
           
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-6">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Pesquisar setor"
-                className="pl-8"
+                className="pl-9 bg-muted/50"
                 value={searchDepartmentTerm}
                 onChange={(e) => setSearchDepartmentTerm(e.target.value)}
               />
@@ -233,36 +224,47 @@ export function ChatActions({
 
             <div className="space-y-2 flex-1">
               {filteredDepartments.length === 0 ? (
-                <div className="flex items-center gap-2 p-2">
-                  <span className="text-sm">Nenhum setor encontrado</span>
+                <div className="flex items-center justify-center gap-2 p-4 rounded-lg bg-muted/50">
+                  <Search className="h-5 w-5 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Nenhum setor encontrado</span>
                 </div>
               ) : (
-                filteredDepartments.map((department) => (
-                  <div
-                    key={department.id}
-                    className={cn(
-                      "flex items-center justify-between p-2 rounded-md cursor-pointer hover:bg-muted",
-                      selectedDepartment === department.id && "bg-muted"
-                    )}
-                    onClick={() => setSelectedDepartment(department.id)}
-                  >
-                    <span className="text-sm">{department.name}</span>
-                    {selectedDepartment === department.id && (
-                      <div className="h-2 w-2 rounded-full bg-green-500" />
-                    )}
-                  </div>
-                ))
+                <div className="grid gap-2">
+                  {filteredDepartments.map((department) => (
+                    <div
+                      key={department.id}
+                      className={cn(
+                        "flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200",
+                        "hover:bg-muted/80",
+                        selectedDepartment === department.id ? "bg-muted ring-2 ring-primary ring-offset-2" : "bg-muted/50"
+                      )}
+                      onClick={() => setSelectedDepartment(department.id)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                          <User className="h-5 w-5 text-primary" />
+                        </div>
+                        <span className="font-medium">{department.name}</span>
+                      </div>
+                      {selectedDepartment === department.id && (
+                        <CheckCircle className="h-5 w-5 text-primary" />
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           </div>
 
-          <div className="pt-4 border-t">
+          <div className="pt-6 border-t mt-auto">
             <Button 
-              className="w-full" 
+              className="w-full"
+              size="lg"
               disabled={!selectedDepartment}
               onClick={handleDepartmentTransfer}
             >
-              Transferir
+              Transferir para setor
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </SheetContent>
