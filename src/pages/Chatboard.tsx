@@ -1,9 +1,9 @@
+import { useState, useEffect } from "react";
 import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
-import { ChatContact, ChatMessage, Department } from "@/types/chat";
-import { useState, useEffect } from "react";
+import { ChatContact, ChatMessage } from "@/types/chat";
 import { useToast } from "@/components/ui/use-toast";
 import { useDepartmentStore } from "@/stores/departmentStore";
 
@@ -12,7 +12,7 @@ const mockAttendants = [
   { id: "2", name: "Jane Smith", departmentId: "2" },
 ];
 
-const mockDepartments: Department[] = [
+const mockDepartments = [
   {
     id: "1",
     name: "Suporte Técnico",
@@ -140,7 +140,11 @@ export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string>("falazap");
   const [showIntro, setShowIntro] = useState(false);
   const { departments } = useDepartmentStore();
-  const [currentDepartment, setCurrentDepartment] = useState(departments[0] || { id: "1", name: "Sem setor" });
+  const [currentDepartment, setCurrentDepartment] = useState({
+    id: "1",
+    name: "Sem setor",
+    description: ""
+  });
   const [messagesByDepartment, setMessagesByDepartment] = useState({
     ...initialMessagesByDepartment,
     "1": {
@@ -157,8 +161,15 @@ export default function Chatboard() {
   const [selectedMessage, setSelectedMessage] = useState<ChatMessage | null>(null);
 
   useEffect(() => {
-    if (departments.length > 0 && (!currentDepartment || !departments.find(d => String(d.id) === String(currentDepartment.id)))) {
-      setCurrentDepartment(departments[0]);
+    if (departments.length > 0) {
+      const dept = departments.find(d => d.id.toString() === currentDepartment.id.toString());
+      if (!dept) {
+        setCurrentDepartment({
+          id: departments[0].id.toString(),
+          name: departments[0].name,
+          description: departments[0].description || ""
+        });
+      }
     }
   }, [departments]);
 
@@ -269,78 +280,16 @@ export default function Chatboard() {
   };
 
   const handleDepartmentChange = (departmentId: string) => {
-    const department = departments.find(d => String(d.id) === departmentId);
+    const department = departments.find(d => d.id.toString() === departmentId);
     if (department) {
-      setCurrentDepartment(department);
+      setCurrentDepartment({
+        id: department.id.toString(),
+        name: department.name,
+        description: department.description || ""
+      });
       setSelectedContactId(undefined);
       setShowIntro(true);
-      console.log("Department changed to:", department);
     }
-  };
-
-  const handleEndSupport = (contactId: string) => {
-    const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
-      contact.id === contactId
-        ? { ...contact, status: 'finished' as const }
-        : contact
-    );
-    mockContactsByDepartment[currentDepartment.id] = updatedContacts;
-    setSelectedContactId(undefined);
-  };
-
-  const handleTransferChat = (contactId: string, attendantId: string) => {
-    const attendant = mockAttendants.find(a => a.id === attendantId);
-    if (attendant) {
-      const contact = mockContactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
-      if (contact) {
-        mockContactsByDepartment[currentDepartment.id] = mockContactsByDepartment[currentDepartment.id]
-          .filter(c => c.id !== contactId);
-        const updatedContact = { ...contact, status: 'new' as const };
-        if (!mockContactsByDepartment[attendant.departmentId]) {
-          mockContactsByDepartment[attendant.departmentId] = [];
-        }
-        mockContactsByDepartment[attendant.departmentId].push(updatedContact);
-        setSelectedContactId(undefined);
-        toast({
-          title: "Conversa transferida",
-          description: `Conversa transferida para ${attendant.name}`,
-        });
-      }
-    }
-  };
-
-  const handleChangeDepartment = (contactId: string, departmentId: string) => {
-    const contact = mockContactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
-    if (contact) {
-      mockContactsByDepartment[currentDepartment.id] = mockContactsByDepartment[currentDepartment.id]
-        .filter(c => c.id !== contactId);
-      const updatedContact = { ...contact, status: 'new' as const };
-      if (!mockContactsByDepartment[departmentId]) {
-        mockContactsByDepartment[departmentId] = [];
-      }
-      mockContactsByDepartment[departmentId].push(updatedContact);
-      setSelectedContactId(undefined);
-      const department = departments.find(d => d.id === departmentId);
-      if (department) {
-        toast({
-          title: "Setor alterado",
-          description: `Conversa movida para ${department.name}`,
-        });
-      }
-    }
-  };
-
-  const currentContacts = mockContactsByDepartment[currentDepartment.id]
-    .filter(contact => !hideFalaZAP || contact.id !== "falazap");
-    
-  const currentMessages = selectedContactId 
-    ? (messagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
-    : [];
-
-  const mockCurrentUser = {
-    id: "1",
-    name: "John Doe",
-    avatar: undefined
   };
 
   const handleMessageAction = (action: 'reply' | 'copy' | 'forward' | 'delete', message: ChatMessage) => {
@@ -378,6 +327,19 @@ export default function Chatboard() {
     setSelectedMessage(null);
   };
 
+  const currentContacts = mockContactsByDepartment[currentDepartment.id]
+    ?.filter(contact => !hideFalaZAP || contact.id !== "falazap") || [];
+    
+  const currentMessages = selectedContactId 
+    ? (messagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
+    : [];
+
+  const mockCurrentUser = {
+    id: "1",
+    name: "John Doe",
+    avatar: undefined
+  };
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <ChatSidebar
@@ -389,7 +351,7 @@ export default function Chatboard() {
         }}
         onDepartmentChange={handleDepartmentChange}
         currentDepartment={{
-          id: String(currentDepartment.id),
+          id: currentDepartment.id,
           name: currentDepartment.name
         }}
       />
