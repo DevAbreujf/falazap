@@ -140,6 +140,7 @@ export function ChatWindow({
             onChangeDepartment={onChangeDepartment}
             onEndSupport={onEndSupport}
             onTransferChat={onTransferChat}
+            onSendMessage={onSendMessage}
             attendants={[
               { id: "1", name: "John Doe", departmentId: "1" },
               { id: "2", name: "Jane Smith", departmentId: "2" },

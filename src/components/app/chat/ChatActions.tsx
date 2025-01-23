@@ -39,6 +39,7 @@ interface ChatActionsProps {
     isOnline?: boolean;
   }>;
   departments: Array<{ id: string; name: string }>;
+  onSendMessage?: (content: string) => void;
 }
 
 export function ChatActions({
@@ -47,6 +48,7 @@ export function ChatActions({
   onChangeDepartment,
   attendants,
   departments,
+  onSendMessage,
 }: ChatActionsProps) {
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isDepartmentOpen, setIsDepartmentOpen] = useState(false);
@@ -91,6 +93,9 @@ export function ChatActions({
   };
 
   const handleEndSupport = () => {
+    if (onSendMessage) {
+      onSendMessage(endMessage);
+    }
     onEndSupport();
     setIsEndSupportOpen(false);
     toast({
@@ -345,6 +350,9 @@ export function ChatActions({
             <DialogTitle>Finalizar Atendimento</DialogTitle>
             <DialogDescription>
               Tem certeza que deseja finalizar este atendimento?
+              <p className="mt-2 text-sm text-muted-foreground">
+                Mensagem de finalização: "{endMessage}"
+              </p>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
