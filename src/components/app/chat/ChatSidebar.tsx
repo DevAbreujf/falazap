@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChatContact } from "@/types/chat";
+import { ChatContact, Department } from "@/types/chat";
 import { Search, Building2, MessageSquare, Users, ArrowLeft, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
