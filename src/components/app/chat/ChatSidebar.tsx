@@ -16,7 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
@@ -83,8 +83,8 @@ export function ChatSidebar({
   };
 
   return (
-    <div className="w-96 border-r border-primary/10 bg-card">
-      <div className="flex items-center justify-start gap-2 p-4 border-b border-primary/10">
+    <div className="w-96 border-r border-primary/10 bg-gradient-to-b from-card to-card/95 backdrop-blur-sm">
+      <div className="flex items-center justify-start gap-2 p-4 border-b border-primary/10 bg-card/50">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -92,9 +92,9 @@ export function ChatSidebar({
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate('/dashboard')}
-                className="hover:bg-primary/10"
+                className="hover:bg-primary/10 transition-colors duration-200"
               >
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-5 w-5 text-primary" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -107,7 +107,7 @@ export function ChatSidebar({
               <Button
                 variant="ghost"
                 size="icon"
-                className={`${!showTeamChat ? 'bg-primary/10' : ''}`}
+                className={`transition-all duration-200 ${!showTeamChat ? 'bg-primary/10 text-primary' : 'hover:bg-primary/5'}`}
                 onClick={() => setShowTeamChat(false)}
               >
                 <MessageSquare className="h-5 w-5" />
@@ -123,7 +123,7 @@ export function ChatSidebar({
               <Button
                 variant="ghost"
                 size="icon"
-                className={`${showTeamChat ? 'bg-primary/10' : ''}`}
+                className={`transition-all duration-200 ${showTeamChat ? 'bg-primary/10 text-primary' : 'hover:bg-primary/5'}`}
                 onClick={() => setShowTeamChat(true)}
               >
                 <Users className="h-5 w-5" />
@@ -138,12 +138,12 @@ export function ChatSidebar({
 
       {!showTeamChat ? (
         <>
-          <div className="p-3 border-b border-primary/10">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <div className="p-3 border-b border-primary/10 bg-card/30">
+            <div className="relative group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
               <input
                 placeholder="Buscar leads..."
-                className="w-full pl-8 pr-3 py-2 bg-muted/50 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                className="w-full pl-9 pr-3 py-2 bg-background/50 rounded-md text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-200"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -152,7 +152,7 @@ export function ChatSidebar({
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute right-1 top-1 h-7 w-7"
+                    className="absolute right-1 top-1 h-7 w-7 hover:bg-primary/10 transition-colors"
                   >
                     <Filter className="h-4 w-4" />
                   </Button>
@@ -177,28 +177,30 @@ export function ChatSidebar({
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full flex items-center gap-2"
+                className="w-full flex items-center gap-2 group hover:bg-primary/5"
                 onClick={() => setIsDialogOpen(true)}
               >
-                <Building2 className="h-4 w-4" />
+                <Building2 className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 Setores
               </Button>
-              <Badge variant="outline" className="shrink-0">
+              <Badge variant="outline" className="shrink-0 bg-primary/5 hover:bg-primary/10 transition-colors">
                 {currentDepartment.name}
               </Badge>
             </div>
           </div>
 
-          <div className="flex gap-1 p-2">
+          <div className="flex gap-1 p-2 bg-card/20">
             <Button
               variant={currentFilter === 'incoming' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-1 relative"
+              className={`flex-1 relative transition-all duration-200 ${
+                currentFilter === 'incoming' ? 'bg-primary text-primary-foreground' : 'hover:bg-primary/10'
+              }`}
               onClick={() => setCurrentFilter('incoming')}
             >
               Entrada
               {unreadCounts.incoming > 0 && (
-                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center">
+                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center animate-pulse">
                   {unreadCounts.incoming}
                 </Badge>
               )}
@@ -206,12 +208,14 @@ export function ChatSidebar({
             <Button
               variant={currentFilter === 'waiting' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-1 relative"
+              className={`flex-1 relative transition-all duration-200 ${
+                currentFilter === 'waiting' ? 'bg-primary text-primary-foreground' : 'hover:bg-primary/10'
+              }`}
               onClick={() => setCurrentFilter('waiting')}
             >
               Andamento
               {unreadCounts.waiting > 0 && (
-                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center">
+                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center animate-pulse">
                   {unreadCounts.waiting}
                 </Badge>
               )}
@@ -219,12 +223,14 @@ export function ChatSidebar({
             <Button
               variant={currentFilter === 'finished' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-1 relative"
+              className={`flex-1 relative transition-all duration-200 ${
+                currentFilter === 'finished' ? 'bg-primary text-primary-foreground' : 'hover:bg-primary/10'
+              }`}
               onClick={() => setCurrentFilter('finished')}
             >
               Finalizados
               {unreadCounts.finished > 0 && (
-                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center">
+                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center animate-pulse">
                   {unreadCounts.finished}
                 </Badge>
               )}
@@ -232,7 +238,7 @@ export function ChatSidebar({
           </div>
 
           <ScrollArea className="h-[calc(100vh-12rem)]">
-            <div className="p-3">
+            <div className="p-3 space-y-2">
               {filteredContacts.map((contact) => (
                 <ContactItem
                   key={contact.id}
@@ -247,11 +253,11 @@ export function ChatSidebar({
       ) : (
         <ScrollArea className="h-[calc(100vh-5rem)]">
           <div className="p-3">
-            <div className="relative mb-4">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <div className="relative mb-4 group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
               <input
                 placeholder="Buscar atendentes..."
-                className="w-full pl-8 pr-3 py-2 bg-muted/50 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                className="w-full pl-9 pr-3 py-2 bg-background/50 rounded-md text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-200"
               />
             </div>
             <h2 className="text-xs font-semibold text-muted-foreground mb-2">Equipe</h2>
@@ -263,7 +269,7 @@ export function ChatSidebar({
       )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Selecionar Setor</DialogTitle>
           </DialogHeader>
@@ -272,7 +278,7 @@ export function ChatSidebar({
               <Button
                 key={dept.id}
                 variant="outline"
-                className="w-full justify-start"
+                className="w-full justify-start hover:bg-primary/5 transition-colors"
                 onClick={() => handleDepartmentChange(dept)}
               >
                 {dept.name}
@@ -293,16 +299,23 @@ function ContactItem({ contact, isSelected, onClick }: {
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left p-2 rounded-lg mb-2 transition-colors ${
-        isSelected ? 'bg-primary/10' : 'hover:bg-muted/50'
+      className={`w-full text-left p-3 rounded-lg transition-all duration-200 group ${
+        isSelected 
+          ? 'bg-primary/10 shadow-lg shadow-primary/5' 
+          : 'hover:bg-primary/5 hover:shadow-md hover:shadow-primary/5'
       }`}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <div className="relative">
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-10 w-10 border-2 border-primary/10 transition-all duration-200 group-hover:border-primary/20">
             <AvatarImage src={contact.avatar} />
-            <AvatarFallback>{contact.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback className="bg-primary/5 text-primary">
+              {contact.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
+          {contact.status === 'new' && (
+            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white animate-pulse" />
+          )}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
@@ -317,18 +330,26 @@ function ContactItem({ contact, isSelected, onClick }: {
             )}
           </div>
           <div className="flex items-center gap-1 mt-0.5">
-            <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
+            <Badge 
+              variant="outline" 
+              className="text-[10px] px-1 py-0 h-4 bg-primary/5 border-primary/10"
+            >
               {contact.funnelName || 'Geral'}
             </Badge>
             {contact.unreadCount > 0 && (
-              <Badge variant="default" className="text-[10px] px-1 py-0 h-4">
+              <Badge 
+                variant="default" 
+                className="text-[10px] px-1 py-0 h-4 animate-pulse"
+              >
                 {contact.unreadCount}
               </Badge>
             )}
           </div>
-          <p className="text-xs text-muted-foreground truncate mt-0.5">
-            {contact.lastMessage?.content}
-          </p>
+          {contact.lastMessage && (
+            <p className="text-xs text-muted-foreground truncate mt-0.5 group-hover:text-foreground transition-colors">
+              {contact.lastMessage.content}
+            </p>
+          )}
         </div>
       </div>
     </button>
