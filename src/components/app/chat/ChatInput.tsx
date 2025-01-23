@@ -56,7 +56,7 @@ export function ChatInput({
       const messageContent = chatMode === "notes" 
         ? `**Nota**\n${newMessage}`
         : isSignatureEnabled 
-          ? `${editedName}:\n${newMessage}`
+          ? `**${editedName}:**\n${newMessage}`
           : newMessage;
           
       onSendMessage(messageContent);
