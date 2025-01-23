@@ -1,16 +1,16 @@
 import { create } from 'zustand';
 
-export interface Department {
-  id: number;
-  name: string;
-  users: User[];
-}
-
-interface User {
+export interface User {
   id: number;
   name: string;
   email: string;
   department: string;
+}
+
+export interface Department {
+  id: number;
+  name: string;
+  users: User[];
 }
 
 interface DepartmentStore {
