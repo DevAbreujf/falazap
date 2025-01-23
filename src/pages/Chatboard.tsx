@@ -2,31 +2,14 @@ import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
-import { ChatContact, ChatMessage, Department } from "@/types/chat";
+import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { useDepartmentStore } from "@/stores/departmentStore";
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
   { id: "2", name: "Jane Smith", departmentId: "2" },
-];
-
-const mockDepartments: Department[] = [
-  {
-    id: "1",
-    name: "Suporte Técnico",
-    description: "Atendimento para problemas técnicos",
-  },
-  {
-    id: "2",
-    name: "Vendas",
-    description: "Atendimento comercial",
-  },
-  {
-    id: "3",
-    name: "Financeiro",
-    description: "Atendimento financeiro",
-  },
 ];
 
 const falaZAPContact: ChatContact = {
@@ -138,7 +121,8 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
 export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string>("falazap");
   const [showIntro, setShowIntro] = useState(false);
-  const [currentDepartment, setCurrentDepartment] = useState<Department>(mockDepartments[0]);
+  const [currentDepartment, setCurrentDepartment] = useState<{ id: string, name: string }>({ id: "", name: "" });
+  const { departments } = useDepartmentStore();
   const [messagesByDepartment, setMessagesByDepartment] = useState({
     ...initialMessagesByDepartment,
     "1": {
@@ -261,11 +245,13 @@ export default function Chatboard() {
   };
 
   const handleDepartmentChange = (departmentId: string) => {
-    const department = mockDepartments.find(d => d.id === departmentId);
+    const department = departments.find(d => d.id === Number(departmentId));
     if (department) {
-      setCurrentDepartment(department);
+      setCurrentDepartment({ id: String(department.id), name: department.name });
       setSelectedContactId(undefined);
       setShowIntro(true);
+    } else {
+      setCurrentDepartment({ id: "", name: "" });
     }
   };
 
@@ -311,7 +297,7 @@ export default function Chatboard() {
       }
       mockContactsByDepartment[departmentId].push(updatedContact);
       setSelectedContactId(undefined);
-      const department = mockDepartments.find(d => d.id === departmentId);
+      const department = departments.find(d => d.id === Number(departmentId));
       if (department) {
         toast({
           title: "Setor alterado",
@@ -321,8 +307,7 @@ export default function Chatboard() {
     }
   };
 
-  const currentContacts = mockContactsByDepartment[currentDepartment.id]
-    .filter(contact => !hideFalaZAP || contact.id !== "falazap");
+  const currentContacts = mockContactsByDepartment[currentDepartment.id]?.filter(contact => !hideFalaZAP || contact.id !== "falazap") || [];
     
   const currentMessages = selectedContactId 
     ? (messagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
@@ -349,7 +334,6 @@ export default function Chatboard() {
 
   const handleDelete = (type: 'all' | 'me') => {
     if (selectedMessage) {
-      // Logic to delete the message
       toast({
         title: "Mensagem apagada",
         description: `Mensagem apagada ${type === 'all' ? 'para todos' : 'para você'}`,
@@ -361,7 +345,6 @@ export default function Chatboard() {
 
   const handleForward = (contactId: string) => {
     if (selectedMessage) {
-      // Logic to forward the message
       toast({
         title: "Mensagem encaminhada",
         description: "Mensagem encaminhada com sucesso",
