@@ -6,33 +6,11 @@ import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useDepartmentStore } from "@/stores/departmentStore";
+import { useNavigate } from "react-router-dom";
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
   { id: "2", name: "Jane Smith", departmentId: "2" },
-];
-
-const departments: Department[] = [
-  {
-    id: "1",
-    name: "Suporte",
-    description: "Atendimento para problemas técnicos",
-  },
-  {
-    id: "2",
-    name: "Vendas",
-    description: "Atendimento comercial",
-  },
-  {
-    id: "3",
-    name: "Financeiro",
-    description: "Atendimento financeiro",
-  },
-  {
-    id: "4",
-    name: "Administrativo",
-    description: "Atendimento administrativo",
-  },
 ];
 
 const falaZAPContact: ChatContact = {
@@ -51,12 +29,6 @@ const falaZAPContact: ChatContact = {
     type: "text"
   }
 };
-
-// Inicializa o mockContactsByDepartment com os departamentos do store
-const initialContactsByDepartment: Record<string, ChatContact[]> = departments.reduce((acc, dept) => ({
-  ...acc,
-  [dept.id]: dept.id === "1" ? [falaZAPContact] : []
-}), {});
 
 const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>> = {
   "1": {
@@ -140,41 +112,44 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
 };
 
 export default function Chatboard() {
+  const navigate = useNavigate();
   const [selectedContactId, setSelectedContactId] = useState<string>("falazap");
   const [showIntro, setShowIntro] = useState(false);
-  const [currentDepartment, setCurrentDepartment] = useState<Department>(departments[0]);
+  const [currentDepartment, setCurrentDepartment] = useState<Department>();
   const [messagesByDepartment, setMessagesByDepartment] = useState(initialMessagesByDepartment);
   const [hasUserReplied, setHasUserReplied] = useState(false);
   const [hideFalaZAP, setHideFalaZAP] = useState(false);
   const { toast } = useToast();
-  const { departments: storeDepartments } = useDepartmentStore();
+  const { departments } = useDepartmentStore();
 
-  // Inicializa o mockContactsByDepartment com os departamentos do store
   const [contactsByDepartment, setContactsByDepartment] = useState(() => 
-    storeDepartments.reduce((acc, dept) => ({
+    departments.reduce((acc, dept) => ({
       ...acc,
       [dept.id]: dept.id === "1" ? [falaZAPContact] : []
     }), {})
   );
 
-  // Atualiza o contactsByDepartment quando os departamentos mudarem
   useEffect(() => {
     setContactsByDepartment(prev => {
-      const newContacts = storeDepartments.reduce((acc, dept) => ({
+      const newContacts = departments.reduce((acc, dept) => ({
         ...acc,
         [dept.id]: prev[dept.id] || []
       }), {});
       
-      // Mantém o FalaZAP no departamento 1
-      if (newContacts["1"]) {
-        newContacts["1"] = newContacts["1"].some(c => c.id === "falazap") 
-          ? newContacts["1"] 
-          : [...newContacts["1"], falaZAPContact];
+      if (departments.length > 0) {
+        const firstDept = departments[0];
+        if (!newContacts[firstDept.id]?.some(c => c.id === "falazap")) {
+          newContacts[firstDept.id] = [...(newContacts[firstDept.id] || []), falaZAPContact];
+        }
       }
       
       return newContacts;
     });
-  }, [storeDepartments]);
+
+    if (!currentDepartment && departments.length > 0) {
+      setCurrentDepartment(departments[0]);
+    }
+  }, [departments, currentDepartment]);
 
   const handleSendMessage = (content: string) => {
     if (!selectedContactId) return;
@@ -189,31 +164,31 @@ export default function Chatboard() {
     };
 
     setMessagesByDepartment(prevMessages => {
-      const departmentMessages = prevMessages[currentDepartment.id] || {};
+      const departmentMessages = prevMessages[currentDepartment!.id] || {};
       const contactMessages = departmentMessages[selectedContactId] || [];
       
       return {
         ...prevMessages,
-        [currentDepartment.id]: {
+        [currentDepartment!.id]: {
           ...departmentMessages,
           [selectedContactId]: [...contactMessages, newMessage]
         }
       };
     });
 
-    const selectedContact = contactsByDepartment[currentDepartment.id].find(
+    const selectedContact = contactsByDepartment[currentDepartment!.id].find(
       contact => contact.id === selectedContactId
     );
 
     if (selectedContact && selectedContact.status === 'new') {
-      const updatedContacts = contactsByDepartment[currentDepartment.id].map(contact =>
+      const updatedContacts = contactsByDepartment[currentDepartment!.id].map(contact =>
         contact.id === selectedContactId
           ? { ...contact, status: 'waiting' as const }
           : contact
       );
       setContactsByDepartment(prev => ({
         ...prev,
-        [currentDepartment.id]: updatedContacts
+        [currentDepartment!.id]: updatedContacts
       }));
     }
 
@@ -241,9 +216,9 @@ export default function Chatboard() {
 
             setMessagesByDepartment(prev => ({
               ...prev,
-              [currentDepartment.id]: {
-                ...prev[currentDepartment.id],
-                falazap: [...prev[currentDepartment.id].falazap, autoMessage]
+              [currentDepartment!.id]: {
+                ...prev[currentDepartment!.id],
+                falazap: [...prev[currentDepartment!.id].falazap, autoMessage]
               }
             }));
           }, (index + 1) * 5000);
@@ -261,9 +236,9 @@ export default function Chatboard() {
 
           setMessagesByDepartment(prev => ({
             ...prev,
-            [currentDepartment.id]: {
-              ...prev[currentDepartment.id],
-              falazap: [...prev[currentDepartment.id].falazap, finalMessage]
+            [currentDepartment!.id]: {
+              ...prev[currentDepartment!.id],
+              falazap: [...prev[currentDepartment!.id].falazap, finalMessage]
             }
           }));
         }, 5000);
@@ -277,14 +252,14 @@ export default function Chatboard() {
       return;
     }
 
-    const updatedContacts = contactsByDepartment[currentDepartment.id].map(contact =>
+    const updatedContacts = contactsByDepartment[currentDepartment!.id].map(contact =>
       contact.id === contactId
         ? { ...contact, status: isSupport ? "finished" as const : "new" as const }
         : contact
     );
     setContactsByDepartment(prev => ({
       ...prev,
-      [currentDepartment.id]: updatedContacts
+      [currentDepartment!.id]: updatedContacts
     }));
   };
 
@@ -298,14 +273,14 @@ export default function Chatboard() {
   };
 
   const handleEndSupport = (contactId: string) => {
-    const updatedContacts = contactsByDepartment[currentDepartment.id].map(contact =>
+    const updatedContacts = contactsByDepartment[currentDepartment!.id].map(contact =>
       contact.id === contactId
         ? { ...contact, status: 'finished' as const }
         : contact
     );
     setContactsByDepartment(prev => ({
       ...prev,
-      [currentDepartment.id]: updatedContacts
+      [currentDepartment!.id]: updatedContacts
     }));
     setSelectedContactId(undefined);
   };
@@ -313,11 +288,11 @@ export default function Chatboard() {
   const handleTransferChat = (contactId: string, attendantId: string) => {
     const attendant = mockAttendants.find(a => a.id === attendantId);
     if (attendant) {
-      const contact = contactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
+      const contact = contactsByDepartment[currentDepartment!.id].find(c => c.id === contactId);
       if (contact) {
         setContactsByDepartment(prev => ({
           ...prev,
-          [currentDepartment.id]: prev[currentDepartment.id].filter(c => c.id !== contactId)
+          [currentDepartment!.id]: prev[currentDepartment!.id].filter(c => c.id !== contactId)
         }));
         const updatedContact = { ...contact, status: 'new' as const };
         if (!contactsByDepartment[attendant.departmentId]) {
@@ -340,11 +315,11 @@ export default function Chatboard() {
   };
 
   const handleChangeDepartment = (contactId: string, departmentId: string) => {
-    const contact = contactsByDepartment[currentDepartment.id].find(c => c.id === contactId);
+    const contact = contactsByDepartment[currentDepartment!.id].find(c => c.id === contactId);
     if (contact) {
       setContactsByDepartment(prev => ({
         ...prev,
-        [currentDepartment.id]: prev[currentDepartment.id].filter(c => c.id !== contactId)
+        [currentDepartment!.id]: prev[currentDepartment!.id].filter(c => c.id !== contactId)
       }));
       const updatedContact = { ...contact, status: 'new' as const };
       if (!contactsByDepartment[departmentId]) {
@@ -368,11 +343,13 @@ export default function Chatboard() {
     }
   };
 
-  const currentContacts = contactsByDepartment[currentDepartment.id]?.filter(
-    contact => !hideFalaZAP || contact.id !== "falazap"
-  ) || [];
+  const currentContacts = currentDepartment 
+    ? (contactsByDepartment[currentDepartment.id]?.filter(
+        contact => !hideFalaZAP || contact.id !== "falazap"
+      ) || [])
+    : [];
     
-  const currentMessages = selectedContactId 
+  const currentMessages = selectedContactId && currentDepartment
     ? (messagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
     : [];
 
@@ -398,12 +375,13 @@ export default function Chatboard() {
         onDepartmentChange={handleDepartmentChange}
         currentDepartment={currentDepartment}
         departments={departments}
+        onCreateDepartment={() => navigate('/departments')}
       />
       
       <div className="flex-1">
         {showIntro ? (
           <ChatIntro />
-        ) : selectedContactId && (
+        ) : selectedContactId && currentDepartment && (
           <ChatWindow
             contact={currentContacts.find(c => c.id === selectedContactId)!}
             messages={currentMessages}
