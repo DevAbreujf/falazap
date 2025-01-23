@@ -1,6 +1,6 @@
 import { ChatMessage as ChatMessageType } from "@/types/chat";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MoreVertical, Reply, Copy, Forward, Trash2 } from "lucide-react";
+import { MoreVertical, Reply, Copy, Forward, Trash2, Check, CheckCheck } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,7 +59,7 @@ export function ChatMessage({
     const formattedLines = lines.map(line => {
       if (line.startsWith('>')) {
         const messageId = message.id;
-        return `<div class="text-muted-foreground bg-muted/50 p-2 rounded-md my-1 border-l-2 border-primary cursor-pointer" data-message-id="${messageId}">${line.substring(2)}</div>`;
+        return `<div class="text-muted-foreground bg-muted/50 p-2 rounded-md my-1 border-l-2 border-primary cursor-pointer hover:bg-muted/70 transition-colors" data-message-id="${messageId}">${line.substring(2)}</div>`;
       }
       return line;
     });
@@ -87,47 +87,27 @@ export function ChatMessage({
     };
   }, [message.content]);
 
-  const handleCloseDeleteDialog = () => {
-    setIsDeleteDialogOpen(false);
-    setDropdownOpen(false);
-  };
-
-  const handleCloseForwardDialog = () => {
-    setIsForwardDialogOpen(false);
-    setDropdownOpen(false);
-  };
-
-  const handleMenuAction = (action: 'reply' | 'copy' | 'forward' | 'delete') => {
-    setDropdownOpen(false);
-    
-    if (action === 'forward') {
-      setIsForwardDialogOpen(true);
-    } else if (action === 'delete') {
-      setIsDeleteDialogOpen(true);
-    } else {
-      onMessageAction(action, message.id);
-    }
-  };
-
   return (
     <div
       ref={messageRef}
-      className={`flex ${isCurrentUser ? 'justify-end lead-message' : 'justify-start attendant-message'} relative group`}
+      className={`flex ${isCurrentUser ? 'justify-end lead-message' : 'justify-start attendant-message'} relative group animate-fade-up`}
     >
       {!isCurrentUser && (
-        <Avatar className="w-8 h-8 mr-2">
+        <Avatar className="w-8 h-8 mr-2 border-2 border-primary/10 transition-all duration-200 group-hover:border-primary/20">
           <AvatarImage src={currentUser.avatar} />
-          <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
+          <AvatarFallback className="bg-primary/5 text-primary">
+            {currentUser.name[0]}
+          </AvatarFallback>
         </Avatar>
       )}
       <div
         className={`max-w-[70%] rounded-lg p-3 relative ${
           isNote 
-            ? 'bg-[#fae389]'
+            ? 'bg-[#fae389]/10 border border-[#fae389]/20'
             : isCurrentUser
-            ? 'bg-[#f6ffed]'
-            : 'bg-muted'
-        }`}
+            ? 'bg-gradient-to-br from-primary/10 to-primary/5'
+            : 'bg-gradient-to-br from-muted/80 to-muted/50'
+        } shadow-sm hover:shadow-md transition-all duration-200`}
       >
         <div 
           className="text-sm"
@@ -140,15 +120,15 @@ export function ChatMessage({
           }}
         />
         <div className="flex items-center justify-end gap-1 mt-1">
-          <span className="text-xs opacity-70">
+          <span className="text-xs text-muted-foreground">
             {new Date(message.timestamp).toLocaleTimeString([], {
               hour: '2-digit',
               minute: '2-digit',
             })}
           </span>
           {isCurrentUser && (
-            <span className="text-xs opacity-70">
-              {message.status === 'read' ? '✓✓' : '✓'}
+            <span className="text-xs text-primary/70">
+              {message.status === 'read' ? <CheckCheck className="h-3 w-3" /> : <Check className="h-3 w-3" />}
             </span>
           )}
         </div>
@@ -157,50 +137,52 @@ export function ChatMessage({
             <button 
               className={`absolute top-1/2 -translate-y-1/2 ${
                 isCurrentUser ? '-left-8' : '-right-8'
-              } opacity-0 group-hover:opacity-100 transition-opacity`}
+              } opacity-0 group-hover:opacity-100 transition-opacity hover:bg-muted/80 p-1 rounded-full`}
             >
-              <MoreVertical className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+              <MoreVertical className="h-4 w-4 text-muted-foreground hover:text-foreground transition-colors" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align={isCurrentUser ? "start" : "end"}>
-            <DropdownMenuItem onClick={() => handleMenuAction('reply')}>
-              <Reply className="h-4 w-4 mr-2" />
+            <DropdownMenuItem onClick={() => onMessageAction('reply', message.id)} className="gap-2">
+              <Reply className="h-4 w-4" />
               Responder
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleMenuAction('copy')}>
-              <Copy className="h-4 w-4 mr-2" />
+            <DropdownMenuItem onClick={() => onMessageAction('copy', message.id)} className="gap-2">
+              <Copy className="h-4 w-4" />
               Copiar
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleMenuAction('forward')}>
-              <Forward className="h-4 w-4 mr-2" />
+            <DropdownMenuItem onClick={() => onMessageAction('forward', message.id)} className="gap-2">
+              <Forward className="h-4 w-4" />
               Encaminhar
             </DropdownMenuItem>
             <DropdownMenuItem 
-              onClick={() => handleMenuAction('delete')} 
-              className="text-destructive focus:text-destructive focus:bg-destructive/10"
+              onClick={() => onMessageAction('delete', message.id)} 
+              className="text-destructive focus:text-destructive focus:bg-destructive/10 gap-2"
             >
-              <Trash2 className="h-4 w-4 mr-2" />
+              <Trash2 className="h-4 w-4" />
               Apagar
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
       {isCurrentUser && (
-        <Avatar className="w-8 h-8 ml-2">
+        <Avatar className="w-8 h-8 ml-2 border-2 border-primary/10 transition-all duration-200 group-hover:border-primary/20">
           <AvatarImage src={currentUser.avatar} />
-          <AvatarFallback>{currentUser.name[0]}</AvatarFallback>
+          <AvatarFallback className="bg-primary/5 text-primary">
+            {currentUser.name[0]}
+          </AvatarFallback>
         </Avatar>
       )}
 
       <ForwardDialog
         isOpen={isForwardDialogOpen}
-        onOpenChange={handleCloseForwardDialog}
+        onOpenChange={() => setIsForwardDialogOpen(false)}
         onForward={(contactId) => onMessageAction('forward', message.id)}
       />
 
       <DeleteDialog
         isOpen={isDeleteDialogOpen}
-        onOpenChange={handleCloseDeleteDialog}
+        onOpenChange={() => setIsDeleteDialogOpen(false)}
         onDelete={(type) => onMessageAction('delete', message.id, type)}
       />
     </div>

@@ -168,18 +168,19 @@ export function ChatInput({
   }, []);
 
   return (
-    <div className="p-4 border-t border-primary/10 bg-card space-y-4">
+    <div className="p-4 border-t border-primary/10 bg-gradient-to-b from-card/95 to-card backdrop-blur-sm space-y-4">
       <div className="flex items-center justify-between border-b border-primary/10 pb-2">
         <div className="flex items-center gap-2">
           <Switch
             checked={isSignatureEnabled}
             onCheckedChange={setIsSignatureEnabled}
+            className="data-[state=checked]:bg-primary"
           />
           <span className="text-sm">
             {isSignatureEnabled ? (
               <button 
                 onClick={() => setIsEditingSignature(true)}
-                className="flex items-center gap-1 hover:text-primary"
+                className="flex items-center gap-1 hover:text-primary transition-colors"
               >
                 {editedName}
                 <Edit className="h-4 w-4" />
@@ -193,7 +194,7 @@ export function ChatInput({
 
       <div className="flex flex-col gap-2">
         {replyingTo && (
-          <div className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
+          <div className="flex items-center justify-between bg-muted/50 p-2 rounded-md animate-fade-up">
             <div className="flex-1 text-sm text-muted-foreground border-l-2 border-primary pl-2">
               {replyingTo.content}
             </div>
@@ -201,7 +202,7 @@ export function ChatInput({
               variant="ghost"
               size="icon"
               onClick={onCancelReply}
-              className="h-5 w-5"
+              className="h-5 w-5 hover:bg-primary/10 transition-colors"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -213,9 +214,9 @@ export function ChatInput({
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={handleKeyPress}
           placeholder={chatMode === "notes" ? "Digite uma nota..." : "Digite uma mensagem..."}
-          className={`flex-1 bg-muted/50 rounded-md p-2 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm ${
-            chatMode === "notes" ? "border-[#fae389]" : ""
-          }`}
+          className={`flex-1 bg-muted/50 rounded-lg p-3 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm transition-all duration-200 ${
+            chatMode === "notes" ? "border-[#fae389]/20" : ""
+          } placeholder:text-muted-foreground`}
         />
         
         <div className="flex items-center justify-between">
@@ -223,7 +224,7 @@ export function ChatInput({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="relative">
+                  <Button variant="ghost" size="icon" className="relative hover:bg-primary/10 transition-colors">
                     <input
                       type="file"
                       onChange={handleFileUpload}
@@ -244,6 +245,7 @@ export function ChatInput({
                     variant="ghost" 
                     size="icon"
                     onClick={() => setIsEmojiPickerOpen(true)}
+                    className="hover:bg-primary/10 transition-colors"
                   >
                     <SmilePlus className="h-5 w-5" />
                   </Button>
@@ -258,6 +260,7 @@ export function ChatInput({
               variant="ghost" 
               size="icon"
               onClick={() => setIsChatbotsOpen(true)}
+              className="hover:bg-primary/10 transition-colors"
             >
               <Bot className="h-5 w-5" />
             </Button>
@@ -265,7 +268,7 @@ export function ChatInput({
 
           <div className="flex items-center gap-2">
             {isRecording && (
-              <div className="flex items-center gap-2 bg-muted/10 rounded-lg px-3 py-1.5">
+              <div className="flex items-center gap-2 bg-muted/10 rounded-lg px-3 py-1.5 animate-fade-up">
                 <AudioMeter mediaRecorder={mediaRecorder.current} isRecording={isRecording && !isPaused} />
                 <span className="text-xs font-medium text-primary min-w-[40px]">
                   {formatTime(recordingTime)}
@@ -275,15 +278,15 @@ export function ChatInput({
                     variant="ghost"
                     size="icon"
                     onClick={cancelRecording}
-                    className="h-6 w-6"
+                    className="h-6 w-6 hover:bg-destructive/10 transition-colors"
                   >
-                    <X className="h-4 w-4 text-red-500" />
+                    <X className="h-4 w-4 text-destructive" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={isPaused ? resumeRecording : pauseRecording}
-                    className="h-6 w-6"
+                    className="h-6 w-6 hover:bg-primary/10 transition-colors"
                   >
                     {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
                   </Button>
@@ -291,7 +294,7 @@ export function ChatInput({
                     variant="ghost"
                     size="icon"
                     onClick={stopAndSendRecording}
-                    className="h-6 w-6 text-primary"
+                    className="h-6 w-6 text-primary hover:bg-primary/10 transition-colors"
                   >
                     <Send className="h-4 w-4" />
                   </Button>
@@ -300,7 +303,12 @@ export function ChatInput({
             )}
 
             {newMessage.trim() ? (
-              <Button onClick={handleSend} size="icon" variant="ghost">
+              <Button 
+                onClick={handleSend} 
+                size="icon" 
+                variant="ghost"
+                className="hover:bg-primary/10 transition-colors"
+              >
                 <Send className="h-5 w-5" />
               </Button>
             ) : (
@@ -308,7 +316,7 @@ export function ChatInput({
                 onClick={startRecording} 
                 size="icon"
                 variant="ghost"
-                className="text-primary hover:text-primary/90"
+                className="text-primary hover:text-primary/90 hover:bg-primary/10 transition-colors"
                 disabled={isRecording}
               >
                 <Mic className="h-5 w-5" />
