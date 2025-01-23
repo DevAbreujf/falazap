@@ -2,14 +2,31 @@ import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
-import { ChatContact, ChatMessage } from "@/types/chat";
+import { ChatContact, ChatMessage, Department } from "@/types/chat";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { useDepartmentStore } from "@/stores/departmentStore";
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
   { id: "2", name: "Jane Smith", departmentId: "2" },
+];
+
+const mockDepartments: Department[] = [
+  {
+    id: "1",
+    name: "Suporte Técnico",
+    description: "Atendimento para problemas técnicos",
+  },
+  {
+    id: "2",
+    name: "Vendas",
+    description: "Atendimento comercial",
+  },
+  {
+    id: "3",
+    name: "Financeiro",
+    description: "Atendimento financeiro",
+  },
 ];
 
 const falaZAPContact: ChatContact = {
@@ -121,8 +138,7 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
 export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string>("falazap");
   const [showIntro, setShowIntro] = useState(false);
-  const [currentDepartment, setCurrentDepartment] = useState<{ id: string, name: string, description: string }>({ id: "", name: "", description: "" });
-  const { departments } = useDepartmentStore();
+  const [currentDepartment, setCurrentDepartment] = useState<Department>(mockDepartments[0]);
   const [messagesByDepartment, setMessagesByDepartment] = useState({
     ...initialMessagesByDepartment,
     "1": {
@@ -245,17 +261,11 @@ export default function Chatboard() {
   };
 
   const handleDepartmentChange = (departmentId: string) => {
-    const department = departments.find(d => d.id === Number(departmentId));
+    const department = mockDepartments.find(d => d.id === departmentId);
     if (department) {
-      setCurrentDepartment({ 
-        id: String(department.id), 
-        name: department.name,
-        description: department.description || '' // Add description
-      });
+      setCurrentDepartment(department);
       setSelectedContactId(undefined);
       setShowIntro(true);
-    } else {
-      setCurrentDepartment({ id: "", name: "", description: "" });
     }
   };
 
@@ -301,7 +311,7 @@ export default function Chatboard() {
       }
       mockContactsByDepartment[departmentId].push(updatedContact);
       setSelectedContactId(undefined);
-      const department = departments.find(d => d.id === Number(departmentId));
+      const department = mockDepartments.find(d => d.id === departmentId);
       if (department) {
         toast({
           title: "Setor alterado",
@@ -311,7 +321,8 @@ export default function Chatboard() {
     }
   };
 
-  const currentContacts = mockContactsByDepartment[currentDepartment.id]?.filter(contact => !hideFalaZAP || contact.id !== "falazap") || [];
+  const currentContacts = mockContactsByDepartment[currentDepartment.id]
+    .filter(contact => !hideFalaZAP || contact.id !== "falazap");
     
   const currentMessages = selectedContactId 
     ? (messagesByDepartment[currentDepartment.id]?.[selectedContactId] || [])
@@ -338,6 +349,7 @@ export default function Chatboard() {
 
   const handleDelete = (type: 'all' | 'me') => {
     if (selectedMessage) {
+      // Logic to delete the message
       toast({
         title: "Mensagem apagada",
         description: `Mensagem apagada ${type === 'all' ? 'para todos' : 'para você'}`,
@@ -349,6 +361,7 @@ export default function Chatboard() {
 
   const handleForward = (contactId: string) => {
     if (selectedMessage) {
+      // Logic to forward the message
       toast({
         title: "Mensagem encaminhada",
         description: "Mensagem encaminhada com sucesso",
@@ -376,16 +389,14 @@ export default function Chatboard() {
           <ChatIntro />
         ) : selectedContactId && (
           <ChatWindow
-            messages={currentMessages}
             contact={currentContacts.find(c => c.id === selectedContactId)!}
-            userName={mockCurrentUser.name}
-            currentDepartment={currentDepartment}
+            messages={currentMessages}
             onSendMessage={handleSendMessage}
-            onShowIntro={() => setShowIntro(true)}
             onUpdateContactStatus={handleUpdateContactStatus}
             onEndSupport={() => handleEndSupport(selectedContactId)}
             onTransferChat={(attendantId) => handleTransferChat(selectedContactId, attendantId)}
             onChangeDepartment={(departmentId) => handleChangeDepartment(selectedContactId, departmentId)}
+            currentDepartment={currentDepartment}
             currentUser={mockCurrentUser}
             onMessageAction={handleMessageAction}
           />
