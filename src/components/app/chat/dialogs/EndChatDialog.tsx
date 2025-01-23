@@ -6,9 +6,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 
 interface EndChatDialogProps {
@@ -41,7 +40,7 @@ export function EndChatDialog({ isOpen, onClose, onConfirm }: EndChatDialogProps
         <DialogHeader>
           <DialogTitle>Finalizar Atendimento</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 py-4">
+        <div className="space-y-4 py-4 max-h-[70vh] overflow-y-auto">
           {!isEditing ? (
             <div className="space-y-4">
               <Button
@@ -54,23 +53,31 @@ export function EndChatDialog({ isOpen, onClose, onConfirm }: EndChatDialogProps
               </Button>
               <Button
                 variant="outline"
-                className="w-full justify-start hover:bg-primary/5"
+                className="w-full justify-start hover:bg-primary/5 group"
                 onClick={() => setIsEditing(true)}
               >
                 <Pencil className="mr-2 h-4 w-4 text-primary" />
-                Editar Mensagem
-                <span className="ml-2 text-sm text-muted-foreground">
-                  "{message}"
+                <span className="flex-1 text-left">
+                  Editar Mensagem
+                  <span className="block text-sm text-muted-foreground truncate group-hover:text-clip">
+                    "{message}"
+                  </span>
                 </span>
               </Button>
             </div>
           ) : (
             <div className="space-y-4">
-              <Input
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Digite a mensagem de finalização"
-              />
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Mensagem de finalização
+                </label>
+                <Textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Digite a mensagem de finalização"
+                  className="min-h-[100px] resize-none"
+                />
+              </div>
               <div className="flex justify-end gap-2">
                 <Button
                   variant="outline"
