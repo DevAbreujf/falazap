@@ -15,18 +15,6 @@ export default function Departments() {
   const [isAddingDepartment, setIsAddingDepartment] = useState(false);
   const [newDepartmentName, setNewDepartmentName] = useState("");
 
-  // Inicializa o store com os departamentos existentes
-  useEffect(() => {
-    if (departments.length === 0) {
-      setDepartments([
-        { id: 1, name: "Suporte", users: [] },
-        { id: 2, name: "Vendas", users: [] },
-        { id: 3, name: "Financeiro", users: [] },
-        { id: 4, name: "Administrativo", users: [] },
-      ]);
-    }
-  }, []);
-
   const itemsPerPage = 8;
   const totalPages = Math.ceil(departments.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -43,6 +31,7 @@ export default function Departments() {
       addDepartment(newDepartment);
       setNewDepartmentName("");
       setIsAddingDepartment(false);
+      console.log("Departments after adding:", departments); // Debug log
     }
   };
 
@@ -93,14 +82,12 @@ export default function Departments() {
 
       const updatedDepartments = departments.map(dept => {
         if (dept.name === newDepartmentName) {
-          // Add user to new department
           return {
             ...dept,
             users: [...dept.users, { ...userToMove, department: newDepartmentName }]
           };
         }
         if (dept.id === selectedDepartment.id && action === 'change') {
-          // Remove user from current department only if action is 'change'
           return {
             ...dept,
             users: dept.users.filter(user => user.id !== userId)
@@ -112,7 +99,6 @@ export default function Departments() {
       setDepartments(updatedDepartments);
       
       if (action === 'change') {
-        // Update selected department state only if user is being moved
         setSelectedDepartment({
           ...selectedDepartment,
           users: selectedDepartment.users.filter(user => user.id !== userId)
