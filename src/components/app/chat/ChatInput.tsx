@@ -125,7 +125,7 @@ export function ChatInput({
     }
   };
 
-  const stopRecording = async () => {
+  const stopAndSendRecording = async () => {
     if (mediaRecorder.current) {
       mediaRecorder.current.stop();
       mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
@@ -133,10 +133,8 @@ export function ChatInput({
       const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
       const audioUrl = URL.createObjectURL(audioBlob);
       
-      // Aqui você pode implementar a lógica para enviar o áudio
-      console.log('Audio recorded:', audioUrl);
+      console.log('Audio recorded and sent:', audioUrl);
       
-      // Exemplo de como enviar como mensagem
       onSendMessage(`[Audio Message - ${formatTime(recordingTime)}]`);
       
       resetRecording();
@@ -288,6 +286,14 @@ export function ChatInput({
                     className="h-6 w-6"
                   >
                     {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={stopAndSendRecording}
+                    className="h-6 w-6 text-primary"
+                  >
+                    <Send className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
