@@ -15,14 +15,32 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { SidebarLogo } from "./dashboard/SidebarLogo";
-import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
-import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
-import { SidebarNavigation } from "./dashboard/SidebarNavigation";
-import { SidebarNotifications } from "./dashboard/SidebarNotifications";
-import { ThemeToggle } from "./dashboard/ThemeToggle";
+import { SidebarLogo } from "@/components/app/dashboard/SidebarLogo";
+import { SidebarUserProfile } from "@/components/app/dashboard/SidebarUserProfile";
+import { SidebarPhoneSection } from "@/components/app/dashboard/SidebarPhoneSection";
+import { SidebarNavigation } from "@/components/app/dashboard/SidebarNavigation";
+import { SidebarNotifications } from "@/components/app/dashboard/SidebarNotifications";
+import { ThemeToggle } from "@/components/app/dashboard/ThemeToggle";
 
-export function ChatSidebar() {
+interface ChatSidebarProps {
+  contacts: any[];
+  selectedContactId: string | undefined;
+  onSelectContact: (contact: any) => void;
+  onDepartmentChange: (departmentId: string) => void;
+  currentDepartment: any;
+  departments: any[];
+  onCreateDepartment: () => void;
+}
+
+export function ChatSidebar({
+  contacts,
+  selectedContactId,
+  onSelectContact,
+  onDepartmentChange,
+  currentDepartment,
+  departments,
+  onCreateDepartment
+}: ChatSidebarProps) {
   const navigate = useNavigate();
   
   const connectedPhones = [
