@@ -31,7 +31,7 @@ interface ChatActionsProps {
   onEndSupport: () => void;
   onTransferChat: (attendantId: string) => void;
   onChangeDepartment: (departmentId: string) => void;
-  attendants: Array<{ 
+  attendants?: Array<{ 
     id: string; 
     name: string; 
     departmentId: string;
@@ -46,7 +46,7 @@ export function ChatActions({
   onEndSupport,
   onTransferChat,
   onChangeDepartment,
-  attendants,
+  attendants = [], // Provide default empty array
   departments,
   onSendMessage,
 }: ChatActionsProps) {

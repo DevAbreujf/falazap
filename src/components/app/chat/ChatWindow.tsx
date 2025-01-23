@@ -1,8 +1,8 @@
-import { ChatActions } from "./ChatActions";
 import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { ChatMessage } from "./ChatMessage";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ChatActions } from "./ChatActions";
 import type { ChatContact, ChatMessage as ChatMessageType, Department } from "@/types/chat";
 import { useState } from "react";
 
@@ -10,20 +10,16 @@ interface ChatWindowProps {
   contact: ChatContact;
   messages: ChatMessageType[];
   onSendMessage: (content: string) => void;
-  onUpdateContactStatus: (contactId: string, isSupport: boolean) => void;
   onEndSupport: () => void;
   onTransferChat: (attendantId: string) => void;
   onChangeDepartment: (departmentId: string) => void;
-  currentDepartment: {
-    id: string;
-    name: string;
-  };
+  currentDepartment: Department;
   currentUser: {
     id: string;
     name: string;
     avatar?: string;
   };
-  onMessageAction: (action: 'reply' | 'copy' | 'forward' | 'delete', message: ChatMessageType) => void;
+  onMessageAction: (action: "reply" | "copy" | "forward" | "delete", messageId: string, deleteType?: "all" | "me") => void;
   departments: Array<{ id: string; name: string }>;
 }
 
@@ -31,7 +27,6 @@ export function ChatWindow({
   contact,
   messages,
   onSendMessage,
-  onUpdateContactStatus,
   onEndSupport,
   onTransferChat,
   onChangeDepartment,
@@ -51,6 +46,10 @@ export function ChatWindow({
     console.log('File upload:', event.target.files);
   };
 
+  const handleMessageAction = (action: "reply" | "copy" | "forward" | "delete", message: ChatMessageType) => {
+    onMessageAction(action, message.id);
+  };
+
   return (
     <div className="flex flex-col h-full">
       <ChatHeader
@@ -67,7 +66,7 @@ export function ChatWindow({
               message={message}
               isCurrentUser={message.senderId === currentUser.id}
               currentUser={currentUser}
-              onMessageAction={onMessageAction}
+              onMessageAction={handleMessageAction}
             />
           ))}
         </div>
