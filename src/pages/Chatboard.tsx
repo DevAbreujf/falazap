@@ -11,10 +11,10 @@ const mockAttendants = [
   { id: "2", name: "Jane Smith", departmentId: "2" },
 ];
 
-const mockDepartments: Department[] = [
+const departments: Department[] = [
   {
     id: "1",
-    name: "Suporte Técnico",
+    name: "Suporte",
     description: "Atendimento para problemas técnicos",
   },
   {
@@ -26,6 +26,11 @@ const mockDepartments: Department[] = [
     id: "3",
     name: "Financeiro",
     description: "Atendimento financeiro",
+  },
+  {
+    id: "4",
+    name: "Administrativo",
+    description: "Atendimento administrativo",
   },
 ];
 
@@ -138,7 +143,7 @@ const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>>
 export default function Chatboard() {
   const [selectedContactId, setSelectedContactId] = useState<string>("falazap");
   const [showIntro, setShowIntro] = useState(false);
-  const [currentDepartment, setCurrentDepartment] = useState<Department>(mockDepartments[0]);
+  const [currentDepartment, setCurrentDepartment] = useState<Department>(departments[0]);
   const [messagesByDepartment, setMessagesByDepartment] = useState({
     ...initialMessagesByDepartment,
     "1": {
@@ -261,7 +266,7 @@ export default function Chatboard() {
   };
 
   const handleDepartmentChange = (departmentId: string) => {
-    const department = mockDepartments.find(d => d.id === departmentId);
+    const department = departments.find(d => d.id === departmentId);
     if (department) {
       setCurrentDepartment(department);
       setSelectedContactId(undefined);
@@ -311,7 +316,7 @@ export default function Chatboard() {
       }
       mockContactsByDepartment[departmentId].push(updatedContact);
       setSelectedContactId(undefined);
-      const department = mockDepartments.find(d => d.id === departmentId);
+      const department = departments.find(d => d.id === departmentId);
       if (department) {
         toast({
           title: "Setor alterado",
@@ -382,6 +387,7 @@ export default function Chatboard() {
         }}
         onDepartmentChange={handleDepartmentChange}
         currentDepartment={currentDepartment}
+        departments={departments}
       />
       
       <div className="flex-1">
