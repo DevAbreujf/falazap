@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle } from "lucide-react";
+import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle, X } from "lucide-react";
 import { useState } from "react";
 import {
   Sheet,
