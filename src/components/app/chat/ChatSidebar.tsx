@@ -171,7 +171,7 @@ export function ChatSidebar({
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="flex items-center gap-2 mt-3">
+            <div className="flex flex-col gap-2 mt-3">
               <Button
                 variant="outline"
                 size="sm"
@@ -181,9 +181,15 @@ export function ChatSidebar({
                 <Building2 className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 Setores
               </Button>
-              <Badge variant="outline" className="shrink-0 bg-primary/5 hover:bg-primary/10 transition-colors">
-                {currentDepartment.name}
-              </Badge>
+              {currentDepartment.name ? (
+                <Badge variant="outline" className="shrink-0 bg-primary/5 hover:bg-primary/10 transition-colors self-start">
+                  {currentDepartment.name}
+                </Badge>
+              ) : (
+                <span className="text-sm text-muted-foreground">
+                  Nenhum setor selecionado
+                </span>
+              )}
             </div>
           </div>
 

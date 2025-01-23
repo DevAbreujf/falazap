@@ -5,9 +5,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Building2 } from "lucide-react";
+import { Building2, Plus } from "lucide-react";
 import { useState } from "react";
 import { useDepartmentStore } from "@/stores/departmentStore";
+import { useNavigate } from "react-router-dom";
 
 interface DepartmentChangeDialogProps {
   open: boolean;
@@ -24,28 +25,27 @@ export function DepartmentChangeDialog({
 }: DepartmentChangeDialogProps) {
   const [selectedAction, setSelectedAction] = useState<'change' | 'add' | null>(null);
   const { departments } = useDepartmentStore();
-
-  console.log("Current departments in dialog:", departments); // Debug log
+  const navigate = useNavigate();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Gerenciar Setor do Usuário</DialogTitle>
+          <DialogTitle className="text-xl font-semibold">Selecionar Setor</DialogTitle>
         </DialogHeader>
         {!selectedAction ? (
           <div className="grid gap-4">
             <Button
               variant="outline"
               onClick={() => setSelectedAction('change')}
-              className="justify-start"
+              className="justify-start hover:bg-primary/5 transition-all duration-200"
             >
               Trocar de Setor
             </Button>
             <Button
               variant="outline"
               onClick={() => setSelectedAction('add')}
-              className="justify-start"
+              className="justify-start hover:bg-primary/5 transition-all duration-200"
             >
               Adicionar a Outro Setor
             </Button>
@@ -55,21 +55,33 @@ export function DepartmentChangeDialog({
             <div className="text-sm text-muted-foreground mb-2">
               {selectedAction === 'change' ? 'Selecione o novo setor:' : 'Selecione o setor adicional:'}
             </div>
-            {departments.map((dept) => (
-              <Button
-                key={dept.id}
-                variant="outline"
-                onClick={() => onChangeDepartment(dept.name, selectedAction)}
-                className="justify-start gap-2"
-                disabled={dept.name === currentDepartment && selectedAction === 'change'}
-              >
-                <Building2 className="h-4 w-4" />
-                {dept.name}
-              </Button>
-            ))}
-            {departments.length === 0 && (
-              <div className="text-sm text-muted-foreground text-center py-2">
-                Nenhum setor cadastrado. Crie setores na página de Departamentos.
+            {departments.length > 0 ? (
+              <div className="grid gap-2">
+                {departments.map((dept) => (
+                  <Button
+                    key={dept.id}
+                    variant="outline"
+                    onClick={() => onChangeDepartment(dept.name, selectedAction)}
+                    className="justify-start gap-2 hover:bg-primary/5 transition-all duration-200"
+                    disabled={dept.name === currentDepartment && selectedAction === 'change'}
+                  >
+                    <Building2 className="h-4 w-4" />
+                    {dept.name}
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="text-sm text-muted-foreground text-center py-2">
+                  Nenhum setor cadastrado. Crie setores na página de Departamentos.
+                </div>
+                <Button
+                  onClick={() => navigate('/departments')}
+                  className="w-full gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Criar setor
+                </Button>
               </div>
             )}
             <Button
