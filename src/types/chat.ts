@@ -1,7 +1,13 @@
 export interface Department {
   id: string;
   name: string;
-  description: string;
+  description?: string;
+  users?: Array<{
+    id: number;
+    name: string;
+    email: string;
+    department: string;
+  }>;
 }
 
 export interface ChatMessage {

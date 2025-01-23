@@ -5,19 +5,7 @@ import { DepartmentsList } from "@/components/app/departments/DepartmentsList";
 import { DepartmentUsers } from "@/components/app/departments/DepartmentUsers";
 import { useDepartmentStore } from "@/stores/departmentStore";
 import { useToast } from "@/components/ui/use-toast";
-
-interface Department {
-  id: number;
-  name: string;
-  users: User[];
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  department: string;
-}
+import { Department } from "@/types/chat";
 
 export default function Departments() {
   const { departments: storeDepartments, setDepartments: updateDepartments } = useDepartmentStore();
@@ -35,10 +23,11 @@ export default function Departments() {
 
   const handleAddDepartment = () => {
     if (newDepartmentName.trim()) {
-      const newDepartment = {
-        id: storeDepartments.length + 1,
+      const newDepartment: Department = {
+        id: `${Date.now()}`, // Convert to string
         name: newDepartmentName.trim(),
-        users: [],
+        description: "",
+        users: []
       };
       
       const updatedDepartments = [...storeDepartments, newDepartment];
@@ -54,13 +43,13 @@ export default function Departments() {
     }
   };
 
-  const handleAddUserToDepartment = (user: User) => {
+  const handleAddUserToDepartment = (user: { id: number; name: string; email: string; department: string; }) => {
     if (selectedDepartment) {
       const updatedDepartments = storeDepartments.map(dept => {
         if (dept.id === selectedDepartment.id) {
           return {
             ...dept,
-            users: [...dept.users, user]
+            users: [...(dept.users || []), user]
           };
         }
         return dept;
@@ -69,7 +58,7 @@ export default function Departments() {
       updateDepartments(updatedDepartments);
       setSelectedDepartment({
         ...selectedDepartment,
-        users: [...selectedDepartment.users, user]
+        users: [...(selectedDepartment.users || []), user]
       });
     }
   };
@@ -80,7 +69,7 @@ export default function Departments() {
         if (dept.id === selectedDepartment.id) {
           return {
             ...dept,
-            users: dept.users.filter(user => user.id !== userId)
+            users: (dept.users || []).filter(user => user.id !== userId)
           };
         }
         return dept;
@@ -89,27 +78,27 @@ export default function Departments() {
       updateDepartments(updatedDepartments);
       setSelectedDepartment({
         ...selectedDepartment,
-        users: selectedDepartment.users.filter(user => user.id !== userId)
+        users: (selectedDepartment.users || []).filter(user => user.id !== userId)
       });
     }
   };
 
   const handleChangeDepartment = (userId: number, newDepartmentName: string, action: 'change' | 'add') => {
     if (selectedDepartment) {
-      const userToMove = selectedDepartment.users.find(user => user.id === userId);
+      const userToMove = (selectedDepartment.users || []).find(user => user.id === userId);
       if (!userToMove) return;
 
       const updatedDepartments = storeDepartments.map(dept => {
         if (dept.name === newDepartmentName) {
           return {
             ...dept,
-            users: [...dept.users, { ...userToMove, department: newDepartmentName }]
+            users: [...(dept.users || []), { ...userToMove, department: newDepartmentName }]
           };
         }
         if (dept.id === selectedDepartment.id && action === 'change') {
           return {
             ...dept,
-            users: dept.users.filter(user => user.id !== userId)
+            users: (dept.users || []).filter(user => user.id !== userId)
           };
         }
         return dept;
@@ -120,7 +109,7 @@ export default function Departments() {
       if (action === 'change') {
         setSelectedDepartment({
           ...selectedDepartment,
-          users: selectedDepartment.users.filter(user => user.id !== userId)
+          users: (selectedDepartment.users || []).filter(user => user.id !== userId)
         });
       }
     }
@@ -161,7 +150,7 @@ export default function Departments() {
                 </div>
                 <DepartmentUsers 
                   departmentName={selectedDepartment.name}
-                  users={selectedDepartment.users}
+                  users={selectedDepartment.users || []}
                   onAddUser={handleAddUserToDepartment}
                   onRemoveUser={handleRemoveUserFromDepartment}
                   onChangeDepartment={handleChangeDepartment}
