@@ -1,6 +1,7 @@
 import { DeleteDialog } from "./DeleteDialog";
 import { ForwardDialog } from "./ForwardDialog";
 import { ChatMessage } from "@/types/chat";
+import { useEffect } from "react";
 
 interface ChatDialogsProps {
   isDeleteDialogOpen: boolean;
@@ -21,17 +22,46 @@ export function ChatDialogs({
   onDelete,
   onForward
 }: ChatDialogsProps) {
+  // Limpar estados quando os diálogos são fechados
+  useEffect(() => {
+    if (!isDeleteDialogOpen) {
+      document.body.style.pointerEvents = 'auto';
+    }
+  }, [isDeleteDialogOpen]);
+
+  useEffect(() => {
+    if (!isForwardDialogOpen) {
+      document.body.style.pointerEvents = 'auto';
+    }
+  }, [isForwardDialogOpen]);
+
   return (
     <>
       <DeleteDialog
         isOpen={isDeleteDialogOpen}
-        onOpenChange={onCloseDeleteDialog}
-        onDelete={onDelete}
+        onOpenChange={(open) => {
+          if (!open) {
+            onCloseDeleteDialog();
+            document.body.style.pointerEvents = 'auto';
+          }
+        }}
+        onDelete={(type) => {
+          onDelete(type);
+          document.body.style.pointerEvents = 'auto';
+        }}
       />
       <ForwardDialog
         isOpen={isForwardDialogOpen}
-        onOpenChange={onCloseForwardDialog}
-        onForward={onForward}
+        onOpenChange={(open) => {
+          if (!open) {
+            onCloseForwardDialog();
+            document.body.style.pointerEvents = 'auto';
+          }
+        }}
+        onForward={(contactId) => {
+          onForward(contactId);
+          document.body.style.pointerEvents = 'auto';
+        }}
       />
     </>
   );

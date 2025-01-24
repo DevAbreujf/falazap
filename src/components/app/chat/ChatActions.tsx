@@ -154,25 +154,27 @@ export function ChatActions({
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="relative group hover:border-destructive/50 hover:bg-destructive/10"
-              onClick={() => setIsEndSupportOpen(true)}
-            >
-              <XOctagon className="h-4 w-4 text-destructive group-hover:text-destructive" />
+            <div className="flex">
               <Button
-                variant="ghost"
+                variant="outline"
+                className="relative group hover:border-destructive/50 hover:bg-destructive/10 rounded-r-none border-r-0 pr-8"
+                onClick={() => setIsEndSupportOpen(true)}
+              >
+                <XOctagon className="h-4 w-4 text-destructive group-hover:text-destructive mr-2" />
+                Finalizar atendimento
+              </Button>
+              <Button
+                variant="outline"
                 size="icon"
-                className="absolute -top-2 -right-2 h-4 w-4 rounded-full p-0 hover:bg-muted"
+                className="h-10 w-10 rounded-l-none hover:bg-muted border-l-0 hover:border-destructive/50"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsEditMessageOpen(true);
                 }}
               >
-                <Pencil className="h-3 w-3" />
+                <Pencil className="h-3.5 w-3.5" />
               </Button>
-            </Button>
+            </div>
           </TooltipTrigger>
           <TooltipContent>
             <p>Finalizar atendimento</p>
