@@ -420,6 +420,11 @@ export default function Chatboard() {
     avatar: undefined
   };
 
+  const handleCloseChat = () => {
+    setSelectedContactId(undefined);
+    setShowIntro(true);
+  };
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <ChatSidebar
@@ -455,6 +460,7 @@ export default function Chatboard() {
               id: d.id.toString(),
               name: d.name
             }))}
+            onCloseChat={handleCloseChat}
           />
         )}
       </div>

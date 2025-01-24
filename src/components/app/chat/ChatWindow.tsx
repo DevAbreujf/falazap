@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Info } from "lucide-react";
+import { Info, ArrowLeft } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -38,6 +38,7 @@ interface ChatWindowProps {
   currentUser: { id: string; name: string; avatar?: string };
   onMessageAction: (action: 'reply' | 'copy' | 'forward' | 'delete', message: ChatMessage) => void;
   departments: Array<{ id: string; name: string }>;
+  onCloseChat: () => void;
 }
 
 export function ChatWindow({ 
@@ -51,7 +52,8 @@ export function ChatWindow({
   currentDepartment,
   currentUser,
   onMessageAction,
-  departments
+  departments,
+  onCloseChat
 }: ChatWindowProps) {
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
@@ -149,6 +151,24 @@ export function ChatWindow({
             ]}
             departments={departments}
           />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onCloseChat}
+                  className="flex items-center gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Fechar janela de conversa
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Fechar chat atual</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
