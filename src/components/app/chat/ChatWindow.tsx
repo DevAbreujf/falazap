@@ -3,7 +3,7 @@ import { Info, ArrowLeft } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { ChatHeaderInfo } from "./ChatHeaderInfo";
 import { ChatActions } from "./ChatActions";
 import { ChatDetailsSidebar } from "./ChatDetailsSidebar";
@@ -137,9 +137,9 @@ export function ChatWindow({
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <div className="p-4 border-b border-primary/10 bg-card flex items-center justify-between">
+      <div className="p-5 border-b bg-gradient-to-r from-background to-background/50 backdrop-blur-sm flex items-center justify-between gap-4 shadow-sm">
         <ChatHeaderInfo contact={contact} />
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <ChatActions
             onChangeDepartment={onChangeDepartment}
             onEndSupport={onEndSupport}
@@ -156,16 +156,15 @@ export function ChatWindow({
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
-                  size="sm"
+                  size="icon"
                   onClick={onCloseChat}
-                  className="flex items-center gap-2"
+                  className="hover:bg-muted/80 transition-colors"
                 >
                   <ArrowLeft className="h-4 w-4" />
-                  Fechar janela de conversa
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Fechar chat atual</p>
+                <p>Fechar janela de conversa</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

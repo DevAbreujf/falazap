@@ -128,7 +128,9 @@ export function ChatActions({
           <TooltipTrigger asChild>
             <Button
               variant="outline"
+              size="sm"
               onClick={() => setIsTransferOpen(true)}
+              className="hover:bg-muted/80 transition-colors"
             >
               Transferir conversa
             </Button>
@@ -142,7 +144,9 @@ export function ChatActions({
           <TooltipTrigger asChild>
             <Button
               variant="outline"
+              size="sm"
               onClick={() => setIsDepartmentOpen(true)}
+              className="hover:bg-muted/80 transition-colors"
             >
               Enviar para outro setor
             </Button>
@@ -157,16 +161,16 @@ export function ChatActions({
             <div className="flex">
               <Button
                 variant="outline"
-                className="relative group hover:border-destructive/50 hover:bg-destructive/10 rounded-r-none border-r-0 pr-8"
+                size="icon"
+                className="relative group hover:border-destructive/50 hover:bg-destructive/10"
                 onClick={() => setIsEndSupportOpen(true)}
               >
-                <XOctagon className="h-4 w-4 text-destructive group-hover:text-destructive mr-2" />
-                Finalizar atendimento
+                <XOctagon className="h-4 w-4 text-destructive group-hover:text-destructive" />
               </Button>
               <Button
                 variant="outline"
                 size="icon"
-                className="h-10 w-10 rounded-l-none hover:bg-muted border-l-0 hover:border-destructive/50"
+                className="h-8 w-8 ml-1 hover:bg-muted/80"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsEditMessageOpen(true);
