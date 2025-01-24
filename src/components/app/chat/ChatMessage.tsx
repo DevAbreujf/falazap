@@ -92,22 +92,14 @@ export function ChatMessage({
       ref={messageRef}
       className={`flex ${isCurrentUser ? 'justify-end lead-message' : 'justify-start attendant-message'} relative group animate-fade-up`}
     >
-      {!isCurrentUser && (
-        <Avatar className="w-8 h-8 mr-2 border-2 border-primary/10 transition-all duration-200 group-hover:border-primary/20">
-          <AvatarImage src={currentUser.avatar} />
-          <AvatarFallback className="bg-primary/5 text-primary">
-            {currentUser.name[0]}
-          </AvatarFallback>
-        </Avatar>
-      )}
       <div
         className={`max-w-[70%] rounded-lg p-3 relative ${
           isNote 
             ? 'bg-[#fae389]/10 border border-[#fae389]/20'
             : isCurrentUser
-            ? 'bg-gradient-to-br from-primary/10 to-primary/5'
-            : 'bg-gradient-to-br from-muted/80 to-muted/50'
-        } shadow-sm hover:shadow-md transition-all duration-200`}
+            ? 'bg-gradient-to-br from-primary/10 to-primary/5 shadow-sm hover:shadow-md'
+            : 'bg-gradient-to-br from-muted/80 to-muted/50 shadow-sm hover:shadow-md'
+        } transition-all duration-200`}
       >
         <div 
           className="text-sm"
