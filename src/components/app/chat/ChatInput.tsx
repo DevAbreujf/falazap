@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Paperclip, Send, Bot, SmilePlus, X, Mic, StopCircle, Pause, Play } from "lucide-react";
+import { Paperclip, Send, Bot, SmilePlus, X, Mic, MessageSquare, StickyNote } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Edit } from "lucide-react";
 import {
@@ -190,6 +190,27 @@ export function ChatInput({
             )}
           </span>
         </div>
+
+        <div className="flex gap-1">
+          <Button
+            variant={chatMode === "message" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setChatMode("message")}
+            className="gap-2"
+          >
+            <MessageSquare className="h-4 w-4" />
+            Mensagem
+          </Button>
+          <Button
+            variant={chatMode === "notes" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setChatMode("notes")}
+            className="gap-2 data-[state=active]:bg-[#fae389]/20 hover:bg-[#fae389]/10"
+          >
+            <StickyNote className="h-4 w-4" />
+            Notas
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
@@ -212,7 +233,21 @@ export function ChatInput({
         <textarea
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={handleKeyPress}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              if (newMessage.trim()) {
+                const messageContent = chatMode === "notes" 
+                  ? `**Nota**\n${newMessage}`
+                  : isSignatureEnabled 
+                    ? `**${editedName}:**\n${newMessage}`
+                    : newMessage;
+                    
+                onSendMessage(messageContent);
+                setNewMessage("");
+              }
+            }
+          }}
           placeholder={chatMode === "notes" ? "Digite uma nota..." : "Digite uma mensagem..."}
           className={`flex-1 bg-muted/50 rounded-lg p-3 min-h-[100px] max-h-[200px] resize-y focus:outline-none focus:ring-1 focus:ring-primary text-sm transition-all duration-200 ${
             chatMode === "notes" ? "border-[#fae389]/20" : ""
@@ -256,18 +291,20 @@ export function ChatInput({
               </Tooltip>
             </TooltipProvider>
 
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={() => setIsChatbotsOpen(true)}
-              className="hover:bg-primary/10 transition-colors"
-            >
-              <Bot className="h-5 w-5" />
-            </Button>
+            {chatMode === "message" && (
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={() => setIsChatbotsOpen(true)}
+                className="hover:bg-primary/10 transition-colors"
+              >
+                <Bot className="h-5 w-5" />
+              </Button>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
-            {isRecording && (
+            {isRecording && chatMode === "message" && (
               <div className="flex items-center gap-2 bg-muted/10 rounded-lg px-3 py-1.5 animate-fade-up">
                 <AudioMeter mediaRecorder={mediaRecorder.current} isRecording={isRecording && !isPaused} />
                 <span className="text-xs font-medium text-primary min-w-[40px]">
@@ -304,14 +341,25 @@ export function ChatInput({
 
             {newMessage.trim() ? (
               <Button 
-                onClick={handleSend} 
+                onClick={() => {
+                  if (newMessage.trim()) {
+                    const messageContent = chatMode === "notes" 
+                      ? `**Nota**\n${newMessage}`
+                      : isSignatureEnabled 
+                        ? `**${editedName}:**\n${newMessage}`
+                        : newMessage;
+                        
+                    onSendMessage(messageContent);
+                    setNewMessage("");
+                  }
+                }}
                 size="icon" 
                 variant="ghost"
                 className="hover:bg-primary/10 transition-colors"
               >
                 <Send className="h-5 w-5" />
               </Button>
-            ) : (
+            ) : chatMode === "message" ? (
               <Button 
                 onClick={startRecording} 
                 size="icon"
@@ -321,7 +369,7 @@ export function ChatInput({
               >
                 <Mic className="h-5 w-5" />
               </Button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
