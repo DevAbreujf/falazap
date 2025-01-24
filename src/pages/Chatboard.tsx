@@ -4,7 +4,7 @@ import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
 import { ChatContact, ChatMessage } from "@/types/chat";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useDepartmentStore } from "@/stores/departmentStore";
 
 const mockAttendants = [
@@ -289,6 +289,75 @@ export default function Chatboard() {
       });
       setSelectedContactId(undefined);
       setShowIntro(true);
+    }
+  };
+
+  const handleEndSupport = async (contactId: string) => {
+    try {
+      handleUpdateContactStatus(contactId, true);
+      setSelectedContactId(undefined);
+      setShowIntro(true);
+      toast({
+        title: "Atendimento finalizado",
+        description: "O atendimento foi encerrado com sucesso.",
+      });
+    } catch (error) {
+      console.error('Error ending support:', error);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao finalizar o atendimento.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleTransferChat = (contactId: string, attendantId: string) => {
+    try {
+      const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
+        contact.id === contactId
+          ? { ...contact, status: 'transferred' as const }
+          : contact
+      );
+      mockContactsByDepartment[currentDepartment.id] = updatedContacts;
+      setSelectedContactId(undefined);
+      setShowIntro(true);
+      toast({
+        title: "Chat transferido",
+        description: "O chat foi transferido com sucesso.",
+      });
+    } catch (error) {
+      console.error('Error transferring chat:', error);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao transferir o chat.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleChangeDepartment = (contactId: string, departmentId: string) => {
+    try {
+      const department = departments.find(d => d.id.toString() === departmentId);
+      if (department) {
+        setCurrentDepartment({
+          id: department.id.toString(),
+          name: department.name,
+          description: department.description || ""
+        });
+        setSelectedContactId(undefined);
+        setShowIntro(true);
+        toast({
+          title: "Departamento alterado",
+          description: "O chat foi transferido para outro departamento.",
+        });
+      }
+    } catch (error) {
+      console.error('Error changing department:', error);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao mudar de departamento.",
+        variant: "destructive",
+      });
     }
   };
 
