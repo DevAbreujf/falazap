@@ -304,9 +304,9 @@ export default function Chatboard() {
       // Atualiza a lista de contatos do departamento atual
       mockContactsByDepartment[currentDepartment.id] = updatedContacts;
       
-      // Fecha o chat atual
-      setSelectedContactId(undefined);
-      setShowIntro(true);
+      // Removido o código que fechava o chat
+      // setSelectedContactId(undefined);
+      // setShowIntro(true);
       
       toast({
         title: "Atendimento finalizado",
