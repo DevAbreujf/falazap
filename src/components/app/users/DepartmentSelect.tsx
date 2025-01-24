@@ -15,16 +15,29 @@ interface DepartmentSelectProps {
 export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps) {
   const { departments } = useDepartmentStore();
 
-  console.log("Departments in DepartmentSelect:", departments); // Debug log
+  // Find the current department name for display
+  const currentDepartment = departments.find(dept => dept.id.toString() === value);
+
+  console.log("Current department:", currentDepartment); // Debug log
+  console.log("Current value:", value); // Debug log
+  console.log("Available departments:", departments); // Debug log
 
   return (
-    <Select value={value} onValueChange={onValueChange}>
+    <Select 
+      value={value} 
+      onValueChange={onValueChange}
+    >
       <SelectTrigger>
-        <SelectValue placeholder="Selecione um setor" />
+        <SelectValue placeholder="Selecione um setor">
+          {currentDepartment?.name}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         {departments.map((department) => (
-          <SelectItem key={department.id} value={department.name}>
+          <SelectItem 
+            key={department.id} 
+            value={department.id.toString()}
+          >
             {department.name}
           </SelectItem>
         ))}
