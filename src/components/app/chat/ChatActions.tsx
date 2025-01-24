@@ -92,16 +92,25 @@ export function ChatActions({
     }
   };
 
-  const handleEndSupport = () => {
-    if (onSendMessage) {
-      onSendMessage(endMessage);
+  const handleEndSupport = async () => {
+    try {
+      if (onSendMessage) {
+        await onSendMessage(endMessage);
+      }
+      await onEndSupport();
+      setIsEndSupportOpen(false);
+      toast({
+        title: "Atendimento finalizado",
+        description: "O atendimento foi encerrado com sucesso.",
+      });
+    } catch (error) {
+      console.error('Error ending support:', error);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao finalizar o atendimento.",
+        variant: "destructive",
+      });
     }
-    onEndSupport();
-    setIsEndSupportOpen(false);
-    toast({
-      title: "Atendimento finalizado",
-      description: "O atendimento foi encerrado com sucesso.",
-    });
   };
 
   const handleSaveEndMessage = () => {
@@ -171,7 +180,16 @@ export function ChatActions({
         </Tooltip>
       </TooltipProvider>
 
-      <Sheet open={isTransferOpen} onOpenChange={setIsTransferOpen}>
+      <Sheet 
+        open={isTransferOpen} 
+        onOpenChange={(open) => {
+          setIsTransferOpen(open);
+          if (!open) {
+            setSelectedAttendant(null);
+            setSearchTerm("");
+          }
+        }}
+      >
         <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
           <SheetHeader className="mb-6 border-b pb-4">
             <SheetTitle className="text-xl font-semibold">Transferir conversa</SheetTitle>
@@ -253,7 +271,16 @@ export function ChatActions({
         </SheetContent>
       </Sheet>
 
-      <Sheet open={isDepartmentOpen} onOpenChange={setIsDepartmentOpen}>
+      <Sheet 
+        open={isDepartmentOpen} 
+        onOpenChange={(open) => {
+          setIsDepartmentOpen(open);
+          if (!open) {
+            setSelectedDepartment(null);
+            setSearchDepartmentTerm("");
+          }
+        }}
+      >
         <SheetContent className="w-[400px] sm:w-[540px] flex flex-col">
           <SheetHeader className="mb-6 border-b pb-4">
             <SheetTitle className="text-xl font-semibold">Enviar para outro setor</SheetTitle>
@@ -272,8 +299,7 @@ export function ChatActions({
 
             <div className="space-y-2 flex-1">
               {filteredDepartments.length === 0 ? (
-                <div className="flex items-center justify-center gap-2 p-4 rounded-lg bg-muted/50">
-                  <Search className="h-5 w-5 text-muted-foreground" />
+                <div className="flex items-center justify-center p-4 rounded-lg bg-muted/50">
                   <span className="text-sm text-muted-foreground">Nenhum setor encontrado</span>
                 </div>
               ) : (
@@ -344,7 +370,16 @@ export function ChatActions({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isEndSupportOpen} onOpenChange={setIsEndSupportOpen}>
+      <Dialog 
+        open={isEndSupportOpen} 
+        onOpenChange={(open) => {
+          setIsEndSupportOpen(open);
+          if (!open) {
+            // Limpar qualquer estado pendente ao fechar
+            setEndMessage("Atendimento finalizado");
+          }
+        }}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Finalizar Atendimento</DialogTitle>
