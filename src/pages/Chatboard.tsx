@@ -294,9 +294,20 @@ export default function Chatboard() {
 
   const handleEndSupport = async (contactId: string) => {
     try {
-      handleUpdateContactStatus(contactId, true);
+      // Atualiza o status do contato para 'finished' mantendo-o na lista
+      const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
+        contact.id === contactId
+          ? { ...contact, status: 'finished' as const }
+          : contact
+      );
+      
+      // Atualiza a lista de contatos do departamento atual
+      mockContactsByDepartment[currentDepartment.id] = updatedContacts;
+      
+      // Fecha o chat atual
       setSelectedContactId(undefined);
       setShowIntro(true);
+      
       toast({
         title: "Atendimento finalizado",
         description: "O atendimento foi encerrado com sucesso.",
