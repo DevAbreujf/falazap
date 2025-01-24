@@ -5,13 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
-const departments = [
-  { id: 1, name: "Suporte" },
-  { id: 2, name: "Vendas" },
-  { id: 3, name: "Financeiro" },
-  { id: 4, name: "Administrativo" },
-]
+import { useDepartmentStore } from "@/stores/departmentStore"
 
 interface DepartmentSelectProps {
   value: string;
@@ -19,6 +13,10 @@ interface DepartmentSelectProps {
 }
 
 export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps) {
+  const { departments } = useDepartmentStore();
+
+  console.log("Departments in DepartmentSelect:", departments); // Debug log
+
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger>
