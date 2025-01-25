@@ -14,8 +14,6 @@ interface DepartmentSelectProps {
 
 export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps) {
   const { departments } = useDepartmentStore();
-
-  // Find the current department name for display
   const currentDepartment = departments.find(dept => dept.id.toString() === value);
   const placeholder = "Selecione um setor";
 
@@ -25,8 +23,8 @@ export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps
       onValueChange={onValueChange}
     >
       <SelectTrigger>
-        <SelectValue placeholder={placeholder}>
-          {currentDepartment?.name}
+        <SelectValue>
+          {currentDepartment?.name || placeholder}
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
