@@ -18,18 +18,14 @@ export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps
   // Find the current department name for display
   const currentDepartment = departments.find(dept => dept.id.toString() === value);
 
-  console.log("Current department:", currentDepartment); // Debug log
-  console.log("Current value:", value); // Debug log
-  console.log("Available departments:", departments); // Debug log
-
   return (
     <Select 
       value={value} 
       onValueChange={onValueChange}
     >
       <SelectTrigger>
-        <SelectValue placeholder="Selecione um setor">
-          {currentDepartment?.name}
+        <SelectValue>
+          {currentDepartment ? currentDepartment.name : "Selecione um setor"}
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
