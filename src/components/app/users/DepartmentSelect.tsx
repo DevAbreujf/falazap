@@ -23,16 +23,13 @@ export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps
         onValueChange={onValueChange}
       >
         <SelectTrigger className="w-full bg-white">
-          <SelectValue 
-            className="text-gray-900"
-            placeholder={
-              departments.length === 0 
-                ? "Nenhum setor existente" 
-                : "Selecione um setor"
-            }
-          >
-            {currentDepartment?.name}
-          </SelectValue>
+          {departments.length === 0 ? (
+            <SelectValue>Nenhum setor existente</SelectValue>
+          ) : (
+            <SelectValue placeholder="Selecione um setor">
+              {currentDepartment?.name}
+            </SelectValue>
+          )}
         </SelectTrigger>
         <SelectContent>
           {departments.length === 0 ? (
