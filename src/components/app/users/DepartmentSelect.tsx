@@ -26,9 +26,7 @@ export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps
           {departments.length === 0 ? (
             <SelectValue>Nenhum setor existente</SelectValue>
           ) : (
-            <SelectValue placeholder="Selecione um setor">
-              {currentDepartment?.name}
-            </SelectValue>
+            <SelectValue placeholder={currentDepartment?.name || "Selecione um setor"} />
           )}
         </SelectTrigger>
         <SelectContent>
