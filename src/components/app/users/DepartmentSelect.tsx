@@ -14,7 +14,6 @@ interface DepartmentSelectProps {
 
 export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps) {
   const { departments } = useDepartmentStore();
-  const currentDepartment = departments.find(dept => dept.id.toString() === value);
   
   return (
     <div className="space-y-2">
@@ -23,11 +22,7 @@ export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps
         onValueChange={onValueChange}
       >
         <SelectTrigger className="w-full bg-white">
-          {departments.length === 0 ? (
-            <SelectValue>Nenhum setor existente</SelectValue>
-          ) : (
-            <SelectValue>{currentDepartment?.name || "Selecione um setor"}</SelectValue>
-          )}
+          <SelectValue placeholder="Selecione um setor" />
         </SelectTrigger>
         <SelectContent>
           {departments.length === 0 ? (
