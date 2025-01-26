@@ -33,6 +33,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { DepartmentSelect } from "@/components/app/users/DepartmentSelect";
 import { ContactsPagination } from "@/components/app/contacts/ContactsPagination";
+import { useDepartmentStore } from "@/stores/departmentStore";
 
 interface User {
   id: string;
@@ -45,12 +46,13 @@ interface User {
 const ITEMS_PER_PAGE = 8;
 
 export default function Users() {
+  const { departments } = useDepartmentStore();
   const [users, setUsers] = useState<User[]>([
     {
       id: "1",
       name: "João Silva",
       email: "joao@example.com",
-      department: "Suporte",
+      department: "1", // Agora usando o ID do departamento
       cpf: "123.456.789-00",
     },
   ]);
@@ -168,6 +170,11 @@ export default function Users() {
     </form>
   );
 
+  const getDepartmentName = (departmentId: string) => {
+    const department = departments.find(dept => dept.id.toString() === departmentId);
+    return department ? department.name : "Sem setor";
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
@@ -211,7 +218,7 @@ export default function Users() {
                       <TableRow key={user.id}>
                         <TableCell>{user.name}</TableCell>
                         <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.department}</TableCell>
+                        <TableCell>{getDepartmentName(user.department)}</TableCell>
                         <TableCell>{user.cpf}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
