@@ -1,17 +1,3 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { useDepartmentStore } from "@/stores/departmentStore"
-
-interface DepartmentSelectProps {
-  value: string;
-  onValueChange: (value: string) => void;
-}
-
 export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps) {
   const { departments } = useDepartmentStore();
   const currentDepartment = departments.find(dept => dept.id.toString() === value);
@@ -22,7 +8,7 @@ export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps
         value={value} 
         onValueChange={onValueChange}
       >
-        <SelectTrigger className="w-full bg-white">
+        <SelectTrigger>
           <SelectValue>
             {currentDepartment ? currentDepartment.name : "Selecione um setor"}
           </SelectValue>
