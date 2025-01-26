@@ -22,7 +22,7 @@ export function DepartmentSelect({ value, onValueChange }: DepartmentSelectProps
         value={value} 
         onValueChange={onValueChange}
       >
-        <SelectTrigger className="w-full bg-white">
+        <SelectTrigger>
           <SelectValue>
             {currentDepartment ? currentDepartment.name : "Selecione um setor"}
           </SelectValue>
