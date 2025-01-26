@@ -138,14 +138,17 @@ export default function Users() {
         <Label htmlFor="email">Email</Label>
         <Input id="email" name="email" type="email" defaultValue={initialData?.email} required />
       </div>
-      <input type="hidden" name="department" value={initialData?.department || ""} />
-      <DepartmentSelect 
-        value={initialData?.department || ""} 
-        onValueChange={(value) => {
-          const input = document.querySelector('input[name="department"]') as HTMLInputElement;
-          if (input) input.value = value;
-        }}
-      />
+      <div className="space-y-2">
+        <Label htmlFor="department">Setor</Label>
+        <input type="hidden" name="department" value={initialData?.department || ""} />
+        <DepartmentSelect 
+          value={initialData?.department || ""} 
+          onValueChange={(value) => {
+            const input = document.querySelector('input[name="department"]') as HTMLInputElement;
+            if (input) input.value = value;
+          }}
+        />
+      </div>
       <div className="space-y-2">
         <Label htmlFor="cpf">CPF</Label>
         <Input 
