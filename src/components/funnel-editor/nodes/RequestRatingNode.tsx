@@ -4,6 +4,7 @@ import { Star, User, Building } from 'lucide-react';
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { RequestRatingNodeData } from '@/types/flow';
 
 interface RequestRatingNodeProps {
@@ -47,9 +48,9 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
       <div className="p-4 space-y-6">
         <div>
           <label className="text-sm font-medium text-zinc-600 block mb-2">Mensagem</label>
-          <Input 
+          <Textarea 
             placeholder="Digite a mensagem que irá enviar"
-            className="w-full text-sm"
+            className="w-full text-sm min-h-[80px] resize-y"
           />
         </div>
 
