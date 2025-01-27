@@ -35,6 +35,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
+import { useDepartmentStore } from "@/stores/departmentStore";
 
 interface Department {
   id: number;
@@ -76,6 +77,7 @@ export function DepartmentsList({
   handleAddDepartment
 }: DepartmentsListProps) {
   const [departmentToDelete, setDepartmentToDelete] = useState<Department | null>(null);
+  const { removeDepartment } = useDepartmentStore();
 
   const handleDeleteDepartment = (department: Department) => {
     setDepartmentToDelete(department);
@@ -83,8 +85,7 @@ export function DepartmentsList({
 
   const confirmDelete = () => {
     if (departmentToDelete) {
-      // Aqui você pode adicionar a lógica para deletar o departamento
-      console.log("Deletando departamento:", departmentToDelete.name);
+      removeDepartment(departmentToDelete.id);
       setDepartmentToDelete(null);
     }
   };
