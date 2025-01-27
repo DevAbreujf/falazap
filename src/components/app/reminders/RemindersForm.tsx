@@ -1,19 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { MessageInput } from "./MessageInput";
 import { FileAttachments } from "./FileAttachments";
 import { PhoneNumberInput } from "./PhoneNumberInput";
-import { MessageTypeSelector } from "./MessageTypeSelector";
-import { CountrySelector } from "./CountrySelector";
-import { ManualPhoneSection } from "./ManualPhoneSection";
 import type { Country } from 'react-phone-number-input';
 
 export function RemindersForm() {
   const [message, setMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isManualPhone, setIsManualPhone] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<Country>("BR");
+  const [selectedCountry] = useState<Country>("BR");
   const [manualPhone, setManualPhone] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,55 +16,42 @@ export function RemindersForm() {
     console.log({
       message,
       selectedFile,
-      isManualPhone,
       selectedCountry,
       manualPhone,
     });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto p-4 md:p-6">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold">Criar Lembrete</h1>
-        <Button type="submit" size="lg" className="w-full md:w-auto">
-          Agendar Lembrete
-        </Button>
+    <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto p-6 bg-white/50 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+          Criar Lembrete
+        </h1>
+        <p className="text-muted-foreground">
+          Configure seu lembrete para envio automático
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-6">
-          <MessageTypeSelector />
+          <PhoneNumberInput
+            selectedCountry={selectedCountry}
+            onCountryChange={() => {}} // Fixado como Brasil
+            manualPhone={manualPhone}
+            onPhoneChange={setManualPhone}
+          />
           <MessageInput value={message} onChange={setMessage} />
-          <FileAttachments onFileSelect={(file) => setSelectedFile(file)} />
         </div>
 
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">Telefone Manual</span>
-            <Switch checked={isManualPhone} onCheckedChange={setIsManualPhone} />
-          </div>
-
-          {isManualPhone ? (
-            <ManualPhoneSection 
-              selectedCountry={selectedCountry}
-              onCountryChange={setSelectedCountry}
-              manualPhone={manualPhone}
-              onPhoneChange={setManualPhone}
-            />
-          ) : (
-            <>
-              <CountrySelector 
-                selectedCountry={selectedCountry}
-                onCountryChange={setSelectedCountry}
-              />
-              <PhoneNumberInput 
-                selectedCountry={selectedCountry}
-                onCountryChange={setSelectedCountry}
-                manualPhone={manualPhone}
-                onPhoneChange={setManualPhone}
-              />
-            </>
-          )}
+          <FileAttachments onFileSelect={(file) => setSelectedFile(file)} />
+          <Button 
+            type="submit" 
+            size="lg" 
+            className="w-full bg-gradient-primary hover:opacity-90 transition-all duration-300 py-6 text-lg font-medium"
+          >
+            Agendar Lembrete
+          </Button>
         </div>
       </div>
     </form>

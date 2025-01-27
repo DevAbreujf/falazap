@@ -12,12 +12,12 @@ export function MessageInput({ value, onChange }: MessageInputProps) {
       <Label className="text-sm font-medium text-foreground/90">
         Mensagem do lembrete
       </Label>
-      <div className="glass-card p-1 hover:border-primary/20 transition-all duration-300">
+      <div className="relative">
         <Textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Digite a mensagem do lembrete..."
-          className="min-h-[120px] bg-background/50 border-0 focus:border-0 focus:ring-0 rounded-xl placeholder:text-muted-foreground/50 resize-none"
+          placeholder="Digite a mensagem que será enviada..."
+          className="min-h-[120px] resize-none bg-white/50 backdrop-blur-sm border-white/20 focus:border-primary/20 transition-all duration-300"
         />
       </div>
     </div>
