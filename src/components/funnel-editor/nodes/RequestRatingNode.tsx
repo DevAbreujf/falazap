@@ -3,7 +3,7 @@ import { Handle, Position } from '@xyflow/react';
 import { Star, User, Building } from 'lucide-react';
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { RequestRatingNodeData } from '@/types/flow';
 
 interface RequestRatingNodeProps {
@@ -47,9 +47,9 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
       <div className="p-4 space-y-6">
         <div>
           <label className="text-sm font-medium text-zinc-600 block mb-2">Mensagem</label>
-          <Input 
+          <Textarea 
             placeholder="Digite a mensagem que irá enviar"
-            className="w-full text-sm"
+            className="w-full text-sm resize-y min-h-[60px]"
           />
         </div>
 
@@ -62,7 +62,7 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
               >
                 {number}
               </div>
-              <Input
+              <Textarea
                 value={messages[number - 1]}
                 onChange={(e) => {
                   const newMessages = [...messages];
@@ -70,7 +70,7 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
                   setMessages(newMessages);
                 }}
                 placeholder={ratingMessages[index].text}
-                className="flex-1 text-sm transition-all"
+                className="flex-1 text-sm resize-y min-h-[36px]"
               />
               <Handle
                 type="source"
@@ -149,7 +149,7 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
                 position={Position.Right}
                 id="no-response-flow"
                 className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-primary"
-                style={{ right: '-1.2em', top: '12px' }}
+                style={{ right: '-1.2em', top: '1px' }}
               />
             )}
           </div>
