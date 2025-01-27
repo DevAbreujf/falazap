@@ -57,10 +57,22 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
           {[1, 2, 3, 4, 5].map((number, index) => (
             <div key={number} className="flex items-center gap-3 group relative">
               <div 
-                className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium text-white"
+                className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium text-white relative"
                 style={{ backgroundColor: ratingMessages[index].color }}
               >
                 {number}
+                <Handle
+                  type="source"
+                  position={Position.Right}
+                  id={`rating-${number}`}
+                  className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-primary"
+                  style={{ 
+                    right: '-1.2em',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    position: 'absolute'
+                  }}
+                />
               </div>
               <Input
                 value={messages[number - 1]}
@@ -71,13 +83,6 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
                 }}
                 placeholder={ratingMessages[index].text}
                 className="flex-1 text-sm transition-all"
-              />
-              <Handle
-                type="source"
-                position={Position.Right}
-                id={`rating-${number}`}
-                className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-primary"
-                style={{ right: '-1.2em' }}
               />
             </div>
           ))}
