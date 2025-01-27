@@ -111,9 +111,11 @@ export interface TransferDepartmentNodeData extends BaseNodeData {
 
 export interface RequestRatingNodeData extends BaseNodeData {
   message: string;
-  showAsMenu: boolean;
+  ratingMessages: string[];
+  evaluationType: "agent" | "organization" | null;
   activateInvalidFlow: boolean;
   activateNoResponseFlow: boolean;
+  noResponseTimeout: number;
 }
 
 export interface TransferAgentNodeData extends BaseNodeData {
