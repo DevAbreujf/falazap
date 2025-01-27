@@ -102,7 +102,11 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
         position={Position.Right}
         id={`trigger-${trigger.id}`}
         className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
-        style={{ right: '-1.2em' }}
+        style={{ 
+          right: '-2em',
+          top: '50%',
+          transform: 'translateY(-50%)'
+        }}
       />
     </div>
   );
