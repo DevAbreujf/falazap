@@ -33,7 +33,7 @@ export function StartNode({ data }: { data: StartNodeData }) {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] overflow-hidden">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px] overflow-visible">
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
         <div className="flex items-center gap-2">
           <Play className="h-4 w-4 text-zinc-500" />
@@ -70,12 +70,6 @@ export function StartNode({ data }: { data: StartNodeData }) {
           Adicionar Gatilho
         </Button>
       </div>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
-      />
     </div>
   );
 }
