@@ -8,7 +8,7 @@ import type { Country } from 'react-phone-number-input';
 export function RemindersForm() {
   const [message, setMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectedCountry] = useState<Country>("BR");
+  const [selectedCountry, setSelectedCountry] = useState<Country>("BR");
   const [manualPhone, setManualPhone] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,7 +22,7 @@ export function RemindersForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto p-6 bg-white/50 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
+    <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto p-8 bg-white/50 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
           Criar Lembrete
@@ -36,7 +36,7 @@ export function RemindersForm() {
         <div className="space-y-6">
           <PhoneNumberInput
             selectedCountry={selectedCountry}
-            onCountryChange={() => {}} // Fixado como Brasil
+            onCountryChange={setSelectedCountry}
             manualPhone={manualPhone}
             onPhoneChange={setManualPhone}
           />

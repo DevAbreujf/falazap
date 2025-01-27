@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { Country } from 'react-phone-number-input';
+import { CountrySelector } from "./CountrySelector";
 
 interface PhoneNumberInputProps {
   selectedCountry: Country;
@@ -11,6 +12,7 @@ interface PhoneNumberInputProps {
 
 export function PhoneNumberInput({
   selectedCountry,
+  onCountryChange,
   manualPhone,
   onPhoneChange,
 }: PhoneNumberInputProps) {
@@ -36,23 +38,19 @@ export function PhoneNumberInput({
   return (
     <div className="space-y-2">
       <Label className="text-sm font-medium text-foreground/90">
-        Número do WhatsApp
+        Número
       </Label>
-      <div className="relative">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-          <img
-            src={`https://flagcdn.com/${selectedCountry.toLowerCase()}.svg`}
-            alt="BR"
-            className="w-4 h-3"
-          />
-          <span className="text-sm text-muted-foreground">+55</span>
-        </div>
+      <div className="space-y-4">
+        <CountrySelector
+          selectedCountry={selectedCountry}
+          onCountryChange={onCountryChange}
+        />
         <Input
           type="tel"
           placeholder="(00) 00000-0000"
           value={manualPhone}
           onChange={handlePhoneChange}
-          className="pl-20"
+          className="bg-white/50 backdrop-blur-sm border-white/20 focus:border-primary/20 transition-all duration-300"
           maxLength={15}
         />
       </div>
