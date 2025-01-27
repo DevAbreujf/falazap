@@ -22,7 +22,6 @@ export const WeekdaysNode = memo(({ data, id }: WeekdaysNodeProps) => {
   const days = data?.days || defaultDays;
   const edges = useEdges();
 
-  // Verifica se um dia específico tem conexão ativa
   const isDayConnected = (dayId: string) => {
     return edges.some(edge => 
       edge.source === id && edge.sourceHandle === `${dayId}-handle`
@@ -65,9 +64,9 @@ export const WeekdaysNode = memo(({ data, id }: WeekdaysNodeProps) => {
                 id={`${day.day.toLowerCase()}-handle`}
                 className="!relative !transform-none !right-0 w-3 h-3 !bg-zinc-300"
                 style={{ 
-                  right: '-1.1em !important', 
-                  position: 'relative !important',
-                  transform: 'none !important' 
+                  position: 'relative',
+                  right: '-2.5em',
+                  transform: 'none'
                 }}
               />
             </div>
