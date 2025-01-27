@@ -149,7 +149,7 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
                 position={Position.Right}
                 id="no-response-flow"
                 className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-primary"
-                style={{ right: '-1.2em', top: '12px' }}
+                style={{ right: '-1.2em', top: '1px' }}
               />
             )}
           </div>
