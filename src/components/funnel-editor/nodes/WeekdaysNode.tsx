@@ -1,10 +1,11 @@
 import { memo } from 'react';
-import { Handle, Position } from '@xyflow/react';
+import { Handle, Position, useEdges } from '@xyflow/react';
 import { Calendar } from 'lucide-react';
 import { WeekdaysNodeData } from '@/types/flow';
 
 interface WeekdaysNodeProps {
   data: WeekdaysNodeData;
+  id: string;
 }
 
 const defaultDays = [
@@ -17,8 +18,16 @@ const defaultDays = [
   { day: 'Domingo', enabled: false },
 ];
 
-export const WeekdaysNode = memo(({ data }: WeekdaysNodeProps) => {
+export const WeekdaysNode = memo(({ data, id }: WeekdaysNodeProps) => {
   const days = data?.days || defaultDays;
+  const edges = useEdges();
+
+  // Verifica se um dia específico tem conexão ativa
+  const isDayConnected = (dayId: string) => {
+    return edges.some(edge => 
+      edge.source === id && edge.sourceHandle === `${dayId}-handle`
+    );
+  };
 
   return (
     <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
@@ -36,21 +45,31 @@ export const WeekdaysNode = memo(({ data }: WeekdaysNodeProps) => {
       </div>
 
       <div className="p-4">
-        {days.map((day) => (
-          <div key={day.day} className="flex items-center justify-between py-2 border-t border-zinc-200 first:border-t-0">
-            <span className={`text-sm ${day.enabled ? 'text-zinc-900' : 'text-zinc-400'}`}>
+        {days.map((day, index) => (
+          <div 
+            key={day.day} 
+            className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
+          >
+            <span className="text-sm text-zinc-900">
               {day.day}
             </span>
-            <span className={`inline-block w-3 h-3 rounded-full ${day.enabled ? 'bg-green-500' : 'bg-red-500'}`} />
+            <div className="flex items-center gap-4">
+              <span 
+                className={`inline-block w-3 h-3 rounded-full ${
+                  isDayConnected(day.day.toLowerCase()) ? 'bg-green-500' : 'bg-red-500'
+                }`} 
+              />
+              <Handle
+                type="source"
+                position={Position.Right}
+                id={`${day.day.toLowerCase()}-handle`}
+                className="!relative !transform-none !right-0 w-3 h-3 !bg-zinc-300"
+                style={{ right: 0 }}
+              />
+            </div>
           </div>
         ))}
       </div>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        className="w-3 h-3 !bg-zinc-300"
-      />
     </div>
   );
 });
