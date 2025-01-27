@@ -64,7 +64,11 @@ export const WeekdaysNode = memo(({ data, id }: WeekdaysNodeProps) => {
                 position={Position.Right}
                 id={`${day.day.toLowerCase()}-handle`}
                 className="!relative !transform-none !right-0 w-3 h-3 !bg-zinc-300"
-                style={{ right: '-1.1em !important', position: 'relative' }}
+                style={{ 
+                  right: '-1.1em !important', 
+                  position: 'relative !important',
+                  transform: 'none !important' 
+                }}
               />
             </div>
           </div>
