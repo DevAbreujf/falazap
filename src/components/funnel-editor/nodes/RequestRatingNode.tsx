@@ -10,6 +10,14 @@ interface RequestRatingNodeProps {
   data: RequestRatingNodeData;
 }
 
+const ratingMessages = [
+  { text: "Muito desapontado", color: "#EF4444" },
+  { text: "Desapontado", color: "#F97316" },
+  { text: "Neutro", color: "#EAB308" },
+  { text: "Satisfeito", color: "#22C55E" },
+  { text: "Muito Satisfeito", color: "#16A34A" }
+];
+
 export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
   const [selectedType, setSelectedType] = useState<"agent" | "organization" | null>(null);
   const [activateInvalidFlow, setActivateInvalidFlow] = useState(false);
@@ -31,24 +39,29 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
         className="w-3 h-3 !bg-zinc-300 !-top-3"
       />
       
-      <div className="px-4 py-2 flex items-center gap-2 border-b border-zinc-200">
-        <Star className="h-4 w-4 text-zinc-500" />
+      <div className="px-4 py-3 flex items-center gap-2 border-b border-zinc-200 bg-white">
+        <Star className="h-4 w-4 text-primary" />
         <h3 className="text-sm font-medium text-zinc-900">Pedir Avaliação</h3>
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-6">
         <div>
-          <label className="text-sm text-zinc-600 block mb-1">Mensagem</label>
+          <label className="text-sm font-medium text-zinc-600 block mb-2">Mensagem</label>
           <Input 
             placeholder="Digite a mensagem que irá enviar"
             className="w-full text-sm"
           />
         </div>
 
-        <div className="space-y-2">
-          {[1, 2, 3, 4, 5].map((number) => (
-            <div key={number} className="flex items-center gap-2 relative">
-              <span className="text-sm font-medium text-zinc-700 w-6">{number}</span>
+        <div className="space-y-3">
+          {[1, 2, 3, 4, 5].map((number, index) => (
+            <div key={number} className="flex items-center gap-3 group relative">
+              <div 
+                className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium text-white"
+                style={{ backgroundColor: ratingMessages[index].color }}
+              >
+                {number}
+              </div>
               <Input
                 value={messages[number - 1]}
                 onChange={(e) => {
@@ -56,14 +69,14 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
                   newMessages[number - 1] = e.target.value;
                   setMessages(newMessages);
                 }}
-                placeholder={`Mensagem para nota ${number}`}
-                className="flex-1 text-sm"
+                placeholder={ratingMessages[index].text}
+                className="flex-1 text-sm transition-all"
               />
               <Handle
                 type="source"
                 position={Position.Right}
                 id={`rating-${number}`}
-                className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+                className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-primary"
                 style={{ right: '-1.2em' }}
               />
             </div>
@@ -71,49 +84,49 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
         </div>
 
         <div>
-          <label className="text-sm text-zinc-600 block mb-2">O que deve ser avaliado</label>
+          <label className="text-sm font-medium text-zinc-600 block mb-3">O que deve ser avaliado</label>
           <div className="flex gap-2">
             <button
               onClick={() => setSelectedType("agent")}
-              className={`flex items-center gap-2 px-3 py-2 rounded-md border text-sm flex-1 ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-md border text-sm transition-all duration-300 ${
                 selectedType === "agent"
-                  ? "border-primary bg-primary/10 text-primary"
-                  : "border-zinc-200 hover:border-zinc-300"
+                  ? "border-primary bg-primary/5 text-primary w-auto"
+                  : "border-zinc-200 hover:border-zinc-300 w-10"
               }`}
             >
               <User className="h-4 w-4" />
-              {selectedType === "agent" ? "Atendente" : ""}
+              {selectedType === "agent" && "Atendente"}
             </button>
             <button
               onClick={() => setSelectedType("organization")}
-              className={`flex items-center gap-2 px-3 py-2 rounded-md border text-sm flex-1 ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-md border text-sm transition-all duration-300 ${
                 selectedType === "organization"
-                  ? "border-primary bg-primary/10 text-primary"
-                  : "border-zinc-200 hover:border-zinc-300"
+                  ? "border-primary bg-primary/5 text-primary w-auto"
+                  : "border-zinc-200 hover:border-zinc-300 w-10"
               }`}
             >
               <Building className="h-4 w-4" />
-              {selectedType === "organization" ? "Organização" : ""}
+              {selectedType === "organization" && "Organização"}
             </button>
           </div>
         </div>
 
         <div className="relative">
           <div className="flex items-center justify-between">
+            <span className="text-sm text-zinc-600">
+              Ativar fluxo para resposta inválida
+            </span>
             <Switch
               checked={activateInvalidFlow}
               onCheckedChange={setActivateInvalidFlow}
             />
-            <span className="text-sm text-zinc-600">
-              Ativar fluxo para resposta inválida
-            </span>
           </div>
           {activateInvalidFlow && (
             <Handle
               type="source"
               position={Position.Right}
               id="invalid-flow"
-              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+              className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-primary"
               style={{ right: '-1.2em' }}
             />
           )}
@@ -122,38 +135,42 @@ export const RequestRatingNode = memo(({ data }: RequestRatingNodeProps) => {
         <div className="space-y-4">
           <div className="relative">
             <div className="flex items-center justify-between">
+              <span className="text-sm text-zinc-600">
+                Ativar fluxo se não responder
+              </span>
               <Switch
                 checked={activateNoResponseFlow}
                 onCheckedChange={setActivateNoResponseFlow}
               />
-              <span className="text-sm text-zinc-600">
-                Ativar fluxo se não responder
-              </span>
             </div>
             {activateNoResponseFlow && (
               <Handle
                 type="source"
                 position={Position.Right}
                 id="no-response-flow"
-                className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+                className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-primary"
                 style={{ right: '-1.2em' }}
               />
             )}
           </div>
           
           {activateNoResponseFlow && (
-            <div className="space-y-2">
-              <label className="text-sm text-zinc-600 block">
-                Tempo para considerar sem resposta: {formatTime(timeoutMinutes)}
-              </label>
+            <div className="space-y-3 bg-zinc-50 p-3 rounded-md">
+              <div className="flex justify-between text-xs text-zinc-500">
+                <span>5 minutos</span>
+                <span>24 horas</span>
+              </div>
               <Slider
                 value={[timeoutMinutes]}
                 onValueChange={([value]) => setTimeoutMinutes(value)}
                 min={5}
-                max={1440} // 24 hours in minutes
+                max={1440}
                 step={5}
                 className="w-full"
               />
+              <div className="text-sm text-center font-medium text-zinc-700">
+                {formatTime(timeoutMinutes)}
+              </div>
             </div>
           )}
         </div>

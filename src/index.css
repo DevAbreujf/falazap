@@ -78,7 +78,7 @@
   height: 18px !important;
   border-radius: 50% !important;
   background: transparent !important;
-  border: 3px solid #1cd8b6 !important;
+  border: 3px solid #1E40AF !important;
 }
 
 .react-flow__handle-right {
@@ -86,7 +86,7 @@
   height: 18px !important;
   border-radius: 50% !important;
   background: transparent !important;
-  border: 3px solid #1cd8b6 !important;
+  border: 3px solid #1E40AF !important;
   transform: translateX(2em) !important;
 }
 
