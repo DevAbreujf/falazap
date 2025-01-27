@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Building2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,6 +24,17 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 interface Department {
   id: number;
@@ -64,6 +75,20 @@ export function DepartmentsList({
   setNewDepartmentName,
   handleAddDepartment
 }: DepartmentsListProps) {
+  const [departmentToDelete, setDepartmentToDelete] = useState<Department | null>(null);
+
+  const handleDeleteDepartment = (department: Department) => {
+    setDepartmentToDelete(department);
+  };
+
+  const confirmDelete = () => {
+    if (departmentToDelete) {
+      // Aqui você pode adicionar a lógica para deletar o departamento
+      console.log("Deletando departamento:", departmentToDelete.name);
+      setDepartmentToDelete(null);
+    }
+  };
+
   return (
     <>
       <div className="flex justify-between items-center mb-6">
@@ -119,16 +144,29 @@ export function DepartmentsList({
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent row click when clicking the button
-                      setSelectedDepartment(department);
-                    }}
-                  >
-                    Ver Usuários
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedDepartment(department);
+                      }}
+                    >
+                      Ver Usuários
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-destructive hover:bg-destructive/10"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteDepartment(department);
+                      }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -167,6 +205,28 @@ export function DepartmentsList({
           </div>
         )}
       </div>
+
+      <AlertDialog open={!!departmentToDelete} onOpenChange={() => setDepartmentToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir o setor "{departmentToDelete?.name}"? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDepartmentToDelete(null)}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
