@@ -48,58 +48,62 @@ export const WeekdaysNode = memo(({ data, id }: WeekdaysNodeProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+    <div className="bg-white rounded-xl border border-zinc-200 shadow-lg w-[320px] overflow-hidden">
       <Handle
         type="target"
         position={Position.Top}
         className="w-3 h-3 !bg-zinc-300 !-top-3"
       />
       
-      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
+      <div className="px-4 py-3 flex items-center justify-between border-b border-zinc-200 bg-gradient-to-r from-white to-zinc-50">
         <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-zinc-500" />
-          <h3 className="text-sm font-medium text-zinc-900">Dias da Semana</h3>
+          <div className="p-1.5 bg-primary/10 rounded-md">
+            <Calendar className="h-4 w-4 text-primary" />
+          </div>
+          <h3 className="text-sm font-semibold text-zinc-900">Dias da Semana</h3>
         </div>
       </div>
 
-      <div className="p-4">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm text-zinc-600">Fuso horário</label>
-            <Select defaultValue="America/Sao_Paulo">
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecione o fuso horário" />
-              </SelectTrigger>
-              <SelectContent>
-                {mainTimeZones.map((timezone) => (
-                  <SelectItem key={timezone.value} value={timezone.value}>
-                    {timezone.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+      <div className="p-4 space-y-4">
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-zinc-600">Fuso horário</label>
+          <Select defaultValue="America/Sao_Paulo">
+            <SelectTrigger className="w-full text-sm bg-zinc-50/50 border-zinc-200">
+              <SelectValue placeholder="Selecione o fuso horário" />
+            </SelectTrigger>
+            <SelectContent>
+              {mainTimeZones.map((timezone) => (
+                <SelectItem key={timezone.value} value={timezone.value}>
+                  {timezone.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
+        <div className="space-y-1.5">
           {days.map((day, index) => (
             <div 
               key={day.day} 
-              className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
+              className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-zinc-50 transition-colors"
             >
-              <span className="text-sm text-zinc-900">
+              <span className="text-sm font-medium text-zinc-700">
                 {day.day}
               </span>
               <div className="flex items-center gap-4">
                 <span 
-                  className={`inline-block w-3 h-3 rounded-full ${
-                    isDayConnected(day.day.toLowerCase()) ? 'bg-green-500' : 'bg-red-500'
+                  className={`inline-block w-2.5 h-2.5 rounded-full transition-colors ${
+                    isDayConnected(day.day.toLowerCase()) 
+                      ? 'bg-emerald-500 shadow-sm shadow-emerald-200' 
+                      : 'bg-red-400 shadow-sm shadow-red-200'
                   }`} 
                 />
                 <Handle
                   type="source"
                   position={Position.Right}
                   id={`${day.day.toLowerCase()}-handle`}
-                  className="!relative !transform-none !right-0 w-3 h-3 !bg-zinc-300"
-                  style={{ right: '-1em' }}
+                  className="!relative !transform-none !right-0 w-2.5 h-2.5 !bg-zinc-300"
+                  style={{ right: '-2em' }}
                 />
               </div>
             </div>
