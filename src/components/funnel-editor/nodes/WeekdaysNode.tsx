@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { Handle, Position, useEdges } from '@xyflow/react';
 import { Calendar } from 'lucide-react';
 import { WeekdaysNodeData } from '@/types/flow';
@@ -98,8 +98,12 @@ export const WeekdaysNode = memo(({ data, id }: WeekdaysNodeProps) => {
                   type="source"
                   position={Position.Right}
                   id={`${day.day.toLowerCase()}-handle`}
-                  className="!relative !transform-none !right-0 w-3 h-3 !bg-zinc-300"
-                  style={{ right: '-1.1em !important' }}
+                  className="!relative !transform-none w-3 h-3 !bg-zinc-300"
+                  ref={(handle) => {
+                    if (handle) {
+                      handle.style.setProperty('right', '-1.1em', 'important');
+                    }
+                  }}
                 />
               </div>
             </div>
