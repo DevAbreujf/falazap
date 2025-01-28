@@ -37,9 +37,12 @@ export const WeekdaysNode = memo(({ data, id }: WeekdaysNodeProps) => {
       />
       
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
-        <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-zinc-500" />
-          <h3 className="text-sm font-medium text-zinc-900">Dias da Semana</h3>
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-zinc-500" />
+            <h3 className="text-sm font-medium text-zinc-900">Dias da Semana</h3>
+          </div>
+          <span className="text-xs text-zinc-500 mt-1">São Paulo (UTC-03:00)</span>
         </div>
       </div>
 
