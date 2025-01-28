@@ -4,7 +4,6 @@ import { Clock, ArrowRight, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
 
 interface TimeInterval {
   start: string;
@@ -55,12 +54,9 @@ const isTimeOverlapping = (intervals: TimeInterval[], newStart: string, newEnd: 
     const existingStartMinutes = convertTimeToMinutes(interval.start);
     const existingEndMinutes = convertTimeToMinutes(interval.end);
 
-    // Considerando que o intervalo pode passar pela meia-noite
     if (existingEndMinutes < existingStartMinutes) {
-      // O intervalo existente passa pela meia-noite
       return !(newEndMinutes <= existingStartMinutes || newStartMinutes >= existingEndMinutes);
     } else {
-      // Intervalo normal dentro do mesmo dia
       return (
         (newStartMinutes >= existingStartMinutes && newStartMinutes < existingEndMinutes) ||
         (newEndMinutes > existingStartMinutes && newEndMinutes <= existingEndMinutes) ||
@@ -77,6 +73,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       { id: '2', start: '18:01', end: '07:00' }
     ]
   );
+  const [overlappingError, setOverlappingError] = useState<string | null>(null);
 
   const handleAddInterval = () => {
     const newId = (intervals.length + 1).toString();
@@ -87,9 +84,9 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   const handleRemoveInterval = (id: string) => {
-    // Não permitir remover os dois intervalos padrão
     if (id === '1' || id === '2') {
-      toast.error('Não é possível remover os intervalos padrão');
+      setOverlappingError('Não é possível remover os intervalos padrão');
+      setTimeout(() => setOverlappingError(null), 3000);
       return;
     }
     setIntervals(intervals.filter(interval => interval.id !== id));
@@ -102,7 +99,8 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
     // Se for um dos intervalos padrão, não permitir alteração
     if ((id === '1' || id === '2') && value !== interval[field]) {
-      toast.error('Não é possível alterar os intervalos padrão');
+      setOverlappingError('Não é possível alterar os intervalos padrão');
+      setTimeout(() => setOverlappingError(null), 3000);
       return;
     }
 
@@ -113,12 +111,14 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
     // Verificar sobreposição
     if (isTimeOverlapping(intervals, newInterval.start, newInterval.end, id)) {
-      toast.error('Este horário se sobrepõe a um intervalo existente');
+      setOverlappingError('Este horário se sobrepõe a um intervalo existente');
+      setTimeout(() => setOverlappingError(null), 3000);
       return;
     }
 
     updatedIntervals[index] = newInterval;
     setIntervals(updatedIntervals);
+    setOverlappingError(null);
   };
 
   return (
@@ -157,6 +157,11 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
           <div className="space-y-2">
             <label className="text-sm text-zinc-600">Intervalos de horários</label>
             <div className="space-y-3">
+              {overlappingError && (
+                <div className="text-sm text-red-500 bg-red-50 p-2 rounded animate-fade-in">
+                  {overlappingError}
+                </div>
+              )}
               {intervals.map((interval) => (
                 <div key={interval.id} className="relative h-10">
                   <div className="absolute inset-0 flex items-center gap-2">
