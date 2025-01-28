@@ -4,11 +4,13 @@ import { Clock, ArrowRight, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
 
 interface TimeInterval {
   start: string;
   end: string;
   id: string;
+  isDefault?: boolean;
 }
 
 interface ScheduleNodeData {
@@ -39,24 +41,85 @@ const mainTimeZones = [
   { value: 'Africa/Johannesburg', label: 'Joanesburgo (UTC+02:00)' }
 ];
 
+const DEFAULT_INTERVALS: TimeInterval[] = [
+  { id: '1', start: '07:00', end: '12:00', isDefault: true },
+  { id: '2', start: '14:00', end: '18:00', isDefault: true }
+];
+
 export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const [intervals, setIntervals] = useState<TimeInterval[]>(
-    data.intervals || [
-      { id: '1', start: '07:00', end: '18:00' },
-      { id: '2', start: '18:00', end: '07:00' }
-    ]
+    data.intervals || DEFAULT_INTERVALS
   );
+  const { toast } = useToast();
+
+  const validateIntervals = (newIntervals: TimeInterval[]): boolean => {
+    for (let i = 0; i < newIntervals.length; i++) {
+      const current = newIntervals[i];
+      const currentStart = new Date(`2000/01/01 ${current.start}`);
+      const currentEnd = new Date(`2000/01/01 ${current.end}`);
+
+      // Validar se o horário final é maior que o inicial
+      if (currentEnd <= currentStart) {
+        toast({
+          variant: "destructive",
+          title: "Erro de validação",
+          description: "O horário final deve ser maior que o horário inicial"
+        });
+        return false;
+      }
+
+      // Verificar sobreposição com outros intervalos
+      for (let j = 0; j < newIntervals.length; j++) {
+        if (i !== j) {
+          const other = newIntervals[j];
+          const otherStart = new Date(`2000/01/01 ${other.start}`);
+          const otherEnd = new Date(`2000/01/01 ${other.end}`);
+
+          if (
+            (currentStart >= otherStart && currentStart < otherEnd) ||
+            (currentEnd > otherStart && currentEnd <= otherEnd) ||
+            (currentStart <= otherStart && currentEnd >= otherEnd)
+          ) {
+            toast({
+              variant: "destructive",
+              title: "Erro de validação",
+              description: "Os intervalos de horário não podem se sobrepor"
+            });
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  };
 
   const handleAddInterval = () => {
     const newId = (intervals.length + 1).toString();
-    setIntervals([
+    const newIntervals = [
       ...intervals,
       { id: newId, start: '00:00', end: '23:59' }
-    ]);
+    ];
+    
+    if (validateIntervals(newIntervals)) {
+      setIntervals(newIntervals);
+    }
   };
 
   const handleRemoveInterval = (id: string) => {
     setIntervals(intervals.filter(interval => interval.id !== id));
+  };
+
+  const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
+    const newIntervals = intervals.map(interval => {
+      if (interval.id === id) {
+        return { ...interval, [field]: value };
+      }
+      return interval;
+    });
+
+    if (validateIntervals(newIntervals)) {
+      setIntervals(newIntervals);
+    }
   };
 
   return (
@@ -101,27 +164,17 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     <Input
                       type="time"
                       value={interval.start}
-                      onChange={(e) => {
-                        const newIntervals = [...intervals];
-                        const index = newIntervals.findIndex(i => i.id === interval.id);
-                        newIntervals[index].start = e.target.value;
-                        setIntervals(newIntervals);
-                      }}
+                      onChange={(e) => handleTimeChange(interval.id, 'start', e.target.value)}
                       className="w-full"
                     />
                     <ArrowRight className="w-4 h-4 text-zinc-400 flex-shrink-0" />
                     <Input
                       type="time"
                       value={interval.end}
-                      onChange={(e) => {
-                        const newIntervals = [...intervals];
-                        const index = newIntervals.findIndex(i => i.id === interval.id);
-                        newIntervals[index].end = e.target.value;
-                        setIntervals(newIntervals);
-                      }}
+                      onChange={(e) => handleTimeChange(interval.id, 'end', e.target.value)}
                       className="w-full"
                     />
-                    {intervals.length > 2 && (
+                    {!interval.isDefault && (
                       <Button
                         variant="ghost"
                         size="icon"
