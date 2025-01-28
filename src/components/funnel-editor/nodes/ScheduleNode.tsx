@@ -4,6 +4,7 @@ import { Clock, ArrowRight, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 interface TimeInterval {
   start: string;
@@ -39,11 +40,41 @@ const mainTimeZones = [
   { value: 'Africa/Johannesburg', label: 'Joanesburgo (UTC+02:00)' }
 ];
 
+const convertTimeToMinutes = (time: string): number => {
+  const [hours, minutes] = time.split(':').map(Number);
+  return hours * 60 + minutes;
+};
+
+const isTimeOverlapping = (intervals: TimeInterval[], newStart: string, newEnd: string, excludeId?: string): boolean => {
+  const newStartMinutes = convertTimeToMinutes(newStart);
+  const newEndMinutes = convertTimeToMinutes(newEnd);
+
+  return intervals.some(interval => {
+    if (interval.id === excludeId) return false;
+
+    const existingStartMinutes = convertTimeToMinutes(interval.start);
+    const existingEndMinutes = convertTimeToMinutes(interval.end);
+
+    // Considerando que o intervalo pode passar pela meia-noite
+    if (existingEndMinutes < existingStartMinutes) {
+      // O intervalo existente passa pela meia-noite
+      return !(newEndMinutes <= existingStartMinutes || newStartMinutes >= existingEndMinutes);
+    } else {
+      // Intervalo normal dentro do mesmo dia
+      return (
+        (newStartMinutes >= existingStartMinutes && newStartMinutes < existingEndMinutes) ||
+        (newEndMinutes > existingStartMinutes && newEndMinutes <= existingEndMinutes) ||
+        (newStartMinutes <= existingStartMinutes && newEndMinutes >= existingEndMinutes)
+      );
+    }
+  });
+};
+
 export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const [intervals, setIntervals] = useState<TimeInterval[]>(
     data.intervals || [
-      { id: '1', start: '07:00', end: '18:00' },
-      { id: '2', start: '18:00', end: '07:00' }
+      { id: '1', start: '06:59', end: '18:00' },
+      { id: '2', start: '18:01', end: '07:00' }
     ]
   );
 
@@ -56,7 +87,38 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   const handleRemoveInterval = (id: string) => {
+    // Não permitir remover os dois intervalos padrão
+    if (id === '1' || id === '2') {
+      toast.error('Não é possível remover os intervalos padrão');
+      return;
+    }
     setIntervals(intervals.filter(interval => interval.id !== id));
+  };
+
+  const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
+    const updatedIntervals = [...intervals];
+    const index = updatedIntervals.findIndex(i => i.id === id);
+    const interval = updatedIntervals[index];
+
+    // Se for um dos intervalos padrão, não permitir alteração
+    if ((id === '1' || id === '2') && value !== interval[field]) {
+      toast.error('Não é possível alterar os intervalos padrão');
+      return;
+    }
+
+    const newInterval = {
+      ...interval,
+      [field]: value
+    };
+
+    // Verificar sobreposição
+    if (isTimeOverlapping(intervals, newInterval.start, newInterval.end, id)) {
+      toast.error('Este horário se sobrepõe a um intervalo existente');
+      return;
+    }
+
+    updatedIntervals[index] = newInterval;
+    setIntervals(updatedIntervals);
   };
 
   return (
@@ -64,7 +126,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       <Handle
         type="target"
         position={Position.Top}
-        className="w-3 h-3 !bg-zinc-300 left-1/2 -translate-x-1/2"
+        className="w-3 h-3 !bg-zinc-300 !-top-3"
       />
       
       <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
@@ -101,24 +163,14 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
                     <Input
                       type="time"
                       value={interval.start}
-                      onChange={(e) => {
-                        const newIntervals = [...intervals];
-                        const index = newIntervals.findIndex(i => i.id === interval.id);
-                        newIntervals[index].start = e.target.value;
-                        setIntervals(newIntervals);
-                      }}
+                      onChange={(e) => handleTimeChange(interval.id, 'start', e.target.value)}
                       className="w-full"
                     />
                     <ArrowRight className="w-4 h-4 text-zinc-400 flex-shrink-0" />
                     <Input
                       type="time"
                       value={interval.end}
-                      onChange={(e) => {
-                        const newIntervals = [...intervals];
-                        const index = newIntervals.findIndex(i => i.id === interval.id);
-                        newIntervals[index].end = e.target.value;
-                        setIntervals(newIntervals);
-                      }}
+                      onChange={(e) => handleTimeChange(interval.id, 'end', e.target.value)}
                       className="w-full"
                     />
                     {intervals.length > 2 && (
