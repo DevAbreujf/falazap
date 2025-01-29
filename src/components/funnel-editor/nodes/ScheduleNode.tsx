@@ -1,6 +1,5 @@
 import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
@@ -148,51 +147,42 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[300px]">
+    <div className="bg-white rounded-lg border border-zinc-200 shadow-sm w-[320px]">
       <Handle
         type="target"
         position={Position.Top}
         className="w-3 h-3 !bg-zinc-300 left-1/2 -translate-x-1/2"
       />
       
-      <div className="px-4 py-2 flex items-center justify-between border-b border-zinc-200">
-        <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4 text-zinc-500" />
-          <h3 className="text-sm font-medium text-zinc-900">Horários</h3>
-        </div>
-      </div>
-
-      <div className="p-4">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm text-zinc-600">Fuso horário</label>
-            <Select defaultValue="America/Sao_Paulo">
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecione o fuso horário" />
-              </SelectTrigger>
-              <SelectContent>
-                {mainTimeZones.map((timezone) => (
-                  <SelectItem key={timezone.value} value={timezone.value}>
-                    {timezone.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm text-zinc-600">Intervalos de horários</label>
-            <div className="space-y-3">
-              {intervals.map((interval) => (
-                <TimeIntervalInput
-                  key={interval.id}
-                  interval={interval}
-                  isDefault={interval.id === '1' || interval.id === '2'}
-                  onTimeChange={handleTimeChange}
-                  onRemove={handleRemoveInterval}
-                />
+      <div className="p-4 space-y-4">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-zinc-600">Fuso horário</label>
+          <Select defaultValue="America/Sao_Paulo">
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o fuso horário" />
+            </SelectTrigger>
+            <SelectContent>
+              {mainTimeZones.map((timezone) => (
+                <SelectItem key={timezone.value} value={timezone.value}>
+                  {timezone.label}
+                </SelectItem>
               ))}
-            </div>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-zinc-600">Intervalos de horários</label>
+          <div className="space-y-3">
+            {intervals.map((interval) => (
+              <TimeIntervalInput
+                key={interval.id}
+                interval={interval}
+                isDefault={interval.id === '1' || interval.id === '2'}
+                onTimeChange={handleTimeChange}
+                onRemove={handleRemoveInterval}
+              />
+            ))}
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { TimeInterval } from "@/utils/timeIntervals";
+import { useState, useEffect } from "react";
 
 interface TimeIntervalInputProps {
   interval: TimeInterval;
@@ -16,34 +17,77 @@ export const TimeIntervalInput = ({
   onTimeChange,
   onRemove
 }: TimeIntervalInputProps) => {
+  const [startValue, setStartValue] = useState(interval.start);
+  const [endValue, setEndValue] = useState(interval.end);
+
+  const formatTimeValue = (value: string) => {
+    // Remove non-numeric characters
+    const numbers = value.replace(/\D/g, '');
+    
+    if (numbers.length <= 2) {
+      return numbers;
+    }
+    
+    const hours = numbers.slice(0, 2);
+    const minutes = numbers.slice(2, 4);
+    
+    if (parseInt(hours) > 23) return '23:' + minutes;
+    if (parseInt(minutes) > 59) return hours + ':59';
+    
+    return `${hours}:${minutes}`;
+  };
+
+  const handleTimeChange = (field: 'start' | 'end', value: string) => {
+    const formattedValue = formatTimeValue(value);
+    if (field === 'start') {
+      setStartValue(formattedValue);
+      if (formattedValue.length === 5) {
+        onTimeChange(interval.id, field, formattedValue);
+      }
+    } else {
+      setEndValue(formattedValue);
+      if (formattedValue.length === 5) {
+        onTimeChange(interval.id, field, formattedValue);
+      }
+    }
+  };
+
+  useEffect(() => {
+    setStartValue(interval.start);
+    setEndValue(interval.end);
+  }, [interval]);
+
   return (
-    <div className="relative h-10">
-      <div className="absolute inset-0 flex items-center gap-2">
+    <div className="flex items-center gap-2 group">
+      <div className="flex-1 flex items-center gap-2">
         <Input
-          type="time"
-          value={interval.start}
-          onChange={(e) => onTimeChange(interval.id, 'start', e.target.value)}
-          className="w-full"
-          readOnly={true}
+          type="text"
+          value={startValue}
+          onChange={(e) => handleTimeChange('start', e.target.value)}
+          className="w-24 text-center font-medium"
+          placeholder="00:00"
+          maxLength={5}
         />
-        <ArrowRight className="w-4 h-4 text-zinc-400 flex-shrink-0" />
+        <span className="text-muted-foreground">até</span>
         <Input
-          type="time"
-          value={interval.end}
-          onChange={(e) => onTimeChange(interval.id, 'end', e.target.value)}
-          className="w-full"
+          type="text"
+          value={endValue}
+          onChange={(e) => handleTimeChange('end', e.target.value)}
+          className="w-24 text-center font-medium"
+          placeholder="00:00"
+          maxLength={5}
         />
-        {!isDefault && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onRemove(interval.id)}
-            className="text-zinc-400 hover:text-red-500 flex-shrink-0"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
-        )}
       </div>
+      {!isDefault && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => onRemove(interval.id)}
+          className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
+        >
+          <Trash2 className="w-4 h-4" />
+        </Button>
+      )}
     </div>
   );
 };
