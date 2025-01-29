@@ -1,9 +1,10 @@
-import { memo, useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { Clock, ArrowRight, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
 
 interface TimeInterval {
   start: string;
@@ -39,24 +40,111 @@ const mainTimeZones = [
   { value: 'Africa/Johannesburg', label: 'Joanesburgo (UTC+02:00)' }
 ];
 
+const DEFAULT_INTERVALS = [
+  { id: '1', start: '07:00', end: '12:00' },
+  { id: '2', start: '14:00', end: '18:00' }
+];
+
+const timeToMinutes = (time: string): number => {
+  const [hours, minutes] = time.split(':').map(Number);
+  return hours * 60 + minutes;
+};
+
+const minutesToTime = (minutes: number): string => {
+  const hours = Math.floor(minutes / 60) % 24;
+  const mins = minutes % 60;
+  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+};
+
+const validateIntervals = (intervals: TimeInterval[]): boolean => {
+  if (intervals.length < 2) return true;
+
+  // Convert times to minutes for easier comparison
+  const timeRanges = intervals.map(interval => ({
+    start: timeToMinutes(interval.start),
+    end: timeToMinutes(interval.end)
+  }));
+
+  // Sort intervals by start time
+  timeRanges.sort((a, b) => a.start - b.start);
+
+  // Check for overlaps and gaps
+  for (let i = 0; i < timeRanges.length; i++) {
+    const current = timeRanges[i];
+    const next = timeRanges[(i + 1) % timeRanges.length];
+
+    // Check if current interval ends after next interval starts
+    if (current.end !== next.start) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const [intervals, setIntervals] = useState<TimeInterval[]>(
-    data.intervals || [
-      { id: '1', start: '07:00', end: '18:00' },
-      { id: '2', start: '18:00', end: '07:00' }
-    ]
+    data.intervals || DEFAULT_INTERVALS
   );
+  const { toast } = useToast();
 
   const handleAddInterval = () => {
+    const lastInterval = intervals[intervals.length - 1];
+    const newStart = lastInterval.end;
+    const endMinutes = (timeToMinutes(newStart) + 60) % (24 * 60);
+    const newEnd = minutesToTime(endMinutes);
+
     const newId = (intervals.length + 1).toString();
-    setIntervals([
+    const newIntervals = [
       ...intervals,
-      { id: newId, start: '00:00', end: '23:59' }
-    ]);
+      { id: newId, start: newStart, end: newEnd }
+    ];
+
+    if (validateIntervals(newIntervals)) {
+      setIntervals(newIntervals);
+    } else {
+      toast({
+        title: "Erro ao adicionar intervalo",
+        description: "O novo intervalo causaria sobreposição de horários",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleRemoveInterval = (id: string) => {
-    setIntervals(intervals.filter(interval => interval.id !== id));
+    // Não permitir remover os intervalos padrão
+    if (id === '1' || id === '2') {
+      toast({
+        title: "Operação não permitida",
+        description: "Os intervalos padrão não podem ser removidos",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const newIntervals = intervals.filter(interval => interval.id !== id);
+    if (validateIntervals(newIntervals)) {
+      setIntervals(newIntervals);
+    }
+  };
+
+  const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
+    const newIntervals = intervals.map(interval => {
+      if (interval.id === id) {
+        return { ...interval, [field]: value };
+      }
+      return interval;
+    });
+
+    if (validateIntervals(newIntervals)) {
+      setIntervals(newIntervals);
+    } else {
+      toast({
+        title: "Horário inválido",
+        description: "Os intervalos devem ser sequenciais e não podem se sobrepor",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -95,33 +183,23 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
           <div className="space-y-2">
             <label className="text-sm text-zinc-600">Intervalos de horários</label>
             <div className="space-y-3">
-              {intervals.map((interval) => (
+              {intervals.map((interval, index) => (
                 <div key={interval.id} className="relative h-10">
                   <div className="absolute inset-0 flex items-center gap-2">
                     <Input
                       type="time"
                       value={interval.start}
-                      onChange={(e) => {
-                        const newIntervals = [...intervals];
-                        const index = newIntervals.findIndex(i => i.id === interval.id);
-                        newIntervals[index].start = e.target.value;
-                        setIntervals(newIntervals);
-                      }}
+                      onChange={(e) => handleTimeChange(interval.id, 'start', e.target.value)}
                       className="w-full"
                     />
                     <ArrowRight className="w-4 h-4 text-zinc-400 flex-shrink-0" />
                     <Input
                       type="time"
                       value={interval.end}
-                      onChange={(e) => {
-                        const newIntervals = [...intervals];
-                        const index = newIntervals.findIndex(i => i.id === interval.id);
-                        newIntervals[index].end = e.target.value;
-                        setIntervals(newIntervals);
-                      }}
+                      onChange={(e) => handleTimeChange(interval.id, 'end', e.target.value)}
                       className="w-full"
                     />
-                    {intervals.length > 2 && (
+                    {interval.id !== '1' && interval.id !== '2' && (
                       <Button
                         variant="ghost"
                         size="icon"
