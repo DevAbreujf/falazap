@@ -1,26 +1,16 @@
-import { memo, useState, useEffect } from 'react';
+import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { Clock, ArrowRight, Trash2 } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-
-interface TimeInterval {
-  start: string;
-  end: string;
-  id: string;
-}
-
-interface ScheduleNodeData {
-  label: string;
-  timezone: string;
-  intervals: TimeInterval[];
-}
-
-interface ScheduleNodeProps {
-  data: ScheduleNodeData;
-}
+import { TimeIntervalInput } from './schedule/TimeIntervalInput';
+import { 
+  DEFAULT_INTERVALS,
+  TimeInterval,
+  splitInterval,
+  validateIntervalSequence
+} from '@/utils/timeIntervals';
 
 const mainTimeZones = [
   { value: 'America/Sao_Paulo', label: 'São Paulo (UTC-03:00)' },
@@ -40,47 +30,15 @@ const mainTimeZones = [
   { value: 'Africa/Johannesburg', label: 'Joanesburgo (UTC+02:00)' }
 ];
 
-const DEFAULT_INTERVALS = [
-  { id: '1', start: '07:00', end: '12:00' },
-  { id: '2', start: '14:00', end: '18:00' }
-];
+interface ScheduleNodeData {
+  label: string;
+  timezone: string;
+  intervals: TimeInterval[];
+}
 
-const timeToMinutes = (time: string): number => {
-  const [hours, minutes] = time.split(':').map(Number);
-  return hours * 60 + minutes;
-};
-
-const minutesToTime = (minutes: number): string => {
-  const hours = Math.floor(minutes / 60) % 24;
-  const mins = minutes % 60;
-  return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-};
-
-const validateIntervals = (intervals: TimeInterval[]): boolean => {
-  if (intervals.length < 2) return true;
-
-  // Convert times to minutes for easier comparison
-  const timeRanges = intervals.map(interval => ({
-    start: timeToMinutes(interval.start),
-    end: timeToMinutes(interval.end)
-  }));
-
-  // Sort intervals by start time
-  timeRanges.sort((a, b) => a.start - b.start);
-
-  // Check for overlaps and gaps
-  for (let i = 0; i < timeRanges.length; i++) {
-    const current = timeRanges[i];
-    const next = timeRanges[(i + 1) % timeRanges.length];
-
-    // Check if current interval ends after next interval starts
-    if (current.end !== next.start) {
-      return false;
-    }
-  }
-
-  return true;
-};
+interface ScheduleNodeProps {
+  data: ScheduleNodeData;
+}
 
 export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const [intervals, setIntervals] = useState<TimeInterval[]>(
@@ -89,42 +47,41 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const { toast } = useToast();
 
   const handleAddInterval = () => {
-    const lastInterval = intervals[intervals.length - 1];
-    const newStart = lastInterval.end;
-    const endMinutes = (timeToMinutes(newStart) + 60) % (24 * 60);
-    const newEnd = minutesToTime(endMinutes);
+    // Encontra o maior intervalo para dividir
+    const largestInterval = intervals.reduce((largest, current) => {
+      const currentStart = new Date(`2000-01-01T${current.start}`);
+      const currentEnd = new Date(`2000-01-01T${current.end}`);
+      const currentDuration = currentEnd > currentStart ? 
+        currentEnd.getTime() - currentStart.getTime() :
+        (24 * 3600000) - (currentStart.getTime() - currentEnd.getTime());
+      
+      const largestStart = new Date(`2000-01-01T${largest.start}`);
+      const largestEnd = new Date(`2000-01-01T${largest.end}`);
+      const largestDuration = largestEnd > largestStart ?
+        largestEnd.getTime() - largestStart.getTime() :
+        (24 * 3600000) - (largestStart.getTime() - largestEnd.getTime());
+      
+      return currentDuration > largestDuration ? current : largest;
+    }, intervals[0]);
 
-    const newId = (intervals.length + 1).toString();
-    const newIntervals = [
-      ...intervals,
-      { id: newId, start: newStart, end: newEnd }
-    ];
+    // Calcula o ponto médio do intervalo
+    const startTime = new Date(`2000-01-01T${largestInterval.start}`);
+    const endTime = new Date(`2000-01-01T${largestInterval.end}`);
+    if (endTime <= startTime) endTime.setDate(2);
+    
+    const midpoint = new Date((startTime.getTime() + endTime.getTime()) / 2);
+    const splitTimeStr = midpoint.toTimeString().slice(0, 5);
 
-    if (validateIntervals(newIntervals)) {
+    const newIntervals = splitInterval(intervals, largestInterval.id, splitTimeStr);
+    
+    if (newIntervals !== intervals) {
       setIntervals(newIntervals);
     } else {
       toast({
         title: "Erro ao adicionar intervalo",
-        description: "O novo intervalo causaria sobreposição de horários",
+        description: "Não foi possível dividir o intervalo selecionado",
         variant: "destructive"
       });
-    }
-  };
-
-  const handleRemoveInterval = (id: string) => {
-    // Não permitir remover os intervalos padrão
-    if (id === '1' || id === '2') {
-      toast({
-        title: "Operação não permitida",
-        description: "Os intervalos padrão não podem ser removidos",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const newIntervals = intervals.filter(interval => interval.id !== id);
-    if (validateIntervals(newIntervals)) {
-      setIntervals(newIntervals);
     }
   };
 
@@ -136,12 +93,34 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       return interval;
     });
 
-    if (validateIntervals(newIntervals)) {
+    if (validateIntervalSequence(newIntervals)) {
       setIntervals(newIntervals);
     } else {
       toast({
         title: "Horário inválido",
-        description: "Os intervalos devem ser sequenciais e não podem se sobrepor",
+        description: "Os intervalos devem ser sequenciais e cobrir 24 horas",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleRemoveInterval = (id: string) => {
+    if (id === '1' || id === '2') {
+      toast({
+        title: "Operação não permitida",
+        description: "Os intervalos padrão não podem ser removidos",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const newIntervals = intervals.filter(interval => interval.id !== id);
+    if (validateIntervalSequence(newIntervals)) {
+      setIntervals(newIntervals);
+    } else {
+      toast({
+        title: "Erro ao remover intervalo",
+        description: "A remoção causaria uma sequência inválida de horários",
         variant: "destructive"
       });
     }
@@ -183,40 +162,14 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
           <div className="space-y-2">
             <label className="text-sm text-zinc-600">Intervalos de horários</label>
             <div className="space-y-3">
-              {intervals.map((interval, index) => (
-                <div key={interval.id} className="relative h-10">
-                  <div className="absolute inset-0 flex items-center gap-2">
-                    <Input
-                      type="time"
-                      value={interval.start}
-                      onChange={(e) => handleTimeChange(interval.id, 'start', e.target.value)}
-                      className="w-full"
-                    />
-                    <ArrowRight className="w-4 h-4 text-zinc-400 flex-shrink-0" />
-                    <Input
-                      type="time"
-                      value={interval.end}
-                      onChange={(e) => handleTimeChange(interval.id, 'end', e.target.value)}
-                      className="w-full"
-                    />
-                    {interval.id !== '1' && interval.id !== '2' && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleRemoveInterval(interval.id)}
-                        className="text-zinc-400 hover:text-red-500 flex-shrink-0"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    )}
-                    <Handle
-                      type="source"
-                      position={Position.Right}
-                      id={`interval-${interval.id}`}
-                      className="!absolute !right-[-16.4px] !top-[10px] !w-3 !h-3 !bg-zinc-300"
-                    />
-                  </div>
-                </div>
+              {intervals.map((interval) => (
+                <TimeIntervalInput
+                  key={interval.id}
+                  interval={interval}
+                  isDefault={interval.id === '1' || interval.id === '2'}
+                  onTimeChange={handleTimeChange}
+                  onRemove={handleRemoveInterval}
+                />
               ))}
             </div>
           </div>
