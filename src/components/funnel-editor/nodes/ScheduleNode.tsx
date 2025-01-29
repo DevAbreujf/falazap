@@ -9,7 +9,8 @@ import {
   DEFAULT_INTERVALS,
   TimeInterval,
   splitInterval,
-  validateIntervalSequence
+  validateIntervalSequence,
+  mergeIntervals
 } from '@/utils/timeIntervals';
 
 const mainTimeZones = [
@@ -49,18 +50,8 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const handleAddInterval = () => {
     // Encontra o maior intervalo para dividir
     const largestInterval = intervals.reduce((largest, current) => {
-      const currentStart = new Date(`2000-01-01T${current.start}`);
-      const currentEnd = new Date(`2000-01-01T${current.end}`);
-      const currentDuration = currentEnd > currentStart ? 
-        currentEnd.getTime() - currentStart.getTime() :
-        (24 * 3600000) - (currentStart.getTime() - currentEnd.getTime());
-      
-      const largestStart = new Date(`2000-01-01T${largest.start}`);
-      const largestEnd = new Date(`2000-01-01T${largest.end}`);
-      const largestDuration = largestEnd > largestStart ?
-        largestEnd.getTime() - largestStart.getTime() :
-        (24 * 3600000) - (largestStart.getTime() - largestEnd.getTime());
-      
+      const currentDuration = getDuration(current.start, current.end);
+      const largestDuration = getDuration(largest.start, largest.end);
       return currentDuration > largestDuration ? current : largest;
     }, intervals[0]);
 
@@ -114,8 +105,8 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       return;
     }
 
-    const newIntervals = intervals.filter(interval => interval.id !== id);
-    if (validateIntervalSequence(newIntervals)) {
+    const newIntervals = mergeIntervals(intervals, id);
+    if (newIntervals !== intervals) {
       setIntervals(newIntervals);
     } else {
       toast({

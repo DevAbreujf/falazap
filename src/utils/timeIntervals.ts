@@ -20,6 +20,14 @@ export const minutesToTime = (minutes: number): string => {
   return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
 };
 
+export const getDuration = (start: string, end: string): number => {
+  const startMinutes = timeToMinutes(start);
+  const endMinutes = timeToMinutes(end);
+  return endMinutes < startMinutes ? 
+    (24 * 60) - startMinutes + endMinutes : 
+    endMinutes - startMinutes;
+};
+
 export const validateIntervalSequence = (intervals: TimeInterval[]): boolean => {
   if (intervals.length < 2) return false;
 
@@ -35,10 +43,7 @@ export const validateIntervalSequence = (intervals: TimeInterval[]): boolean => 
 
   // Verifica se os intervalos cobrem 24 horas
   const totalMinutes = intervals.reduce((total, interval) => {
-    const start = timeToMinutes(interval.start);
-    const end = timeToMinutes(interval.end);
-    const duration = end < start ? (24 * 60 - start) + end : end - start;
-    return total + duration;
+    return total + getDuration(interval.start, interval.end);
   }, 0);
 
   return totalMinutes === 24 * 60;
@@ -55,12 +60,45 @@ export const splitInterval = (
   const interval = intervals[intervalIndex];
   const newId = (Math.max(...intervals.map(i => parseInt(i.id))) + 1).toString();
 
-  const newIntervals = [
-    ...intervals.slice(0, intervalIndex),
-    { ...interval, end: splitTime },
-    { id: newId, start: splitTime, end: interval.end },
-    ...intervals.slice(intervalIndex + 1)
-  ];
+  // Mantém o intervalo original com o novo horário final
+  const updatedIntervals = intervals.map(i => {
+    if (i.id === intervalId) {
+      return { ...i, end: splitTime };
+    }
+    return i;
+  });
 
-  return validateIntervalSequence(newIntervals) ? newIntervals : intervals;
+  // Adiciona o novo intervalo após o original
+  const newInterval = { id: newId, start: splitTime, end: interval.end };
+  updatedIntervals.splice(intervalIndex + 1, 0, newInterval);
+
+  return validateIntervalSequence(updatedIntervals) ? updatedIntervals : intervals;
+};
+
+export const mergeIntervals = (
+  intervals: TimeInterval[],
+  removedId: string
+): TimeInterval[] => {
+  const removedIndex = intervals.findIndex(i => i.id === removedId);
+  if (removedIndex === -1) return intervals;
+
+  const previousInterval = intervals[removedIndex - 1];
+  const removedInterval = intervals[removedIndex];
+
+  // Se houver um intervalo anterior, ajusta seu horário final
+  if (previousInterval) {
+    const updatedIntervals = intervals.map(i => {
+      if (i.id === previousInterval.id) {
+        return { ...i, end: removedInterval.end };
+      }
+      return i;
+    });
+
+    // Remove o intervalo
+    const filteredIntervals = updatedIntervals.filter(i => i.id !== removedId);
+
+    return validateIntervalSequence(filteredIntervals) ? filteredIntervals : intervals;
+  }
+
+  return intervals;
 };
