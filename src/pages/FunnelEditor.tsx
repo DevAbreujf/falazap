@@ -5,24 +5,75 @@ import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Download, Upload, Save } from "lucide-react";
 import { ElementsSidebar } from "@/components/funnel-editor/ElementsSidebar";
 import { FunnelEditorCanvas } from "@/components/funnel-editor/FunnelEditorCanvas";
+import { useToast } from "@/components/ui/use-toast";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export default function FunnelEditor() {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
   const [funnelName, setFunnelName] = useState("Novo Funil");
+  const { toast } = useToast();
 
   const handleBack = () => navigate("/funnels");
   
-  const handleSave = () => {
-    console.log("Saving funnel...");
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/funnels`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: funnelName,
+          isActive,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao salvar funil');
+      }
+
+      toast({
+        title: "Sucesso",
+        description: "Funil salvo com sucesso!",
+      });
+    } catch (error) {
+      console.error('Erro ao salvar:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível salvar o funil",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleExport = () => {
-    console.log("Exporting funnel...");
+    try {
+      // Implementação do export
+      console.log("Exporting funnel...");
+    } catch (error) {
+      console.error('Erro ao exportar:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível exportar o funil",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleImport = () => {
-    console.log("Importing funnel...");
+    try {
+      // Implementação do import
+      console.log("Importing funnel...");
+    } catch (error) {
+      console.error('Erro ao importar:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível importar o funil",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleRename = () => {
