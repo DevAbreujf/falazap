@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Paperclip, Send, Bot, SmilePlus, X, Mic, MessageSquare, StickyNote } from "lucide-react";
+import { Paperclip, Send, Bot, SmilePlus, X, Mic, MessageSquare, StickyNote, Play, Pause } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Edit } from "lucide-react";
 import {

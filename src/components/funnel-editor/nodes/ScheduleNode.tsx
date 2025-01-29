@@ -10,7 +10,8 @@ import {
   TimeInterval,
   splitInterval,
   validateIntervalSequence,
-  mergeIntervals
+  mergeIntervals,
+  getDuration
 } from '@/utils/timeIntervals';
 
 const mainTimeZones = [
