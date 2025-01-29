@@ -49,12 +49,26 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const { toast } = useToast();
 
   const handleAddInterval = () => {
-    // Encontra o maior intervalo para dividir
-    const largestInterval = intervals.reduce((largest, current) => {
-      const currentDuration = getDuration(current.start, current.end);
-      const largestDuration = getDuration(largest.start, largest.end);
-      return currentDuration > largestDuration ? current : largest;
-    }, intervals[0]);
+    // Encontra o maior intervalo para dividir, excluindo os intervalos padrão
+    const nonDefaultIntervals = intervals.filter(interval => interval.id !== '1' && interval.id !== '2');
+    const defaultIntervals = intervals.filter(interval => interval.id === '1' || interval.id === '2');
+    
+    let largestInterval;
+    
+    if (nonDefaultIntervals.length > 0) {
+      largestInterval = nonDefaultIntervals.reduce((largest, current) => {
+        const currentDuration = getDuration(current.start, current.end);
+        const largestDuration = getDuration(largest.start, largest.end);
+        return currentDuration > largestDuration ? current : largest;
+      }, nonDefaultIntervals[0]);
+    } else {
+      // Se não houver intervalos não-padrão, use o maior dos intervalos padrão
+      largestInterval = defaultIntervals.reduce((largest, current) => {
+        const currentDuration = getDuration(current.start, current.end);
+        const largestDuration = getDuration(largest.start, largest.end);
+        return currentDuration > largestDuration ? current : largest;
+      }, defaultIntervals[0]);
+    }
 
     // Calcula o ponto médio do intervalo
     const startTime = new Date(`2000-01-01T${largestInterval.start}`);
@@ -67,7 +81,12 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
     const newIntervals = splitInterval(intervals, largestInterval.id, splitTimeStr);
     
     if (newIntervals !== intervals) {
-      setIntervals(newIntervals);
+      // Reorganiza os intervalos mantendo os padrões no topo
+      const reorderedIntervals = [
+        ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
+        ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
+      ];
+      setIntervals(reorderedIntervals);
     } else {
       toast({
         title: "Erro ao adicionar intervalo",
@@ -86,7 +105,12 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
     });
 
     if (validateIntervalSequence(newIntervals)) {
-      setIntervals(newIntervals);
+      // Reorganiza os intervalos mantendo os padrões no topo
+      const reorderedIntervals = [
+        ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
+        ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
+      ];
+      setIntervals(reorderedIntervals);
     } else {
       toast({
         title: "Horário inválido",
@@ -108,7 +132,12 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
     const newIntervals = mergeIntervals(intervals, id);
     if (newIntervals !== intervals) {
-      setIntervals(newIntervals);
+      // Reorganiza os intervalos mantendo os padrões no topo
+      const reorderedIntervals = [
+        ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
+        ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
+      ];
+      setIntervals(reorderedIntervals);
     } else {
       toast({
         title: "Erro ao remover intervalo",
