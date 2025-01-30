@@ -15,7 +15,7 @@ export const timeToMinutes = (time: string): number => {
 };
 
 export const minutesToTime = (minutes: number): string => {
-  const normalizedMinutes = minutes % (24 * 60);
+  const normalizedMinutes = minutes % (24 * 60); // Normaliza para 24 horas
   const hours = Math.floor(normalizedMinutes / 60);
   const mins = normalizedMinutes % 60;
   return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
@@ -35,11 +35,9 @@ export const getDuration = (start: string, end: string): number => {
 export const validateIntervalSequence = (intervals: TimeInterval[]): boolean => {
   if (intervals.length < 2) return false;
 
-  // Pega o horário inicial do primeiro intervalo
   const firstStart = intervals[0].start;
   let lastEnd = intervals[0].end;
 
-  // Verifica se cada intervalo começa onde o anterior termina
   for (let i = 1; i < intervals.length; i++) {
     const current = intervals[i];
     if (current.start !== lastEnd) {
@@ -48,7 +46,6 @@ export const validateIntervalSequence = (intervals: TimeInterval[]): boolean => 
     lastEnd = current.end;
   }
 
-  // O último intervalo deve terminar no horário inicial do primeiro
   return lastEnd === firstStart;
 };
 
@@ -63,11 +60,9 @@ export const splitInterval = (
   const interval = intervals[intervalIndex];
   const newId = (Math.max(...intervals.map(i => parseInt(i.id))) + 1).toString();
 
-  // Cria os dois novos intervalos
   const firstHalf = { ...interval, end: splitTime };
   const secondHalf = { id: newId, start: splitTime, end: interval.end };
 
-  // Substitui o intervalo original pelos dois novos
   const newIntervals = [
     ...intervals.slice(0, intervalIndex),
     firstHalf,
@@ -85,14 +80,12 @@ export const mergeIntervals = (
   const removedIndex = intervals.findIndex(i => i.id === removedId);
   if (removedIndex === -1) return intervals;
 
-  // Se for o último intervalo, ajusta o anterior
   if (removedIndex === intervals.length - 1) {
     const newIntervals = [...intervals];
     newIntervals[removedIndex - 1].end = intervals[0].start;
     return newIntervals.filter(i => i.id !== removedId);
   }
 
-  // Se for um intervalo intermediário, une com o próximo
   const updatedIntervals = intervals.map((interval, index) => {
     if (index === removedIndex - 1) {
       return { ...interval, end: intervals[removedIndex + 1].end };
