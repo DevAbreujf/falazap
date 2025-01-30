@@ -11,7 +11,8 @@ import {
   splitInterval,
   validateIntervalSequence,
   mergeIntervals,
-  getDuration
+  getDuration,
+  timeToMinutes
 } from '@/utils/timeIntervals';
 
 const mainTimeZones = [
@@ -49,7 +50,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const { toast } = useToast();
 
   const handleAddInterval = () => {
-    // Encontra o maior intervalo para dividir, excluindo os intervalos padrão
     const nonDefaultIntervals = intervals.filter(interval => interval.id !== '1' && interval.id !== '2');
     const defaultIntervals = intervals.filter(interval => interval.id === '1' || interval.id === '2');
     
@@ -62,7 +62,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
         return currentDuration > largestDuration ? current : largest;
       }, nonDefaultIntervals[0]);
     } else {
-      // Se não houver intervalos não-padrão, use o maior dos intervalos padrão
       largestInterval = defaultIntervals.reduce((largest, current) => {
         const currentDuration = getDuration(current.start, current.end);
         const largestDuration = getDuration(largest.start, largest.end);
@@ -70,18 +69,14 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       }, defaultIntervals[0]);
     }
 
-    // Calcula o ponto médio do intervalo
-    const startTime = new Date(`2000-01-01T${largestInterval.start}`);
-    const endTime = new Date(`2000-01-01T${largestInterval.end}`);
-    if (endTime <= startTime) endTime.setDate(2);
-    
-    const midpoint = new Date((startTime.getTime() + endTime.getTime()) / 2);
-    const splitTimeStr = midpoint.toTimeString().slice(0, 5);
+    const startMinutes = timeToMinutes(largestInterval.start);
+    const endMinutes = timeToMinutes(largestInterval.end);
+    const midMinutes = Math.floor((startMinutes + endMinutes) / 2);
+    const splitTimeStr = minutesToTime(midMinutes);
 
     const newIntervals = splitInterval(intervals, largestInterval.id, splitTimeStr);
     
     if (newIntervals !== intervals) {
-      // Reorganiza os intervalos mantendo os padrões no topo
       const reorderedIntervals = [
         ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
         ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
@@ -97,15 +92,24 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
-    const newIntervals = intervals.map(interval => {
+    let newIntervals = intervals.map(interval => {
       if (interval.id === id) {
         return { ...interval, [field]: value };
       }
       return interval;
     });
 
+    // Se alterou o horário inicial do primeiro intervalo, ajusta o final do último
+    if (id === intervals[0].id && field === 'start') {
+      newIntervals = newIntervals.map((interval, index) => {
+        if (index === newIntervals.length - 1) {
+          return { ...interval, end: value };
+        }
+        return interval;
+      });
+    }
+
     if (validateIntervalSequence(newIntervals)) {
-      // Reorganiza os intervalos mantendo os padrões no topo
       const reorderedIntervals = [
         ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
         ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
@@ -132,7 +136,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
     const newIntervals = mergeIntervals(intervals, id);
     if (newIntervals !== intervals) {
-      // Reorganiza os intervalos mantendo os padrões no topo
       const reorderedIntervals = [
         ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
         ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
