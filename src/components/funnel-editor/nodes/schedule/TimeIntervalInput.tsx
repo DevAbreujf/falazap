@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 interface TimeIntervalInputProps {
   interval: TimeInterval;
   isDefault: boolean;
+  isFirstInterval: boolean;
   onTimeChange: (id: string, field: 'start' | 'end', value: string) => void;
   onRemove: (id: string) => void;
 }
@@ -14,6 +15,7 @@ interface TimeIntervalInputProps {
 export const TimeIntervalInput = ({
   interval,
   isDefault,
+  isFirstInterval,
   onTimeChange,
   onRemove
 }: TimeIntervalInputProps) => {
@@ -64,9 +66,10 @@ export const TimeIntervalInput = ({
           type="text"
           value={startValue}
           onChange={(e) => handleTimeChange('start', e.target.value)}
-          className="w-24 text-center font-medium"
+          className={`w-24 text-center font-medium ${!isFirstInterval ? 'bg-gray-100 text-muted-foreground' : ''}`}
           placeholder="00:00"
           maxLength={5}
+          disabled={!isFirstInterval}
         />
         <span className="text-muted-foreground">até</span>
         <Input

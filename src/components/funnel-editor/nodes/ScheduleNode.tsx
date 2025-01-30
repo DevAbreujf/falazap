@@ -93,22 +93,26 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
-    let newIntervals = intervals.map(interval => {
-      if (interval.id === id) {
+    let newIntervals = intervals.map((interval, index) => {
+      // Se estamos alterando o fim de um intervalo, atualiza o início do próximo
+      if (interval.id === id && field === 'end' && index < intervals.length - 1) {
+        const nextInterval = intervals[index + 1];
         return { ...interval, [field]: value };
+      }
+      // Se estamos alterando o início do primeiro intervalo, atualiza o fim do último
+      if (interval.id === intervals[0].id && field === 'start') {
+        return { ...interval, [field]: value };
+      }
+      // Se este é o próximo intervalo após o que está sendo editado
+      if (index > 0 && intervals[index - 1].id === id && field === 'end') {
+        return { ...interval, start: value };
+      }
+      // Se este é o último intervalo e o primeiro está sendo editado
+      if (index === intervals.length - 1 && intervals[0].id === id && field === 'start') {
+        return { ...interval, end: value };
       }
       return interval;
     });
-
-    // Se alterou o horário inicial do primeiro intervalo, ajusta o final do último
-    if (id === intervals[0].id && field === 'start') {
-      newIntervals = newIntervals.map((interval, index) => {
-        if (index === newIntervals.length - 1) {
-          return { ...interval, end: value };
-        }
-        return interval;
-      });
-    }
 
     if (validateIntervalSequence(newIntervals)) {
       const reorderedIntervals = [
@@ -184,11 +188,12 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
         <div className="space-y-2">
           <label className="text-sm font-medium text-zinc-600">Intervalos de horários</label>
           <div className="space-y-3">
-            {intervals.map((interval) => (
+            {intervals.map((interval, index) => (
               <TimeIntervalInput
                 key={interval.id}
                 interval={interval}
                 isDefault={interval.id === '1' || interval.id === '2'}
+                isFirstInterval={index === 0}
                 onTimeChange={handleTimeChange}
                 onRemove={handleRemoveInterval}
               />
