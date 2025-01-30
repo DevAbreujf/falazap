@@ -15,7 +15,7 @@ export const timeToMinutes = (time: string): number => {
 };
 
 export const minutesToTime = (minutes: number): string => {
-  const normalizedMinutes = minutes % (24 * 60); // Normaliza para 24 horas
+  const normalizedMinutes = ((minutes % (24 * 60)) + 24 * 60) % (24 * 60);
   const hours = Math.floor(normalizedMinutes / 60);
   const mins = normalizedMinutes % 60;
   return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
@@ -26,7 +26,7 @@ export const getDuration = (start: string, end: string): number => {
   let endMinutes = timeToMinutes(end);
   
   if (endMinutes <= startMinutes) {
-    endMinutes += 24 * 60; // Adiciona 24 horas em minutos
+    endMinutes += 24 * 60;
   }
   
   return endMinutes - startMinutes;
@@ -35,18 +35,17 @@ export const getDuration = (start: string, end: string): number => {
 export const validateIntervalSequence = (intervals: TimeInterval[]): boolean => {
   if (intervals.length < 2) return false;
 
-  const firstStart = intervals[0].start;
-  let lastEnd = intervals[0].end;
-
-  for (let i = 1; i < intervals.length; i++) {
-    const current = intervals[i];
-    if (current.start !== lastEnd) {
+  for (let i = 0; i < intervals.length - 1; i++) {
+    if (intervals[i].end !== intervals[i + 1].start) {
       return false;
     }
-    lastEnd = current.end;
   }
 
-  return lastEnd === firstStart;
+  // Verificar se o último intervalo conecta com o primeiro
+  const lastInterval = intervals[intervals.length - 1];
+  const firstInterval = intervals[0];
+  
+  return lastInterval.end === firstInterval.start;
 };
 
 export const splitInterval = (
@@ -58,19 +57,37 @@ export const splitInterval = (
   if (intervalIndex === -1) return intervals;
 
   const interval = intervals[intervalIndex];
-  const newId = (Math.max(...intervals.map(i => parseInt(i.id))) + 1).toString();
+  const startMinutes = timeToMinutes(interval.start);
+  const endMinutes = timeToMinutes(interval.end);
+  const splitMinutes = timeToMinutes(splitTime);
 
-  const firstHalf = { ...interval, end: splitTime };
-  const secondHalf = { id: newId, start: splitTime, end: interval.end };
+  // Ajustar splitMinutes para estar dentro do intervalo
+  let adjustedSplitMinutes = splitMinutes;
+  if (endMinutes <= startMinutes) { // Intervalo cruza meia-noite
+    if (splitMinutes < startMinutes && splitMinutes > endMinutes) {
+      return intervals; // Split time inválido
+    }
+  } else { // Intervalo normal
+    if (splitMinutes <= startMinutes || splitMinutes >= endMinutes) {
+      return intervals; // Split time inválido
+    }
+  }
 
-  const newIntervals = [
+  const newId = Math.max(...intervals.map(i => parseInt(i.id) || 0)) + 1;
+
+  const firstHalf = { ...interval, end: minutesToTime(adjustedSplitMinutes) };
+  const secondHalf = { 
+    id: newId.toString(), 
+    start: minutesToTime(adjustedSplitMinutes), 
+    end: interval.end 
+  };
+
+  return [
     ...intervals.slice(0, intervalIndex),
     firstHalf,
     secondHalf,
     ...intervals.slice(intervalIndex + 1)
   ];
-
-  return validateIntervalSequence(newIntervals) ? newIntervals : intervals;
 };
 
 export const mergeIntervals = (
@@ -80,18 +97,12 @@ export const mergeIntervals = (
   const removedIndex = intervals.findIndex(i => i.id === removedId);
   if (removedIndex === -1) return intervals;
 
-  if (removedIndex === intervals.length - 1) {
-    const newIntervals = [...intervals];
-    newIntervals[removedIndex - 1].end = intervals[0].start;
-    return newIntervals.filter(i => i.id !== removedId);
+  const newIntervals = [...intervals];
+  
+  if (removedIndex > 0) {
+    newIntervals[removedIndex - 1].end = intervals[removedIndex].end;
+    newIntervals.splice(removedIndex, 1);
   }
 
-  const updatedIntervals = intervals.map((interval, index) => {
-    if (index === removedIndex - 1) {
-      return { ...interval, end: intervals[removedIndex + 1].end };
-    }
-    return interval;
-  }).filter((_, index) => index !== removedIndex && index !== removedIndex + 1);
-
-  return validateIntervalSequence(updatedIntervals) ? updatedIntervals : intervals;
+  return validateIntervalSequence(newIntervals) ? newIntervals : intervals;
 };

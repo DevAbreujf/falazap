@@ -51,33 +51,33 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   const { toast } = useToast();
 
   const handleAddInterval = () => {
-    const nonDefaultIntervals = intervals.filter(interval => interval.id !== '1' && interval.id !== '2');
-    const firstInterval = intervals.find(interval => interval.id === '1');
-    const lastInterval = intervals.find(interval => interval.id === '2');
-    const otherIntervals = nonDefaultIntervals.length > 0 
-      ? nonDefaultIntervals
-      : [firstInterval!];
+    // Encontrar o maior intervalo excluindo o último (intervalo padrão 2)
+    const nonDefaultIntervals = intervals.slice(0, -1);
+    const firstInterval = intervals[0];
     
-    let largestInterval = otherIntervals.reduce((largest, current) => {
+    let largestInterval = nonDefaultIntervals.reduce((largest, current) => {
       const currentDuration = getDuration(current.start, current.end);
       const largestDuration = getDuration(largest.start, largest.end);
       return currentDuration > largestDuration ? current : largest;
-    }, otherIntervals[0]);
+    }, firstInterval);
 
     const startMinutes = timeToMinutes(largestInterval.start);
     const endMinutes = timeToMinutes(largestInterval.end);
-    const midMinutes = Math.floor((startMinutes + endMinutes) / 2);
-    const splitTimeStr = minutesToTime(midMinutes);
+    let midMinutes;
 
-    const newIntervals = splitInterval(intervals, largestInterval.id, splitTimeStr);
+    if (endMinutes <= startMinutes) {
+      // Se o intervalo cruza a meia-noite
+      midMinutes = ((startMinutes + (endMinutes + 24 * 60)) / 2) % (24 * 60);
+    } else {
+      midMinutes = (startMinutes + endMinutes) / 2;
+    }
+
+    const splitTimeStr = minutesToTime(Math.floor(midMinutes));
+    const lastInterval = intervals[intervals.length - 1];
+    const newIntervals = splitInterval(intervals.slice(0, -1), largestInterval.id, splitTimeStr);
     
-    if (newIntervals !== intervals) {
-      const reorderedIntervals = [
-        firstInterval!,
-        ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2'),
-        lastInterval!
-      ];
-      setIntervals(reorderedIntervals);
+    if (newIntervals !== intervals.slice(0, -1)) {
+      setIntervals([...newIntervals, lastInterval]);
     } else {
       toast({
         title: "Erro ao adicionar intervalo",
@@ -88,25 +88,26 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
-    let newIntervals = intervals.map((interval, index) => {
+    const lastInterval = intervals[intervals.length - 1];
+    let newIntervals = intervals.slice(0, -1).map(interval => {
       if (interval.id === id) {
         return { ...interval, [field]: value };
-      }
-      if (index > 0 && intervals[index - 1].id === id && field === 'end') {
-        return { ...interval, start: value };
-      }
-      if (interval.id === '2' && intervals[0].id === id && field === 'start') {
-        return { ...interval, end: value };
       }
       return interval;
     });
 
+    // Atualizar o próximo intervalo se necessário
+    for (let i = 0; i < newIntervals.length - 1; i++) {
+      if (newIntervals[i].id === id && field === 'end') {
+        newIntervals[i + 1] = { ...newIntervals[i + 1], start: value };
+      }
+    }
+
+    // Adicionar o último intervalo de volta
+    newIntervals.push(lastInterval);
+
     if (validateIntervalSequence(newIntervals)) {
-      const firstInterval = newIntervals.find(interval => interval.id === '1');
-      const lastInterval = newIntervals.find(interval => interval.id === '2');
-      const middleIntervals = newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2');
-      
-      setIntervals([firstInterval!, ...middleIntervals, lastInterval!]);
+      setIntervals(newIntervals);
     } else {
       toast({
         title: "Horário inválido",
@@ -126,13 +127,11 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       return;
     }
 
-    const newIntervals = mergeIntervals(intervals, id);
-    if (newIntervals !== intervals) {
-      const firstInterval = newIntervals.find(interval => interval.id === '1');
-      const lastInterval = newIntervals.find(interval => interval.id === '2');
-      const middleIntervals = newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2');
-      
-      setIntervals([firstInterval!, ...middleIntervals, lastInterval!]);
+    const lastInterval = intervals[intervals.length - 1];
+    const newIntervals = mergeIntervals(intervals.slice(0, -1), id);
+    
+    if (newIntervals !== intervals.slice(0, -1)) {
+      setIntervals([...newIntervals, lastInterval]);
     } else {
       toast({
         title: "Erro ao remover intervalo",
