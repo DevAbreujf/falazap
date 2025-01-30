@@ -52,23 +52,17 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
   const handleAddInterval = () => {
     const nonDefaultIntervals = intervals.filter(interval => interval.id !== '1' && interval.id !== '2');
-    const defaultIntervals = intervals.filter(interval => interval.id === '1' || interval.id === '2');
+    const firstInterval = intervals.find(interval => interval.id === '1');
+    const lastInterval = intervals.find(interval => interval.id === '2');
+    const otherIntervals = nonDefaultIntervals.length > 0 
+      ? nonDefaultIntervals
+      : [firstInterval!];
     
-    let largestInterval;
-    
-    if (nonDefaultIntervals.length > 0) {
-      largestInterval = nonDefaultIntervals.reduce((largest, current) => {
-        const currentDuration = getDuration(current.start, current.end);
-        const largestDuration = getDuration(largest.start, largest.end);
-        return currentDuration > largestDuration ? current : largest;
-      }, nonDefaultIntervals[0]);
-    } else {
-      largestInterval = defaultIntervals.reduce((largest, current) => {
-        const currentDuration = getDuration(current.start, current.end);
-        const largestDuration = getDuration(largest.start, largest.end);
-        return currentDuration > largestDuration ? current : largest;
-      }, defaultIntervals[0]);
-    }
+    let largestInterval = otherIntervals.reduce((largest, current) => {
+      const currentDuration = getDuration(current.start, current.end);
+      const largestDuration = getDuration(largest.start, largest.end);
+      return currentDuration > largestDuration ? current : largest;
+    }, otherIntervals[0]);
 
     const startMinutes = timeToMinutes(largestInterval.start);
     const endMinutes = timeToMinutes(largestInterval.end);
@@ -79,8 +73,9 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
     
     if (newIntervals !== intervals) {
       const reorderedIntervals = [
-        ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
-        ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
+        firstInterval!,
+        ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2'),
+        lastInterval!
       ];
       setIntervals(reorderedIntervals);
     } else {
@@ -94,32 +89,24 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
   const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
     let newIntervals = intervals.map((interval, index) => {
-      // Se estamos alterando o fim de um intervalo, atualiza o início do próximo
-      if (interval.id === id && field === 'end' && index < intervals.length - 1) {
-        const nextInterval = intervals[index + 1];
+      if (interval.id === id) {
         return { ...interval, [field]: value };
       }
-      // Se estamos alterando o início do primeiro intervalo, atualiza o fim do último
-      if (interval.id === intervals[0].id && field === 'start') {
-        return { ...interval, [field]: value };
-      }
-      // Se este é o próximo intervalo após o que está sendo editado
       if (index > 0 && intervals[index - 1].id === id && field === 'end') {
         return { ...interval, start: value };
       }
-      // Se este é o último intervalo e o primeiro está sendo editado
-      if (index === intervals.length - 1 && intervals[0].id === id && field === 'start') {
+      if (interval.id === '2' && intervals[0].id === id && field === 'start') {
         return { ...interval, end: value };
       }
       return interval;
     });
 
     if (validateIntervalSequence(newIntervals)) {
-      const reorderedIntervals = [
-        ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
-        ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
-      ];
-      setIntervals(reorderedIntervals);
+      const firstInterval = newIntervals.find(interval => interval.id === '1');
+      const lastInterval = newIntervals.find(interval => interval.id === '2');
+      const middleIntervals = newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2');
+      
+      setIntervals([firstInterval!, ...middleIntervals, lastInterval!]);
     } else {
       toast({
         title: "Horário inválido",
@@ -141,11 +128,11 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
     const newIntervals = mergeIntervals(intervals, id);
     if (newIntervals !== intervals) {
-      const reorderedIntervals = [
-        ...newIntervals.filter(interval => interval.id === '1' || interval.id === '2'),
-        ...newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2')
-      ];
-      setIntervals(reorderedIntervals);
+      const firstInterval = newIntervals.find(interval => interval.id === '1');
+      const lastInterval = newIntervals.find(interval => interval.id === '2');
+      const middleIntervals = newIntervals.filter(interval => interval.id !== '1' && interval.id !== '2');
+      
+      setIntervals([firstInterval!, ...middleIntervals, lastInterval!]);
     } else {
       toast({
         title: "Erro ao remover intervalo",
