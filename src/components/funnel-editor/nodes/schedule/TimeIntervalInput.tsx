@@ -66,7 +66,7 @@ export const TimeIntervalInput = ({
           type="text"
           value={startValue}
           onChange={(e) => handleTimeChange('start', e.target.value)}
-          className={`w-24 text-center font-medium ${!isFirstInterval ? 'bg-gray-100 text-muted-foreground' : ''}`}
+          className={`w-24 text-center font-medium ${!isFirstInterval ? 'bg-gray-100 text-muted-foreground pointer-events-none' : ''}`}
           placeholder="00:00"
           maxLength={5}
           disabled={!isFirstInterval}
@@ -76,9 +76,10 @@ export const TimeIntervalInput = ({
           type="text"
           value={endValue}
           onChange={(e) => handleTimeChange('end', e.target.value)}
-          className="w-24 text-center font-medium"
+          className="w-24 text-center font-medium bg-gray-100 text-muted-foreground pointer-events-none"
           placeholder="00:00"
           maxLength={5}
+          disabled={true}
         />
       </div>
       {!isDefault && (
