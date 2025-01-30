@@ -76,9 +76,10 @@ export const TimeIntervalInput = ({
           type="text"
           value={endValue}
           onChange={(e) => handleTimeChange('end', e.target.value)}
-          className="w-24 text-center font-medium"
+          className="w-24 text-center font-medium text-muted-foreground pointer-events-none"
           placeholder="00:00"
           maxLength={5}
+          disabled={true}
         />
       </div>
       {!isDefault && (
