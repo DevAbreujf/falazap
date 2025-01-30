@@ -12,7 +12,8 @@ import {
   validateIntervalSequence,
   mergeIntervals,
   getDuration,
-  timeToMinutes
+  timeToMinutes,
+  minutesToTime
 } from '@/utils/timeIntervals';
 
 const mainTimeZones = [
