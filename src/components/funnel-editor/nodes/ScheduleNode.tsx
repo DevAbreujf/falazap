@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { TimeIntervalInput } from './schedule/TimeIntervalInput';
+import { Clock } from 'lucide-react';
 import { 
   DEFAULT_INTERVALS,
   TimeInterval,
@@ -155,6 +156,11 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       />
       
       <div className="p-4 space-y-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Clock className="w-5 h-5 text-muted-foreground" />
+          <h3 className="font-medium">Horários</h3>
+        </div>
+
         <div className="space-y-2">
           <label className="text-sm font-medium text-zinc-600">Fuso horário</label>
           <Select defaultValue="America/Sao_Paulo">
