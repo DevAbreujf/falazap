@@ -50,8 +50,34 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   );
   const { toast } = useToast();
 
+  const recalculateIntervals = (updatedIntervals: TimeInterval[], changedIndex: number) => {
+    const totalIntervals = updatedIntervals.length;
+    const changedInterval = updatedIntervals[changedIndex];
+    
+    // Se for o primeiro intervalo, ajustar o último
+    if (changedIndex === 0) {
+      updatedIntervals[totalIntervals - 1].end = changedInterval.start;
+    }
+
+    // Ajustar intervalos subsequentes
+    for (let i = changedIndex + 1; i < totalIntervals - 1; i++) {
+      updatedIntervals[i].start = updatedIntervals[i - 1].end;
+      
+      // Calcular a nova duração proporcional
+      const currentDuration = getDuration(updatedIntervals[i].start, updatedIntervals[i].end);
+      const startMinutes = timeToMinutes(updatedIntervals[i].start);
+      updatedIntervals[i].end = minutesToTime((startMinutes + currentDuration) % (24 * 60));
+    }
+
+    // Ajustar o último intervalo
+    if (changedIndex < totalIntervals - 1) {
+      updatedIntervals[totalIntervals - 1].start = updatedIntervals[totalIntervals - 2].end;
+    }
+
+    return updatedIntervals;
+  };
+
   const handleAddInterval = () => {
-    // Encontrar o maior intervalo excluindo o último (intervalo padrão 2)
     const nonDefaultIntervals = intervals.slice(0, -1);
     const firstInterval = intervals[0];
     
@@ -66,7 +92,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
     let midMinutes;
 
     if (endMinutes <= startMinutes) {
-      // Se o intervalo cruza a meia-noite
       midMinutes = ((startMinutes + (endMinutes + 24 * 60)) / 2) % (24 * 60);
     } else {
       midMinutes = (startMinutes + endMinutes) / 2;
@@ -88,28 +113,14 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
   };
 
   const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
-    const lastInterval = intervals[intervals.length - 1];
-    let newIntervals = intervals.slice(0, -1).map(interval => {
-      if (interval.id === id) {
-        return { ...interval, [field]: value };
-      }
-      return interval;
-    });
+    const intervalIndex = intervals.findIndex(i => i.id === id);
+    if (intervalIndex === -1) return;
 
-    // Sincronizar o horário final do último intervalo com o inicial do primeiro
-    if (id === '1' && field === 'start') {
-      lastInterval.end = value;
-    }
-
-    // Atualizar o próximo intervalo se necessário
-    for (let i = 0; i < newIntervals.length - 1; i++) {
-      if (newIntervals[i].id === id && field === 'end') {
-        newIntervals[i + 1] = { ...newIntervals[i + 1], start: value };
-      }
-    }
-
-    // Adicionar o último intervalo de volta
-    newIntervals.push(lastInterval);
+    let newIntervals = [...intervals];
+    newIntervals[intervalIndex] = { ...newIntervals[intervalIndex], [field]: value };
+    
+    // Recalcular todos os intervalos após a mudança
+    newIntervals = recalculateIntervals(newIntervals, intervalIndex);
 
     if (validateIntervalSequence(newIntervals)) {
       setIntervals(newIntervals);
