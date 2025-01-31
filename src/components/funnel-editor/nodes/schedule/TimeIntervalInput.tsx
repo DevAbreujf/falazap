@@ -8,6 +8,7 @@ interface TimeIntervalInputProps {
   interval: TimeInterval;
   isDefault: boolean;
   isFirstInterval: boolean;
+  isLastInterval?: boolean;
   onTimeChange: (id: string, field: 'start' | 'end', value: string) => void;
   onRemove: (id: string) => void;
 }
@@ -16,6 +17,7 @@ export const TimeIntervalInput = ({
   interval,
   isDefault,
   isFirstInterval,
+  isLastInterval,
   onTimeChange,
   onRemove
 }: TimeIntervalInputProps) => {
@@ -23,7 +25,6 @@ export const TimeIntervalInput = ({
   const [endValue, setEndValue] = useState(interval.end);
 
   const formatTimeValue = (value: string) => {
-    // Remove non-numeric characters
     const numbers = value.replace(/\D/g, '');
     
     if (numbers.length <= 2) {
@@ -76,9 +77,10 @@ export const TimeIntervalInput = ({
           type="text"
           value={endValue}
           onChange={(e) => handleTimeChange('end', e.target.value)}
-          className="w-24 text-center font-medium"
+          className={`w-24 text-center font-medium ${isLastInterval ? 'text-muted-foreground' : ''}`}
           placeholder="00:00"
           maxLength={5}
+          disabled={isLastInterval}
         />
       </div>
       {!isDefault && (
