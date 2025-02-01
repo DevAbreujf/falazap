@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { TimeInterval } from "@/utils/timeIntervals";
 import { useState, useEffect } from "react";
+import { Handle, Position } from '@xyflow/react';
 
 interface TimeIntervalInputProps {
   interval: TimeInterval;
@@ -61,7 +62,7 @@ export const TimeIntervalInput = ({
   }, [interval]);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="relative flex items-center gap-2">
       <div className="flex-1 flex items-center gap-2">
         <Input
           type="text"
@@ -93,6 +94,13 @@ export const TimeIntervalInput = ({
           <Trash2 className="w-4 h-4" />
         </Button>
       )}
+      <Handle
+        type="source"
+        position={Position.Right}
+        id={`interval-${interval.id}`}
+        className="w-3 h-3 !bg-zinc-300"
+        style={{ right: -15 }}
+      />
     </div>
   );
 };
