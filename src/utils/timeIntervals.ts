@@ -41,7 +41,6 @@ export const validateIntervalSequence = (intervals: TimeInterval[]): boolean => 
     }
   }
 
-  // Verificar se o último intervalo conecta com o primeiro
   const lastInterval = intervals[intervals.length - 1];
   const firstInterval = intervals[0];
   
@@ -61,23 +60,20 @@ export const splitInterval = (
   const endMinutes = timeToMinutes(interval.end);
   const splitMinutes = timeToMinutes(splitTime);
 
-  // Ajustar splitMinutes para estar dentro do intervalo
   let adjustedSplitMinutes = splitMinutes;
-  if (endMinutes <= startMinutes) { // Intervalo cruza meia-noite
+  if (endMinutes <= startMinutes) {
     if (splitMinutes < startMinutes && splitMinutes > endMinutes) {
-      return intervals; // Split time inválido
+      return intervals;
     }
-  } else { // Intervalo normal
+  } else {
     if (splitMinutes <= startMinutes || splitMinutes >= endMinutes) {
-      return intervals; // Split time inválido
+      return intervals;
     }
   }
 
-  // Gerar um ID único para o novo intervalo
-  const maxId = Math.max(...intervals.map(i => {
-    const numId = parseInt(i.id);
-    return isNaN(numId) ? 0 : numId;
-  }));
+  // Gerar um novo ID garantindo que seja maior que 2
+  const existingIds = intervals.map(i => parseInt(i.id)).filter(id => !isNaN(id));
+  const maxId = Math.max(...existingIds, 2);
   const newId = (maxId + 1).toString();
 
   const firstHalf = { ...interval, end: minutesToTime(adjustedSplitMinutes) };

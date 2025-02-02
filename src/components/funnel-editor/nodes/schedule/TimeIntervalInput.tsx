@@ -61,6 +61,8 @@ export const TimeIntervalInput = ({
     setEndValue(interval.end);
   }, [interval]);
 
+  const showDeleteButton = !isDefault && parseInt(interval.id) > 2;
+
   return (
     <div className="relative flex items-center gap-2">
       <div className="flex-1 flex items-center gap-2">
@@ -84,7 +86,7 @@ export const TimeIntervalInput = ({
           disabled={isLastInterval}
         />
       </div>
-      {!isDefault && (
+      {showDeleteButton && (
         <Button
           variant="ghost"
           size="icon"
