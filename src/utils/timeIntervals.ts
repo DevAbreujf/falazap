@@ -73,11 +73,16 @@ export const splitInterval = (
     }
   }
 
-  const newId = Math.max(...intervals.map(i => parseInt(i.id) || 0)) + 1;
+  // Gerar um ID único para o novo intervalo
+  const maxId = Math.max(...intervals.map(i => {
+    const numId = parseInt(i.id);
+    return isNaN(numId) ? 0 : numId;
+  }));
+  const newId = (maxId + 1).toString();
 
   const firstHalf = { ...interval, end: minutesToTime(adjustedSplitMinutes) };
   const secondHalf = { 
-    id: newId.toString(), 
+    id: newId, 
     start: minutesToTime(adjustedSplitMinutes), 
     end: interval.end 
   };
