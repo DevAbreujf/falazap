@@ -54,16 +54,34 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
     const totalIntervals = updatedIntervals.length;
     const changedInterval = updatedIntervals[changedIndex];
     
-    // Se for o primeiro intervalo, sempre sincronizar com o último
+    // Caso especial para dois intervalos
+    if (totalIntervals === 2) {
+      if (changedIndex === 0) {
+        // Se alterou o primeiro intervalo
+        if (changedInterval.start !== updatedIntervals[1].end) {
+          updatedIntervals[1].end = changedInterval.start;
+        }
+        // Garantir que o segundo intervalo comece onde o primeiro termina
+        updatedIntervals[1].start = changedInterval.end;
+      } else {
+        // Se alterou o segundo intervalo
+        if (changedInterval.end !== updatedIntervals[0].start) {
+          updatedIntervals[0].start = changedInterval.end;
+        }
+        // Garantir que o primeiro intervalo termine onde o segundo começa
+        updatedIntervals[0].end = changedInterval.start;
+      }
+      return updatedIntervals;
+    }
+
+    // Lógica existente para mais de dois intervalos
     if (changedIndex === 0) {
       updatedIntervals[totalIntervals - 1].end = changedInterval.start;
     }
 
-    // Se houver mais de 2 intervalos, ajustar os intermediários
     if (totalIntervals > 2) {
       for (let i = changedIndex + 1; i < totalIntervals - 1; i++) {
         updatedIntervals[i].start = updatedIntervals[i - 1].end;
-        
         const currentDuration = getDuration(updatedIntervals[i].start, updatedIntervals[i].end);
         const startMinutes = timeToMinutes(updatedIntervals[i].start);
         updatedIntervals[i].end = minutesToTime((startMinutes + currentDuration) % (24 * 60));
@@ -72,9 +90,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       if (changedIndex < totalIntervals - 1) {
         updatedIntervals[totalIntervals - 1].start = updatedIntervals[totalIntervals - 2].end;
       }
-    } else {
-      // Para apenas 2 intervalos, garantir que o segundo comece onde o primeiro termina
-      updatedIntervals[1].start = updatedIntervals[0].end;
     }
 
     return updatedIntervals;
@@ -121,11 +136,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
     let newIntervals = [...intervals];
     newIntervals[intervalIndex] = { ...newIntervals[intervalIndex], [field]: value };
-    
-    // Sincronização direta para o caso de 2 intervalos
-    if (intervals.length === 2 && intervalIndex === 0 && field === 'start') {
-      newIntervals[1].end = value;
-    }
     
     // Recalcular todos os intervalos após a mudança
     newIntervals = recalculateIntervals(newIntervals, intervalIndex);
