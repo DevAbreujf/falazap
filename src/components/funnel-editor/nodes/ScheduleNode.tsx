@@ -56,6 +56,7 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
     
     // Se for o primeiro intervalo, ajustar o último
     if (changedIndex === 0) {
+      // Sincroniza o horário final do último intervalo com o horário inicial do primeiro
       updatedIntervals[totalIntervals - 1].end = changedInterval.start;
     }
 
@@ -118,6 +119,12 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
 
     let newIntervals = [...intervals];
     newIntervals[intervalIndex] = { ...newIntervals[intervalIndex], [field]: value };
+    
+    // Se for o primeiro intervalo e estiver mudando o horário inicial
+    if (intervalIndex === 0 && field === 'start') {
+      // Atualiza o horário final do último intervalo para manter o ciclo de 24h
+      newIntervals[newIntervals.length - 1].end = value;
+    }
     
     // Recalcular todos os intervalos após a mudança
     newIntervals = recalculateIntervals(newIntervals, intervalIndex);
