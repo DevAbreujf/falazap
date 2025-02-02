@@ -58,41 +58,54 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
     if (totalIntervals === 2) {
       if (changedIndex === 0) {
         // Se alterou o primeiro intervalo
-        if (changedInterval.start !== updatedIntervals[1].end) {
-          updatedIntervals[1].end = changedInterval.start;
-        }
-        // Garantir que o segundo intervalo comece onde o primeiro termina
         updatedIntervals[1].start = changedInterval.end;
+        updatedIntervals[1].end = changedInterval.start;
       } else {
         // Se alterou o segundo intervalo
-        if (changedInterval.end !== updatedIntervals[0].start) {
-          updatedIntervals[0].start = changedInterval.end;
-        }
-        // Garantir que o primeiro intervalo termine onde o segundo começa
+        updatedIntervals[0].start = changedInterval.end;
         updatedIntervals[0].end = changedInterval.start;
       }
       return updatedIntervals;
     }
 
-    // Lógica existente para mais de dois intervalos
+    // Lógica para mais de dois intervalos
     if (changedIndex === 0) {
       updatedIntervals[totalIntervals - 1].end = changedInterval.start;
     }
 
-    if (totalIntervals > 2) {
-      for (let i = changedIndex + 1; i < totalIntervals - 1; i++) {
-        updatedIntervals[i].start = updatedIntervals[i - 1].end;
-        const currentDuration = getDuration(updatedIntervals[i].start, updatedIntervals[i].end);
-        const startMinutes = timeToMinutes(updatedIntervals[i].start);
-        updatedIntervals[i].end = minutesToTime((startMinutes + currentDuration) % (24 * 60));
-      }
+    for (let i = changedIndex + 1; i < totalIntervals - 1; i++) {
+      updatedIntervals[i].start = updatedIntervals[i - 1].end;
+      const currentDuration = getDuration(updatedIntervals[i].start, updatedIntervals[i].end);
+      const startMinutes = timeToMinutes(updatedIntervals[i].start);
+      updatedIntervals[i].end = minutesToTime((startMinutes + currentDuration) % (24 * 60));
+    }
 
-      if (changedIndex < totalIntervals - 1) {
-        updatedIntervals[totalIntervals - 1].start = updatedIntervals[totalIntervals - 2].end;
-      }
+    if (changedIndex < totalIntervals - 1) {
+      updatedIntervals[totalIntervals - 1].start = updatedIntervals[totalIntervals - 2].end;
     }
 
     return updatedIntervals;
+  };
+
+  const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
+    const intervalIndex = intervals.findIndex(i => i.id === id);
+    if (intervalIndex === -1) return;
+
+    let newIntervals = [...intervals];
+    newIntervals[intervalIndex] = { ...newIntervals[intervalIndex], [field]: value };
+    
+    // Recalcular todos os intervalos após a mudança
+    newIntervals = recalculateIntervals(newIntervals, intervalIndex);
+
+    if (validateIntervalSequence(newIntervals)) {
+      setIntervals(newIntervals);
+    } else {
+      toast({
+        title: "Horário inválido",
+        description: "Os intervalos devem ser sequenciais e cobrir 24 horas",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleAddInterval = () => {
@@ -125,27 +138,6 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
       toast({
         title: "Erro ao adicionar intervalo",
         description: "Não foi possível dividir o intervalo selecionado",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const handleTimeChange = (id: string, field: 'start' | 'end', value: string) => {
-    const intervalIndex = intervals.findIndex(i => i.id === id);
-    if (intervalIndex === -1) return;
-
-    let newIntervals = [...intervals];
-    newIntervals[intervalIndex] = { ...newIntervals[intervalIndex], [field]: value };
-    
-    // Recalcular todos os intervalos após a mudança
-    newIntervals = recalculateIntervals(newIntervals, intervalIndex);
-
-    if (validateIntervalSequence(newIntervals)) {
-      setIntervals(newIntervals);
-    } else {
-      toast({
-        title: "Horário inválido",
-        description: "Os intervalos devem ser sequenciais e cobrir 24 horas",
         variant: "destructive"
       });
     }
