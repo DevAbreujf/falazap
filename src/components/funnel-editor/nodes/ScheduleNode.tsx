@@ -157,11 +157,25 @@ export const ScheduleNode = memo(({ data }: ScheduleNodeProps) => {
     const newIntervals = mergeIntervals(intervals.slice(0, -1), id);
     
     if (newIntervals !== intervals.slice(0, -1)) {
-      setIntervals([...newIntervals, lastInterval]);
+      const adjustedIntervals = [...newIntervals, lastInterval];
+      
+      if (validateIntervalSequence(adjustedIntervals)) {
+        setIntervals(adjustedIntervals);
+        toast({
+          title: "Intervalo removido",
+          description: "O intervalo foi removido e os horários foram ajustados",
+        });
+      } else {
+        toast({
+          title: "Erro ao remover intervalo",
+          description: "A remoção causaria uma sequência inválida de horários",
+          variant: "destructive"
+        });
+      }
     } else {
       toast({
         title: "Erro ao remover intervalo",
-        description: "A remoção causaria uma sequência inválida de horários",
+        description: "Não foi possível remover o intervalo selecionado",
         variant: "destructive"
       });
     }
