@@ -14,14 +14,14 @@ interface TriggerItemProps {
 
 export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemProps) {
   return (
-    <div className="space-y-2 pt-4 relative bg-[#272733] border border-[#434358] rounded-lg p-4">
+    <div className="space-y-2 pt-4 relative bg-white border border-gray-200 rounded-lg p-4 shadow-sm transition-all hover:border-primary/20">
       <div className="flex items-center justify-between mb-4">
-        <span className="text-[15px] text-zinc-100">Condição:</span>
+        <span className="text-[15px] text-gray-700 font-medium">Condição:</span>
         <Button 
           variant="ghost" 
           size="sm" 
           onClick={() => onDelete(trigger.id)}
-          className="text-zinc-400 hover:text-red-400 hover:bg-transparent"
+          className="text-gray-400 hover:text-red-400 hover:bg-red-50"
         >
           <X className="h-4 w-4" />
         </Button>
@@ -36,10 +36,10 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
           triggerTerm: undefined
         })}
       >
-        <SelectTrigger className="w-full bg-[#333] border-[#444] text-white">
+        <SelectTrigger className="w-full bg-white border-gray-200">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent className="bg-[#333] border-[#444]">
+        <SelectContent>
           <SelectItem value="contains">Contenha</SelectItem>
           <SelectItem value="exact">Exata</SelectItem>
           <SelectItem value="any">Qualquer mensagem</SelectItem>
@@ -49,14 +49,14 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
 
       {(trigger.triggerType === "contains" || trigger.triggerType === "exact") && (
         <div className="space-y-2 mt-4">
-          <span className="text-[15px] text-zinc-100 block">Termo:</span>
+          <span className="text-[15px] text-gray-600 block">Termo:</span>
           <Input
             placeholder="Ex.: 'Pinterest'"
             value={trigger.triggerTerm}
             onChange={(e) => onUpdate(trigger.id, { 
               triggerTerm: e.target.value 
             })}
-            className="bg-[#333] border-[#444] text-white placeholder:text-zinc-500"
+            className="bg-white border-gray-200 placeholder:text-gray-400"
           />
         </div>
       )}
@@ -69,10 +69,10 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
               platform: value as "kiwify" | "hotmart" 
             })}
           >
-            <SelectTrigger className="bg-[#333] border-[#444] text-white">
+            <SelectTrigger className="bg-white border-gray-200">
               <SelectValue placeholder="Selecione a plataforma" />
             </SelectTrigger>
-            <SelectContent className="bg-[#333] border-[#444]">
+            <SelectContent>
               <SelectItem value="kiwify">Kiwify</SelectItem>
               <SelectItem value="hotmart">Hotmart</SelectItem>
             </SelectContent>
@@ -85,10 +85,10 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
                 event: value as "abandoned" | "approved" 
               })}
             >
-              <SelectTrigger className="bg-[#333] border-[#444] text-white">
+              <SelectTrigger className="bg-white border-gray-200">
                 <SelectValue placeholder="Selecione o evento" />
               </SelectTrigger>
-              <SelectContent className="bg-[#333] border-[#444]">
+              <SelectContent>
                 <SelectItem value="abandoned">Carrinho abandonado</SelectItem>
                 <SelectItem value="approved">Venda aprovada</SelectItem>
               </SelectContent>
@@ -101,7 +101,7 @@ export function TriggerItem({ trigger, index, onUpdate, onDelete }: TriggerItemP
         type="source"
         position={Position.Right}
         id={`trigger-${trigger.id}`}
-        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-orange-500"
+        className="!bg-transparent !w-[18px] !h-[18px] !border-[3px] !border-primary"
         style={{ 
           right: '-1.2em',
           top: '50%',
