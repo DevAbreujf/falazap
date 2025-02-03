@@ -43,23 +43,24 @@ export const TimeIntervalInput = ({
 
   const handleTimeChange = (field: 'start' | 'end', value: string) => {
     const formattedValue = formatTimeValue(value);
+    
+    // Atualiza o estado local imediatamente
     if (field === 'start') {
       setStartValue(formattedValue);
-      if (formattedValue.length === 5) {
-        onTimeChange(interval.id, field, formattedValue);
-      }
     } else {
       setEndValue(formattedValue);
-      if (formattedValue.length === 5) {
-        onTimeChange(interval.id, field, formattedValue);
-      }
     }
+    
+    // Propaga a mudança para o componente pai imediatamente
+    // Removida a verificação de length para atualização em tempo real
+    onTimeChange(interval.id, field, formattedValue);
   };
 
+  // Sincroniza os estados locais quando os props mudam
   useEffect(() => {
     setStartValue(interval.start);
     setEndValue(interval.end);
-  }, [interval]);
+  }, [interval.start, interval.end]);
 
   const showDeleteButton = !isDefault && parseInt(interval.id) > 2;
 
