@@ -98,26 +98,23 @@ export const mergeIntervals = (
   if (removedIndex === -1) return intervals;
 
   const newIntervals = [...intervals];
-  
-  // Se não for o último intervalo
-  if (removedIndex < intervals.length - 1) {
-    // O próximo intervalo herda o início do intervalo removido
-    newIntervals[removedIndex + 1].start = intervals[removedIndex].start;
-    newIntervals.splice(removedIndex, 1);
-  } 
-  // Se for o último intervalo
-  else {
-    // O intervalo anterior herda o fim do intervalo removido
-    newIntervals[removedIndex - 1].end = intervals[removedIndex].end;
-    newIntervals.splice(removedIndex, 1);
+  newIntervals.splice(removedIndex, 1);
+
+  // Recalcular os horários para distribuir o tempo uniformemente
+  const totalIntervals = newIntervals.length;
+  const minutesPerDay = 24 * 60;
+  const minutesPerInterval = Math.floor(minutesPerDay / totalIntervals);
+
+  for (let i = 0; i < totalIntervals; i++) {
+    const startMinutes = (i * minutesPerInterval) % (24 * 60);
+    const endMinutes = ((i + 1) * minutesPerInterval) % (24 * 60);
+    
+    newIntervals[i] = {
+      ...newIntervals[i],
+      start: minutesToTime(startMinutes),
+      end: minutesToTime(endMinutes)
+    };
   }
 
-  // Recalcular os horários para manter o ciclo de 24 horas
-  for (let i = 0; i < newIntervals.length; i++) {
-    const currentInterval = newIntervals[i];
-    const nextInterval = newIntervals[(i + 1) % newIntervals.length];
-    nextInterval.start = currentInterval.end;
-  }
-
-  return validateIntervalSequence(newIntervals) ? newIntervals : intervals;
+  return newIntervals;
 };
