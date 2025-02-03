@@ -97,23 +97,35 @@ export const mergeIntervals = (
   const removedIndex = intervals.findIndex(i => i.id === removedId);
   if (removedIndex === -1) return intervals;
 
+  // Remove o intervalo
   const newIntervals = [...intervals];
   newIntervals.splice(removedIndex, 1);
 
-  // Recalcular os horários para distribuir o tempo uniformemente
-  const totalIntervals = newIntervals.length;
-  const minutesPerDay = 24 * 60;
-  const minutesPerInterval = Math.floor(minutesPerDay / totalIntervals);
-
-  for (let i = 0; i < totalIntervals; i++) {
-    const startMinutes = (i * minutesPerInterval) % (24 * 60);
-    const endMinutes = ((i + 1) * minutesPerInterval) % (24 * 60);
+  // Pega o horário inicial do primeiro intervalo como referência
+  const firstStart = timeToMinutes(newIntervals[0].start);
+  
+  // Calcula a duração total disponível (24 horas)
+  const totalMinutes = 24 * 60;
+  
+  // Distribui o tempo igualmente entre os intervalos restantes
+  const minutesPerInterval = Math.floor(totalMinutes / newIntervals.length);
+  
+  // Ajusta os horários mantendo o horário inicial do primeiro intervalo
+  for (let i = 0; i < newIntervals.length; i++) {
+    const startMinute = (firstStart + (i * minutesPerInterval)) % (24 * 60);
+    const endMinute = (firstStart + ((i + 1) * minutesPerInterval)) % (24 * 60);
     
     newIntervals[i] = {
       ...newIntervals[i],
-      start: minutesToTime(startMinutes),
-      end: minutesToTime(endMinutes)
+      start: minutesToTime(startMinute),
+      end: minutesToTime(endMinute)
     };
+  }
+
+  // Garante que o último intervalo se conecte com o primeiro
+  if (newIntervals.length > 0) {
+    const lastInterval = newIntervals[newIntervals.length - 1];
+    lastInterval.end = newIntervals[0].start;
   }
 
   return newIntervals;
