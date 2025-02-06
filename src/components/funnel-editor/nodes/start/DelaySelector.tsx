@@ -1,3 +1,4 @@
+
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Clock3 } from "lucide-react";
@@ -27,7 +28,7 @@ export function DelaySelector({ value, unit, onChange }: DelaySelectorProps) {
           type="number"
           value={value}
           onChange={(e) => onChange(Number(e.target.value), unit)}
-          className="bg-white border-gray-200 text-gray-900 focus:border-primary/30 focus:ring-primary/20"
+          className="bg-white border-gray-200 text-gray-900 focus:border-primary/30 focus:ring-primary/20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
         <Select
           value={unit}
