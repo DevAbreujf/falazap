@@ -1,3 +1,4 @@
+
 export interface TimeInterval {
   id: string;
   start: string;
@@ -10,11 +11,14 @@ export const DEFAULT_INTERVALS: TimeInterval[] = [
 ];
 
 export const timeToMinutes = (time: string): number => {
+  if (!time || time.length !== 5) return 0;
   const [hours, minutes] = time.split(':').map(Number);
+  if (isNaN(hours) || isNaN(minutes)) return 0;
   return hours * 60 + minutes;
 };
 
 export const minutesToTime = (minutes: number): string => {
+  if (isNaN(minutes)) return '00:00';
   const normalizedMinutes = ((minutes % (24 * 60)) + 24 * 60) % (24 * 60);
   const hours = Math.floor(normalizedMinutes / 60);
   const mins = normalizedMinutes % 60;
@@ -35,6 +39,18 @@ export const getDuration = (start: string, end: string): number => {
 export const validateIntervalSequence = (intervals: TimeInterval[]): boolean => {
   if (intervals.length < 2) return false;
 
+  // Verifica se todos os horários são válidos
+  const isValidTime = (time: string) => {
+    return /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/.test(time);
+  };
+
+  for (const interval of intervals) {
+    if (!isValidTime(interval.start) || !isValidTime(interval.end)) {
+      return false;
+    }
+  }
+
+  // Verifica a sequência dos intervalos
   for (let i = 0; i < intervals.length - 1; i++) {
     if (intervals[i].end !== intervals[i + 1].start) {
       return false;
@@ -56,11 +72,17 @@ export const splitInterval = (
   if (intervalIndex === -1) return intervals;
 
   const interval = intervals[intervalIndex];
+  
+  // Valida o formato do horário
+  if (!/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/.test(splitTime)) {
+    return intervals;
+  }
+
   const startMinutes = timeToMinutes(interval.start);
   const endMinutes = timeToMinutes(interval.end);
   const splitMinutes = timeToMinutes(splitTime);
 
-  let adjustedSplitMinutes = splitMinutes;
+  // Verifica se o horário de divisão é válido
   if (endMinutes <= startMinutes) {
     if (splitMinutes < startMinutes && splitMinutes > endMinutes) {
       return intervals;
@@ -75,10 +97,10 @@ export const splitInterval = (
   const maxId = Math.max(...existingIds, 2);
   const newId = (maxId + 1).toString();
 
-  const firstHalf = { ...interval, end: minutesToTime(adjustedSplitMinutes) };
+  const firstHalf = { ...interval, end: minutesToTime(splitMinutes) };
   const secondHalf = { 
     id: newId, 
-    start: minutesToTime(adjustedSplitMinutes), 
+    start: minutesToTime(splitMinutes), 
     end: interval.end 
   };
 
@@ -118,14 +140,8 @@ export const mergeIntervals = (
     newIntervals[i] = {
       ...newIntervals[i],
       start: minutesToTime(startMinute),
-      end: minutesToTime(endMinute)
+      end: i < newIntervals.length - 1 ? minutesToTime(endMinute) : newIntervals[0].start
     };
-  }
-
-  // Garante que o último intervalo se conecte com o primeiro
-  if (newIntervals.length > 0) {
-    const lastInterval = newIntervals[newIntervals.length - 1];
-    lastInterval.end = newIntervals[0].start;
   }
 
   return newIntervals;

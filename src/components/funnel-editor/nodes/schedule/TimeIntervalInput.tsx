@@ -1,3 +1,4 @@
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -24,42 +25,83 @@ export const TimeIntervalInput = ({
 }: TimeIntervalInputProps) => {
   const [startValue, setStartValue] = useState(interval.start);
   const [endValue, setEndValue] = useState(interval.end);
+  const [lastValidStart, setLastValidStart] = useState(interval.start);
+  const [lastValidEnd, setLastValidEnd] = useState(interval.end);
 
   const formatTimeValue = (value: string) => {
+    // Remove tudo que não for número
     const numbers = value.replace(/\D/g, '');
     
-    if (numbers.length <= 2) {
-      return numbers;
+    // Se estiver vazio, retorna o último valor válido
+    if (!numbers) {
+      return '';
     }
     
+    // Se tiver apenas 1 dígito, adiciona um 0 na frente
+    if (numbers.length === 1) {
+      return `0${numbers}:00`;
+    }
+    
+    // Se tiver 2 dígitos, considera como hora
+    if (numbers.length === 2) {
+      const hours = parseInt(numbers);
+      if (hours > 23) return '23:00';
+      return `${numbers}:00`;
+    }
+    
+    // Se tiver 3 dígitos, formata corretamente
+    if (numbers.length === 3) {
+      const hours = numbers.slice(0, 2);
+      const minutes = `0${numbers.slice(2)}`;
+      if (parseInt(hours) > 23) return '23:00';
+      if (parseInt(minutes) > 59) return `${hours}:59`;
+      return `${hours}:${minutes}`;
+    }
+    
+    // Para 4 dígitos ou mais
     const hours = numbers.slice(0, 2);
     const minutes = numbers.slice(2, 4);
     
-    if (parseInt(hours) > 23) return '23:' + minutes;
-    if (parseInt(minutes) > 59) return hours + ':59';
+    if (parseInt(hours) > 23) return '23:59';
+    if (parseInt(minutes) > 59) return `${hours}:59`;
     
     return `${hours}:${minutes}`;
   };
 
-  const handleTimeChange = (field: 'start' | 'end', value: string) => {
+  const validateAndUpdateTime = (field: 'start' | 'end', value: string) => {
     const formattedValue = formatTimeValue(value);
     
-    // Atualiza o estado local imediatamente
-    if (field === 'start') {
-      setStartValue(formattedValue);
-    } else {
-      setEndValue(formattedValue);
+    // Se o valor estiver vazio ou incompleto, apenas atualiza o estado local
+    if (formattedValue.length < 5) {
+      if (field === 'start') {
+        setStartValue(formattedValue);
+      } else {
+        setEndValue(formattedValue);
+      }
+      return;
     }
     
-    // Propaga a mudança para o componente pai imediatamente
-    // Removida a verificação de length para atualização em tempo real
-    onTimeChange(interval.id, field, formattedValue);
+    // Se o valor for válido, atualiza o último valor válido
+    if (field === 'start') {
+      setStartValue(formattedValue);
+      setLastValidStart(formattedValue);
+    } else {
+      setEndValue(formattedValue);
+      setLastValidEnd(formattedValue);
+    }
+    
+    // Propaga a mudança apenas se o valor for válido e completo
+    if (formattedValue.length === 5) {
+      onTimeChange(interval.id, field, formattedValue);
+    }
   };
 
   // Sincroniza os estados locais quando os props mudam
   useEffect(() => {
     setStartValue(interval.start);
     setEndValue(interval.end);
+    setLastValidStart(interval.start);
+    setLastValidEnd(interval.end);
   }, [interval.start, interval.end]);
 
   const showDeleteButton = !isDefault && parseInt(interval.id) > 2;
@@ -70,7 +112,8 @@ export const TimeIntervalInput = ({
         <Input
           type="text"
           value={startValue}
-          onChange={(e) => handleTimeChange('start', e.target.value)}
+          onChange={(e) => validateAndUpdateTime('start', e.target.value)}
+          onBlur={() => setStartValue(lastValidStart)}
           className={`w-24 text-center font-medium ${!isFirstInterval ? 'bg-gray-100 text-muted-foreground' : ''}`}
           placeholder="00:00"
           maxLength={5}
@@ -80,7 +123,8 @@ export const TimeIntervalInput = ({
         <Input
           type="text"
           value={endValue}
-          onChange={(e) => handleTimeChange('end', e.target.value)}
+          onChange={(e) => validateAndUpdateTime('end', e.target.value)}
+          onBlur={() => setEndValue(lastValidEnd)}
           className={`w-24 text-center font-medium ${isLastInterval ? 'text-muted-foreground' : ''}`}
           placeholder="00:00"
           maxLength={5}
