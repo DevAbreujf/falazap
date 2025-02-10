@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Info, ArrowLeft } from "lucide-react";
+import { Info, ArrowLeft, MessageSquare, StickyNote, Bot, Clock } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 interface ChatWindowProps {
   contact: ChatContact;
@@ -137,8 +142,35 @@ export function ChatWindow({
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <div className="p-5 border-b bg-gradient-to-r from-background to-background/50 backdrop-blur-sm flex items-center justify-between gap-4 shadow-sm">
-        <ChatHeaderInfo contact={contact} />
+      <div className="p-5 border-b bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm flex items-center justify-between gap-4 shadow-sm transition-all duration-300">
+        <div className="flex items-center gap-4">
+          <HoverCard>
+            <HoverCardTrigger asChild>
+              <div className="cursor-pointer">
+                <ChatHeaderInfo contact={contact} />
+              </div>
+            </HoverCardTrigger>
+            <HoverCardContent className="w-80">
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold">{contact.name}</h4>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Clock className="h-4 w-4" />
+                  <span>Último acesso: {new Date(contact.lastSeen || Date.now()).toLocaleString()}</span>
+                </div>
+                {contact.tags && contact.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {contact.tags.map((tag) => (
+                      <span key={tag} className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        </div>
+
         <div className="flex items-center gap-3">
           <ChatActions
             onChangeDepartment={onChangeDepartment}
@@ -158,7 +190,7 @@ export function ChatWindow({
                   variant="ghost"
                   size="icon"
                   onClick={onCloseChat}
-                  className="hover:bg-muted/80 transition-colors"
+                  className="hover:bg-primary/10 transition-colors"
                 >
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
@@ -178,7 +210,7 @@ export function ChatWindow({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="sticky top-2 z-10 flex justify-center">
-                    <span className="bg-muted px-3 py-1 rounded-full text-sm">
+                    <span className="bg-muted/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm shadow-sm">
                       {new Date(hoveredDate).toLocaleDateString('pt-BR')}
                     </span>
                   </div>
@@ -210,19 +242,65 @@ export function ChatWindow({
         </div>
       </ScrollArea>
 
-      <ChatInput
-        onSendMessage={handleSendMessage}
-        isSignatureEnabled={isSignatureEnabled}
-        setIsSignatureEnabled={setIsSignatureEnabled}
-        editedName={editedName}
-        setIsEditingSignature={setIsEditingSignature}
-        chatMode={chatMode}
-        setChatMode={setChatMode}
-        setIsEmojiPickerOpen={setIsEmojiPickerOpen}
-        handleFileUpload={handleFileUpload}
-        replyingTo={replyingTo}
-        onCancelReply={() => setReplyingTo(null)}
-      />
+      <div className="border-t border-primary/10 bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-sm">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-primary/10">
+          <div className="flex items-center gap-2">
+            <Switch
+              checked={isSignatureEnabled}
+              onCheckedChange={setIsSignatureEnabled}
+              className="data-[state=checked]:bg-primary"
+            />
+            <span className="text-sm">
+              {isSignatureEnabled ? (
+                <button 
+                  onClick={() => setIsEditingSignature(true)}
+                  className="flex items-center gap-1 hover:text-primary transition-colors"
+                >
+                  {editedName}
+                  <Edit className="h-4 w-4" />
+                </button>
+              ) : (
+                "Assinar"
+              )}
+            </span>
+          </div>
+
+          <div className="flex gap-1">
+            <Button
+              variant={chatMode === "message" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setChatMode("message")}
+              className="gap-2"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Mensagem
+            </Button>
+            <Button
+              variant={chatMode === "notes" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setChatMode("notes")}
+              className="gap-2 data-[state=active]:bg-[#fae389]/20 hover:bg-[#fae389]/10"
+            >
+              <StickyNote className="h-4 w-4" />
+              Notas
+            </Button>
+          </div>
+        </div>
+
+        <ChatInput
+          onSendMessage={handleSendMessage}
+          isSignatureEnabled={isSignatureEnabled}
+          setIsSignatureEnabled={setIsSignatureEnabled}
+          editedName={editedName}
+          setIsEditingSignature={setIsEditingSignature}
+          chatMode={chatMode}
+          setChatMode={setChatMode}
+          setIsEmojiPickerOpen={setIsEmojiPickerOpen}
+          handleFileUpload={handleFileUpload}
+          replyingTo={replyingTo}
+          onCancelReply={() => setReplyingTo(null)}
+        />
+      </div>
 
       <Dialog open={isEditingSignature} onOpenChange={setIsEditingSignature}>
         <DialogContent>

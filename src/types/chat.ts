@@ -1,4 +1,7 @@
+
 export type ChatStatus = 'waiting' | 'offline' | 'online' | 'new' | 'finished' | 'transferred';
+
+export type MessagePriority = 'low' | 'medium' | 'high';
 
 export interface ChatMessage {
   id: string;
@@ -7,6 +10,8 @@ export interface ChatMessage {
   timestamp: string;
   status: 'sent' | 'delivered' | 'read';
   type: 'text' | 'image' | 'file';
+  priority?: MessagePriority;
+  tags?: string[];
 }
 
 export interface ChatContact {
@@ -18,10 +23,23 @@ export interface ChatContact {
   funnelName?: string;
   avatar?: string;
   lastMessage?: ChatMessage;
+  lastSeen?: string;
+  responseTime?: number;
+  tags?: string[];
 }
 
 export interface Department {
   id: string;
   name: string;
   description?: string;
+  color?: string;
+}
+
+export interface QuickResponse {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  departmentId?: string;
+  tags?: string[];
 }
