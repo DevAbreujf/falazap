@@ -246,50 +246,6 @@ export function ChatWindow({
       </ScrollArea>
 
       <div className="border-t border-primary/10 bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-sm">
-        <div className="flex items-center justify-between p-3 border-b border-primary/10">
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={isSignatureEnabled}
-              onCheckedChange={setIsSignatureEnabled}
-              className="data-[state=checked]:bg-primary"
-            />
-            <span className="text-sm">
-              {isSignatureEnabled ? (
-                <button 
-                  onClick={() => setIsEditingSignature(true)}
-                  className="flex items-center gap-1 hover:text-primary transition-colors"
-                >
-                  {editedName}
-                  <Edit className="h-4 w-4" />
-                </button>
-              ) : (
-                "Assinar"
-              )}
-            </span>
-          </div>
-
-          <div className="flex gap-1">
-            <Button
-              variant={chatMode === "message" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setChatMode("message")}
-              className="gap-2"
-            >
-              <MessageSquare className="h-4 w-4" />
-              Mensagem
-            </Button>
-            <Button
-              variant={chatMode === "notes" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setChatMode("notes")}
-              className="gap-2 data-[state=active]:bg-[#fae389]/20 hover:bg-[#fae389]/10"
-            >
-              <StickyNote className="h-4 w-4" />
-              Notas
-            </Button>
-          </div>
-        </div>
-
         <ChatInput
           onSendMessage={handleSendMessage}
           isSignatureEnabled={isSignatureEnabled}
