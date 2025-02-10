@@ -1,3 +1,4 @@
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Info, ArrowLeft, MessageSquare, StickyNote, Bot, Clock } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
@@ -245,7 +246,7 @@ export function ChatWindow({
       </ScrollArea>
 
       <div className="border-t border-primary/10 bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-sm">
-        <div className="flex items-center justify-between px-4 py-2 border-b border-primary/10">
+        <div className="flex items-center justify-between p-3 border-b border-primary/10">
           <div className="flex items-center gap-2">
             <Switch
               checked={isSignatureEnabled}
@@ -367,3 +368,4 @@ export function ChatWindow({
     </div>
   );
 }
+
