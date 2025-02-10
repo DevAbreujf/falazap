@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -116,11 +117,11 @@
 }
 
 .lead-message {
-  /* Add any specific styles for lead messages */
+  @apply relative;
 }
 
 .attendant-message {
-  /* Add any specific styles for attendant messages */
+  @apply relative;
 }
 
 .chat-message-enter {
@@ -173,3 +174,4 @@
   mask-composite: exclude;
   pointer-events: none;
 }
+

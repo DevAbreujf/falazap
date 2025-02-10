@@ -3,6 +3,7 @@ import { Info, ArrowLeft, MessageSquare, StickyNote, Bot, Clock } from "lucide-r
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { ChatHeaderInfo } from "./ChatHeaderInfo";
 import { ChatActions } from "./ChatActions";
@@ -10,6 +11,7 @@ import { ChatDetailsSidebar } from "./ChatDetailsSidebar";
 import { EmojiPicker } from "@/components/tags/EmojiPicker";
 import { ChatMessage as ChatMessageComponent } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
+import { Edit } from "lucide-react";
 import {
   Dialog,
   DialogContent,

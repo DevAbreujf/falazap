@@ -43,3 +43,4 @@ export interface QuickResponse {
   departmentId?: string;
   tags?: string[];
 }
+
