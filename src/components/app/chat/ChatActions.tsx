@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -5,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle, X, SwitchHorizontal } from "lucide-react";
+import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle, X, ArrowLeftRight } from "lucide-react";
 import { useState } from "react";
 import {
   Sheet,
@@ -113,6 +114,14 @@ export function ChatActions({
     }
   };
 
+  const handleSaveEndMessage = () => {
+    setIsEditMessageOpen(false);
+    toast({
+      title: "Mensagem atualizada",
+      description: "A mensagem de finalização foi atualizada com sucesso.",
+    });
+  };
+
   return (
     <div className="flex items-center gap-2">
       <TooltipProvider>
@@ -141,7 +150,7 @@ export function ChatActions({
               onClick={() => setIsDepartmentOpen(true)}
               className="bg-gradient-to-r from-primary/10 to-transparent hover:from-primary/20 hover:to-primary/5 transition-all duration-300 border border-primary/20 text-primary hover:text-primary/80 shadow-sm group flex items-center gap-2"
             >
-              <SwitchHorizontal className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
+              <ArrowLeftRight className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
               Outro setor
             </Button>
           </TooltipTrigger>
