@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle, X, Pencil } from "lucide-react";
+import { ArrowRight, XOctagon, Search, User, CheckCircle, Circle, X, SwitchHorizontal } from "lucide-react";
 import { useState } from "react";
 import {
   Sheet,
@@ -113,42 +113,36 @@ export function ChatActions({
     }
   };
 
-  const handleSaveEndMessage = () => {
-    setIsEditMessageOpen(false);
-    toast({
-      title: "Mensagem atualizada",
-      description: "A mensagem de finalização foi atualizada com sucesso.",
-    });
-  };
-
   return (
     <div className="flex items-center gap-2">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={() => setIsTransferOpen(true)}
-              className="hover:bg-muted/80 transition-colors"
+              className="bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 transition-all duration-300 border border-primary/20 text-primary hover:text-primary/80 shadow-sm"
             >
+              <ArrowRight className="h-4 w-4 mr-2" />
               Transferir conversa
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Transferir conversa</p>
+            <p>Transferir conversa para outro atendente</p>
           </TooltipContent>
         </Tooltip>
 
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={() => setIsDepartmentOpen(true)}
-              className="hover:bg-muted/80 transition-colors"
+              className="bg-gradient-to-r from-primary/10 to-transparent hover:from-primary/20 hover:to-primary/5 transition-all duration-300 border border-primary/20 text-primary hover:text-primary/80 shadow-sm group flex items-center gap-2"
             >
-              Enviar para outro setor
+              <SwitchHorizontal className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
+              Outro setor
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -158,29 +152,24 @@ export function ChatActions({
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="flex">
-              <div className="relative">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="relative group hover:border-destructive/50 hover:bg-destructive/10"
-                  onClick={() => setIsEndSupportOpen(true)}
-                >
-                  <XOctagon className="h-4 w-4 text-destructive group-hover:text-destructive" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-background hover:bg-muted/80"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsEditMessageOpen(true);
-                  }}
-                >
-                  <Pencil className="h-3 w-3" />
-                </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="relative group hover:bg-destructive/10 hover:text-destructive transition-all duration-300 border border-destructive/20"
+              onClick={() => setIsEndSupportOpen(true)}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-destructive/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+              <XOctagon className="h-4 w-4 text-destructive group-hover:scale-110 transition-transform duration-300" />
+              <div 
+                className="absolute -top-1 -right-1 h-3 w-3 bg-background rounded-full cursor-pointer hover:bg-muted/80 flex items-center justify-center border border-destructive/20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEditMessageOpen(true);
+                }}
+              >
+                <div className="h-1 w-1 rounded-full bg-destructive/50" />
               </div>
-            </div>
+            </Button>
           </TooltipTrigger>
           <TooltipContent>
             <p>Finalizar atendimento</p>
@@ -383,7 +372,6 @@ export function ChatActions({
         onOpenChange={(open) => {
           setIsEndSupportOpen(open);
           if (!open) {
-            // Limpar qualquer estado pendente ao fechar
             setEndMessage("Atendimento finalizado");
           }
         }}
