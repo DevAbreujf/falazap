@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,11 +8,12 @@ import {
 } from "@/components/ui/dialog";
 import { Building2 } from "lucide-react";
 import { useState } from "react";
+import { Department } from "@/stores/departmentStore";
 
 interface DepartmentChangeDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  departments: { id: number; name: string }[];
+  departments: Department[];
   currentDepartment: string;
   onChangeDepartment: (newDepartment: string, action: 'change' | 'add') => void;
 }
@@ -57,9 +59,9 @@ export function DepartmentChangeDialog({
               <Button
                 key={dept.id}
                 variant="outline"
-                onClick={() => onChangeDepartment(dept.name, selectedAction)}
+                onClick={() => onChangeDepartment(dept.id, selectedAction)}
                 className="justify-start gap-2"
-                disabled={dept.name === currentDepartment && selectedAction === 'change'}
+                disabled={dept.id === currentDepartment && selectedAction === 'change'}
               >
                 <Building2 className="h-4 w-4" />
                 {dept.name}

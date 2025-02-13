@@ -9,6 +9,11 @@ interface PerformanceMetrics {
   CLS: number | null;
 }
 
+interface LayoutShiftEntry extends PerformanceEntry {
+  value: number;
+  hadRecentInput: boolean;
+}
+
 export function PerformanceMonitor() {
   const metrics: PerformanceMetrics = {
     FCP: null,
@@ -54,8 +59,9 @@ export function PerformanceMonitor() {
     const clsObserver = new PerformanceObserver((entryList) => {
       let clsValue = 0;
       for (const entry of entryList.getEntries()) {
-        if (!entry.hadRecentInput) {
-          clsValue += (entry as any).value;
+        const layoutShift = entry as LayoutShiftEntry;
+        if (!layoutShift.hadRecentInput) {
+          clsValue += layoutShift.value;
         }
       }
       metrics.CLS = clsValue;
