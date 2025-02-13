@@ -1,12 +1,12 @@
 
 import { createBrowserRouter } from 'react-router-dom';
-import { Index } from './pages/Index';
-import { Dashboard } from './pages/Dashboard';
-import { Chatboard } from './pages/Chatboard';
-import { Contacts } from './pages/Contacts';
-import { Departments } from './pages/Departments';
-import { Settings } from './pages/Settings';
-import { Auth } from './pages/Auth';
+import Index from './pages/Index';
+import Dashboard from './pages/Dashboard';
+import Chatboard from './pages/Chatboard';
+import Contacts from './pages/Contacts';
+import Departments from './pages/Departments';
+import Settings from './pages/Settings';
+import Auth from './pages/Auth';
 
 export const router = createBrowserRouter([
   {
