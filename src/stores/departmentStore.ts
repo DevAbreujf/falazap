@@ -1,59 +1,49 @@
 
 import { create } from 'zustand';
-import { BaseEntity } from '@/types/chat';
 
-export interface User extends BaseEntity {
+export interface User {
+  id: string;
   name: string;
   email: string;
-  department: string;
   role: string;
-  status: 'active' | 'inactive';
-  avatar?: string;
-  lastLogin?: string;
-  preferences?: {
-    theme?: string;
-    notifications?: boolean;
-    language?: string;
-  };
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  departmentId?: string;
 }
 
-export interface Department extends BaseEntity {
+export interface Department {
+  id: string;
   name: string;
-  users: User[];
   description?: string;
-  color?: string;
+  createdAt: string;
+  updatedAt: string;
   parentId?: string;
-  order?: number;
-  metadata?: {
-    totalChats?: number;
-    activeChats?: number;
-    avgResponseTime?: number;
-  };
+  users?: User[];
 }
 
 interface DepartmentStore {
   departments: Department[];
   setDepartments: (departments: Department[]) => void;
   addDepartment: (department: Department) => void;
+  updateDepartment: (department: Department) => void;
   removeDepartment: (id: string) => void;
-  updateDepartment: (id: string, data: Partial<Department>) => void;
+  getDepartment: (id: string) => Department | undefined;
 }
 
-export const useDepartmentStore = create<DepartmentStore>((set) => ({
+export const useDepartmentStore = create<DepartmentStore>((set, get) => ({
   departments: [],
   setDepartments: (departments) => set({ departments }),
-  addDepartment: (department) =>
-    set((state) => ({
-      departments: [...state.departments, department],
-    })),
-  removeDepartment: (id) =>
-    set((state) => ({
-      departments: state.departments.filter((dept) => dept.id !== id),
-    })),
-  updateDepartment: (id, data) =>
-    set((state) => ({
-      departments: state.departments.map((dept) =>
-        dept.id === id ? { ...dept, ...data } : dept
-      ),
-    })),
+  addDepartment: (department) => set((state) => ({
+    departments: [...state.departments, department]
+  })),
+  updateDepartment: (department) => set((state) => ({
+    departments: state.departments.map((d) =>
+      d.id === department.id ? department : d
+    )
+  })),
+  removeDepartment: (id) => set((state) => ({
+    departments: state.departments.filter((d) => d.id !== id)
+  })),
+  getDepartment: (id) => get().departments.find((d) => d.id === id)
 }));
