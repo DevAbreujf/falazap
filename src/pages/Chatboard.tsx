@@ -30,27 +30,32 @@ const mockDepartments = [
   },
 ];
 
+const currentTimestamp = new Date().toISOString();
+
 const falaZAPContact: ChatContact = {
   id: "falazap",
   name: "FalaZAP",
-  status: "new" as const,
+  status: "new",
   unreadCount: 1,
   isSupport: false,
+  funnelId: "onboarding",
   funnelName: "Onboarding",
+  departmentId: "1",
+  phone: "+5511999999999",
+  createdAt: currentTimestamp,
+  updatedAt: currentTimestamp,
   lastMessage: {
     id: "initial",
     content: "Olá, eu sou a inteligencia do FalaZAP",
     senderId: "falazap",
-    timestamp: new Date().toISOString(),
+    timestamp: currentTimestamp,
     status: "delivered",
-    type: "text"
+    type: "text",
+    chatId: "falazap",
+    departmentId: "1",
+    createdAt: currentTimestamp,
+    updatedAt: currentTimestamp,
   }
-};
-
-const mockContactsByDepartment: Record<string, ChatContact[]> = {
-  "1": [falaZAPContact],
-  "2": [falaZAPContact],
-  "3": [falaZAPContact],
 };
 
 const initialFalaZAPMessages: ChatMessage[] = [
@@ -58,35 +63,57 @@ const initialFalaZAPMessages: ChatMessage[] = [
     id: "msg1",
     content: "Olá, eu sou a inteligencia do FalaZAP",
     senderId: "falazap",
-    timestamp: new Date().toISOString(),
+    timestamp: currentTimestamp,
     status: "delivered",
-    type: "text"
+    type: "text",
+    chatId: "falazap",
+    departmentId: "1",
+    createdAt: currentTimestamp,
+    updatedAt: currentTimestamp,
   },
   {
     id: "msg2",
     content: "Vamos fingir que eu sou uma pessoa com interesse nos produtos ou serviços da sua organização, ok?",
     senderId: "falazap",
-    timestamp: new Date().toISOString(),
+    timestamp: currentTimestamp,
     status: "delivered",
-    type: "text"
+    type: "text",
+    chatId: "falazap",
+    departmentId: "1",
+    createdAt: currentTimestamp,
+    updatedAt: currentTimestamp,
   },
   {
     id: "msg3",
     content: "Você e quem você quiser cadastrar da sua organização pode me responder por esse chat maravilhoso que eu (uma pessoa interessada) recebo tudo no celular, direto no WhatsApp!",
     senderId: "falazap",
-    timestamp: new Date().toISOString(),
+    timestamp: currentTimestamp,
     status: "delivered",
-    type: "text"
+    type: "text",
+    chatId: "falazap",
+    departmentId: "1",
+    createdAt: currentTimestamp,
+    updatedAt: currentTimestamp,
   },
   {
     id: "msg4",
     content: "Me responde aqui se achou legal...\n\nSério, responde aí alguma coisa para continuarmos...",
     senderId: "falazap",
-    timestamp: new Date().toISOString(),
+    timestamp: currentTimestamp,
     status: "delivered",
-    type: "text"
+    type: "text",
+    chatId: "falazap",
+    departmentId: "1",
+    createdAt: currentTimestamp,
+    updatedAt: currentTimestamp,
   }
 ];
+
+const mockContactsByDepartment: Record<string, ChatContact[]> = {
+  "1": [falaZAPContact],
+  "2": [falaZAPContact],
+  "3": [falaZAPContact],
+};
 
 const initialMessagesByDepartment: Record<string, Record<string, ChatMessage[]>> = {
   "1": {
