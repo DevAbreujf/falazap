@@ -19,7 +19,6 @@ export function PerformanceMonitor() {
 
   const reportMetric = useCallback((name: string, value: number) => {
     logger.info(`Performance Metric: ${name}`, { value });
-    // Aqui podemos enviar as métricas para um serviço de analytics
   }, []);
 
   useEffect(() => {
@@ -44,8 +43,10 @@ export function PerformanceMonitor() {
     // First Input Delay
     const fidObserver = new PerformanceObserver((entryList) => {
       for (const entry of entryList.getEntries()) {
-        metrics.FID = entry.processingStart - entry.startTime;
-        reportMetric('FID', metrics.FID);
+        if (entry instanceof PerformanceEventTiming) {
+          metrics.FID = entry.processingStart - entry.startTime;
+          reportMetric('FID', metrics.FID);
+        }
       }
     });
 
@@ -53,7 +54,7 @@ export function PerformanceMonitor() {
     const clsObserver = new PerformanceObserver((entryList) => {
       let clsValue = 0;
       for (const entry of entryList.getEntries()) {
-        if (!(entry as any).hadRecentInput) {
+        if (!entry.hadRecentInput) {
           clsValue += (entry as any).value;
         }
       }
