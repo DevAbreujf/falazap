@@ -1,4 +1,3 @@
-
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -79,13 +78,17 @@ export default function Funnels() {
   const handleConfirmDelete = useCallback(() => {
     if (deleteId) {
       setFunnels(prevFunnels => prevFunnels.filter(funnel => funnel.id !== deleteId));
-      setDeleteId(null);
       toast({
         title: "Funil excluído",
         description: "O funil foi excluído com sucesso!",
       });
+      setDeleteId(null);
     }
   }, [deleteId, toast]);
+
+  const handleCancelDelete = useCallback(() => {
+    setDeleteId(null);
+  }, []);
 
   const handleToggleFunnel = useCallback((id: number) => {
     setFunnels(prevFunnels =>
@@ -180,7 +183,14 @@ export default function Funnels() {
         </div>
       </div>
 
-      <AlertDialog open={deleteId !== null} onOpenChange={(open) => !open && setDeleteId(null)}>
+      <AlertDialog 
+        open={deleteId !== null} 
+        onOpenChange={(open) => {
+          if (!open) {
+            handleCancelDelete();
+          }
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Excluir Funil</AlertDialogTitle>
@@ -189,7 +199,7 @@ export default function Funnels() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeleteId(null)}>
+            <AlertDialogCancel onClick={handleCancelDelete}>
               Cancelar
             </AlertDialogCancel>
             <AlertDialogAction 

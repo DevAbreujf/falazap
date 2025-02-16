@@ -8,24 +8,13 @@ const AlertDialog = AlertDialogPrimitive.Root
 
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
 
-const AlertDialogPortal = ({
-  className,
-  ...props
-}: AlertDialogPrimitive.AlertDialogPortalProps) => (
-  <AlertDialogPrimitive.Portal {...props}>
-    <div className={cn("fixed inset-0 z-40", className)}>
-      {props.children}
-    </div>
-  </AlertDialogPrimitive.Portal>
-)
-
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-40 bg-black/70 transition-opacity",
+      "fixed inset-0 z-50 bg-black/70",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
@@ -40,23 +29,23 @@ const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPortal>
-    <div className="fixed inset-0 z-40 flex items-center justify-center">
-      <AlertDialogOverlay />
-      <AlertDialogPrimitive.Content
-        ref={ref}
-        className={cn(
-          "relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg",
-          "animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-1/2",
-          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
-          "data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-bottom-1/2",
-          "duration-200 sm:rounded-lg",
-          className
-        )}
-        {...props}
-      />
-    </div>
-  </AlertDialogPortal>
+  <AlertDialogPrimitive.Portal>
+    <AlertDialogOverlay />
+    <AlertDialogPrimitive.Content
+      ref={ref}
+      className={cn(
+        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]",
+        "gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+        "data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:slide-in-from-left-1/2",
+        "data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%]",
+        className
+      )}
+      {...props}
+    />
+  </AlertDialogPrimitive.Portal>
 ))
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
