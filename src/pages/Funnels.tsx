@@ -17,6 +17,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogPortal,
 } from "@/components/ui/alert-dialog";
 
 const mockFunnels = [
@@ -39,6 +41,7 @@ const mockFunnels = [
 export default function Funnels() {
   const [funnels, setFunnels] = useState(mockFunnels);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -74,16 +77,21 @@ export default function Funnels() {
 
   const handleDeleteFunnel = (id: number) => {
     setDeleteId(id);
+    setDialogOpen(true);
   };
 
   const confirmDelete = () => {
     if (deleteId) {
       setFunnels(prevFunnels => prevFunnels.filter(funnel => funnel.id !== deleteId));
-      toast({
-        title: "Funil excluído",
-        description: "O funil foi excluído com sucesso!",
-      });
-      setDeleteId(null);
+      setDialogOpen(false);
+      // Pequeno delay antes de limpar o deleteId para garantir que o dialog feche corretamente
+      setTimeout(() => {
+        setDeleteId(null);
+        toast({
+          title: "Funil excluído",
+          description: "O funil foi excluído com sucesso!",
+        });
+      }, 100);
     }
   };
 
@@ -180,21 +188,31 @@ export default function Funnels() {
         </div>
       </div>
 
-      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Excluir Funil</AlertDialogTitle>
-            <AlertDialogDescription>
-              Tem certeza que deseja excluir este funil? Esta ação não pode ser desfeita.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Excluir
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <AlertDialogPortal>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Excluir Funil</AlertDialogTitle>
+              <AlertDialogDescription>
+                Tem certeza que deseja excluir este funil? Esta ação não pode ser desfeita.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => {
+                setDialogOpen(false);
+                setDeleteId(null);
+              }}>
+                Cancelar
+              </AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={confirmDelete}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                Excluir
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogPortal>
       </AlertDialog>
     </SidebarProvider>
   );
