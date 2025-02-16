@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -77,15 +78,24 @@ export default function Funnels() {
     setDialogOpen(true);
   };
 
-  const confirmDelete = () => {
+  const handleConfirmDelete = () => {
     if (deleteId) {
       setFunnels(prevFunnels => prevFunnels.filter(funnel => funnel.id !== deleteId));
-      setDialogOpen(false);
       toast({
         title: "Funil excluído",
         description: "O funil foi excluído com sucesso!",
       });
-      setDeleteId(null);
+    }
+    setDialogOpen(false);
+  };
+
+  const handleDialogOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+    if (!open) {
+      // Limpa o deleteId somente após o diálogo ser fechado
+      setTimeout(() => {
+        setDeleteId(null);
+      }, 200);
     }
   };
 
@@ -183,15 +193,10 @@ export default function Funnels() {
       </div>
 
       <AlertDialog 
-        open={dialogOpen} 
-        onOpenChange={(open) => {
-          setDialogOpen(open);
-          if (!open) {
-            setDeleteId(null);
-          }
-        }}
+        open={dialogOpen}
+        onOpenChange={handleDialogOpenChange}
       >
-        <AlertDialogContent>
+        <AlertDialogContent onEscapeKeyDown={() => handleDialogOpenChange(false)}>
           <AlertDialogHeader>
             <AlertDialogTitle>Excluir Funil</AlertDialogTitle>
             <AlertDialogDescription>
@@ -199,11 +204,13 @@ export default function Funnels() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>
+            <AlertDialogCancel 
+              onClick={() => handleDialogOpenChange(false)}
+            >
               Cancelar
             </AlertDialogCancel>
             <AlertDialogAction 
-              onClick={confirmDelete}
+              onClick={handleConfirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Excluir
