@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -25,7 +26,6 @@ const mockFunnels = [
 ];
 
 export default function Funnels() {
-  const [viewMode] = useState<"grid" | "list">("grid");
   const [funnels, setFunnels] = useState(mockFunnels);
   const navigate = useNavigate();
   
@@ -59,10 +59,10 @@ export default function Funnels() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full bg-slate-50">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
-          <main className="container mx-auto px-8 py-10">
+          <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
@@ -84,7 +84,7 @@ export default function Funnels() {
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 mb-8">
               <p className="text-muted-foreground text-lg">
                 Crie fluxos de conversas para serem disparados automaticamente quando um cliente entrar em contato com você.
               </p>
@@ -95,32 +95,30 @@ export default function Funnels() {
 
             <Separator className="my-8" />
 
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-8">
               <p className="text-lg font-medium text-primary">
                 Clique em '+ Novo Funil' para criar um novo fluxo
               </p>
               <Button
                 onClick={handleCreateFunnel}
                 size="lg"
-                className="hover-scale hover-glow"
+                className="hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-primary/20"
               >
                 + Novo Funil
               </Button>
             </div>
 
-            <div
-              className={
-                viewMode === "grid"
-                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                  : "flex flex-col gap-4"
-              }
-            >
-              <div className="glass-card border-primary/20 hover:border-primary/40 transition-all duration-300 flex flex-col items-center justify-center p-8 cursor-pointer min-h-[300px]"
-                   onClick={handleCreateFunnel}>
-                <div className="rounded-full bg-primary/10 p-4 mb-4">
+            <div className="space-y-4 max-w-4xl mx-auto">
+              <div 
+                onClick={handleCreateFunnel}
+                className="group border-2 border-dashed border-primary/20 hover:border-primary/40 rounded-lg p-8 flex flex-col items-center justify-center gap-4 cursor-pointer transition-all duration-300 hover:bg-primary/5"
+              >
+                <div className="rounded-full bg-primary/10 p-4 group-hover:bg-primary/20 transition-colors duration-300">
                   <Plus className="h-8 w-8 text-primary" />
                 </div>
-                <span className="text-xl font-semibold text-gradient-primary">Novo Funil</span>
+                <span className="text-xl font-semibold text-primary group-hover:scale-105 transition-transform duration-300">
+                  Criar Novo Funil
+                </span>
               </div>
 
               {funnels.map((funnel) => (
