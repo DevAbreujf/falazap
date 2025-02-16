@@ -1,3 +1,4 @@
+
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -90,13 +91,9 @@ export default function Funnels() {
   }, [deleteId, toast]);
 
   const handleDialogOpenChange = useCallback((open: boolean) => {
+    setDialogOpen(open);
     if (!open) {
-      setDialogOpen(false);
-      setTimeout(() => {
-        setDeleteId(null);
-      }, 300);
-    } else {
-      setDialogOpen(true);
+      setDeleteId(null);
     }
   }, []);
 
