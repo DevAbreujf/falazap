@@ -3,16 +3,8 @@ export type ChatStatus = 'waiting' | 'offline' | 'online' | 'new' | 'finished' |
 
 export type MessagePriority = 'low' | 'medium' | 'high';
 
-export interface BaseEntity {
+export interface ChatMessage {
   id: string;
-  createdAt: string;
-  updatedAt: string;
-  createdBy?: string;
-  updatedBy?: string;
-  isDeleted?: boolean;
-}
-
-export interface ChatMessage extends BaseEntity {
   content: string;
   senderId: string;
   timestamp: string;
@@ -20,57 +12,34 @@ export interface ChatMessage extends BaseEntity {
   type: 'text' | 'image' | 'file';
   priority?: MessagePriority;
   tags?: string[];
-  chatId: string;
-  departmentId: string;
 }
 
-export interface ChatContact extends BaseEntity {
+export interface ChatContact {
+  id: string;
   name: string;
   status: ChatStatus;
   unreadCount: number;
   isSupport: boolean;
-  funnelId: string;
   funnelName?: string;
   avatar?: string;
   lastMessage?: ChatMessage;
   lastSeen?: string;
   responseTime?: number;
   tags?: string[];
-  departmentId: string;
-  assignedTo?: string;
-  phone: string;
-  email?: string;
 }
 
-export interface Department extends BaseEntity {
+export interface Department {
+  id: string;
   name: string;
   description?: string;
   color?: string;
-  parentId?: string;
-  order?: number;
 }
 
-export interface QuickResponse extends BaseEntity {
+export interface QuickResponse {
+  id: string;
   title: string;
   content: string;
   category: string;
   departmentId?: string;
   tags?: string[];
-  usageCount?: number;
-}
-
-export interface APIResponse<T> {
-  data: T;
-  metadata: {
-    page?: number;
-    limit?: number;
-    total?: number;
-    hasMore?: boolean;
-  };
-}
-
-export interface APIError {
-  code: string;
-  message: string;
-  details?: unknown;
 }

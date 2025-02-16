@@ -1,146 +1,233 @@
-
-import { useState } from "react";
+import { Plus, Building2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Department, User } from "@/stores/departmentStore";
-import { DepartmentChangeDialog } from "./DepartmentChangeDialog";
-import { DepartmentUsers } from "./DepartmentUsers";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Users } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import { useDepartmentStore } from "@/stores/departmentStore";
+
+interface Department {
+  id: number;
+  name: string;
+  users: User[];
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  department: string;
+}
 
 interface DepartmentsListProps {
   departments: Department[];
-  users: User[];
-  onSaveDepartment: (department: Department) => void;
-  onUpdateDepartment: (department: Department) => void;
-  onDeleteDepartment: (id: string) => void;
-  onUpdateUser?: (user: User) => void;
-  parentDepartments?: Department[];
+  currentPage: number;
+  totalPages: number;
+  setCurrentPage: (page: number) => void;
+  currentDepartments: Department[];
+  setSelectedDepartment: (department: Department) => void;
+  isAddingDepartment: boolean;
+  setIsAddingDepartment: (isAdding: boolean) => void;
+  newDepartmentName: string;
+  setNewDepartmentName: (name: string) => void;
+  handleAddDepartment: () => void;
 }
 
 export function DepartmentsList({
-  departments,
-  users,
-  onSaveDepartment,
-  onUpdateDepartment,
-  onDeleteDepartment,
-  onUpdateUser,
-  parentDepartments
+  currentDepartments,
+  setSelectedDepartment,
+  currentPage,
+  totalPages,
+  setCurrentPage,
+  isAddingDepartment,
+  setIsAddingDepartment,
+  newDepartmentName,
+  setNewDepartmentName,
+  handleAddDepartment
 }: DepartmentsListProps) {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] = useState<Department | null>(null);
-  const [showUsers, setShowUsers] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [departmentToDelete, setDepartmentToDelete] = useState<Department | null>(null);
+  const { removeDepartment } = useDepartmentStore();
 
-  const handleOpenDialog = (department?: Department) => {
-    setSelectedDepartment(department || null);
-    setIsDialogOpen(true);
+  const handleDeleteDepartment = (department: Department) => {
+    setDepartmentToDelete(department);
   };
 
-  const handleCloseDialog = () => {
-    setSelectedDepartment(null);
-    setIsDialogOpen(false);
-  };
-
-  const handleSave = (department: Department) => {
-    if (selectedDepartment) {
-      onUpdateDepartment(department);
-    } else {
-      onSaveDepartment(department);
+  const confirmDelete = () => {
+    if (departmentToDelete) {
+      removeDepartment(departmentToDelete.id);
+      setDepartmentToDelete(null);
     }
-    handleCloseDialog();
   };
-
-  const handleDelete = (id: string) => {
-    onDeleteDepartment(id);
-  };
-
-  const toggleUsers = (departmentId: string) => {
-    setShowUsers(showUsers === departmentId ? null : departmentId);
-  };
-
-  const filteredDepartments = departments.filter(
-    (department) =>
-      department.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      department.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-4 items-center">
-        <Input
-          placeholder="Buscar departamento..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
-        />
-        <Button onClick={() => handleOpenDialog()}>Novo Departamento</Button>
+    <>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Setores</h1>
+        <Dialog open={isAddingDepartment} onOpenChange={setIsAddingDepartment}>
+          <DialogTrigger asChild>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Adicionar Setor
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Adicionar Novo Setor</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Nome do Setor</label>
+                <input
+                  type="text"
+                  value={newDepartmentName}
+                  onChange={(e) => setNewDepartmentName(e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                />
+              </div>
+              <Button onClick={handleAddDepartment}>Cadastrar Setor</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      <div className="rounded-md border">
+      <div className="bg-white rounded-lg shadow">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>Descrição</TableHead>
+              <TableHead>Nome do Setor</TableHead>
               <TableHead>Usuários</TableHead>
               <TableHead>Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredDepartments.map((department) => (
-              <>
-                <TableRow key={department.id}>
-                  <TableCell>{department.name}</TableCell>
-                  <TableCell>{department.description}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      onClick={() => toggleUsers(department.id)}
+            {currentDepartments.map((department) => (
+              <TableRow
+                key={department.id}
+                className="cursor-pointer hover:bg-gray-50"
+                onClick={() => setSelectedDepartment(department)}
+              >
+                <TableCell>{department.name}</TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    <Users className="h-4 w-4 mr-2" />
+                    {department.users.length} usuários
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedDepartment(department);
+                      }}
                     >
                       Ver Usuários
                     </Button>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleOpenDialog(department)}
-                      >
-                        Editar
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleDelete(department.id)}
-                      >
-                        Excluir
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-                {showUsers === department.id && (
-                  <TableRow>
-                    <TableCell colSpan={4}>
-                      <DepartmentUsers
-                        users={users.filter(u => u.departmentId === department.id)}
-                        onUpdateUser={onUpdateUser}
-                        departments={departments}
-                      />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-destructive hover:bg-destructive/10"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteDepartment(department);
+                      }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
+
+        {totalPages > 1 && (
+          <div className="py-4">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
+                  />
+                </PaginationItem>
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <PaginationItem key={index + 1}>
+                    <PaginationLink
+                      href="#"
+                      onClick={() => setCurrentPage(index + 1)}
+                      isActive={currentPage === index + 1}
+                    >
+                      {index + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </div>
 
-      <DepartmentChangeDialog
-        isOpen={isDialogOpen}
-        onClose={handleCloseDialog}
-        onSave={handleSave}
-        department={selectedDepartment}
-        parentDepartments={parentDepartments}
-      />
-    </div>
+      <AlertDialog open={!!departmentToDelete} onOpenChange={() => setDepartmentToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir o setor "{departmentToDelete?.name}"? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDepartmentToDelete(null)}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

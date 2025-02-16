@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -11,7 +10,7 @@ import { ContactsTable } from "@/components/app/contacts/ContactsTable";
 import { ContactsPagination } from "@/components/app/contacts/ContactsPagination";
 
 export default function Contacts() {
-  const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
+  const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFunnel, setSelectedFunnel] = useState<string>("all");
@@ -19,18 +18,18 @@ export default function Contacts() {
 
   const [contacts] = useState<Contact[]>([
     { 
-      id: "1", 
+      id: 1, 
       phone: "+55 11 99999-9999", 
       name: "João Silva", 
-      createdAt: "2024-03-20",
+      date: "2024-03-20",
       funnelName: "Funil de Vendas Principal",
       funnelStatus: "in_progress"
     },
     { 
-      id: "2", 
+      id: 2, 
       phone: "+55 11 98888-8888", 
       name: "Maria Santos", 
-      createdAt: "2024-03-19",
+      date: "2024-03-19",
       funnelName: "Funil de Captação de Leads",
       funnelStatus: "completed"
     },
@@ -48,7 +47,7 @@ export default function Contacts() {
     const csvContent = "data:text/csv;charset=utf-8," 
       + "Nome,Telefone,Data,Funil,Status\n"
       + selectedData.map(contact => 
-          `${contact.name},${contact.phone},${contact.createdAt},${contact.funnelName},${contact.funnelStatus === 'completed' ? 'Finalizado' : 'Em andamento'}`
+          `${contact.name},${contact.phone},${contact.date},${contact.funnelName},${contact.funnelStatus === 'completed' ? 'Finalizado' : 'Em andamento'}`
         ).join("\n");
     
     const encodedUri = encodeURI(csvContent);
@@ -60,7 +59,7 @@ export default function Contacts() {
     document.body.removeChild(link);
   };
 
-  const toggleContactSelection = (contactId: string) => {
+  const toggleContactSelection = (contactId: number) => {
     setSelectedContacts(prev =>
       prev.includes(contactId)
         ? prev.filter(id => id !== contactId)

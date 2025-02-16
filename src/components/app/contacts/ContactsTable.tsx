@@ -1,4 +1,3 @@
-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
@@ -7,8 +6,8 @@ import { SelectAllCheckbox } from "@/components/app/SelectAllCheckbox";
 
 interface ContactsTableProps {
   contacts: Contact[];
-  selectedContacts: string[];
-  onToggleContact: (contactId: string) => void;
+  selectedContacts: number[];
+  onToggleContact: (contactId: number) => void;
   onToggleAll: () => void;
   filteredContacts: Contact[];
 }
@@ -27,7 +26,7 @@ export function ContactsTable({
           <TableRow className="hover:bg-transparent border-b border-primary/20">
             <TableHead className="w-12">
               <SelectAllCheckbox
-                isChecked={selectedContacts.length === filteredContacts.length && filteredContacts.length > 0}
+                isChecked={selectedContacts.length === filteredContacts.length}
                 onToggle={onToggleAll}
                 totalItems={filteredContacts.length}
               />
@@ -50,7 +49,7 @@ export function ContactsTable({
               </TableCell>
               <TableCell className="font-medium">{contact.name}</TableCell>
               <TableCell>{contact.phone}</TableCell>
-              <TableCell>{new Date(contact.createdAt).toLocaleDateString('pt-BR')}</TableCell>
+              <TableCell>{new Date(contact.date).toLocaleDateString('pt-BR')}</TableCell>
               <TableCell>{contact.funnelName}</TableCell>
               <TableCell>
                 <Badge 

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -51,6 +50,7 @@ export default function FunnelEditor() {
 
   const handleExport = () => {
     try {
+      // Implementação do export
       console.log("Exporting funnel...");
     } catch (error) {
       console.error('Erro ao exportar:', error);
@@ -64,6 +64,7 @@ export default function FunnelEditor() {
 
   const handleImport = () => {
     try {
+      // Implementação do import
       console.log("Importing funnel...");
     } catch (error) {
       console.error('Erro ao importar:', error);
@@ -82,7 +83,7 @@ export default function FunnelEditor() {
 
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden bg-background">
-      <header className="w-full bg-[#212c42] border-b border-[#334155]">
+      <header className="w-full bg-[#212c42]">
         <div className="flex items-center justify-between px-6 py-4 max-w-[1920px] mx-auto">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" onClick={handleBack} className="text-white hover:bg-white/10">
@@ -125,7 +126,7 @@ export default function FunnelEditor() {
         </div>
       </header>
       
-      <div className="flex-1 relative bg-background">
+      <div className="flex-1 relative">
         <FunnelEditorCanvas />
         <div className="absolute left-0 top-0 z-50">
           <ElementsSidebar />
