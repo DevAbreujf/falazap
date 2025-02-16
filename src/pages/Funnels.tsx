@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -73,33 +72,35 @@ export default function Funnels() {
     }
   };
 
-  const handleDeleteFunnel = (id: number) => {
+  const handleDeleteFunnel = useCallback((id: number) => {
     setDeleteId(id);
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = useCallback(() => {
     if (deleteId) {
       setFunnels(prevFunnels => prevFunnels.filter(funnel => funnel.id !== deleteId));
       toast({
         title: "Funil excluído",
         description: "O funil foi excluído com sucesso!",
       });
+      setDialogOpen(false);
+      setDeleteId(null);
     }
-    setDialogOpen(false);
-  };
+  }, [deleteId, toast]);
 
-  const handleDialogOpenChange = (open: boolean) => {
-    setDialogOpen(open);
+  const handleDialogOpenChange = useCallback((open: boolean) => {
     if (!open) {
-      // Limpa o deleteId somente após o diálogo ser fechado
+      setDialogOpen(false);
       setTimeout(() => {
         setDeleteId(null);
-      }, 200);
+      }, 300);
+    } else {
+      setDialogOpen(true);
     }
-  };
+  }, []);
 
-  const handleToggleFunnel = (id: number) => {
+  const handleToggleFunnel = useCallback((id: number) => {
     setFunnels(prevFunnels =>
       prevFunnels.map(funnel =>
         funnel.id === id ? { ...funnel, isActive: !funnel.isActive } : funnel
@@ -109,7 +110,7 @@ export default function Funnels() {
       title: "Status atualizado",
       description: "O status do funil foi atualizado com sucesso!",
     });
-  };
+  }, [toast]);
 
   return (
     <SidebarProvider>
@@ -196,7 +197,7 @@ export default function Funnels() {
         open={dialogOpen}
         onOpenChange={handleDialogOpenChange}
       >
-        <AlertDialogContent onEscapeKeyDown={() => handleDialogOpenChange(false)}>
+        <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Excluir Funil</AlertDialogTitle>
             <AlertDialogDescription>
@@ -204,9 +205,7 @@ export default function Funnels() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel 
-              onClick={() => handleDialogOpenChange(false)}
-            >
+            <AlertDialogCancel>
               Cancelar
             </AlertDialogCancel>
             <AlertDialogAction 
