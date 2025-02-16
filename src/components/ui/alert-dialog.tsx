@@ -8,8 +8,16 @@ const AlertDialog = AlertDialogPrimitive.Root
 
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
 
-// Simplificando o Portal para ser um componente básico
-const AlertDialogPortal = AlertDialogPrimitive.Portal
+const AlertDialogPortal = ({
+  className,
+  ...props
+}: AlertDialogPrimitive.AlertDialogPortalProps) => (
+  <AlertDialogPrimitive.Portal {...props}>
+    <div className={cn("fixed inset-0 z-40", className)}>
+      {props.children}
+    </div>
+  </AlertDialogPrimitive.Portal>
+)
 
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
@@ -17,7 +25,9 @@ const AlertDialogOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-40 bg-black/70 transition-opacity",
+      "data-[state=open]:animate-in data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
     {...props}
@@ -29,24 +39,22 @@ AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+>(({ className, ...props }, ref) => (
   <AlertDialogPortal>
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-40 flex items-center justify-center">
       <AlertDialogOverlay />
       <AlertDialogPrimitive.Content
         ref={ref}
         className={cn(
-          "fixed z-51 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg duration-200",
-          "data-[state=open]:animate-in data-[state=closed]:animate-out",
-          "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
-          "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
-          "sm:rounded-lg",
+          "relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg",
+          "animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-1/2",
+          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
+          "data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-bottom-1/2",
+          "duration-200 sm:rounded-lg",
           className
         )}
         {...props}
-      >
-        {children}
-      </AlertDialogPrimitive.Content>
+      />
     </div>
   </AlertDialogPortal>
 ))
@@ -57,10 +65,7 @@ const AlertDialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      "flex flex-col space-y-2 text-center sm:text-left",
-      className
-    )}
+    className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
     {...props}
   />
 )
@@ -134,8 +139,6 @@ AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
 export {
   AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
   AlertDialogTrigger,
   AlertDialogContent,
   AlertDialogHeader,
