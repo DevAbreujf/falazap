@@ -36,14 +36,18 @@ export function FunnelCard({
   onToggle,
 }: FunnelCardProps) {
   return (
-    <Card className="w-full transition-all duration-300 hover:shadow-lg group animate-fade-up">
+    <Card className="w-full transition-all duration-300 hover:shadow-lg group animate-fade-up border-primary/10">
       <CardContent className="p-6">
         <div className="flex flex-col sm:flex-row justify-between gap-4">
           <div className="flex-1 space-y-4">
             <div className="flex items-start justify-between">
               <h3 className="text-2xl font-bold text-primary">{funnel.name}</h3>
               <div className="flex items-center gap-3 ml-4">
-                <span className="text-sm text-muted-foreground whitespace-nowrap">
+                <span className={`text-sm whitespace-nowrap px-2 py-1 rounded-full ${
+                  funnel.isActive 
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-gray-100 text-gray-700'
+                }`}>
                   {funnel.isActive ? 'Ativo' : 'Inativo'}
                 </span>
                 <Switch
@@ -81,7 +85,7 @@ export function FunnelCard({
               variant="outline"
               size="sm"
               onClick={() => onEdit(funnel.id)}
-              className="flex-1 sm:flex-none hover:bg-primary/10 border-primary/20 hover:border-primary/40"
+              className="flex-1 sm:flex-none hover:bg-primary/10 border-primary/20 hover:border-primary/40 text-primary"
             >
               <Pencil className="h-4 w-4 mr-2" />
               Editar
@@ -90,7 +94,7 @@ export function FunnelCard({
               variant="outline"
               size="sm"
               onClick={() => onMetrics(funnel.id)}
-              className="flex-1 sm:flex-none hover:bg-primary/10 border-primary/20 hover:border-primary/40"
+              className="flex-1 sm:flex-none hover:bg-primary/10 border-primary/20 hover:border-primary/40 text-primary"
             >
               <BarChart2 className="h-4 w-4 mr-2" />
               Métricas
@@ -106,13 +110,13 @@ export function FunnelCard({
               <Button 
                 variant="ghost" 
                 size="icon"
-                className="hover:bg-primary/10"
+                className="hover:bg-primary/10 text-primary"
               >
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onDuplicate(funnel.id)}>
+              <DropdownMenuItem onClick={() => onDuplicate(funnel.id)} className="text-primary">
                 <Copy className="h-4 w-4 mr-2" />
                 Duplicar
               </DropdownMenuItem>

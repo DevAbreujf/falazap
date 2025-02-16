@@ -7,6 +7,17 @@ import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Separator } from "@/components/ui/separator";
 import { FunnelCard } from "@/components/app/FunnelCard";
 import { Menu, Plus } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const mockFunnels = [
   {
@@ -27,7 +38,9 @@ const mockFunnels = [
 
 export default function Funnels() {
   const [funnels, setFunnels] = useState(mockFunnels);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   const handleCreateFunnel = () => {
     navigate("/funnels/editor");
@@ -42,11 +55,36 @@ export default function Funnels() {
   };
 
   const handleDuplicateFunnel = (id: number) => {
-    console.log("Duplicating funnel:", id);
+    const funnelToDuplicate = funnels.find(f => f.id === id);
+    if (funnelToDuplicate) {
+      const newFunnel = {
+        ...funnelToDuplicate,
+        id: Math.max(...funnels.map(f => f.id)) + 1,
+        name: `${funnelToDuplicate.name} (Cópia)`,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      setFunnels([...funnels, newFunnel]);
+      toast({
+        title: "Funil duplicado",
+        description: "O funil foi duplicado com sucesso!",
+      });
+    }
   };
 
   const handleDeleteFunnel = (id: number) => {
-    console.log("Deleting funnel:", id);
+    setDeleteId(id);
+  };
+
+  const confirmDelete = () => {
+    if (deleteId) {
+      setFunnels(prevFunnels => prevFunnels.filter(funnel => funnel.id !== deleteId));
+      toast({
+        title: "Funil excluído",
+        description: "O funil foi excluído com sucesso!",
+      });
+      setDeleteId(null);
+    }
   };
 
   const handleToggleFunnel = (id: number) => {
@@ -55,6 +93,10 @@ export default function Funnels() {
         funnel.id === id ? { ...funnel, isActive: !funnel.isActive } : funnel
       )
     );
+    toast({
+      title: "Status atualizado",
+      description: "O status do funil foi atualizado com sucesso!",
+    });
   };
 
   return (
@@ -102,9 +144,10 @@ export default function Funnels() {
               <Button
                 onClick={handleCreateFunnel}
                 size="lg"
-                className="hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-primary/20"
+                className="text-white hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-primary/20 bg-gradient-primary"
               >
-                + Novo Funil
+                <Plus className="h-5 w-5 mr-2" />
+                Novo Funil
               </Button>
             </div>
 
@@ -136,6 +179,24 @@ export default function Funnels() {
           </main>
         </div>
       </div>
+
+      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir Funil</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir este funil? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </SidebarProvider>
   );
 }
+
