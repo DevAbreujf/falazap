@@ -85,15 +85,25 @@ export default function Funnels() {
         title: "Funil excluído",
         description: "O funil foi excluído com sucesso!",
       });
+      // Primeiro fechamos o dialog
       setDialogOpen(false);
-      setDeleteId(null);
+      // Limpamos o ID somente depois que o dialog estiver fechado
+      requestAnimationFrame(() => {
+        setDeleteId(null);
+      });
     }
   }, [deleteId, toast]);
 
   const handleDialogOpenChange = useCallback((open: boolean) => {
-    setDialogOpen(open);
     if (!open) {
-      setDeleteId(null);
+      // Primeiro fechamos o dialog
+      setDialogOpen(false);
+      // Limpamos o ID somente depois que o dialog estiver fechado
+      requestAnimationFrame(() => {
+        setDeleteId(null);
+      });
+    } else {
+      setDialogOpen(true);
     }
   }, []);
 
