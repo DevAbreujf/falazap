@@ -4,13 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { PlusCircle, Edit2, PlayCircle, MoreVertical } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
-
 export default function Agentes() {
   const [agents] = useState<any[]>([]);
   const navigate = useNavigate();
-
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
@@ -26,30 +23,22 @@ export default function Agentes() {
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex items-center gap-2">
-                    <span>Você tem 19 atendentes disponíveis.</span>
-                    <button className="text-blue-600 hover:underline text-sm">
-                      Fazer upgrade do plano
-                    </button>
+                    
+                    
                   </div>
-                  <Button 
-                    onClick={() => navigate("/agentes/novo")}
-                    className="bg-blue-600 hover:bg-blue-700"
-                  >
+                  <Button onClick={() => navigate("/agentes/novo")} className="bg-blue-600 hover:bg-blue-700">
                     Novo agente de IA
                   </Button>
                 </div>
 
-                {agents.length === 0 ? (
-                  <div className="text-center py-20">
+                {agents.length === 0 ? <div className="text-center py-20">
                     <div className="w-32 h-32 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
                       <PlusCircle className="w-12 h-12 text-gray-400" />
                     </div>
                     <h3 className="text-lg font-medium text-gray-900">
                       Crie seu primeiro agente de IA!
                     </h3>
-                  </div>
-                ) : (
-            <div className="mt-6">
+                  </div> : <div className="mt-6">
               <table className="w-full">
                 <thead>
                   <tr className="text-left text-sm text-gray-500">
@@ -60,8 +49,7 @@ export default function Agentes() {
                   </tr>
                 </thead>
                 <tbody>
-                  {agents.map((agent) => (
-                    <tr key={agent.id} className="border-t">
+                  {agents.map(agent => <tr key={agent.id} className="border-t">
                       <td className="py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-green-100 rounded-full" />
@@ -92,17 +80,14 @@ export default function Agentes() {
                           </Button>
                         </div>
                       </td>
-                    </tr>
-                  ))}
+                    </tr>)}
                 </tbody>
               </table>
-            </div>
-                )}
+            </div>}
               </div>
             </div>
           </main>
         </div>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 }
