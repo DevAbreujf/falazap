@@ -35,7 +35,7 @@ export function DashboardSidebar() {
         </div>
       </div>
       
-      <SidebarHeader>
+      <SidebarHeader className="py-0">
         <div className="p-4">
           <SidebarUserProfile />
           <div className="mt-3 grid grid-cols-2 gap-2">
