@@ -51,7 +51,7 @@ export function SidebarNavigation() {
   }];
   return <SidebarMenu className="">
       {menuItems.map(item => <SidebarMenuItem key={item.label} className="">
-          <SidebarMenuButton onClick={item.onClick} className="px-0 py-[21px]">
+          <SidebarMenuButton onClick={item.onClick} className="group relative flex w-full items-center gap-3 rounded-lg p-2.5 transition-all duration-200">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
               <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
             </div>
