@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -16,89 +17,108 @@ import {
   Bot,
   Tag,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function SidebarNavigation() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = [
     {
       icon: Home,
       label: "Dashboard",
       description: "Visão geral",
-      onClick: () => navigate("/dashboard"),
+      path: "/dashboard",
     },
     {
       icon: Phone,
       label: "Conexão",
       description: "Configure seu WhatsApp",
-      onClick: () => navigate("/connection"),
+      path: "/connection",
     },
     {
       icon: MessageSquare,
       label: "Conversas",
       description: "Chat em tempo real",
-      onClick: () => navigate("/chatboard"),
+      path: "/chatboard",
     },
     {
       icon: Bot,
       label: "Agentes",
       description: "Gerencie seus agentes",
-      onClick: () => navigate("/agentes"),
+      path: "/agentes",
     },
     {
       icon: Filter,
       label: "Funis",
       description: "Gerencie seus funis",
-      onClick: () => navigate("/funnels"),
+      path: "/funnels",
     },
     {
       icon: Tag,
       label: "Etiquetas",
       description: "Gerencie suas etiquetas",
-      onClick: () => navigate("/etiquetas"),
+      path: "/etiquetas",
     },
     {
       icon: Send,
       label: "Disparos",
       description: "Gerencie seus disparos",
-      onClick: () => navigate("/broadcasts"),
+      path: "/broadcasts",
     },
     {
       icon: Bell,
       label: "Agendamentos",
       description: "Gerencie seus agendamentos",
-      onClick: () => navigate("/reminders"),
+      path: "/reminders",
     },
     {
       icon: Calendar,
       label: "Lista de Agendamentos",
       description: "Visualize seus agendamentos",
-      onClick: () => navigate("/schedules"),
+      path: "/schedules",
     },
   ];
 
   return (
-    <SidebarMenu className="space-y-1">
-      {menuItems.map((item) => (
-        <SidebarMenuItem key={item.label}>
-          <SidebarMenuButton
-            onClick={item.onClick}
-            className="group relative flex w-full items-center gap-3 rounded-lg p-2.5 hover:bg-slate-50 transition-all duration-200"
-          >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
-              <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-slate-900 leading-tight">
-                {item.label}
-              </span>
-              <span className="text-xs text-slate-500 leading-tight">
-                {item.description}
-              </span>
-            </div>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      ))}
-    </SidebarMenu>
+    <TooltipProvider delayDuration={0}>
+      <SidebarMenu className="space-y-1">
+        {menuItems.map((item) => (
+          <SidebarMenuItem key={item.label}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SidebarMenuButton
+                  onClick={() => navigate(item.path)}
+                  className={`group relative flex w-full items-center gap-3 rounded-lg p-2.5 hover:bg-slate-50 transition-all duration-200 ${
+                    location.pathname === item.path ? 'bg-primary/10 text-primary' : ''
+                  }`}
+                >
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
+                    <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-slate-900 leading-tight">
+                      {item.label}
+                    </span>
+                    <span className="text-xs text-slate-500 leading-tight">
+                      {item.description}
+                    </span>
+                  </div>
+                </SidebarMenuButton>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p>{item.label}</p>
+                <p className="text-xs text-muted-foreground">{item.description}</p>
+              </TooltipContent>
+            </Tooltip>
+          </SidebarMenuItem>
+        ))}
+      </SidebarMenu>
+    </TooltipProvider>
   );
 }

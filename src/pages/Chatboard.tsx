@@ -6,6 +6,10 @@ import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
 import { ChatContact, ChatMessage } from "@/types/chat";
 import { useToast } from "@/hooks/use-toast";
 import { useDepartmentStore } from "@/stores/departmentStore";
+import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarLogo } from "@/components/app/dashboard/SidebarLogo";
+import { SidebarNavigation } from "@/components/app/dashboard/SidebarNavigation";
+import { ThemeToggle } from "@/components/app/dashboard/ThemeToggle";
 
 const mockAttendants = [
   { id: "1", name: "John Doe", departmentId: "1" },
@@ -294,19 +298,13 @@ export default function Chatboard() {
 
   const handleEndSupport = async (contactId: string) => {
     try {
-      // Atualiza o status do contato para 'finished' mantendo-o na lista
       const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
         contact.id === contactId
           ? { ...contact, status: 'finished' as const }
           : contact
       );
       
-      // Atualiza a lista de contatos do departamento atual
       mockContactsByDepartment[currentDepartment.id] = updatedContacts;
-      
-      // Removido o código que fechava o chat
-      // setSelectedContactId(undefined);
-      // setShowIntro(true);
       
       toast({
         title: "Atendimento finalizado",
@@ -426,60 +424,85 @@ export default function Chatboard() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      <ChatSidebar
-        contacts={currentContacts}
-        selectedContactId={selectedContactId}
-        onSelectContact={(contact) => {
-          setSelectedContactId(contact.id);
-          setShowIntro(false);
-        }}
-        onDepartmentChange={handleDepartmentChange}
-        currentDepartment={{
-          id: currentDepartment.id,
-          name: currentDepartment.name
-        }}
-      />
-      
-      <div className="flex-1">
-        {showIntro ? (
-          <ChatIntro />
-        ) : selectedContactId && (
-          <ChatWindow
-            contact={currentContacts.find(c => c.id === selectedContactId)!}
-            messages={currentMessages}
-            onSendMessage={handleSendMessage}
-            onUpdateContactStatus={handleUpdateContactStatus}
-            onEndSupport={() => handleEndSupport(selectedContactId)}
-            onTransferChat={(attendantId) => handleTransferChat(selectedContactId, attendantId)}
-            onChangeDepartment={(departmentId) => handleChangeDepartment(selectedContactId, departmentId)}
-            currentDepartment={currentDepartment}
-            currentUser={mockCurrentUser}
-            onMessageAction={handleMessageAction}
-            departments={departments.map(d => ({
-              id: d.id.toString(),
-              name: d.name
-            }))}
-            onCloseChat={handleCloseChat}
-          />
-        )}
-      </div>
+    <SidebarProvider defaultOpen={false}>
+      <div className="flex min-h-screen w-full">
+        <Sidebar 
+          collapsible="icon" 
+          className="border-r border-primary/10"
+          variant="sidebar"
+        >
+          <SidebarHeader className="p-4">
+            <div className="flex items-center justify-between">
+              <SidebarTrigger />
+              <SidebarLogo />
+            </div>
+          </SidebarHeader>
+          
+          <SidebarContent>
+            <SidebarNavigation />
+          </SidebarContent>
+          
+          <div className="mt-auto">
+            <ThemeToggle />
+          </div>
+        </Sidebar>
 
-      <ChatDialogs
-        isDeleteDialogOpen={isDeleteDialogOpen}
-        isForwardDialogOpen={isForwardDialogOpen}
-        selectedMessage={selectedMessage}
-        onCloseDeleteDialog={() => {
-          setIsDeleteDialogOpen(false);
-          setSelectedMessage(null);
-        }}
-        onCloseForwardDialog={() => {
-          setIsForwardDialogOpen(false);
-          setSelectedMessage(null);
-        }}
-        onDelete={handleDelete}
-        onForward={handleForward}
-      />
-    </div>
+        <div className="flex flex-1">
+          <ChatSidebar
+            contacts={currentContacts}
+            selectedContactId={selectedContactId}
+            onSelectContact={(contact) => {
+              setSelectedContactId(contact.id);
+              setShowIntro(false);
+            }}
+            onDepartmentChange={handleDepartmentChange}
+            currentDepartment={{
+              id: currentDepartment.id,
+              name: currentDepartment.name
+            }}
+          />
+          
+          <div className="flex-1">
+            {showIntro ? (
+              <ChatIntro />
+            ) : selectedContactId && (
+              <ChatWindow
+                contact={currentContacts.find(c => c.id === selectedContactId)!}
+                messages={currentMessages}
+                onSendMessage={handleSendMessage}
+                onUpdateContactStatus={handleUpdateContactStatus}
+                onEndSupport={() => handleEndSupport(selectedContactId)}
+                onTransferChat={(attendantId) => handleTransferChat(selectedContactId, attendantId)}
+                onChangeDepartment={(departmentId) => handleChangeDepartment(selectedContactId, departmentId)}
+                currentDepartment={currentDepartment}
+                currentUser={mockCurrentUser}
+                onMessageAction={handleMessageAction}
+                departments={departments.map(d => ({
+                  id: d.id.toString(),
+                  name: d.name
+                }))}
+                onCloseChat={handleCloseChat}
+              />
+            )}
+          </div>
+
+          <ChatDialogs
+            isDeleteDialogOpen={isDeleteDialogOpen}
+            isForwardDialogOpen={isForwardDialogOpen}
+            selectedMessage={selectedMessage}
+            onCloseDeleteDialog={() => {
+              setIsDeleteDialogOpen(false);
+              setSelectedMessage(null);
+            }}
+            onCloseForwardDialog={() => {
+              setIsForwardDialogOpen(false);
+              setSelectedMessage(null);
+            }}
+            onDelete={handleDelete}
+            onForward={handleForward}
+          />
+        </div>
+      </div>
+    </SidebarProvider>
   );
 }
