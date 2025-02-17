@@ -4,15 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { SettingsFormValues } from "@/types/settings";
+
 interface SecuritySettingsProps {
   form: UseFormReturn<SettingsFormValues>;
   onSubmit: (data: SettingsFormValues) => Promise<void>;
 }
-export function SecuritySettings({
-  form,
-  onSubmit
-}: SecuritySettingsProps) {
-  return <Card>
+
+export function SecuritySettings({ form, onSubmit }: SecuritySettingsProps) {
+  return (
+    <Card>
       <CardHeader>
         <CardTitle>Segurança</CardTitle>
         <CardDescription>
@@ -22,27 +22,36 @@ export function SecuritySettings({
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField control={form.control} name="senhaAtual" render={({
-            field
-          }) => <FormItem>
+            <FormField
+              control={form.control}
+              name="senhaAtual"
+              render={({ field }) => (
+                <FormItem>
                   <FormLabel>Senha Atual</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
                   <FormMessage />
-                </FormItem>} />
-            <FormField control={form.control} name="novaSenha" render={({
-            field
-          }) => <FormItem>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="novaSenha"
+              render={({ field }) => (
+                <FormItem>
                   <FormLabel>Nova Senha</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
                   <FormMessage />
-                </FormItem>} />
-            <Button type="submit" className="text-slate-50 bg-slate-950 hover:bg-slate-800">Atualizar Senha</Button>
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Atualizar Senha</Button>
           </form>
         </Form>
       </CardContent>
-    </Card>;
+    </Card>
+  );
 }
