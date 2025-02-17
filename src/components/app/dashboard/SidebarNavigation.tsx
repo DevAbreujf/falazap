@@ -53,17 +53,17 @@ export function SidebarNavigation() {
   }];
 
   return (
-    <SidebarMenu className="">
+    <SidebarMenu className="space-y-4 py-2">
       {menuItems.map(item => (
         <SidebarMenuItem key={item.label} className="">
           <SidebarMenuButton 
             onClick={item.onClick} 
-            className="group relative flex w-full items-center gap-4 px-4 py-3 hover:bg-slate-50 transition-all duration-200 space-y-1"
+            className="group relative flex w-full items-center gap-4 px-5 py-3.5 hover:bg-slate-50 transition-all duration-200"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
               <item.icon className="h-5 w-5 text-slate-600 group-hover:text-primary transition-colors" />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-1">
               <span className="text-sm font-medium text-slate-900 leading-tight">
                 {item.label}
               </span>
