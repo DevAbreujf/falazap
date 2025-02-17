@@ -31,7 +31,7 @@ export interface ChatContact {
 export interface Department {
   id: string;
   name: string;
-  description: string; // Tornando description obrigatório já que é usado no Chatboard
+  description: string;
 }
 
 export interface QuickResponse {
