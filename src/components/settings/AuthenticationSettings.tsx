@@ -6,15 +6,15 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { UseFormReturn } from "react-hook-form";
 import { SettingsFormValues } from "@/types/settings";
-
 interface AuthenticationSettingsProps {
   form: UseFormReturn<SettingsFormValues>;
   onSubmit: (data: SettingsFormValues) => Promise<void>;
 }
-
-export function AuthenticationSettings({ form, onSubmit }: AuthenticationSettingsProps) {
-  return (
-    <Card>
+export function AuthenticationSettings({
+  form,
+  onSubmit
+}: AuthenticationSettingsProps) {
+  return <Card>
       <CardHeader>
         <CardTitle>Autenticação de Dois Fatores</CardTitle>
         <CardDescription>
@@ -31,47 +31,27 @@ export function AuthenticationSettings({ form, onSubmit }: AuthenticationSetting
                   Adicione uma camada extra de segurança à sua conta.
                 </span>
               </Label>
-              <FormField
-                control={form.control}
-                name="autenticadorDoisFatores"
-                render={({ field }) => (
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    id="autenticacao"
-                  />
-                )}
-              />
+              <FormField control={form.control} name="autenticadorDoisFatores" render={({
+              field
+            }) => <Switch checked={field.value} onCheckedChange={field.onChange} id="autenticacao" />} />
             </div>
             
-            <FormField
-              control={form.control}
-              name="telefone"
-              render={({ field }) => (
-                <FormItem>
+            <FormField control={form.control} name="telefone" render={({
+            field
+          }) => <FormItem>
                   <FormLabel>Número de Telefone para Autenticação</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="(00) 00000-0000"
-                      {...field}
-                      onChange={(e) => {
-                        const value = e.target.value.replace(/\D/g, '');
-                        const phoneFormatted = value
-                          .replace(/^(\d{2})(\d)/, '($1) $2')
-                          .replace(/(\d{5})(\d)/, '$1-$2')
-                          .substring(0, 15);
-                        field.onChange(phoneFormatted);
-                      }}
-                    />
+                    <Input placeholder="(00) 00000-0000" {...field} onChange={e => {
+                const value = e.target.value.replace(/\D/g, '');
+                const phoneFormatted = value.replace(/^(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2').substring(0, 15);
+                field.onChange(phoneFormatted);
+              }} />
                   </FormControl>
                   <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Salvar Configurações</Button>
+                </FormItem>} />
+            <Button type="submit" className="bg-slate-950 hover:bg-slate-800">Salvar Configurações</Button>
           </form>
         </Form>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 }
