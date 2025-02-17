@@ -1,3 +1,4 @@
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -81,8 +82,8 @@ export function ChatSidebar({
   };
 
   return (
-    <div className="w-96 border-r border-primary/10 bg-gradient-to-b from-card to-card/95 backdrop-blur-sm">
-      <div className="flex items-center justify-start gap-2 p-4 border-b border-primary/10 bg-card/50">
+    <div className="w-80 border-r border-primary/10 bg-gradient-to-b from-card/80 to-background/95 backdrop-blur-sm">
+      <div className="flex items-center justify-start gap-2 p-3 border-b border-primary/10">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -90,7 +91,7 @@ export function ChatSidebar({
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate('/dashboard')}
-                className="hover:bg-primary/10 transition-colors duration-200"
+                className="hover:bg-primary/5 transition-colors duration-200"
               >
                 <ArrowLeft className="h-5 w-5 text-primary" />
               </Button>
@@ -105,7 +106,7 @@ export function ChatSidebar({
               <Button
                 variant="ghost"
                 size="icon"
-                className={`transition-all duration-200 ${!showTeamChat ? 'bg-primary/10 text-primary' : 'hover:bg-primary/5'}`}
+                className={`transition-all duration-200 ${!showTeamChat ? 'bg-primary/5 text-primary' : 'hover:bg-primary/5'}`}
                 onClick={() => setShowTeamChat(false)}
               >
                 <MessageSquare className="h-5 w-5" />
@@ -121,7 +122,7 @@ export function ChatSidebar({
               <Button
                 variant="ghost"
                 size="icon"
-                className={`transition-all duration-200 ${showTeamChat ? 'bg-primary/10 text-primary' : 'hover:bg-primary/5'}`}
+                className={`transition-all duration-200 ${showTeamChat ? 'bg-primary/5 text-primary' : 'hover:bg-primary/5'}`}
                 onClick={() => setShowTeamChat(true)}
               >
                 <Users className="h-5 w-5" />
@@ -136,12 +137,12 @@ export function ChatSidebar({
 
       {!showTeamChat ? (
         <>
-          <div className="p-3 border-b border-primary/10 bg-card/30">
-            <div className="relative group">
+          <div className="p-2.5 border-b border-primary/10">
+            <div className="relative group mb-3">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
               <input
                 placeholder="Buscar leads..."
-                className="w-full pl-9 pr-3 py-2 bg-background/50 rounded-md text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-200"
+                className="w-full pl-9 pr-3 py-2 bg-background/80 rounded-md text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-200"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -150,7 +151,7 @@ export function ChatSidebar({
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute right-1 top-1 h-7 w-7 hover:bg-primary/10 transition-colors"
+                    className="absolute right-1 top-1 h-7 w-7 hover:bg-primary/5 transition-colors"
                   >
                     <Filter className="h-4 w-4" />
                   </Button>
@@ -158,20 +159,20 @@ export function ChatSidebar({
                 <PopoverContent className="w-56">
                   <div className="space-y-2">
                     <h4 className="font-medium">Filtrar por:</h4>
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button variant="outline" className="w-full justify-start hover:bg-primary/5">
                       Etiqueta
                     </Button>
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button variant="outline" className="w-full justify-start hover:bg-primary/5">
                       Atendente
                     </Button>
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button variant="outline" className="w-full justify-start hover:bg-primary/5">
                       Data
                     </Button>
                   </div>
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="flex flex-col gap-2 mt-3">
+            <div className="flex flex-col gap-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -199,12 +200,12 @@ export function ChatSidebar({
             </div>
           </div>
 
-          <div className="flex gap-1 p-2 bg-card/20">
+          <div className="flex gap-1 p-2 bg-card/5">
             <Button
               variant={currentFilter === 'incoming' ? 'default' : 'ghost'}
               size="sm"
               className={`flex-1 relative transition-all duration-200 ${
-                currentFilter === 'incoming' ? 'bg-primary text-primary-foreground' : 'hover:bg-primary/10'
+                currentFilter === 'incoming' ? 'bg-primary/90 text-primary-foreground' : 'hover:bg-primary/5'
               }`}
               onClick={() => setCurrentFilter('incoming')}
             >
@@ -219,7 +220,7 @@ export function ChatSidebar({
               variant={currentFilter === 'waiting' ? 'default' : 'ghost'}
               size="sm"
               className={`flex-1 relative transition-all duration-200 ${
-                currentFilter === 'waiting' ? 'bg-primary text-primary-foreground' : 'hover:bg-primary/10'
+                currentFilter === 'waiting' ? 'bg-primary/90 text-primary-foreground' : 'hover:bg-primary/5'
               }`}
               onClick={() => setCurrentFilter('waiting')}
             >
@@ -234,7 +235,7 @@ export function ChatSidebar({
               variant={currentFilter === 'finished' ? 'default' : 'ghost'}
               size="sm"
               className={`flex-1 relative transition-all duration-200 ${
-                currentFilter === 'finished' ? 'bg-primary text-primary-foreground' : 'hover:bg-primary/10'
+                currentFilter === 'finished' ? 'bg-primary/90 text-primary-foreground' : 'hover:bg-primary/5'
               }`}
               onClick={() => setCurrentFilter('finished')}
             >
@@ -248,7 +249,7 @@ export function ChatSidebar({
           </div>
 
           <ScrollArea className="h-[calc(100vh-12rem)]">
-            <div className="p-3 space-y-2">
+            <div className="p-2.5 space-y-2">
               {filteredContacts.map((contact) => (
                 <ContactItem
                   key={contact.id}
@@ -323,7 +324,7 @@ function ContactItem({ contact, isSelected, onClick }: {
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left p-3 rounded-lg transition-all duration-200 group ${
+      className={`w-full text-left p-2.5 rounded-lg transition-all duration-200 group ${
         isSelected 
           ? 'bg-primary/10 shadow-lg shadow-primary/5' 
           : 'hover:bg-primary/5 hover:shadow-md hover:shadow-primary/5'
@@ -331,14 +332,14 @@ function ContactItem({ contact, isSelected, onClick }: {
     >
       <div className="flex items-center gap-3">
         <div className="relative">
-          <Avatar className="h-10 w-10 border-2 border-primary/10 transition-all duration-200 group-hover:border-primary/20">
+          <Avatar className="h-10 w-10 border-2 border-primary/5 transition-all duration-200 group-hover:border-primary/10">
             <AvatarImage src={contact.avatar} />
             <AvatarFallback className="bg-primary/5 text-primary">
               {contact.name.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           {contact.status === 'new' && (
-            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white animate-pulse" />
+            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-background animate-pulse" />
           )}
         </div>
         <div className="flex-1 min-w-0">

@@ -87,14 +87,14 @@ export function SidebarNavigation() {
 
   return (
     <TooltipProvider delayDuration={0}>
-      <SidebarMenu className="space-y-3 px-2">
+      <SidebarMenu className="space-y-2.5 pt-0">
         {menuItems.map((item) => (
           <SidebarMenuItem key={item.label}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <SidebarMenuButton
                   onClick={() => navigate(item.path)}
-                  className={`group relative flex w-full items-center gap-4 rounded-lg px-3 py-2.5 transition-all duration-200 ${
+                  className={`group relative flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${
                     location.pathname === item.path 
                       ? 'bg-primary/10 text-primary hover:bg-primary/15' 
                       : 'hover:bg-primary/5'
