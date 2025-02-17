@@ -1,4 +1,3 @@
-
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,16 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { FunnelCard } from "@/components/app/FunnelCard";
 import { Menu, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogAction,
-  AlertDialogCancel,
-} from "@/components/ui/alert-dialog";
+import { DeleteFunnelDialog } from "@/components/app/funnels/DeleteFunnelDialog";
 
 const mockFunnels = [
   {
@@ -107,10 +97,6 @@ export default function Funnels() {
     });
   }, [toast]);
 
-  const handleCloseDeleteDialog = useCallback(() => {
-    setDeleteDialogState({ isOpen: false, funnelId: null });
-  }, []);
-
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-slate-50">
@@ -192,32 +178,15 @@ export default function Funnels() {
         </div>
       </div>
 
-      <AlertDialog 
-        open={deleteDialogState.isOpen} 
+      <DeleteFunnelDialog 
+        isOpen={deleteDialogState.isOpen}
         onOpenChange={(isOpen) => {
-          if (!isOpen) handleCloseDeleteDialog();
+          if (!isOpen) {
+            setDeleteDialogState({ isOpen: false, funnelId: null });
+          }
         }}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Excluir Funil</AlertDialogTitle>
-            <AlertDialogDescription>
-              Tem certeza que deseja excluir este funil? Esta ação não pode ser desfeita.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCloseDeleteDialog}>
-              Cancelar
-            </AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleConfirmDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              Excluir
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        onDelete={handleConfirmDelete}
+      />
     </SidebarProvider>
   );
 }
