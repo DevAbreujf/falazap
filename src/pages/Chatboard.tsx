@@ -429,7 +429,7 @@ export default function Chatboard() {
       <div className="flex min-h-screen w-full overflow-hidden">
         <Sidebar 
           collapsible="icon" 
-          className="border-r border-primary/10 bg-gradient-to-b from-card to-card/95 backdrop-blur-sm shrink-0"
+          className="border-r border-primary/10 bg-gradient-to-b from-card to-card/95 backdrop-blur-sm shrink-0 transition-all duration-200 group-data-[state=collapsed]:w-16 group-data-[state=expanded]:w-64"
           variant="sidebar"
         >
           <SidebarHeader className="p-4 border-b border-primary/10">
@@ -443,7 +443,7 @@ export default function Chatboard() {
             <SidebarNavigation />
           </SidebarContent>
           
-          <div className="mt-auto p-4 border-t border-primary/10">
+          <div className="mt-auto p-4 border-t border-primary/10 group-data-[state=collapsed]:hidden">
             <ThemeToggle />
           </div>
         </Sidebar>

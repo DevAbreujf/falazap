@@ -94,24 +94,24 @@ export function SidebarNavigation() {
               <TooltipTrigger asChild>
                 <SidebarMenuButton
                   onClick={() => navigate(item.path)}
-                  className={`group relative flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 ${
+                  className={`group relative flex w-full items-center gap-3 rounded-lg px-2.5 py-2 transition-all duration-200 ${
                     location.pathname === item.path 
                       ? 'bg-primary/10 text-primary hover:bg-primary/15' 
                       : 'hover:bg-primary/5'
                   }`}
                 >
-                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition-all duration-200 ${
+                  <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition-all duration-200 ${
                     location.pathname === item.path
                       ? 'bg-primary/10'
                       : 'bg-card shadow-sm group-hover:shadow group-hover:bg-background'
                   }`}>
-                    <item.icon className={`h-5 w-5 transition-colors ${
+                    <item.icon className={`h-4 w-4 transition-colors ${
                       location.pathname === item.path
                         ? 'text-primary'
                         : 'text-muted-foreground group-hover:text-foreground'
                     }`} />
                   </div>
-                  <div className="flex flex-col min-w-0 flex-1">
+                  <div className="flex flex-col min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
                     <span className="text-sm font-medium truncate">
                       {item.label}
                     </span>
