@@ -8,7 +8,13 @@ const AlertDialog = AlertDialogPrimitive.Root
 
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
 
-const AlertDialogPortal = AlertDialogPrimitive.Portal
+const AlertDialogPortal = React.forwardRef<
+  React.ElementRef<typeof AlertDialogPrimitive.Portal>,
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Portal>
+>(({ className, ...props }, ref) => (
+  <AlertDialogPrimitive.Portal {...props} ref={ref} />
+))
+AlertDialogPortal.displayName = AlertDialogPrimitive.Portal.displayName
 
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
@@ -16,7 +22,7 @@ const AlertDialogOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-40 bg-black/70 transition-opacity",
+      "fixed inset-0 z-40 bg-black/70",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
@@ -31,7 +37,7 @@ const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
-  <AlertDialogPortal>
+  <AlertDialog.Portal>
     <AlertDialogOverlay />
     <AlertDialogPrimitive.Content
       ref={ref}
@@ -41,16 +47,14 @@ const AlertDialogContent = React.forwardRef<
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-        "data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:slide-in-from-left-1/2",
-        "data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%]",
-        "sm:rounded-lg duration-200",
+        "sm:rounded-lg",
         className
       )}
       {...props}
     >
       {children}
     </AlertDialogPrimitive.Content>
-  </AlertDialogPortal>
+  </AlertDialog.Portal>
 ))
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
@@ -133,8 +137,6 @@ AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
 export {
   AlertDialog,
-  AlertDialogPortal,
-  AlertDialogOverlay,
   AlertDialogTrigger,
   AlertDialogContent,
   AlertDialogHeader,

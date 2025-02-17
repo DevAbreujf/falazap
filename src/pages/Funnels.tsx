@@ -1,4 +1,3 @@
-
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -39,7 +38,6 @@ const mockFunnels = [
 export default function Funnels() {
   const [funnels, setFunnels] = useState(mockFunnels);
   const [deleteId, setDeleteId] = useState<number | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -74,33 +72,19 @@ export default function Funnels() {
   };
 
   const handleDeleteFunnel = useCallback((id: number) => {
-    if (!isDeleting) {
-      setDeleteId(id);
-    }
-  }, [isDeleting]);
+    setDeleteId(id);
+  }, []);
 
   const handleConfirmDelete = useCallback(() => {
-    if (deleteId && !isDeleting) {
-      setIsDeleting(true);
+    if (deleteId) {
       setFunnels(prevFunnels => prevFunnels.filter(funnel => funnel.id !== deleteId));
       toast({
         title: "Funil excluído",
         description: "O funil foi excluído com sucesso!",
       });
-      
-      // Use setTimeout to ensure state updates are completed before cleanup
-      setTimeout(() => {
-        setDeleteId(null);
-        setIsDeleting(false);
-      }, 100);
-    }
-  }, [deleteId, isDeleting, toast]);
-
-  const handleCancelDelete = useCallback(() => {
-    if (!isDeleting) {
       setDeleteId(null);
     }
-  }, [isDeleting]);
+  }, [deleteId, toast]);
 
   const handleToggleFunnel = useCallback((id: number) => {
     setFunnels(prevFunnels =>
@@ -196,12 +180,8 @@ export default function Funnels() {
       </div>
 
       <AlertDialog 
-        open={deleteId !== null} 
-        onOpenChange={(open) => {
-          if (!open && !isDeleting) {
-            handleCancelDelete();
-          }
-        }}
+        open={deleteId !== null}
+        onOpenChange={(open) => !open && setDeleteId(null)}
       >
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -211,12 +191,11 @@ export default function Funnels() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCancelDelete} disabled={isDeleting}>
+            <AlertDialogCancel onClick={() => setDeleteId(null)}>
               Cancelar
             </AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleConfirmDelete}
-              disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Excluir
