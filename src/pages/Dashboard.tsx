@@ -1,6 +1,7 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
 import { Circle, Menu, ChevronDown, Phone, Bell } from "lucide-react";
@@ -35,18 +36,6 @@ export default function Dashboard() {
                     <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
                       Olá, João!
                     </h1>
-                    <div className="block lg:hidden">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        asChild 
-                        className="hover:bg-slate-100"
-                      >
-                        <SidebarTrigger>
-                          <Menu className="h-6 w-6 text-slate-600" />
-                        </SidebarTrigger>
-                      </Button>
-                    </div>
                   </div>
                   <div className="h-px w-full bg-slate-200 mt-4" />
                   <p className="text-slate-600 text-base md:text-lg mt-4">
