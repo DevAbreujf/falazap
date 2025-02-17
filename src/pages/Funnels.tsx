@@ -38,8 +38,13 @@ const mockFunnels = [
 
 export default function Funnels() {
   const [funnels, setFunnels] = useState(mockFunnels);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [deleteDialogState, setDeleteDialogState] = useState<{
+    isOpen: boolean;
+    funnelId: number | null;
+  }>({
+    isOpen: false,
+    funnelId: null,
+  });
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -74,21 +79,21 @@ export default function Funnels() {
   };
 
   const handleDeleteFunnel = useCallback((id: number) => {
-    setDeleteId(id);
-    setIsDeleteDialogOpen(true);
+    setDeleteDialogState({ isOpen: true, funnelId: id });
   }, []);
 
   const handleConfirmDelete = useCallback(() => {
-    if (deleteId) {
-      setFunnels(prevFunnels => prevFunnels.filter(funnel => funnel.id !== deleteId));
+    if (deleteDialogState.funnelId) {
+      setFunnels(prevFunnels => 
+        prevFunnels.filter(funnel => funnel.id !== deleteDialogState.funnelId)
+      );
       toast({
         title: "Funil excluído",
         description: "O funil foi excluído com sucesso!",
       });
-      setIsDeleteDialogOpen(false);
-      setDeleteId(null);
+      setDeleteDialogState({ isOpen: false, funnelId: null });
     }
-  }, [deleteId, toast]);
+  }, [deleteDialogState.funnelId, toast]);
 
   const handleToggleFunnel = useCallback((id: number) => {
     setFunnels(prevFunnels =>
@@ -102,10 +107,9 @@ export default function Funnels() {
     });
   }, [toast]);
 
-  const handleCloseDeleteDialog = () => {
-    setIsDeleteDialogOpen(false);
-    setDeleteId(null);
-  };
+  const handleCloseDeleteDialog = useCallback(() => {
+    setDeleteDialogState({ isOpen: false, funnelId: null });
+  }, []);
 
   return (
     <SidebarProvider>
@@ -189,8 +193,10 @@ export default function Funnels() {
       </div>
 
       <AlertDialog 
-        open={isDeleteDialogOpen}
-        onOpenChange={handleCloseDeleteDialog}
+        open={deleteDialogState.isOpen} 
+        onOpenChange={(isOpen) => {
+          if (!isOpen) handleCloseDeleteDialog();
+        }}
       >
         <AlertDialogContent>
           <AlertDialogHeader>
