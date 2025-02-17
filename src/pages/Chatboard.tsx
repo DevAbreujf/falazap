@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
@@ -425,44 +426,46 @@ export default function Chatboard() {
 
   return (
     <SidebarProvider defaultOpen={false}>
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full overflow-hidden">
         <Sidebar 
           collapsible="icon" 
-          className="border-r border-primary/10"
+          className="border-r border-primary/10 bg-gradient-to-b from-card to-card/95 backdrop-blur-sm shrink-0"
           variant="sidebar"
         >
-          <SidebarHeader className="p-4">
+          <SidebarHeader className="p-4 border-b border-primary/10">
             <div className="flex items-center justify-between">
-              <SidebarTrigger />
+              <SidebarTrigger className="h-8 w-8 shrink-0" />
               <SidebarLogo />
             </div>
           </SidebarHeader>
           
-          <SidebarContent>
+          <SidebarContent className="px-2">
             <SidebarNavigation />
           </SidebarContent>
           
-          <div className="mt-auto">
+          <div className="mt-auto p-4 border-t border-primary/10">
             <ThemeToggle />
           </div>
         </Sidebar>
 
-        <div className="flex flex-1">
-          <ChatSidebar
-            contacts={currentContacts}
-            selectedContactId={selectedContactId}
-            onSelectContact={(contact) => {
-              setSelectedContactId(contact.id);
-              setShowIntro(false);
-            }}
-            onDepartmentChange={handleDepartmentChange}
-            currentDepartment={{
-              id: currentDepartment.id,
-              name: currentDepartment.name
-            }}
-          />
+        <div className="flex flex-1 min-w-0 h-screen overflow-hidden">
+          <div className="border-r border-primary/10 bg-gradient-to-b from-card to-card/95 backdrop-blur-sm w-96 shrink-0 overflow-hidden">
+            <ChatSidebar
+              contacts={currentContacts}
+              selectedContactId={selectedContactId}
+              onSelectContact={(contact) => {
+                setSelectedContactId(contact.id);
+                setShowIntro(false);
+              }}
+              onDepartmentChange={handleDepartmentChange}
+              currentDepartment={{
+                id: currentDepartment.id,
+                name: currentDepartment.name
+              }}
+            />
+          </div>
           
-          <div className="flex-1">
+          <div className="flex-1 min-w-0 h-screen overflow-hidden bg-background">
             {showIntro ? (
               <ChatIntro />
             ) : selectedContactId && (
