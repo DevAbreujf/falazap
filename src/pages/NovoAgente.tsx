@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -66,7 +67,7 @@ export default function NovoAgente() {
             </div>
             <Button 
               className="w-full"
-              onClick={() => navigate("/agentes/novo/configurar")}
+              onClick={() => navigate("/configurar-agente")}
             >
               Criar agente
             </Button>
@@ -108,7 +109,7 @@ export default function NovoAgente() {
             </div>
             <Button 
               className="w-full"
-              onClick={() => navigate("/agentes/novo/configurar")}
+              onClick={() => navigate("/configurar-agente")}
             >
               Criar agente
             </Button>
