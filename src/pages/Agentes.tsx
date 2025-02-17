@@ -1,12 +1,15 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { PlusCircle, Edit2, PlayCircle, MoreVertical } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
+
 export default function Agentes() {
   const [agents] = useState<any[]>([]);
   const navigate = useNavigate();
+  
   return <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
         <DashboardSidebar />
@@ -26,7 +29,7 @@ export default function Agentes() {
                     
                     
                   </div>
-                  <Button onClick={() => navigate("/agentes/novo")} className="bg-blue-600 hover:bg-blue-700">
+                  <Button onClick={() => navigate("/novo-agente")} className="bg-blue-600 hover:bg-blue-700">
                     Novo agente de IA
                   </Button>
                 </div>
