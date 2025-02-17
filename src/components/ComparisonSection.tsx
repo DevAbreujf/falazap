@@ -1,8 +1,6 @@
 import { Check } from "lucide-react";
-
 export function ComparisonSection() {
-  return (
-    <section className="py-24 container mx-auto px-4">
+  return <section className="py-24 container mx-auto px-4">
       <div className="text-center mb-16">
         <h2 className="text-4xl font-bold bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] bg-clip-text text-transparent">
           Compare as Soluções
@@ -16,7 +14,7 @@ export function ComparisonSection() {
         {/* Agentes IA Column */}
         <div className="group relative">
           <div className="absolute inset-0 bg-gradient-to-b from-[#9b87f5]/20 via-[#7E69AB]/10 to-transparent rounded-2xl blur-xl transition-all duration-500 group-hover:scale-110 opacity-0 group-hover:opacity-100"></div>
-          <div className="space-y-8 glass-card p-8 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-[#9b87f5]/20 relative overflow-hidden">
+          <div className="space-y-8 glass-card p-8 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-[#9b87f5]/20 relative overflow-hidden bg-gray-800 hover:bg-gray-700">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#9b87f5]/50 to-transparent"></div>
             <div className="text-center">
               <div className="flex justify-center mb-6">
@@ -59,7 +57,7 @@ export function ComparisonSection() {
         {/* Chatbots Column */}
         <div className="group relative">
           <div className="absolute inset-0 bg-gradient-to-b from-[#33C3F0]/20 via-[#1EAEDB]/10 to-transparent rounded-2xl blur-xl transition-all duration-500 group-hover:scale-110 opacity-0 group-hover:opacity-100"></div>
-          <div className="space-y-8 glass-card p-8 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-[#33C3F0]/20 relative overflow-hidden">
+          <div className="space-y-8 glass-card p-8 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-[#33C3F0]/20 relative overflow-hidden bg-gray-800 hover:bg-gray-700">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#33C3F0]/50 to-transparent"></div>
             <div className="text-center">
               <div className="flex justify-center mb-6">
@@ -99,6 +97,5 @@ export function ComparisonSection() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 }

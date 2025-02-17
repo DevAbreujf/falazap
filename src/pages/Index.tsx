@@ -13,26 +13,21 @@ import { PageBreadcrumb } from "@/components/app/navigation/PageBreadcrumb";
 import { MessageSquare, Target, Users2, Brain, ScrollText, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-
 const Index = () => {
   const [role, setRole] = useState("vendedor");
-
   useEffect(() => {
     const interval = setInterval(() => {
       setRole(prev => prev === "vendedor" ? "atendente" : "vendedor");
     }, 3000);
-
     return () => clearInterval(interval);
   }, []);
-
-  return (
-    <div className="min-h-screen w-full">
+  return <div className="min-h-screen w-full">
       <Header />
       <main className="w-full">
         <div className="container mx-auto px-4">
           <PageBreadcrumb />
         </div>
-        <section className="container mx-auto px-4 pt-32 pb-16 min-h-[700px]">
+        <section className="container mx-auto px-4 pt-32 pb-16 min-h-[700px] bg-[#135454]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
             <div className="flex flex-col gap-6">
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
@@ -59,11 +54,7 @@ const Index = () => {
               </div>
             </div>
             <div className="relative w-full aspect-square p-8">
-              <img 
-                src="/placeholder.svg" 
-                alt="AI Assistant Illustration"
-                className="w-4/5 h-4/5 object-contain animate-float mx-auto"
-              />
+              <img src="/placeholder.svg" alt="AI Assistant Illustration" className="w-4/5 h-4/5 object-contain animate-float mx-auto" />
             </div>
           </div>
         </section>
@@ -79,8 +70,6 @@ const Index = () => {
       </main>
       <Footer />
       <CookieBanner />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
