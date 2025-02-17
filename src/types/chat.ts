@@ -1,3 +1,4 @@
+
 export type ChatStatus = 'waiting' | 'offline' | 'online' | 'new' | 'finished' | 'transferred';
 
 export type MessagePriority = 'low' | 'medium' | 'high';
@@ -30,7 +31,7 @@ export interface ChatContact {
 export interface Department {
   id: string;
   name: string;
-  description?: string;
+  description: string; // Tornando description obrigatório já que é usado no Chatboard
 }
 
 export interface QuickResponse {

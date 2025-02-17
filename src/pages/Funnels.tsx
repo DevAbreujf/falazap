@@ -38,6 +38,7 @@ const mockFunnels = [
 
 export default function Funnels() {
   const [funnels, setFunnels] = useState(mockFunnels);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -74,6 +75,7 @@ export default function Funnels() {
 
   const handleDeleteFunnel = useCallback((id: number) => {
     setDeleteId(id);
+    setIsDeleteDialogOpen(true);
   }, []);
 
   const handleConfirmDelete = useCallback(() => {
@@ -83,6 +85,7 @@ export default function Funnels() {
         title: "Funil excluído",
         description: "O funil foi excluído com sucesso!",
       });
+      setIsDeleteDialogOpen(false);
       setDeleteId(null);
     }
   }, [deleteId, toast]);
@@ -98,6 +101,11 @@ export default function Funnels() {
       description: "O status do funil foi atualizado com sucesso!",
     });
   }, [toast]);
+
+  const handleCloseDeleteDialog = () => {
+    setIsDeleteDialogOpen(false);
+    setDeleteId(null);
+  };
 
   return (
     <SidebarProvider>
@@ -181,8 +189,8 @@ export default function Funnels() {
       </div>
 
       <AlertDialog 
-        open={deleteId !== null}
-        onOpenChange={(open) => !open && setDeleteId(null)}
+        open={isDeleteDialogOpen}
+        onOpenChange={handleCloseDeleteDialog}
       >
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -192,7 +200,7 @@ export default function Funnels() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeleteId(null)}>
+            <AlertDialogCancel onClick={handleCloseDeleteDialog}>
               Cancelar
             </AlertDialogCancel>
             <AlertDialogAction 
