@@ -1,9 +1,11 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { PlusCircle, Edit2, PlayCircle, MoreVertical } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
+import { PricingDialog } from "@/components/app/PricingDialog";
 
 export default function Agentes() {
   const [agents] = useState<any[]>([]);
@@ -27,7 +29,12 @@ export default function Agentes() {
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex items-center gap-2">
                     <span>Você tem 19 atendentes disponíveis.</span>
-                    <button className="text-blue-600 hover:underline text-sm">
+                    <button className="text-blue-600 hover:underline text-sm" onClick={() => {
+                      const dialogTrigger = document.querySelector('[data-trigger="pricing-dialog"]') as HTMLButtonElement;
+                      if (dialogTrigger) {
+                        dialogTrigger.click();
+                      }
+                    }}>
                       Fazer upgrade do plano
                     </button>
                   </div>
@@ -103,6 +110,7 @@ export default function Agentes() {
           </main>
         </div>
       </div>
+      <PricingDialog />
     </SidebarProvider>
   );
 }

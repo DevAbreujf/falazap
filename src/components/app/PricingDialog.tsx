@@ -1,7 +1,9 @@
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 const plans = [{
   name: "Básico",
   price: 97,
@@ -16,10 +18,16 @@ const plans = [{
   price: 297,
   features: ["4 números de WhatsApp", "Atendimento automático 24/7", "Funis de venda ilimitados", "Suporte VIP", "Relatórios personalizados", "Automações ilimitadas"]
 }];
+
 export function PricingDialog() {
-  return <Dialog>
+  return (
+    <Dialog>
       <DialogTrigger asChild>
-        <Button size="lg" className="hover-glow bg-primary/90 hover:bg-primary transition-all duration-300 mb-2">
+        <Button 
+          size="lg" 
+          className="hover-glow bg-primary/90 hover:bg-primary transition-all duration-300 mb-2"
+          data-trigger="pricing-dialog"
+        >
           Upgrade de Plano
         </Button>
       </DialogTrigger>
@@ -112,5 +120,6 @@ export function PricingDialog() {
           </div>
         </div>
       </DialogContent>
-    </Dialog>;
+    </Dialog>
+  );
 }
