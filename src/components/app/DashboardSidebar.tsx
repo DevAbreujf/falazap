@@ -1,13 +1,14 @@
-import { Menu } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader } from "@/components/ui/sidebar";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 import { SidebarNotifications } from "./dashboard/SidebarNotifications";
 import { ThemeToggle } from "./dashboard/ThemeToggle";
+
 export function DashboardSidebar() {
   const navigate = useNavigate();
   const connectedPhones = [{
@@ -20,15 +21,10 @@ export function DashboardSidebar() {
     number: "+55 11 77777-7777",
     isConnected: true
   }];
-  return <Sidebar className="border-r border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700">
+
+  return (
+    <Sidebar className="border-r border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700">
       <div className="flex items-center gap-4 p-4">
-        <div className="block lg:hidden">
-          <Button variant="ghost" size="icon" asChild className="hover:bg-slate-100 dark:hover:bg-slate-800">
-            <SidebarTrigger>
-              <Menu className="h-6 w-6 text-slate-600 dark:text-slate-400" />
-            </SidebarTrigger>
-          </Button>
-        </div>
         <SidebarLogo />
         <div className="ml-auto">
           <SidebarNotifications />
@@ -61,5 +57,6 @@ export function DashboardSidebar() {
       <div className="mt-auto">
         <ThemeToggle />
       </div>
-    </Sidebar>;
+    </Sidebar>
+  );
 }
