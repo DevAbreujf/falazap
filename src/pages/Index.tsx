@@ -29,17 +29,19 @@ const Index = () => {
     return <>
         Clone seu melhor{" "}
         <span className="relative">
-          <span className="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent transition-all duration-500 font-extrabold drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]">
+          <span className="bg-gradient-to-r from-teal-300 to-teal-400 bg-clip-text text-transparent transition-all duration-500 font-extrabold drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]">
             {role}
           </span>
-          <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-teal-400 to-teal-600 shadow-[0_0_10px_2px_rgba(45,212,191,0.7)]"></span>
+          <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-teal-300 to-teal-400 shadow-[0_0_10px_2px_rgba(45,212,191,0.7)]"></span>
         </span>
         {" "}com AI
       </>;
   }, [role]);
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-emerald-50 via-teal-50/80 to-white">
+    <div className="min-h-screen w-full bg-[#03201E] relative">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_10%_20%,#29958D_0%,rgba(233,128,252,0)_40%),radial-gradient(ellipse_at_50%_0%,#005C55_25%,#03201E_75%)] pointer-events-none"></div>
+      
       <Helmet>
         <title>FalaZAP - Clone seu melhor vendedor com AI</title>
         <meta name="description" content="Transforme seu atendimento com nossa solução de IA. Atenda mais clientes, qualifique leads e aumente suas vendas 24/7." />
@@ -61,17 +63,17 @@ const Index = () => {
         <section className="container mx-auto px-4 pt-32 pb-16 min-h-[700px]" aria-label="Hero Section">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
             <div className="flex flex-col gap-6">
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight text-gray-900">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight text-white">
                 {heroTitle}
               </h1>
-              <p className="text-lg sm:text-xl text-gray-600 max-w-xl">
+              <p className="text-lg sm:text-xl text-gray-300/90 max-w-xl">
                 Transforme seu atendimento com nossa solução de IA. Atenda mais clientes, 
                 qualifique leads e aumente suas vendas 24/7.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-[#047C6B] to-[#06A693] hover:from-[#06A693] hover:to-[#03D6BC] text-white shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300 w-full sm:w-auto" 
+                  className="bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300 w-full sm:w-auto" 
                   onClick={() => console.log('Começar Agora clicked')}
                   aria-label="Começar Agora"
                 >
@@ -80,7 +82,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline"
-                  className="border-[#047C6B] text-[#047C6B] hover:bg-[#047C6B]/5 w-full sm:w-auto backdrop-blur-sm"
+                  className="border-teal-400/50 text-teal-300 hover:bg-teal-400/10 w-full sm:w-auto backdrop-blur-sm"
                   onClick={() => console.log('Ver Demonstração clicked')}
                   aria-label="Ver Demonstração"
                 >

@@ -33,13 +33,13 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-[#03201E] text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 .glass-card {
-  @apply bg-white/80 backdrop-blur-lg border border-white/20 rounded-2xl transition-all duration-300;
+  @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl transition-all duration-300;
 }
 
 .hover-scale {
@@ -47,16 +47,16 @@
 }
 
 .gradient-text {
-  @apply bg-gradient-to-r from-[#047C6B] to-[#06A693] bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-teal-300 to-teal-400 bg-clip-text text-transparent;
 }
 
 .gradient-border {
-  @apply relative bg-gradient-to-r from-[#047C6B] to-[#06A693] p-[1px] rounded-lg overflow-hidden;
+  @apply relative bg-gradient-to-r from-teal-400 to-teal-500 p-[1px] rounded-lg overflow-hidden;
 }
 
 .gradient-border::before {
   content: "";
-  @apply absolute inset-0 bg-gradient-to-r from-[#047C6B] to-[#06A693];
+  @apply absolute inset-0 bg-gradient-to-r from-teal-400 to-teal-500;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -82,13 +82,21 @@
 }
 
 .text-gradient {
-  @apply bg-gradient-to-r from-[#047C6B] via-[#06A693] to-[#03D6BC] bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-teal-300 via-teal-400 to-teal-500 bg-clip-text text-transparent;
 }
 
 .bg-gradient {
-  @apply bg-gradient-to-r from-[#047C6B] via-[#06A693] to-[#03D6BC];
+  @apply bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600;
 }
 
 .glass-effect {
-  @apply bg-white/10 backdrop-blur-md border border-white/20;
+  @apply bg-white/5 backdrop-blur-md border border-white/10;
+}
+
+.dark-glass-card {
+  @apply bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl transition-all duration-300;
+}
+
+.highlight-border {
+  @apply border border-teal-400/30 shadow-lg shadow-teal-400/10;
 }
