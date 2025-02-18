@@ -75,26 +75,6 @@ export default function Broadcasts() {
     setSelectedFunnel("");
   };
 
-  const getSelectedContactsPreview = () => {
-    const selectedContactsData = contacts
-      .filter(contact => selectedContacts.includes(contact.id))
-      .slice(0, 3);
-
-    const remainingCount = selectedContacts.length - 3;
-
-    return (
-      <div className="text-sm text-slate-600">
-        {selectedContactsData.map((contact, index) => (
-          <span key={contact.id}>
-            {contact.name}
-            {index < selectedContactsData.length - 1 && ", "}
-          </span>
-        ))}
-        {remainingCount > 0 && ` e mais ${remainingCount} contato(s)`}
-      </div>
-    );
-  };
-
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
@@ -155,36 +135,40 @@ export default function Broadcasts() {
               {/* Contacts Selection Card */}
               <Card className="p-6 hover:shadow-lg transition-all duration-200 bg-white/50 backdrop-blur-sm border-primary/20">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Users className="h-5 w-5 text-primary" />
-                      </div>
-                      <div>
-                        <h2 className="text-lg font-semibold text-slate-900">Contatos</h2>
-                        <p className="text-sm text-slate-500">
-                          {selectedContacts.length} contatos selecionados
-                        </p>
-                      </div>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Users className="h-5 w-5 text-primary" />
                     </div>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => setIsContactsDialogOpen(true)}
-                      className="gap-2"
-                    >
-                      <Plus className="h-4 w-4" />
-                      Selecionar Contatos
-                    </Button>
+                    <div>
+                      <h2 className="text-lg font-semibold text-slate-900">Contatos</h2>
+                      <p className="text-sm text-slate-500">
+                        {selectedContacts.length} contatos selecionados
+                      </p>
+                    </div>
                   </div>
                   
-                  {selectedContacts.length > 0 && (
-                    <div className="pt-2">
-                      {getSelectedContactsPreview()}
-                    </div>
-                  )}
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setIsContactsDialogOpen(true)}
+                    className="w-full h-32 flex flex-col items-center justify-center gap-4 hover:bg-primary/5"
+                  >
+                    <Plus className="h-8 w-8" />
+                    <span className="text-lg">Selecionar Contatos</span>
+                  </Button>
                 </div>
               </Card>
+            </div>
+
+            {/* Centered Action Button */}
+            <div className="flex justify-center pt-8">
+              <Button
+                onClick={handleSendBroadcast}
+                disabled={!selectedFunnel || selectedContacts.length === 0}
+                className="w-full max-w-md gap-2 py-6 text-lg"
+              >
+                <Send className="h-5 w-5" />
+                Iniciar Disparo
+              </Button>
             </div>
 
             {/* Contacts Selection Dialog */}
@@ -204,32 +188,6 @@ export default function Broadcasts() {
                 </div>
               </DialogContent>
             </Dialog>
-
-            {/* Action Bar */}
-            {(selectedContacts.length > 0 || selectedFunnel) && (
-              <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t border-primary/20 shadow-lg animate-fade-in">
-                <div className="container mx-auto flex items-center justify-between">
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium text-slate-900">
-                      {selectedContacts.length} contatos selecionados
-                    </p>
-                    {selectedFunnel && (
-                      <p className="text-sm text-slate-500">
-                        Funil: {selectedFunnel === 'funil1' ? 'Funil de Vendas Principal' : 'Funil de Captação de Leads'}
-                      </p>
-                    )}
-                  </div>
-                  <Button
-                    onClick={handleSendBroadcast}
-                    disabled={!selectedFunnel || selectedContacts.length === 0}
-                    className="gap-2"
-                  >
-                    <Send className="h-4 w-4" />
-                    Iniciar Disparo
-                  </Button>
-                </div>
-              </div>
-            )}
           </main>
         </div>
       </div>
