@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "next-themes";
@@ -16,7 +17,7 @@ import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
 import FunnelEditor from "@/pages/FunnelEditor";
 import Funnels from "@/pages/Funnels";
-import Connection from "@/pages/Connection";
+import Conexao from "@/pages/Conexao";
 import NovoAgente from "@/pages/NovoAgente";
 import ConfigurarAgente from "@/pages/ConfigurarAgente";
 import Agentes from "@/pages/Agentes";
@@ -42,7 +43,7 @@ export default function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/funnel-editor" element={<FunnelEditor />} />
           <Route path="/funnels" element={<Funnels />} />
-          <Route path="/connection" element={<Connection />} />
+          <Route path="/conexao" element={<Conexao />} />
           <Route path="/novo-agente" element={<NovoAgente />} />
           <Route path="/configurar-agente" element={<ConfigurarAgente />} />
           <Route path="/agentes" element={<Agentes />} />
