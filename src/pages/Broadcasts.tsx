@@ -134,27 +134,29 @@ export default function Broadcasts() {
 
               {/* Contacts Selection Card */}
               <Card className="p-6 hover:shadow-lg transition-all duration-200 bg-white/50 backdrop-blur-sm border-primary/20">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Users className="h-5 w-5 text-primary" />
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Users className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h2 className="text-lg font-semibold text-slate-900">Contatos</h2>
+                        <p className="text-sm text-slate-500">
+                          {selectedContacts.length} contatos selecionados
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h2 className="text-lg font-semibold text-slate-900">Contatos</h2>
-                      <p className="text-sm text-slate-500">
-                        {selectedContacts.length} contatos selecionados
-                      </p>
-                    </div>
+                    
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setIsContactsDialogOpen(true)}
+                      className="flex items-center gap-2"
+                    >
+                      <Plus className="h-4 w-4" />
+                      Selecionar Contatos
+                    </Button>
                   </div>
-                  
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setIsContactsDialogOpen(true)}
-                    className="w-full h-32 flex flex-col items-center justify-center gap-4 hover:bg-primary/5"
-                  >
-                    <Plus className="h-8 w-8" />
-                    <span className="text-lg">Selecionar Contatos</span>
-                  </Button>
                 </div>
               </Card>
             </div>
@@ -173,7 +175,7 @@ export default function Broadcasts() {
 
             {/* Contacts Selection Dialog */}
             <Dialog open={isContactsDialogOpen} onOpenChange={setIsContactsDialogOpen}>
-              <DialogContent className="max-w-4xl">
+              <DialogContent className="max-w-2xl">
                 <DialogHeader>
                   <DialogTitle>Selecionar Contatos</DialogTitle>
                 </DialogHeader>
