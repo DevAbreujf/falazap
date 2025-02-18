@@ -231,7 +231,7 @@ export function ChatActions({
           </div>
 
           <div className="pt-6 border-t mt-auto">
-            <Button className="w-full" size="lg" disabled={!selectedDepartment} onClick={handleDepartmentTransfer}>
+            <Button size="lg" disabled={!selectedDepartment} onClick={handleDepartmentTransfer} className="w-full bg-emerald-400 hover:bg-emerald-300">
               Transferir para setor
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
