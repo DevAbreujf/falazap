@@ -75,7 +75,7 @@ export function DepartmentsList({
                 <label className="text-sm font-medium">Nome do Setor</label>
                 <input type="text" value={newDepartmentName} onChange={e => setNewDepartmentName(e.target.value)} className="w-full p-2 border rounded-md" />
               </div>
-              <Button onClick={handleAddDepartment}>Cadastrar Setor</Button>
+              <Button onClick={handleAddDepartment} className="bg-emerald-400 hover:bg-emerald-300">Cadastrar Setor</Button>
             </div>
           </DialogContent>
         </Dialog>
