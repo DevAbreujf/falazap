@@ -111,7 +111,7 @@ export function FileAttachments({ onFileSelect }: FileAttachmentsProps) {
         Anexar arquivo
       </Label>
       <div className={cn(
-        "glass-card p-4 hover:border-primary/20 transition-all duration-300",
+        "glass-card p-4 hover:border-primary/20 transition-all duration-300 bg-white/50",
         isDragging && "border-primary border-2"
       )}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -120,9 +120,10 @@ export function FileAttachments({ onFileSelect }: FileAttachmentsProps) {
               key={section.type}
               className={cn(
                 "relative group cursor-pointer",
-                "rounded-xl border border-dashed border-gray-200 p-4",
-                "hover:border-primary/50 hover:bg-primary/5 transition-all duration-300",
-                selectedFile?.type === section.type && "border-primary/50 bg-primary/5"
+                "rounded-xl border border-gray-100 p-4",
+                "hover:border-primary/30 hover:bg-primary/5 hover:shadow-lg",
+                "transition-all duration-300 ease-in-out transform hover:-translate 0.5",
+                selectedFile?.type === section.type && "border-primary/30 bg-primary/5 shadow-md"
               )}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}

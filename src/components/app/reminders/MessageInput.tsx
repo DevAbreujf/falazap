@@ -1,3 +1,4 @@
+
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
@@ -17,7 +18,7 @@ export function MessageInput({ value, onChange }: MessageInputProps) {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="Digite a mensagem que será enviada..."
-          className="min-h-[120px] resize-none bg-white/50 backdrop-blur-sm border-white/20 focus:border-primary/20 transition-all duration-300"
+          className="min-h-[120px] resize-none bg-white border-2 border-primary/20 focus:border-primary/40 focus:ring-2 focus:ring-primary/20 transition-all duration-300 rounded-lg shadow-sm focus:shadow-md"
         />
       </div>
     </div>
