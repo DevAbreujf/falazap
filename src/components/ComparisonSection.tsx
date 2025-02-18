@@ -13,9 +13,9 @@ export function ComparisonSection() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-6xl mx-auto">
         {/* Agentes IA Column */}
-        <div className="group relative">
+        <div className="group h-full relative">
           <div className="absolute inset-0 bg-gradient-to-b from-teal-400/20 via-teal-500/10 to-transparent rounded-2xl blur-xl transition-all duration-500 group-hover:scale-110 opacity-0 group-hover:opacity-100"></div>
-          <div className="space-y-8 glass-card p-8 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-teal-500/20 relative overflow-hidden bg-gray-800 hover:bg-gray-700">
+          <div className="h-full space-y-8 glass-card p-8 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-teal-500/20 relative overflow-hidden bg-gray-800 hover:bg-gray-700">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400/50 to-transparent"></div>
             <div className="text-center">
               <div className="flex justify-center mb-6">
@@ -34,7 +34,7 @@ export function ComparisonSection() {
               <h3 className="text-3xl font-bold mb-12 bg-gradient-to-r from-teal-400 to-teal-500 bg-clip-text text-transparent pb-1">Agentes IA</h3>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 flex-grow">
               <div className="flex gap-4 p-4 rounded-lg hover:bg-teal-400/5 transition-colors duration-300">
                 <Check className="w-6 h-6 text-teal-400 flex-shrink-0" />
                 <p className="text-gray-200">Perfeito para ampliar seu time de vendas e suporte, com menor custo.</p>
@@ -56,9 +56,9 @@ export function ComparisonSection() {
         </div>
 
         {/* Chatbots Column */}
-        <div className="group relative">
+        <div className="group h-full relative">
           <div className="absolute inset-0 bg-gradient-to-b from-teal-400/20 via-teal-500/10 to-transparent rounded-2xl blur-xl transition-all duration-500 group-hover:scale-110 opacity-0 group-hover:opacity-100"></div>
-          <div className="space-y-8 glass-card p-8 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-teal-500/20 relative overflow-hidden bg-gray-800 hover:bg-gray-700">
+          <div className="h-full space-y-8 glass-card p-8 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl hover:shadow-teal-500/20 relative overflow-hidden bg-gray-800 hover:bg-gray-700">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-400/50 to-transparent"></div>
             <div className="text-center">
               <div className="flex justify-center mb-6">
@@ -77,7 +77,7 @@ export function ComparisonSection() {
               <h3 className="text-3xl font-bold mb-12 bg-gradient-to-r from-teal-400 to-teal-500 bg-clip-text text-transparent">Chatbots</h3>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 flex-grow">
               <div className="flex gap-4 p-4 rounded-lg hover:bg-teal-400/5 transition-colors duration-300">
                 <Check className="w-6 h-6 text-teal-400 flex-shrink-0" />
                 <p className="text-gray-200">Perfeito para automatizar tarefas repetitivas e fluxos pré definidos.</p>
