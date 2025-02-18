@@ -1,3 +1,4 @@
+
 import { useNavigate, useLocation } from "react-router-dom";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar";
 import { BarChart3, Filter, MessageSquare, Phone, Send, Bell, Calendar, Home, Bot, Tag, ChevronDown } from "lucide-react";
@@ -52,8 +53,8 @@ export function SidebarNavigation() {
     icon: Phone,
     label: "Conexão",
     description: "Configure seu WhatsApp",
-    path: "/connection",
-    onClick: () => navigate("/connection")
+    path: "/conexao",
+    onClick: () => navigate("/conexao")
   }, {
     icon: MessageSquare,
     label: "Conversas",
