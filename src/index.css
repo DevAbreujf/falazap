@@ -161,7 +161,7 @@ button {
 }
 
 .button-primary {
-  @apply bg-gradient-primary hover:opacity-90 text-white rounded-md px-4 py-2 text-sm font-medium;
+  @apply bg-primary hover:opacity-90 text-white rounded-md px-4 py-2 text-sm font-medium;
 }
 
 .button-secondary {
