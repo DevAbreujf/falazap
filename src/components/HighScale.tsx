@@ -1,7 +1,7 @@
 import { Button } from "./ui/button";
 import { ArrowRight, Users, TrendingUp, Clock } from "lucide-react";
 export function HighScale() {
-  return <section className="py-24 relative overflow-hidden bg-slate-50">
+  return <section className="py-24 relative overflow-hidden bg-white">
       <div className="container mx-auto px-4 relative">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/2 space-y-8 animate-fade-up">
