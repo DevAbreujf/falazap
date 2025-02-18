@@ -1,4 +1,5 @@
-import { Filter, Users, Calendar, Sparkles, BookOpen } from "lucide-react";
+
+import { Filter, Users, Calendar, Sparkles } from "lucide-react";
 
 const functionalities = [
   {
@@ -30,17 +31,20 @@ const functionalities = [
 export function Functionalities() {
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-background"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background/80"></div>
       
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-20 animate-fade-up">
-          <span className="text-primary font-semibold tracking-wider uppercase mb-4 block">
-            FUNCIONALIDADES
-          </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10 text-teal-500 mb-6">
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-medium">FUNCIONALIDADES</span>
+          </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Confira algumas das funcionalidades que
             <br />
-            desenvolvemos para atender às suas necessidades
+            <span className="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
+              desenvolvemos para atender às suas necessidades
+            </span>
           </h2>
         </div>
 
@@ -52,12 +56,12 @@ export function Functionalities() {
               style={{ animationDelay: `${index * 0.2}s` }}
             >
               <div className="lg:w-1/2 space-y-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10">
-                  <item.icon className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-medium text-primary">{item.title}</span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10">
+                  <item.icon className="w-5 h-5 text-teal-500" />
+                  <span className="text-sm font-medium text-teal-500">{item.title}</span>
                 </div>
                 
-                <h3 className="text-3xl font-bold">{item.title}</h3>
+                <h3 className="text-3xl font-bold bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">{item.title}</h3>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   {item.description}
                 </p>
@@ -65,13 +69,19 @@ export function Functionalities() {
               
               <div className="lg:w-1/2">
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full transition-all duration-500 group-hover:blur-[120px]"></div>
-                  <div className="relative bg-gradient-to-br from-background/80 to-background p-2 rounded-2xl border border-white/10 shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+                  <div className="absolute inset-0 bg-teal-500/20 blur-[100px] rounded-full transition-all duration-500 group-hover:blur-[120px]"></div>
+                  <div className="relative bg-gradient-to-br from-background/80 to-background p-2 rounded-2xl border border-white/10 shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-teal-500/20">
                     <img
                       src={item.image}
                       alt={item.title}
                       className="w-full rounded-xl shadow-lg"
                     />
+                    <div className="absolute -bottom-4 -right-4 bg-teal-500/10 backdrop-blur-sm border border-teal-500/20 rounded-lg p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 rounded-full bg-teal-500 animate-pulse"></div>
+                        <span className="text-sm font-medium text-teal-500">Ativo 24/7</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

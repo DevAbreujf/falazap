@@ -1,10 +1,10 @@
-
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { HelpCircle } from "lucide-react";
 
 const faqs = [
   {
@@ -35,38 +35,42 @@ export function FAQ() {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background/80"></div>
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-16">
-          <div className="inline-block">
-            <h2 className="text-4xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">Perguntas</span>{" "}
-              <span className="text-foreground">Frequentes</span>
-            </h2>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10 text-teal-500 mb-6">
+            <HelpCircle className="w-4 h-4" />
+            <span className="text-sm font-medium">DÚVIDAS FREQUENTES</span>
           </div>
+          <h2 className="text-4xl font-bold mb-6 leading-tight">
+            <span className="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">Perguntas</span>{" "}
+            <span className="text-foreground">Frequentes</span>
+          </h2>
           <p className="text-xl text-muted-foreground">
             Tire suas dúvidas sobre o FalaZAP
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="space-y-6">
+          <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={faq.question}
                 value={`item-${index}`}
                 className="border-none group"
               >
-                <AccordionTrigger className="glass-card px-8 py-6 rounded-2xl text-lg hover:no-underline data-[state=open]:rounded-b-none transition-all duration-300 group-data-[state=open]:bg-teal-500/10">
+                <AccordionTrigger className="glass-card px-8 py-6 rounded 2xl text-lg hover:no-underline data-[state=open]:rounded-b-none transition-all duration-300 group-data-[state=open]:bg-teal-500/10 hover:bg-teal-500/5">
                   <div className="flex items-center text-left gap-4">
-                    <span className="text-teal-500 opacity-60 font-mono">
-                      {(index + 1).toString().padStart(2, '0')}
-                    </span>
-                    <span className="pr-8 font-medium group-data-[state=open]:text-teal-500">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-500/10">
+                      <span className="text-teal-500 font-mono text-sm">
+                        {(index + 1).toString().padStart(2, '0')}
+                      </span>
+                    </div>
+                    <span className="pr-8 font-medium group-data-[state=open]:text-teal-500 transition-colors">
                       {faq.question}
                     </span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="glass-card border-t-0 px-8 py-6 mt-px rounded-b-2xl text-base leading-relaxed bg-teal-500/5 data-[state=open]:animate-accordion-down">
-                  <div className="pl-14">
-                    <p className="text-muted-foreground">
+                  <div className="pl-12">
+                    <p className="text-muted-foreground/90">
                       {faq.answer}
                     </p>
                   </div>
