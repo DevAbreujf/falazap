@@ -1,7 +1,7 @@
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar";
-import { BarChart3, Filter, MessageSquare, Phone, Send, Bell, Calendar, Home, Bot, Tag, ChevronDown } from "lucide-react";
+import { BarChart3, Filter, MessageSquare, Phone, Send, Bell, Calendar, Home, Bot, Tag, ChevronDown, Users } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
@@ -105,6 +105,12 @@ export function SidebarNavigation() {
       path: "/schedules",
       onClick: () => navigate("/schedules")
     }]
+  }, {
+    icon: Users,
+    label: "Contatos",
+    description: "Gerencie seus contatos",
+    path: "/contacts",
+    onClick: () => navigate("/contacts")
   }];
 
   return (
