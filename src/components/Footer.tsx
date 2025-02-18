@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
-
 export function Footer() {
-  return (
-    <footer className="py-8 relative overflow-hidden">
+  return <footer className="py-8 relative overflow-hidden bg-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="text-3xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+          <div className="text-3xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent bg-slate-50">
             FalaZAP
           </div>
           <div className="flex gap-4 text-sm text-muted-foreground">
@@ -21,6 +19,5 @@ export function Footer() {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }
