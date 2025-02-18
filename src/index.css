@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -123,7 +124,7 @@
 }
 
 .react-flow__edge.selected .react-flow__edge-path {
-  @apply stroke-primary-light;
+  @apply stroke-primary/60;
 }
 
 /* Remove MiniMap */
