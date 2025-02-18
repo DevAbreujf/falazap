@@ -122,7 +122,7 @@ export default function Users() {
         e.target.value = formatCPF(e.target.value);
       }} />
       </div>
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full bg-emerald-400 hover:bg-emerald-300">
         {initialData ? 'Atualizar Usuário' : 'Cadastrar Usuário'}
       </Button>
     </form>;
