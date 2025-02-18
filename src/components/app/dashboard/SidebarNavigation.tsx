@@ -9,7 +9,18 @@ export function SidebarNavigation() {
   const navigate = useNavigate();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
-  const toggleExpanded = (label: string) => {
+  const handleItemClick = (item: any) => {
+    // Navigate and expand submenu if it has children
+    if (item.children) {
+      setExpandedItems(prev => 
+        prev.includes(item.label) ? prev : [...prev, item.label]
+      );
+    }
+    item.onClick();
+  };
+
+  const toggleExpanded = (e: React.MouseEvent, label: string) => {
+    e.stopPropagation(); // Prevent parent click handler from firing
     setExpandedItems(prev => 
       prev.includes(label) 
         ? prev.filter(item => item !== label)
@@ -70,9 +81,9 @@ export function SidebarNavigation() {
       {menuItems.map(item => (
         <SidebarMenuItem key={item.label}>
           <SidebarMenuButton 
-            onClick={item.children ? () => toggleExpanded(item.label) : item.onClick}
+            onClick={() => handleItemClick(item)}
             className={cn(
-              "group relative flex w-full items-center gap-3 rounded-lg p-2.5 transition-all duration-200 mx-0 my-[4px]",
+              "group relative flex w-full items-center gap-3 rounded-lg p-2.5 transition-all duration-200 mx-0 my-[4px] cursor-pointer",
               item.children && "justify-between"
             )}
           >
@@ -81,18 +92,19 @@ export function SidebarNavigation() {
                 <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-slate-900 leading-tight">
+                <span className="text-sm font-medium text-slate-900 leading-tight group-hover:text-primary transition-colors">
                   {item.label}
                 </span>
-                <span className="text-xs text-slate-500 leading-tight">
+                <span className="text-xs text-slate-500 leading-tight group-hover:text-slate-600 transition-colors">
                   {item.description}
                 </span>
               </div>
             </div>
             {item.children && (
               <ChevronDown 
+                onClick={(e) => toggleExpanded(e, item.label)}
                 className={cn(
-                  "h-4 w-4 text-slate-400 transition-transform duration-200",
+                  "h-4 w-4 text-slate-400 hover:text-primary transition-all duration-200",
                   expandedItems.includes(item.label) && "transform rotate-180"
                 )}
               />
@@ -105,10 +117,10 @@ export function SidebarNavigation() {
                 <SidebarMenuSubItem key={child.label}>
                   <SidebarMenuSubButton
                     onClick={child.onClick}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 p-2 rounded-md hover:bg-slate-100 cursor-pointer transition-all duration-200 text-slate-600 hover:text-primary"
                   >
                     <child.icon className="h-4 w-4" />
-                    <span>{child.label}</span>
+                    <span className="text-sm">{child.label}</span>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
               ))}
