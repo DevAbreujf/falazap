@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Rocket } from "lucide-react";
 
@@ -13,16 +14,16 @@ export function SalesCTA() {
       
       <div className="container mx-auto px-4 relative">
         <div className="glass-card p-8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10"></div>
-          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/30 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-teal-500/10"></div>
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-teal-500/30 to-transparent"></div>
           
           <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10">
-              <Rocket className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Escale Agora</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10">
+              <Rocket className="w-4 h-4 text-teal-500" />
+              <span className="text-sm font-medium text-teal-500">Escale Agora</span>
             </div>
             
-            <h2 className="text-3xl md:text-4xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+            <h2 className="text-3xl md:text-4xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-teal-600">
               Pronto para transformar seu atendimento no WhatsApp?
             </h2>
             
@@ -34,7 +35,7 @@ export function SalesCTA() {
               <Button 
                 onClick={scrollToPricing}
                 size="lg" 
-                className="rounded-full text-lg px-12 py-6 h-auto bg-gradient-to-r from-primary to-primary/80 hover:opacity-90 transition-opacity duration-300 shadow-lg shadow-primary/20"
+                className="rounded-full text-lg px-12 py-6 h-auto bg-gradient-to-r from-teal-400 to-teal-600 hover:from-teal-500 hover:to-teal-700 transition-opacity duration-300 shadow-lg shadow-teal-500/20"
               >
                 COMEÇAR AGORA
               </Button>

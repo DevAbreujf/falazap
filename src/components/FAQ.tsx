@@ -1,3 +1,4 @@
+
 import {
   Accordion,
   AccordionContent,
@@ -36,7 +37,7 @@ export function FAQ() {
         <div className="text-center mb-16">
           <div className="inline-block">
             <h2 className="text-4xl font-bold mb-6 leading-tight">
-              <span className="text-gradient-primary">Perguntas</span>{" "}
+              <span className="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">Perguntas</span>{" "}
               <span className="text-foreground">Frequentes</span>
             </h2>
           </div>
@@ -53,17 +54,17 @@ export function FAQ() {
                 value={`item-${index}`}
                 className="border-none group"
               >
-                <AccordionTrigger className="glass-card px-8 py-6 rounded-2xl text-lg hover:no-underline data-[state=open]:rounded-b-none transition-all duration-300 group-data-[state=open]:bg-primary/10">
+                <AccordionTrigger className="glass-card px-8 py-6 rounded-2xl text-lg hover:no-underline data-[state=open]:rounded-b-none transition-all duration-300 group-data-[state=open]:bg-teal-500/10">
                   <div className="flex items-center text-left gap-4">
-                    <span className="text-primary opacity-60 font-mono">
+                    <span className="text-teal-500 opacity-60 font-mono">
                       {(index + 1).toString().padStart(2, '0')}
                     </span>
-                    <span className="pr-8 font-medium group-data-[state=open]:text-primary">
+                    <span className="pr-8 font-medium group-data-[state=open]:text-teal-500">
                       {faq.question}
                     </span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="glass-card border-t-0 px-8 py-6 mt-px rounded-b-2xl text-base leading-relaxed bg-primary/5 data-[state=open]:animate-accordion-down">
+                <AccordionContent className="glass-card border-t-0 px-8 py-6 mt-px rounded-b-2xl text-base leading-relaxed bg-teal-500/5 data-[state=open]:animate-accordion-down">
                   <div className="pl-14">
                     <p className="text-muted-foreground">
                       {faq.answer}
