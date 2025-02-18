@@ -2,17 +2,10 @@
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Shield, Link2, QrCode, RefreshCw, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { Shield, Link2, QrCode, RefreshCw, XCircle } from "lucide-react";
 import { PageBreadcrumb } from "@/components/app/navigation/PageBreadcrumb";
 import { useToast } from "@/hooks/use-toast";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export default function Conexao() {
   const { toast } = useToast();
@@ -24,11 +17,10 @@ export default function Conexao() {
     });
   };
 
-  const handleTokenSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleConnect = () => {
     toast({
-      title: "Token recebido",
-      description: "Verificando credenciais...",
+      title: "Iniciando conexão",
+      description: "Estabelecendo conexão com a API oficial...",
     });
   };
 
@@ -72,6 +64,41 @@ export default function Conexao() {
                       </div>
                     </div>
 
+                    <div className="flex items-center justify-center p-8">
+                      <Button 
+                        size="lg"
+                        onClick={handleConnect}
+                        className="w-full max-w-xs"
+                      >
+                        Conectar
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* API Não Oficial Card */}
+              <Card className="overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div className="p-6 space-y-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-2 rounded-full bg-blue-50">
+                      <Link2 className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-semibold">API Não Oficial</h2>
+                      <p className="text-sm text-muted-foreground">Conexão Alternativa</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-lg bg-slate-50 border border-slate-100">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-medium">Status:</span>
+                      <div className="flex items-center gap-1.5">
+                        <XCircle className="h-4 w-4 text-red-500" />
+                        <span className="text-sm text-red-500">Desconectado</span>
+                      </div>
+                    </div>
+
                     <div className="space-y-4">
                       <div className="bg-white p-4 rounded-lg border border-slate-200">
                         <div className="flex flex-col items-center text-center">
@@ -101,7 +128,7 @@ export default function Conexao() {
 
                       <div className="text-xs text-slate-500">
                         <ul className="space-y-1 list-disc list-inside">
-                          <li>Abra o WhatsApp Business no seu celular</li>
+                          <li>Abra o WhatsApp no seu celular</li>
                           <li>Toque em Menu (três pontos) ou Configurações</li>
                           <li>Toque em Dispositivos Conectados</li>
                           <li>Toque em Conectar um Dispositivo</li>
@@ -109,62 +136,6 @@ export default function Conexao() {
                         </ul>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </Card>
-
-              {/* API Não Oficial Card */}
-              <Card className="overflow-hidden hover:shadow-lg transition-all duration-300">
-                <div className="p-6 space-y-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="p-2 rounded-full bg-blue-50">
-                      <Link2 className="h-6 w-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <h2 className="text-lg font-semibold">API Não Oficial</h2>
-                      <p className="text-sm text-muted-foreground">Conexão Alternativa</p>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-lg bg-slate-50 border border-slate-100">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-medium">Status:</span>
-                      <div className="flex items-center gap-1.5">
-                        <XCircle className="h-4 w-4 text-red-500" />
-                        <span className="text-sm text-red-500">Desconectado</span>
-                      </div>
-                    </div>
-
-                    <form onSubmit={handleTokenSubmit} className="space-y-4">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Token de Acesso</label>
-                        <Input
-                          type="password"
-                          placeholder="Digite seu token de acesso"
-                          className="w-full"
-                        />
-                      </div>
-
-                      <Button type="submit" className="w-full">
-                        Conectar
-                      </Button>
-
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-50 border border-amber-100">
-                              <AlertCircle className="h-4 w-4 text-amber-500 shrink-0" />
-                              <p className="text-xs text-amber-600">
-                                Esta é uma conexão não oficial. Use por sua conta e risco.
-                              </p>
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Conexões não oficiais podem ser instáveis ou ter limitações</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </form>
                   </div>
                 </div>
               </Card>
