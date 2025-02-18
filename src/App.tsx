@@ -10,7 +10,8 @@ import Contacts from "@/pages/Contacts";
 import Users from "@/pages/Users";
 import Departments from "@/pages/Departments";
 import Schedules from "@/pages/Schedules";
-import Broadcasts from "@/pages/Broadcasts";
+import Disparos from "@/pages/Broadcasts";
+import BroadcastsList from "@/pages/BroadcastsList";
 import Reminders from "@/pages/Reminders";
 import Tags from "@/pages/Tags";
 import Terms from "@/pages/Terms";
@@ -36,7 +37,8 @@ export default function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/departments" element={<Departments />} />
           <Route path="/schedules" element={<Schedules />} />
-          <Route path="/broadcasts" element={<Broadcasts />} />
+          <Route path="/disparos" element={<Disparos />} />
+          <Route path="/disparos/lista" element={<BroadcastsList />} />
           <Route path="/reminders" element={<Reminders />} />
           <Route path="/etiquetas" element={<Tags />} />
           <Route path="/terms" element={<Terms />} />
