@@ -1,12 +1,9 @@
-
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 export function Header() {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -14,19 +11,16 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   const scrollToPricing = () => {
     const pricingSection = document.getElementById('pricing');
-    pricingSection?.scrollIntoView({ behavior: 'smooth' });
+    pricingSection?.scrollIntoView({
+      behavior: 'smooth'
+    });
   };
-
-  return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? "bg-[#03201E]/80 backdrop-blur-md shadow-lg shadow-black/5" : ""
-    }`}>
+  return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-[#03201E]/80 backdrop-blur-md shadow-lg shadow-black/5" : ""}`}>
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <span className="text-2xl font-bold gradient-text">Fala</span>
+          <span className="text-2xl font-bold gradient-text text-slate-50">Fala</span>
           <span className="text-2xl font-bold text-teal-300">ZAP</span>
         </div>
         
@@ -51,14 +45,10 @@ export function Header() {
               Acessar
             </Button>
           </Link>
-          <Button 
-            onClick={() => navigate("/auth")} 
-            className="bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300"
-          >
+          <Button onClick={() => navigate("/auth")} className="bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300">
             Começar Agora
           </Button>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 }
