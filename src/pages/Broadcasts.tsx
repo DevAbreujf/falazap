@@ -5,14 +5,16 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ContactsTable } from "@/components/app/contacts/ContactsTable";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Menu, Filter, Send, Users } from "lucide-react";
+import { Menu, Filter, Send, Users, Plus } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function Broadcasts() {
   const { toast } = useToast();
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
   const [selectedFunnel, setSelectedFunnel] = useState<string>("");
+  const [isContactsDialogOpen, setIsContactsDialogOpen] = useState(false);
   
   const [contacts] = useState([
     { 
@@ -71,6 +73,26 @@ export default function Broadcasts() {
     
     setSelectedContacts([]);
     setSelectedFunnel("");
+  };
+
+  const getSelectedContactsPreview = () => {
+    const selectedContactsData = contacts
+      .filter(contact => selectedContacts.includes(contact.id))
+      .slice(0, 3);
+
+    const remainingCount = selectedContacts.length - 3;
+
+    return (
+      <div className="text-sm text-slate-600">
+        {selectedContactsData.map((contact, index) => (
+          <span key={contact.id}>
+            {contact.name}
+            {index < selectedContactsData.length - 1 && ", "}
+          </span>
+        ))}
+        {remainingCount > 0 && ` e mais ${remainingCount} contato(s)`}
+      </div>
+    );
   };
 
   return (
@@ -133,37 +155,55 @@ export default function Broadcasts() {
               {/* Contacts Selection Card */}
               <Card className="p-6 hover:shadow-lg transition-all duration-200 bg-white/50 backdrop-blur-sm border-primary/20">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Users className="h-5 w-5 text-primary" />
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Users className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h2 className="text-lg font-semibold text-slate-900">Contatos</h2>
+                        <p className="text-sm text-slate-500">
+                          {selectedContacts.length} contatos selecionados
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h2 className="text-lg font-semibold text-slate-900">Contatos Selecionados</h2>
-                      <p className="text-sm text-slate-500">
-                        {selectedContacts.length} contatos selecionados
-                      </p>
-                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setIsContactsDialogOpen(true)}
+                      className="gap-2"
+                    >
+                      <Plus className="h-4 w-4" />
+                      Selecionar Contatos
+                    </Button>
                   </div>
+                  
+                  {selectedContacts.length > 0 && (
+                    <div className="pt-2">
+                      {getSelectedContactsPreview()}
+                    </div>
+                  )}
                 </div>
               </Card>
             </div>
 
-            {/* Contacts Table Section */}
-            <Card className="p-6 bg-white/50 backdrop-blur-sm border-primary/20">
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900">Selecione os Contatos</h3>
+            {/* Contacts Selection Dialog */}
+            <Dialog open={isContactsDialogOpen} onOpenChange={setIsContactsDialogOpen}>
+              <DialogContent className="max-w-4xl">
+                <DialogHeader>
+                  <DialogTitle>Selecionar Contatos</DialogTitle>
+                </DialogHeader>
+                <div className="py-4">
+                  <ContactsTable
+                    contacts={contacts}
+                    selectedContacts={selectedContacts}
+                    onToggleContact={toggleContactSelection}
+                    onToggleAll={toggleSelectAll}
+                    filteredContacts={contacts}
+                  />
                 </div>
-                
-                <ContactsTable
-                  contacts={contacts}
-                  selectedContacts={selectedContacts}
-                  onToggleContact={toggleContactSelection}
-                  onToggleAll={toggleSelectAll}
-                  filteredContacts={contacts}
-                />
-              </div>
-            </Card>
+              </DialogContent>
+            </Dialog>
 
             {/* Action Bar */}
             {(selectedContacts.length > 0 || selectedFunnel) && (

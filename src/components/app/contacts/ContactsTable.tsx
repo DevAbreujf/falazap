@@ -1,6 +1,6 @@
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
 import { Contact } from "@/types/contacts";
 import { SelectAllCheckbox } from "@/components/app/SelectAllCheckbox";
 
@@ -33,9 +33,6 @@ export function ContactsTable({
             </TableHead>
             <TableHead className="text-primary">Nome</TableHead>
             <TableHead className="text-primary">Telefone</TableHead>
-            <TableHead className="text-primary">Data de Entrada</TableHead>
-            <TableHead className="text-primary">Funil</TableHead>
-            <TableHead className="text-primary">Status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -49,20 +46,6 @@ export function ContactsTable({
               </TableCell>
               <TableCell className="font-medium">{contact.name}</TableCell>
               <TableCell>{contact.phone}</TableCell>
-              <TableCell>{new Date(contact.date).toLocaleDateString('pt-BR')}</TableCell>
-              <TableCell>{contact.funnelName}</TableCell>
-              <TableCell>
-                <Badge 
-                  variant={contact.funnelStatus === 'completed' ? 'default' : 'secondary'}
-                  className={`${
-                    contact.funnelStatus === 'completed' 
-                      ? 'bg-primary/10 text-primary border border-primary/20' 
-                      : 'bg-yellow-100/10 text-yellow-500 border border-yellow-500/20'
-                  }`}
-                >
-                  {contact.funnelStatus === 'completed' ? 'Finalizado' : 'Em andamento'}
-                </Badge>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>
