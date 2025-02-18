@@ -6,26 +6,21 @@ import { ProfileStep } from "@/components/agent-config/ProfileStep";
 import { BehaviorStep } from "@/components/agent-config/BehaviorStep";
 import { KnowledgeBaseStep } from "@/components/agent-config/KnowledgeBaseStep";
 import { Button } from "@/components/ui/button";
-
 export default function ConfigurarAgente() {
   const [currentStep, setCurrentStep] = useState(1);
-
   const handleNext = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
   };
-
   const handleBack = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
   };
-
   const handleStepClick = (step: number) => {
     setCurrentStep(step);
   };
-
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -38,9 +33,7 @@ export default function ConfigurarAgente() {
         return <ProfileStep />;
     }
   };
-
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
@@ -50,24 +43,17 @@ export default function ConfigurarAgente() {
               {renderStep()}
             </div>
             <div className="flex justify-between pt-4">
-              {currentStep > 1 && (
-                <Button variant="outline" onClick={handleBack}>
+              {currentStep > 1 && <Button variant="outline" onClick={handleBack}>
                   Voltar
-                </Button>
-              )}
-              {currentStep < 3 ? (
-                <Button className="ml-auto" onClick={handleNext}>
+                </Button>}
+              {currentStep < 3 ? <Button onClick={handleNext} className="ml-auto bg-emerald-400 hover:bg-emerald-300">
                   Próximo
-                </Button>
-              ) : (
-                <Button className="ml-auto">
+                </Button> : <Button className="ml-auto">
                   Treinar e publicar
-                </Button>
-              )}
+                </Button>}
             </div>
           </main>
         </div>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 }
