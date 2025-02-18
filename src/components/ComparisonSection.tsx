@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 export function ComparisonSection() {
-  return <section className="py-24 container mx-auto px-4 bg-slate-50">
+  return <section className="py-24 container mx-auto px-4 bg-white">
       <div className="text-center mb-16">
         <h2 className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
           Compare as Soluções
