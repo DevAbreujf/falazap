@@ -15,11 +15,18 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToPricing = () => {
-    const pricingSection = document.getElementById('pricing');
-    pricingSection?.scrollIntoView({
-      behavior: 'smooth'
-    });
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const headerOffset = 80; // Altura do header
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
   return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-[#03201E]/80 backdrop-blur-md shadow-lg shadow-black/5" : ""}`}>
@@ -30,30 +37,34 @@ export function Header() {
         </div>
         
         <nav className="hidden md:flex items-center space-x-8">
-          <a 
-            href="#features" 
+          <button 
+            onClick={() => scrollToSection('transform-results')}
             className="text-sm font-medium text-white relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-teal-300 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 hover:text-teal-300 transition-colors duration-300"
+            aria-label="Ir para seção de Recursos"
           >
             Recursos
-          </a>
-          <a 
-            href="#how-it-works" 
+          </button>
+          <button 
+            onClick={() => scrollToSection('functionalities')}
             className="text-sm font-medium text-white relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-teal-300 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 hover:text-teal-300 transition-colors duration-300"
+            aria-label="Ir para seção Como Funciona"
           >
             Como Funciona
-          </a>
-          <a 
-            href="#transform-results" 
+          </button>
+          <button 
+            onClick={() => scrollToSection('transform-results')}
             className="text-sm font-medium text-white relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-teal-300 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 hover:text-teal-300 transition-colors duration-300"
+            aria-label="Ir para seção de Resultados"
           >
             Resultados
-          </a>
-          <a 
-            href="#pricing" 
+          </button>
+          <button 
+            onClick={() => scrollToSection('pricing')}
             className="text-sm font-medium text-white relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-teal-300 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 hover:text-teal-300 transition-colors duration-300"
+            aria-label="Ir para seção de Planos"
           >
             Planos
-          </a>
+          </button>
         </nav>
 
         <div className="flex items-center space-x-4">
