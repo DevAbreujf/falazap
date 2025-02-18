@@ -2,13 +2,10 @@
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Menu, Send } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
+import { Menu } from "lucide-react";
+import { BroadcastsTable } from "@/components/app/broadcasts/BroadcastsTable";
 
-export default function Broadcasts() {
-  const navigate = useNavigate();
-
+export default function BroadcastsList() {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
@@ -30,30 +27,17 @@ export default function Broadcasts() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                  Disparos em Massa
+                  Lista de Disparos
                 </h1>
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
               </div>
               <p className="text-muted-foreground text-lg">
-                Gerencie e acompanhe seus disparos em massa.
+                Acompanhe o status dos seus disparos em massa.
               </p>
             </div>
 
-            <div className="mt-8 grid gap-6">
-              <Card 
-                className="p-6 cursor-pointer hover:shadow-md transition-all duration-200"
-                onClick={() => navigate("/broadcasts/list")}
-              >
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-lg bg-primary/10">
-                    <Send className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-slate-900">Lista de Disparos</h3>
-                    <p className="text-sm text-slate-500">Visualize e gerencie todos os seus disparos em massa</p>
-                  </div>
-                </div>
-              </Card>
+            <div className="mt-8">
+              <BroadcastsTable />
             </div>
           </main>
         </div>

@@ -1,16 +1,30 @@
-
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar";
 import { BarChart3, Filter, MessageSquare, Phone, Send, Bell, Calendar, Home, Bot, Tag, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export function SidebarNavigation() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
+  useEffect(() => {
+    const currentPath = location.pathname;
+    menuItems.forEach(item => {
+      if (item.children?.some(child => currentPath.includes(child.path))) {
+        setExpandedItems(prev => 
+          prev.includes(item.label) ? prev : [...prev, item.label]
+        );
+      } else if (!currentPath.includes(item.path)) {
+        setExpandedItems(prev => 
+          prev.filter(label => label !== item.label)
+        );
+      }
+    });
+  }, [location.pathname]);
+
   const handleItemClick = (item: any) => {
-    // Navigate and expand submenu if it has children
     if (item.children) {
       setExpandedItems(prev => 
         prev.includes(item.label) ? prev : [...prev, item.label]
@@ -20,7 +34,7 @@ export function SidebarNavigation() {
   };
 
   const toggleExpanded = (e: React.MouseEvent, label: string) => {
-    e.stopPropagation(); // Prevent parent click handler from firing
+    e.stopPropagation();
     setExpandedItems(prev => 
       prev.includes(label) 
         ? prev.filter(item => item !== label)
@@ -32,46 +46,62 @@ export function SidebarNavigation() {
     icon: Home,
     label: "Dashboard",
     description: "Visão geral",
+    path: "/dashboard",
     onClick: () => navigate("/dashboard")
   }, {
     icon: Phone,
     label: "Conexão",
     description: "Configure seu WhatsApp",
+    path: "/connection",
     onClick: () => navigate("/connection")
   }, {
     icon: MessageSquare,
     label: "Conversas",
     description: "Chat em tempo real",
+    path: "/chatboard",
     onClick: () => navigate("/chatboard")
   }, {
     icon: Bot,
     label: "Agentes",
     description: "Gerencie seus agentes",
+    path: "/agentes",
     onClick: () => navigate("/agentes")
   }, {
     icon: Filter,
     label: "Funis",
     description: "Gerencie seus funis",
+    path: "/funnels",
     onClick: () => navigate("/funnels")
   }, {
     icon: Tag,
     label: "Etiquetas",
     description: "Gerencie suas etiquetas",
+    path: "/etiquetas",
     onClick: () => navigate("/etiquetas")
   }, {
     icon: Send,
-    label: "Disparos",
+    label: "Disparos em massa",
     description: "Gerencie seus disparos",
-    onClick: () => navigate("/broadcasts")
+    path: "/broadcasts",
+    onClick: () => navigate("/broadcasts"),
+    children: [{
+      icon: Send,
+      label: "Lista de disparos",
+      description: "Visualize seus disparos",
+      path: "/broadcasts/list",
+      onClick: () => navigate("/broadcasts/list")
+    }]
   }, {
     icon: Bell,
     label: "Agendamentos",
     description: "Gerencie seus agendamentos",
+    path: "/reminders",
     onClick: () => navigate("/reminders"),
     children: [{
       icon: Calendar,
       label: "Lista de Agendamentos",
       description: "Visualize seus agendamentos",
+      path: "/schedules",
       onClick: () => navigate("/schedules")
     }]
   }];
