@@ -3,175 +3,92 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-/* React Flow Custom Styling */
-.react-flow__node {
-  @apply bg-white shadow-lg border border-border rounded-lg;
-  z-index: 5 !important;
-  overflow: visible !important;
-}
-
-.react-flow__handle {
-  position: absolute;
-  pointer-events: none;
-  min-width: 5px;
-  min-height: 5px;
-  width: 6px;
-  height: 6px;
-  background: #1a192b;
-  border: 1px solid white;
-  border-radius: 100%;
-}
-
-.react-flow__edge-path {
-  stroke: hsl(var(--primary));
-  stroke-width: 2;
-  opacity: 0.5;
-}
-
-.react-flow__edge {
-  z-index: 1;
-}
-
-.react-flow__edge:hover .react-flow__edge-path {
-  opacity: 1;
-}
-
-.react-flow__controls {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-.react-flow__controls button {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: hsl(var(--primary));
-}
-
-.react-flow__controls button:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.react-flow__minimap {
-  background-color: transparent;
-}
-
-.react-flow__attribution {
-  display: none;
-}
-
-/* Dark theme specific styles */
-.dark .react-flow__node {
-  background-color: hsl(var(--background));
-  border-color: hsl(var(--border));
-}
-
-.dark .react-flow__controls {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.dark .react-flow__minimap-mask {
-  fill: rgba(255, 255, 255, 0.05);
-}
-
-.dark .react-flow__minimap-node {
-  fill: hsl(var(--primary));
-}
-
-/* Custom node styling */
-.custom-node {
-  background: transparent;
-  border: none;
-  padding: 1rem;
-}
-
-.custom-handle {
-  background: hsl(var(--primary));
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-@keyframes highlight {
-  0% {
-    border-color: theme('colors.primary.DEFAULT');
-    border-width: 2px;
-  }
-  100% {
-    border-color: transparent;
-    border-width: 0px;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 167 77% 48%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 167 77% 48%;
+    --radius: 0.75rem;
   }
 }
 
-.highlight-message {
-  animation: highlight 1.2s ease-out;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
 }
 
-.lead-message {
-  @apply relative;
-}
-
-.attendant-message {
-  @apply relative;
-}
-
-.chat-message-enter {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.chat-message-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
-}
-
-.chat-message-exit {
-  opacity: 1;
-}
-
-.chat-message-exit-active {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 300ms, transform 300ms;
+.glass-card {
+  @apply bg-white/80 backdrop-blur-lg border border-white/20 rounded-2xl transition-all duration-300;
 }
 
 .hover-scale {
-  transition: transform 0.2s ease-in-out;
+  @apply transition-transform duration-300 hover:scale-[1.02];
 }
 
-.hover-scale:hover {
-  transform: scale(1.02);
-}
-
-.glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.gradient-text {
+  @apply bg-gradient-to-r from-[#047C6B] to-[#06A693] bg-clip-text text-transparent;
 }
 
 .gradient-border {
-  position: relative;
-  background: linear-gradient(to right, #1E40AF, #2563EB);
-  padding: 1px;
+  @apply relative bg-gradient-to-r from-[#047C6B] to-[#06A693] p-[1px] rounded-lg overflow-hidden;
 }
 
 .gradient-border::before {
   content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, #1E40AF, #2563EB);
+  @apply absolute inset-0 bg-gradient-to-r from-[#047C6B] to-[#06A693];
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
   mask-composite: exclude;
-  pointer-events: none;
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.animate-subtle-pulse {
+  animation: subtle-pulse 2s ease-in-out infinite;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-[#047C6B] via-[#06A693] to-[#03D6BC] bg-clip-text text-transparent;
+}
+
+.bg-gradient {
+  @apply bg-gradient-to-r from-[#047C6B] via-[#06A693] to-[#03D6BC];
+}
+
+.glass-effect {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+}

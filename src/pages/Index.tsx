@@ -38,7 +38,8 @@ const Index = () => {
       </>;
   }, [role]);
 
-  return <div className="min-h-screen w-full bg-white">
+  return (
+    <div className="min-h-screen w-full bg-gradient-to-b from-emerald-50 via-teal-50/80 to-white">
       <Helmet>
         <title>FalaZAP - Clone seu melhor vendedor com AI</title>
         <meta name="description" content="Transforme seu atendimento com nossa solução de IA. Atenda mais clientes, qualifique leads e aumente suas vendas 24/7." />
@@ -50,12 +51,14 @@ const Index = () => {
       </Helmet>
 
       <Header />
-      <main className="w-full" role="main">
+      <main className="w-full relative" role="main">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(45,212,191,0.15),rgba(255,255,255,0))] pointer-events-none"></div>
+        
         <div className="container mx-auto px-4">
           <PageBreadcrumb />
         </div>
         
-        <section className="container mx-auto px-4 pt-32 pb-16 min-h-[700px] bg-gradient-to-br from-white via-teal-50 to-white" aria-label="Hero Section">
+        <section className="container mx-auto px-4 pt-32 pb-16 min-h-[700px]" aria-label="Hero Section">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
             <div className="flex flex-col gap-6">
               <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight text-gray-900">
@@ -68,7 +71,7 @@ const Index = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-teal-400 to-teal-600 hover:from-teal-500 hover:to-teal-700 text-white w-full sm:w-auto" 
+                  className="bg-gradient-to-r from-[#047C6B] to-[#06A693] hover:from-[#06A693] hover:to-[#03D6BC] text-white shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300 w-full sm:w-auto" 
                   onClick={() => console.log('Começar Agora clicked')}
                   aria-label="Começar Agora"
                 >
@@ -77,7 +80,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline"
-                  className="border-teal-500 text-teal-600 hover:bg-teal-50 w-full sm:w-auto"
+                  className="border-[#047C6B] text-[#047C6B] hover:bg-[#047C6B]/5 w-full sm:w-auto backdrop-blur-sm"
                   onClick={() => console.log('Ver Demonstração clicked')}
                   aria-label="Ver Demonstração"
                 >
@@ -86,10 +89,11 @@ const Index = () => {
               </div>
             </div>
             <div className="relative w-full aspect-square p-8">
+              <div className="absolute inset-0 bg-gradient-to-br from-teal-400/20 to-teal-600/20 blur-3xl rounded-full"></div>
               <img 
                 src="/placeholder.svg" 
                 alt="AI Assistant Illustration" 
-                className="w-4/5 h-4/5 object-contain animate-float mx-auto" 
+                className="w-4/5 h-4/5 object-contain animate-float mx-auto relative z-10" 
                 loading="lazy"
                 width="500"
                 height="500"
@@ -109,7 +113,8 @@ const Index = () => {
       </main>
       <Footer />
       <CookieBanner />
-    </div>;
+    </div>
+  );
 };
 
 export default Index;
