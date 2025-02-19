@@ -81,7 +81,7 @@ export function LoginForm({
             <div className="w-full border-t border-white/10"></div>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="px-2 text-muted-foreground bg-background/80 backdrop-blur-sm">Ou</span>
+            
           </div>
         </div>
 
