@@ -19,9 +19,7 @@ const plans = [{
 export function PricingDialog() {
   return <Dialog>
       <DialogTrigger asChild>
-        <Button size="lg" className="hover-glow bg-primary/90 hover:bg-primary transition-all duration-300 mb-2">
-          Upgrade de Plano
-        </Button>
+        
       </DialogTrigger>
       <DialogContent className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95vw] max-w-4xl mx-auto p-3 sm:p-4 md:p-6 bg-white backdrop-blur-sm border border-primary/10 overflow-y-auto max-h-[90vh] box-border">
         <DialogHeader className="mb-4 md:mb-6 relative">
