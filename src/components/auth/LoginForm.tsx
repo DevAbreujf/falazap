@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
@@ -30,7 +31,6 @@ export function LoginForm({ onFlip }: { onFlip: () => void }) {
   }
 
   const onError = (errors: any) => {
-    // Show first error message in a toast
     const firstError = Object.values(errors)[0] as { message: string };
     if (firstError) {
       toast.error(firstError.message);
@@ -89,6 +89,14 @@ export function LoginForm({ onFlip }: { onFlip: () => void }) {
           </Button>
         </form>
       </Form>
+
+      <Button 
+        variant="link" 
+        className="w-full text-sm text-muted-foreground hover:text-primary"
+        onClick={() => navigate("/recuperar-senha")}
+      >
+        Esqueceu sua senha?
+      </Button>
 
       <div className="space-y-4">
         <div className="relative">

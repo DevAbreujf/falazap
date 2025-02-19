@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { RegisterForm } from "@/components/auth/RegisterForm";
@@ -9,10 +10,11 @@ export default function Auth() {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
-    <div className="min-h-screen w-full flex bg-background relative overflow-hidden">
+    <div className="min-h-screen w-full flex bg-[#03201E] relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_10%_20%,#29958D_0%,rgba(233,128,252,0)_40%),radial-gradient(ellipse_at_50%_0%,#005C55_25%,#03201E_75%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(45,212,191,0.15),rgba(255,255,255,0))]" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         
         {/* Animated background circles */}
