@@ -50,7 +50,7 @@ export function LoginForm({
           <FormField control={form.control} name="email" render={({
           field
         }) => <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="text-white">Email</FormLabel>
                 <FormControl>
                   <Input placeholder="seu@email.com" {...field} className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary" />
                 </FormControl>
@@ -59,7 +59,7 @@ export function LoginForm({
           <FormField control={form.control} name="password" render={({
           field
         }) => <FormItem>
-                <FormLabel>Senha</FormLabel>
+                <FormLabel className="text-white">Senha</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="••••••••" {...field} className="bg-background/50 backdrop-blur-sm border-white/10 focus:border-primary" />
                 </FormControl>
@@ -71,7 +71,7 @@ export function LoginForm({
         </form>
       </Form>
 
-      <Button variant="link" className="w-full text-sm text-muted-foreground hover:text-primary" onClick={() => navigate("/recuperar-senha")}>
+      <Button variant="link" onClick={() => navigate("/recuperar-senha")} className="w-full text-sm text-muted-foreground text-white">
         Esqueceu sua senha?
       </Button>
 
@@ -86,10 +86,10 @@ export function LoginForm({
         </div>
 
         <div className="space-y-2 text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground text-white">
             Ainda não tem uma conta?
           </p>
-          <Button variant="outline" className="w-full hover-glow border-white/10 bg-background/50 backdrop-blur-sm" onClick={onFlip}>
+          <Button variant="outline" onClick={onFlip} className="w-full hover-glow border-white/10 bg-background/50 backdrop-blur-sm bg-white">
             Criar Conta
           </Button>
         </div>
