@@ -30,7 +30,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/auth/*" element={<Auth />} />
+          <Route path="/entrar/*" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/contacts" element={<Contacts />} />
