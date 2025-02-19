@@ -65,7 +65,7 @@ export function LoginForm({
                 </FormControl>
               </FormItem>} />
 
-          <Button type="submit" className="w-full gradient-primary hover:opacity-90 hover:shadow-lg hover:shadow-primary/20">
+          <Button type="submit" className="w-full gradient-primary hover:opacity- hover:shadow-lg hover:shadow-primary/20 bg-white text-zinc-950">
             Entrar
           </Button>
         </form>
