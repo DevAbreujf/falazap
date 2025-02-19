@@ -1,4 +1,3 @@
-
 export type ChatStatus = 'waiting' | 'offline' | 'online' | 'new' | 'finished' | 'transferred';
 
 export type MessagePriority = 'low' | 'medium' | 'high';
@@ -29,9 +28,12 @@ export interface ChatContact {
 }
 
 export interface Department {
-  id: string;
+  id: number;
   name: string;
   description: string;
+  agents: number;
+  status: "online" | "offline";
+  icon?: string;
 }
 
 export interface QuickResponse {

@@ -22,7 +22,7 @@ export default function Auth() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
 
-      {/* Navigation header - Ajustado com flex-col no mobile */}
+      {/* Navigation header */}
       <div className="absolute top-8 left-8 right-8 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-6 sm:gap-0">
         <Link 
           to="/" 
@@ -37,7 +37,7 @@ export default function Auth() {
         </div>
       </div>
 
-      {/* Main content container - Aumentado o padding top no mobile */}
+      {/* Main content container */}
       <div className="flex w-full">
         {/* Left side - Auth form */}
         <div className="w-full lg:w-1/2 flex items-start justify-center p-8 pt-32 sm:pt-24">
