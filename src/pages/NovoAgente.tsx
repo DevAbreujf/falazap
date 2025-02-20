@@ -1,26 +1,18 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
-
 export default function NovoAgente() {
   const navigate = useNavigate();
-
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
           <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10">
             <div className="max-w-7xl mx-auto space-y-8">
               <div className="flex items-center gap-4">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => navigate("/agentes")}
-                >
+                <Button variant="ghost" size="sm" onClick={() => navigate("/agentes")}>
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Voltar
                 </Button>
@@ -65,10 +57,7 @@ export default function NovoAgente() {
                 1 crédito por resposta
               </p>
             </div>
-            <Button 
-              className="w-full"
-              onClick={() => navigate("/configurar-agente")}
-            >
+            <Button onClick={() => navigate("/configurar-agente")} className="w-full bg-emerald-400 hover:bg-emerald-300">
               Criar agente
             </Button>
           </div>
@@ -107,10 +96,7 @@ export default function NovoAgente() {
                 10 créditos por resposta
               </p>
             </div>
-            <Button 
-              className="w-full"
-              onClick={() => navigate("/configurar-agente")}
-            >
+            <Button onClick={() => navigate("/configurar-agente")} className="w-full bg-emerald-400 hover:bg-emerald-300">
               Criar agente
             </Button>
           </div>
@@ -119,6 +105,5 @@ export default function NovoAgente() {
           </main>
         </div>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 }
