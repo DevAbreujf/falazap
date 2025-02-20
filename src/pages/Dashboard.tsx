@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
-import { Circle, Menu, ChevronDown, Phone, Bell, MessageSquare } from "lucide-react";
+import { Circle, Menu, ChevronDown, Phone, Bell } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 import { MetricsGrid } from "@/components/app/dashboard/MetricsGrid";
 import { AnalyticsChart } from "@/components/app/dashboard/AnalyticsChart";
@@ -81,10 +81,37 @@ export default function Dashboard() {
                 <Button
                   variant="default"
                   size="icon"
-                  className="fixed bottom-6 right-6 z-50 rounded-full w-12 h-12 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+                  className="fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 bg-primary hover:bg-primary/90"
                   onClick={() => {/* Add support action here */}}
                 >
-                  <MessageSquare className="h-6 w-6" />
+                  <svg
+                    className="w-7 h-7 text-white"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.5 21L6.39139 20.3229C6.77584 20.22 7.18306 20.2791 7.53937 20.4565C8.88029 21.1244 10.3922 21.5 12 21.5C13.6078 21.5 15.1197 21.1244 16.4606 20.4565C16.8169 20.2791 17.2242 20.22 17.6086 20.3229L21.5 21L20.8229 17.6006C20.72 17.2161 20.7791 16.8088 20.9565 16.4525C21.6244 15.1116 22 13.5997 22 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M15 16C16.6569 16 18 14.6569 18 13C18 11.3431 16.6569 10 15 10C13.3431 10 12 11.3431 12 13C12 14.6569 13.3431 16 15 16Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M9 16C10.6569 16 12 14.6569 12 13C12 11.3431 10.6569 10 9 10C7.34315 10 6 11.3431 6 13C6 14.6569 7.34315 16 9 16Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                  </svg>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
