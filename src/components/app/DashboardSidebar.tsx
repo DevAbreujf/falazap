@@ -6,7 +6,6 @@ import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
-import { SidebarNotifications } from "./dashboard/SidebarNotifications";
 import { ThemeToggle } from "./dashboard/ThemeToggle";
 import { MessageSquare, RefreshCw, BookOpen } from "lucide-react";
 
@@ -26,16 +25,9 @@ export function DashboardSidebar() {
   return (
     <Sidebar className="border-r border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700">
       <div className="flex flex-col h-full">
-        {/* Logo Section */}
+        {/* Logo Section with Notifications */}
         <div className="border-b border-slate-200 dark:border-slate-700">
           <SidebarLogo />
-        </div>
-
-        {/* Notifications Section */}
-        <div className="px-4 py-2 border-b border-slate-200 dark:border-slate-700">
-          <div className="flex justify-end">
-            <SidebarNotifications />
-          </div>
         </div>
         
         <SidebarHeader className="py-0">
