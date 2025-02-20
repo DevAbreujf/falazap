@@ -18,7 +18,7 @@ export function Header() {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      const headerOffset = 80; // Altura do header
+      const headerOffset = 80;
       const elementPosition = section.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -68,7 +68,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Link to="/auth">
+          <Link to="/entrar">
             <Button 
               variant="ghost" 
               className="hidden md:inline-flex text-white hover:text-teal-300 hover:bg-teal-400/20 hover:scale-105 transition-all duration-300 ease-in-out backdrop-blur-sm hover:shadow-lg hover:shadow-teal-500/10"

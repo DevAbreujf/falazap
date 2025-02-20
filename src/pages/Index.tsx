@@ -25,6 +25,19 @@ const Index = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const headerOffset = 80;
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const heroTitle = useMemo(() => {
     return <>
         Clone seu melhor{" "}
@@ -74,7 +87,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300 w-full sm:w-auto" 
-                  onClick={() => console.log('Começar Agora clicked')}
+                  onClick={() => scrollToSection('pricing')}
                   aria-label="Começar Agora"
                 >
                   Começar Agora
