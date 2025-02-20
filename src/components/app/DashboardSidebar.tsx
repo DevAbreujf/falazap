@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, useSidebar } from "@/components/ui/sidebar";
@@ -6,11 +5,11 @@ import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 import { RefreshCw, BookOpen, X } from "lucide-react";
-
 export function DashboardSidebar() {
   const navigate = useNavigate();
-  const { setOpenMobile } = useSidebar();
-
+  const {
+    setOpenMobile
+  } = useSidebar();
   return <Sidebar className="border-r border-slate-200 bg-white dark:bg-[#03201E] dark:border-slate-700">
       <div className="flex flex-col h-full justify-between">
         <div className="flex-1 bg-slate-50">
@@ -19,12 +18,8 @@ export function DashboardSidebar() {
           </div>
           
           {/* Mobile Close Button */}
-          <div className="md:hidden p-4">
-            <Button 
-              variant="outline" 
-              className="w-full flex items-center justify-center gap-2 dark:border-slate-700 dark:hover:bg-slate-800"
-              onClick={() => setOpenMobile(false)}
-            >
+          <div className="md:hidden p-4 py-0 px-[100px]">
+            <Button variant="outline" className="w-full flex items-center justify-center gap-2 dark:border-slate-700 dark:hover:bg-slate-800" onClick={() => setOpenMobile(false)}>
               <X className="h-4 w-4" />
               <span>Fechar Menu</span>
             </Button>
