@@ -1,28 +1,34 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, useSidebar } from "@/components/ui/sidebar";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
-import { RefreshCw, BookOpen, X } from "lucide-react";
+import { RefreshCw, BookOpen, ArrowLeft } from "lucide-react";
+
 export function DashboardSidebar() {
   const navigate = useNavigate();
-  const {
-    setOpenMobile
-  } = useSidebar();
+  const { setOpenMobile } = useSidebar();
+
   return <Sidebar className="border-r border-slate-200 bg-white dark:bg-[#03201E] dark:border-slate-700">
-      <div className="flex flex-col h-full justify-between">
+      <div className="flex flex-col h-full justify-between relative">
+        {/* Floating Close Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setOpenMobile(false)}
+          className="md:hidden absolute right-4 top-20 z-50 h-8 w-8 rounded-full 
+            bg-white/10 hover:bg-white/20 dark:bg-slate-800/50 dark:hover:bg-slate-800/80
+            backdrop-blur-sm border border-white/20 dark:border-slate-700 shadow-lg
+            transition-all duration-300 hover:scale-105"
+        >
+          <ArrowLeft className="h-4 w-4 text-slate-600 dark:text-slate-200" />
+        </Button>
+
         <div className="flex-1 bg-slate-50">
           <div className="border-b border-slate-200 dark:border-slate-700">
             <SidebarLogo />
-          </div>
-          
-          {/* Mobile Close Button */}
-          <div className="md:hidden p-4 py-0 px-[100px]">
-            <Button variant="outline" className="w-full flex items-center justify-center gap-2 dark:border-slate-700 dark:hover:bg-slate-800" onClick={() => setOpenMobile(false)}>
-              <X className="h-4 w-4" />
-              <span>Fechar Menu</span>
-            </Button>
           </div>
           
           <SidebarHeader className="py-0">
