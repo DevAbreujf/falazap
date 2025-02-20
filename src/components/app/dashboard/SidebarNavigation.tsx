@@ -81,14 +81,14 @@ export function SidebarNavigation() {
     icon: Send,
     label: "Disparos em massa",
     description: "Gerencie seus disparos",
-    path: "/disparos",
-    onClick: () => navigate("/disparos"),
+    path: "/broadcasts",
+    onClick: () => navigate("/broadcasts"),
     children: [{
       icon: Send,
       label: "Lista de disparos",
       description: "Visualize seus disparos",
-      path: "/disparos",
-      onClick: () => navigate("/disparos")
+      path: "/broadcasts",
+      onClick: () => navigate("/broadcasts")
     }]
   }, {
     icon: Bell,
@@ -118,12 +118,12 @@ export function SidebarNavigation() {
           <SidebarMenuButton 
             onClick={() => handleItemClick(item)}
             className={cn(
-              "group relative flex w-full items-center gap-2 rounded-lg p-1.5 transition-all duration-200 mx-0 my-[1px] cursor-pointer",
+              "group relative flex w-full items-center gap-2 rounded-lg p-2 transition-all duration-200 my-2",
               item.children && "justify-between"
             )}
           >
-            <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
+            <div className="flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
                 <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
               </div>
               <div className="flex flex-col">
@@ -151,7 +151,7 @@ export function SidebarNavigation() {
                 <SidebarMenuSubItem key={child.label}>
                   <SidebarMenuSubButton
                     onClick={child.onClick}
-                    className="flex items-center gap-2 p-1.5 rounded-md hover:bg-slate-100 cursor-pointer transition-all duration-200 text-slate-600 hover:text-primary"
+                    className="flex items-center gap-2 p-2 rounded-md hover:bg-slate-100 cursor-pointer transition-all duration-200 text-slate-600 hover:text-primary my-1"
                   >
                     <child.icon className="h-4 w-4" />
                     <span className="text-sm">{child.label}</span>
