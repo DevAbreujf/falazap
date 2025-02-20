@@ -6,7 +6,6 @@ import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
-import { ThemeToggle } from "./dashboard/ThemeToggle";
 import { RefreshCw, BookOpen } from "lucide-react";
 
 export function DashboardSidebar() {
@@ -56,7 +55,7 @@ export function DashboardSidebar() {
 
         <div className="border-t border-slate-200 dark:border-slate-700">
           {/* Updates and Tutorial Section */}
-          <div className="px-3 py-2 border-t border-slate-200 dark:border-slate-700">
+          <div className="px-3 py-2">
             <div className="flex flex-col gap-3">
               <button
                 className="relative w-full h-20 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-slate-800"
@@ -76,10 +75,6 @@ export function DashboardSidebar() {
                 </div>
               </button>
             </div>
-          </div>
-
-          <div className="border-t border-slate-200 dark:border-slate-700">
-            <ThemeToggle />
           </div>
         </div>
       </div>
