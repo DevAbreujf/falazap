@@ -23,8 +23,8 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar className="border-r border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700">
-      <div className="flex flex-col h-full justify-between max-h-screen">
-        <div className="overflow-y-auto flex-1">
+      <div className="flex flex-col h-full justify-between">
+        <div className="flex-1">
           <div className="border-b border-slate-200 dark:border-slate-700">
             <SidebarLogo />
           </div>
