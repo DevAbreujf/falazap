@@ -14,21 +14,33 @@ export function MetricsTimeSelector({ selected, onChange }: MetricsTimeSelectorP
       <Button
         variant={selected === "day" ? "default" : "secondary"}
         onClick={() => onChange("day")}
-        className={`${selected === "day" ? "" : "border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"}`}
+        className={`${
+          selected === "day"
+            ? "bg-primary text-white shadow-sm hover:opacity-90 hover:shadow-md hover:shadow-primary/20"
+            : "bg-white border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"
+        }`}
       >
         Dia
       </Button>
       <Button
         variant={selected === "week" ? "default" : "secondary"}
         onClick={() => onChange("week")}
-        className={`${selected === "week" ? "" : "border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"}`}
+        className={`${
+          selected === "week"
+            ? "bg-primary text-white shadow-sm hover:opacity-90 hover:shadow-md hover:shadow-primary/20"
+            : "bg-white border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"
+        }`}
       >
         Semana
       </Button>
       <Button
         variant={selected === "month" ? "default" : "secondary"}
         onClick={() => onChange("month")}
-        className={`${selected === "month" ? "" : "border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"}`}
+        className={`${
+          selected === "month"
+            ? "bg-primary text-white shadow-sm hover:opacity-90 hover:shadow-md hover:shadow-primary/20"
+            : "bg-white border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"
+        }`}
       >
         Mês
       </Button>
