@@ -1,21 +1,13 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
-import { Circle, Menu, ChevronDown, Phone, Bell } from "lucide-react";
+import { Menu } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 import { MetricsGrid } from "@/components/app/dashboard/MetricsGrid";
 import { AnalyticsChart } from "@/components/app/dashboard/AnalyticsChart";
 import { useNavigate } from "react-router-dom";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 function DashboardContent() {
@@ -38,48 +30,45 @@ function DashboardContent() {
         </Button>
       </div>
 
-      <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10 flex-1 overflow-auto">
+      <main className="container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 flex-1 overflow-auto">
         {/* Header Section */}
-        <div className="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+        <div className="bg-white rounded-xl p-4 mb-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-4">
             <div className="w-full md:w-auto">
-              <div className="flex items-center gap-4">
-                <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
+              <div className="flex items-center gap-3 mb-4">
+                <Button
+                  variant="default"
+                  onClick={() => setIsPricingOpen(true)}
+                  className="w-full md:w-auto"
+                >
+                  Atualizar plano
+                </Button>
+              </div>
+              <p className="text-sm text-slate-600 mb-4">
+                Plano atual: <span className="font-medium text-primary">Pro</span>
+              </p>
+              <div className="flex items-center gap-3">
+                <h1 className="text-2xl md:text-3xl font-bold text-slate-900">
                   Olá, João!
                 </h1>
               </div>
-              <div className="h-px w-full bg-slate-200 mt-4" />
-              <p className="text-slate-600 text-base md:text-lg mt-4">
+              <div className="h-px w-full bg-slate-200 mt-3" />
+              <p className="text-slate-600 text-base mt-3">
                 Bem-vindo ao seu painel de controle
               </p>
             </div>
-
-            <div className="w-full md:w-auto flex items-center gap-4">
-              <Button
-                variant="default"
-                onClick={() => setIsPricingOpen(true)}
-                className="w-full md:w-auto"
-              >
-                Atualizar plano
-              </Button>
-            </div>
-          </div>
-          <div className="mt-4 text-center">
-            <p className="text-sm text-slate-600">
-              Plano atual: <span className="font-medium text-primary">Pro</span>
-            </p>
           </div>
         </div>
 
         {/* Metrics Time Selector */}
-        <div className="mb-8">
+        <div className="mb-6">
           <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
         </div>
 
         {/* Dashboard Content */}
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Metrics Grid */}
-          <div className="grid gap-6">
+          <div className="grid gap-4">
             <MetricsGrid timeRange={timeRange} />
           </div>
 
