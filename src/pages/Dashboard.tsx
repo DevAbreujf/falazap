@@ -25,21 +25,24 @@ function DashboardContent() {
   const { setOpenMobile } = useSidebar();
 
   return (
-    <div className="flex-1 overflow-auto relative">
-      <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10">
+    <div className="flex-1 overflow-hidden relative flex flex-col">
+      <div className="absolute top-4 left-4 z-50 md:hidden">
+        <Button
+          variant="default"
+          size="icon"
+          className="bg-primary hover:bg-primary/90 text-white shadow-lg"
+          onClick={() => setOpenMobile(true)}
+        >
+          <Menu className="h-6 w-6" />
+        </Button>
+      </div>
+
+      <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10 flex-1 overflow-auto">
         {/* Header Section */}
         <div className="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start gap-6">
             <div className="w-full md:w-auto">
-              <div className="flex items-center gap-4">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="md:hidden hover:bg-slate-100"
-                  onClick={() => setOpenMobile(true)}
-                >
-                  <Menu className="h-6 w-6 text-slate-600" />
-                </Button>
+              <div className="flex items-center gap-4 pl-12 md:pl-0">
                 <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
                   Olá, João!
                 </h1>
