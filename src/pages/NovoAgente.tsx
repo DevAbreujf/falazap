@@ -1,109 +1,93 @@
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
+import { Menu } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useNavigate } from "react-router-dom";
+
 export default function NovoAgente() {
+  const { setOpenMobile } = useSidebar();
   const navigate = useNavigate();
-  return <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-slate-50">
+
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
-          <main className="container mx-auto p-4 md:p-8 lg:px-8 xl:px-10">
-            <div className="max-w-7xl mx-auto space-y-8">
-              <div className="flex items-center gap-4">
-                <Button variant="ghost" size="sm" onClick={() => navigate("/agentes")}>
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Voltar
-                </Button>
-                <div>
-                  <h1 className="text-2xl font-semibold text-gray-900">
-                    Novo Agente de IA
-                  </h1>
-                  <p className="text-gray-600 mt-1">
-                    Aqui você consegue criar, configurar e treinar os seus agentes de IA. Lembrando que o agente IA é um especialista; portanto, se a tarefa dele for mais específica, provavelmente ele terá um nível de acertos em um tempo menor.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white rounded-lg shadow-sm p-8 space-y-6">
-            <div className="w-20 h-20 mx-auto bg-green-100 rounded-full" />
-            <div className="text-center">
-              <h3 className="text-xl font-semibold">Standard</h3>
-              <p className="text-gray-500 mt-2">
-                Maior quantidade de respostas com menor qualidade
-              </p>
+          {/* Header Mobile Fixo */}
+          <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b md:hidden">
+            <div className="flex items-center justify-between px-4 h-14">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setOpenMobile(true)}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
             </div>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-sm">
-                <div className="w-4 h-4 rounded-full bg-green-100" />
-                Otimiza o atendimento da sua empresa
-              </li>
-              <li className="flex items-center gap-2 text-sm">
-                <div className="w-4 h-4 rounded-full bg-green-100" />
-                Compreensão contextual
-              </li>
-              <li className="flex items-center gap-2 text-sm">
-                <div className="w-4 h-4 rounded-full bg-green-100" />
-                Respostas mais diretas
-              </li>
-            </ul>
-            <div className="text-center">
-              <div className="bg-green-100 text-green-800 inline-block px-3 py-1 rounded-full text-sm">
-                400 créditos grátis
-              </div>
-              <p className="text-sm text-gray-500 mt-2">
-                1 crédito por resposta
-              </p>
-            </div>
-            <Button onClick={() => navigate("/configurar-agente")} className="w-full bg-emerald-400 hover:bg-emerald-300">
-              Criar agente
-            </Button>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm p-8 space-y-6">
-            <div className="w-20 h-20 mx-auto bg-purple-100 rounded-full relative">
-              <div className="absolute -top-2 -right-2 bg-purple-200 text-purple-800 px-2 py-1 rounded-full text-xs">
-                Recomendado
-              </div>
-            </div>
-            <div className="text-center">
-              <h3 className="text-xl font-semibold">Expert</h3>
-              <p className="text-gray-500 mt-2">
-                Menor quantidade de resposta com maior qualidade
-              </p>
-            </div>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-sm">
-                <div className="w-4 h-4 rounded-full bg-purple-100" />
-                Eleva a qualidade do atendimento da sua empresa
-              </li>
-              <li className="flex items-center gap-2 text-sm">
-                <div className="w-4 h-4 rounded-full bg-purple-100" />
-                Compreensão contextual avançada
-              </li>
-              <li className="flex items-center gap-2 text-sm">
-                <div className="w-4 h-4 rounded-full bg-purple-100" />
-                Respostas mais profundas, criativas e sofisticadas
-              </li>
-            </ul>
-            <div className="text-center">
-              <div className="bg-green-100 text-green-800 inline-block px-3 py-1 rounded-full text-sm">
-                400 créditos grátis
-              </div>
-              <p className="text-sm text-gray-500 mt-2">
-                10 créditos por resposta
-              </p>
-            </div>
-            <Button onClick={() => navigate("/configurar-agente")} className="w-full bg-emerald-400 hover:bg-emerald-300">
-              Criar agente
-            </Button>
-          </div>
-              </div>
+          <main className="container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 flex-1 overflow-auto pt-16 md:pt-6">
+            <div className="max-w-2xl mx-auto">
+              <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Criar Novo Agente
+              </h1>
+
+              <Card className="p-6">
+                <form className="space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="name">Nome do Agente</Label>
+                      <Input
+                        id="name"
+                        placeholder="Ex: Assistente de Vendas"
+                        className="mt-1.5"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="description">Descrição</Label>
+                      <Textarea
+                        id="description"
+                        placeholder="Descreva a função principal do seu agente..."
+                        className="mt-1.5 min-h-[100px]"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="department">Departamento</Label>
+                      <Input
+                        id="department"
+                        placeholder="Ex: Vendas, Suporte, Marketing"
+                        className="mt-1.5"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 pt-4">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => navigate('/agentes')}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      className="flex-1 bg-primary hover:bg-primary/90"
+                      onClick={() => navigate('/configurar-agente')}
+                    >
+                      Continuar
+                    </Button>
+                  </div>
+                </form>
+              </Card>
             </div>
           </main>
         </div>
       </div>
-    </SidebarProvider>;
+    </SidebarProvider>
+  );
 }
