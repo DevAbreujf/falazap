@@ -1,10 +1,7 @@
-
 import { SidebarNotifications } from "./SidebarNotifications";
 import { ThemeToggle } from "./ThemeToggle";
-
 export function SidebarLogo() {
-  return (
-    <div className="w-full flex items-center justify-center py-4 pt-6 relative">
+  return <div className="w-full flex items-center justify-center py-4 pt-6 relative bg-slate-50">
       <div className="absolute left-4 top-1/2 -translate-y-1/2">
         <ThemeToggle />
       </div>
@@ -20,6 +17,5 @@ export function SidebarLogo() {
       <div className="absolute right-4 top-1/2 -translate-y-1/2">
         <SidebarNotifications />
       </div>
-    </div>
-  );
+    </div>;
 }
