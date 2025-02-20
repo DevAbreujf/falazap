@@ -1,7 +1,14 @@
+
 import { Input } from "@/components/ui/input";
-import { Search, FileSpreadsheet } from "lucide-react";
+import { Search, FileSpreadsheet, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface ContactsHeaderProps {
   searchTerm: string;
@@ -59,15 +66,29 @@ export function ContactsHeader({
             ))}
           </SelectContent>
         </Select>
-        <Button
-          variant="outline"
-          onClick={onExportCSV}
-          disabled={!hasSelectedContacts}
-          className="flex items-center gap-2 hover-glow"
-        >
-          <FileSpreadsheet className="h-4 w-4" />
-          Exportar CSV
-        </Button>
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              disabled={!hasSelectedContacts}
+              className="flex items-center gap-2 hover-glow"
+            >
+              <Download className="h-4 w-4" />
+              Exportar
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={onExportCSV} className="cursor-pointer">
+              <FileSpreadsheet className="h-4 w-4 mr-2" />
+              Exportar CSV
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onExportCSV} className="cursor-pointer">
+              <FileSpreadsheet className="h-4 w-4 mr-2" />
+              Exportar XLSX
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );
