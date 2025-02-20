@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
@@ -31,18 +32,20 @@ function DashboardContent() {
 
   return (
     <div className="flex-1 overflow-hidden relative flex flex-col">
-      <div className="absolute top-4 left-4 z-50 md:hidden">
-        <Button
-          variant="default"
-          size="icon"
-          className="bg-primary hover:bg-primary/90 text-white shadow-lg"
-          onClick={() => setOpenMobile(true)}
-        >
-          <Menu className="h-6 w-6" />
-        </Button>
+      {/* Header Mobile Fixo */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b md:hidden">
+        <div className="flex items-center justify-between px-4 h-14">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setOpenMobile(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        </div>
       </div>
 
-      <main className="container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 flex-1 overflow-auto">
+      <main className="container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 flex-1 overflow-auto pt-16 md:pt-6">
         {/* Header Section */}
         <div className="bg-white rounded-xl p-4 mb-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start gap-4">
