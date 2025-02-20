@@ -1,3 +1,4 @@
+
 import { Header } from "@/components/Header";
 import { Steps } from "@/components/Steps";
 import { TransformResults } from "@/components/TransformResults";
@@ -121,9 +122,7 @@ const Index = () => {
         <TransformResults />
         <HighScale />
         <Functionalities />
-        <section id="pricing" className="py-24 bg-white/5">
-          <Pricing />
-        </section>
+        <Pricing />
         <FAQ />
         <SalesCTA />
       </main>
