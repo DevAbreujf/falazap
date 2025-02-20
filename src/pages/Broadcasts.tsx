@@ -2,11 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Contact } from "@/types/chat";
-import { Search } from "lucide-react";
+import { Search, Users } from "lucide-react";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -15,6 +16,8 @@ export default function Broadcasts() {
   const { toast } = useToast();
   const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
   const [selectedFlow, setSelectedFlow] = useState("");
+  const [isContactsDialogOpen, setIsContactsDialogOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   
   const mockContacts: Contact[] = [
     {
@@ -65,9 +68,14 @@ export default function Broadcasts() {
     { id: "3", name: "Reativação" },
   ];
 
+  const filteredContacts = mockContacts.filter(contact => 
+    contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    contact.phone.includes(searchTerm)
+  );
+
   const handleSelectAllContacts = (checked: boolean) => {
     if (checked) {
-      setSelectedContacts(mockContacts.map(contact => contact.id.toString()));
+      setSelectedContacts(filteredContacts.map(contact => contact.id.toString()));
     } else {
       setSelectedContacts([]);
     }
@@ -111,89 +119,106 @@ export default function Broadcasts() {
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
         <DashboardSidebar />
-        <div className="flex-1 overflow-auto p-6 space-y-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Disparos em Massa</h1>
-          </div>
+        <div className="flex-1 overflow-auto p-6">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white rounded-xl shadow-sm p-6 space-y-6">
+              <h1 className="text-2xl font-bold text-gray-900">Disparos em Massa</h1>
+              
+              <div className="space-y-4">
+                <div>
+                  <Button
+                    onClick={() => setIsContactsDialogOpen(true)}
+                    variant="outline"
+                    className="w-full justify-start"
+                  >
+                    <Users className="w-4 h-4 mr-2" />
+                    {selectedContacts.length > 0 
+                      ? `${selectedContacts.length} contatos selecionados`
+                      : "Selecionar contatos"}
+                  </Button>
+                </div>
 
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1">
-              <Select value={selectedFlow} onValueChange={setSelectedFlow}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione um fluxo" />
-                </SelectTrigger>
-                <SelectContent>
-                  {mockFlows.map(flow => (
-                    <SelectItem key={flow.id} value={flow.id}>
-                      {flow.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                <div>
+                  <Select value={selectedFlow} onValueChange={setSelectedFlow}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione um fluxo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mockFlows.map(flow => (
+                        <SelectItem key={flow.id} value={flow.id}>
+                          {flow.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <Button 
+                  onClick={handleSendBroadcast}
+                  disabled={selectedContacts.length === 0 || !selectedFlow}
+                  className="w-full"
+                >
+                  Enviar Disparo
+                </Button>
+              </div>
             </div>
-            <Button 
-              onClick={handleSendBroadcast}
-              disabled={selectedContacts.length === 0 || !selectedFlow}
-            >
-              Enviar Disparo
-            </Button>
           </div>
 
-          <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Buscar contatos..."
-              className="pl-10 max-w-md"
-            />
-          </div>
+          <Dialog open={isContactsDialogOpen} onOpenChange={setIsContactsDialogOpen}>
+            <DialogContent className="sm:max-w-[600px]">
+              <DialogHeader>
+                <DialogTitle>Selecionar Contatos</DialogTitle>
+              </DialogHeader>
+              
+              <div className="relative mb-4">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Buscar contatos..."
+                  className="pl-10"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
 
-          <div className="border rounded-lg bg-white">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12">
+              <ScrollArea className="h-[400px] pr-4">
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2">
                     <Checkbox
-                      checked={selectedContacts.length === mockContacts.length}
+                      checked={selectedContacts.length === filteredContacts.length}
                       onCheckedChange={handleSelectAllContacts}
                     />
-                  </TableHead>
-                  <TableHead>Nome</TableHead>
-                  <TableHead>Telefone</TableHead>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Funil</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {mockContacts.map((contact) => (
-                  <TableRow key={contact.id}>
-                    <TableCell>
-                      <Checkbox
-                        checked={selectedContacts.includes(contact.id.toString())}
-                        onCheckedChange={() => handleContactSelect(contact.id.toString())}
-                      />
-                    </TableCell>
-                    <TableCell>{contact.name}</TableCell>
-                    <TableCell>{contact.phone}</TableCell>
-                    <TableCell>{contact.date}</TableCell>
-                    <TableCell>{contact.funnelName}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full ${
-                          contact.funnelStatus === 'completed' ? 'bg-green-500' :
-                          contact.funnelStatus === 'in_progress' ? 'bg-yellow-500' :
-                          'bg-gray-500'
-                        }`} />
-                        {contact.funnelStatus === 'completed' ? 'Concluído' :
-                         contact.funnelStatus === 'in_progress' ? 'Em Andamento' :
-                         'Pendente'}
+                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      Selecionar todos
+                    </label>
+                  </div>
+
+                  <div className="space-y-2">
+                    {filteredContacts.map((contact) => (
+                      <div key={contact.id} className="flex items-center space-x-2 p-2 hover:bg-slate-50 rounded-lg">
+                        <Checkbox
+                          checked={selectedContacts.includes(contact.id.toString())}
+                          onCheckedChange={() => handleContactSelect(contact.id.toString())}
+                        />
+                        <div>
+                          <p className="text-sm font-medium">{contact.name}</p>
+                          <p className="text-sm text-muted-foreground">{contact.phone}</p>
+                        </div>
                       </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                    ))}
+                  </div>
+                </div>
+              </ScrollArea>
+
+              <DialogFooter className="flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  {selectedContacts.length} contatos selecionados
+                </p>
+                <Button onClick={() => setIsContactsDialogOpen(false)}>
+                  Confirmar
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </SidebarProvider>
