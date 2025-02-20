@@ -144,8 +144,7 @@ export default function Chatboard() {
   const { departments } = useDepartmentStore();
   const [currentDepartment, setCurrentDepartment] = useState({
     id: "1",
-    name: "Sem setor",
-    description: ""
+    name: "Sem setor"
   });
   const [messagesByDepartment, setMessagesByDepartment] = useState({
     ...initialMessagesByDepartment,
@@ -168,8 +167,7 @@ export default function Chatboard() {
       if (!dept) {
         setCurrentDepartment({
           id: departments[0].id.toString(),
-          name: departments[0].name,
-          description: departments[0].description || ""
+          name: departments[0].name
         });
       }
     }
@@ -286,8 +284,7 @@ export default function Chatboard() {
     if (department) {
       setCurrentDepartment({
         id: department.id.toString(),
-        name: department.name,
-        description: department.description || ""
+        name: department.name
       });
       setSelectedContactId(undefined);
       setShowIntro(true);
@@ -318,10 +315,10 @@ export default function Chatboard() {
     }
   };
 
-  const handleTransferChat = (contactId: string, attendantId: string) => {
+  const handleTransferChat = (attendantId: string) => {
     try {
       const updatedContacts = mockContactsByDepartment[currentDepartment.id].map(contact =>
-        contact.id === contactId
+        contact.id === selectedContactId
           ? { ...contact, status: 'transferred' as const }
           : contact
       );
@@ -342,14 +339,13 @@ export default function Chatboard() {
     }
   };
 
-  const handleChangeDepartment = (contactId: string, departmentId: string) => {
+  const handleChangeDepartment = (departmentId: string) => {
     try {
       const department = departments.find(d => d.id.toString() === departmentId);
       if (department) {
         setCurrentDepartment({
           id: department.id.toString(),
-          name: department.name,
-          description: department.description || ""
+          name: department.name
         });
         setSelectedContactId(undefined);
         setShowIntro(true);
@@ -416,6 +412,11 @@ export default function Chatboard() {
     avatar: undefined
   };
 
+  const simplifiedDepartments = departments.map(dept => ({
+    id: dept.id.toString(),
+    name: dept.name
+  }));
+
   const handleCloseChat = () => {
     setSelectedContactId(undefined);
     setShowIntro(true);
@@ -427,26 +428,28 @@ export default function Chatboard() {
         <DashboardSidebar />
         <div className="flex-1 flex">
           <ChatSidebar
-            contacts={mockContactsByDepartment[currentDepartment.id] || []}
+            contacts={currentContacts}
             departments={departments}
             currentDepartment={currentDepartment}
             onDepartmentChange={handleDepartmentChange}
             selectedContactId={selectedContactId}
-            onSelectContact={setSelectedContactId}
+            onSelectContact={(contact: ChatContact) => setSelectedContactId(contact.id)}
           />
           {selectedContactId ? (
             <ChatWindow
-              contact={mockContactsByDepartment[currentDepartment.id].find(
+              contact={currentContacts.find(
                 (contact) => contact.id === selectedContactId
               )!}
-              messages={messagesByDepartment[currentDepartment.id]?.[selectedContactId] || []}
+              messages={currentMessages}
               onSendMessage={handleSendMessage}
               onEndSupport={() => handleEndSupport(selectedContactId)}
               onTransferChat={handleTransferChat}
               onChangeDepartment={handleChangeDepartment}
               currentDepartment={currentDepartment}
+              currentUser={mockCurrentUser}
               onMessageAction={handleMessageAction}
-              departments={departments}
+              departments={simplifiedDepartments}
+              onCloseChat={handleCloseChat}
             />
           ) : (
             <ChatIntro />
