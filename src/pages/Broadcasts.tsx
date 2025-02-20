@@ -1,13 +1,21 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Contact } from "@/types/chat";
 import { Search } from "lucide-react";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Broadcasts() {
+  const { toast } = useToast();
+  const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
+  const [selectedFlow, setSelectedFlow] = useState("");
+  
   const mockContacts: Contact[] = [
     {
       id: 1,
@@ -51,17 +59,87 @@ export default function Broadcasts() {
     }
   ];
 
+  const mockFlows = [
+    { id: "1", name: "Funil de Vendas" },
+    { id: "2", name: "Pós-Venda" },
+    { id: "3", name: "Reativação" },
+  ];
+
+  const handleSelectAllContacts = (checked: boolean) => {
+    if (checked) {
+      setSelectedContacts(mockContacts.map(contact => contact.id.toString()));
+    } else {
+      setSelectedContacts([]);
+    }
+  };
+
+  const handleContactSelect = (contactId: string) => {
+    setSelectedContacts(prev => {
+      if (prev.includes(contactId)) {
+        return prev.filter(id => id !== contactId);
+      }
+      return [...prev, contactId];
+    });
+  };
+
+  const handleSendBroadcast = () => {
+    if (!selectedFlow) {
+      toast({
+        title: "Selecione um fluxo",
+        description: "É necessário selecionar um fluxo para enviar o disparo.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (selectedContacts.length === 0) {
+      toast({
+        title: "Selecione contatos",
+        description: "É necessário selecionar pelo menos um contato para enviar o disparo.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Disparo iniciado",
+      description: `Iniciando disparo para ${selectedContacts.length} contatos.`,
+    });
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-slate-50">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto p-6 space-y-6">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Transmissões</h1>
-            <Button>Nova Transmissão</Button>
+            <h1 className="text-2xl font-bold">Disparos em Massa</h1>
           </div>
 
-          <div className="relative">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="flex-1">
+              <Select value={selectedFlow} onValueChange={setSelectedFlow}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione um fluxo" />
+                </SelectTrigger>
+                <SelectContent>
+                  {mockFlows.map(flow => (
+                    <SelectItem key={flow.id} value={flow.id}>
+                      {flow.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button 
+              onClick={handleSendBroadcast}
+              disabled={selectedContacts.length === 0 || !selectedFlow}
+            >
+              Enviar Disparo
+            </Button>
+          </div>
+
+          <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               placeholder="Buscar contatos..."
@@ -73,17 +151,28 @@ export default function Broadcasts() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={selectedContacts.length === mockContacts.length}
+                      onCheckedChange={handleSelectAllContacts}
+                    />
+                  </TableHead>
                   <TableHead>Nome</TableHead>
                   <TableHead>Telefone</TableHead>
                   <TableHead>Data</TableHead>
                   <TableHead>Funil</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {mockContacts.map((contact) => (
                   <TableRow key={contact.id}>
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedContacts.includes(contact.id.toString())}
+                        onCheckedChange={() => handleContactSelect(contact.id.toString())}
+                      />
+                    </TableCell>
                     <TableCell>{contact.name}</TableCell>
                     <TableCell>{contact.phone}</TableCell>
                     <TableCell>{contact.date}</TableCell>
@@ -99,11 +188,6 @@ export default function Broadcasts() {
                          contact.funnelStatus === 'in_progress' ? 'Em Andamento' :
                          'Pendente'}
                       </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">
-                        Visualizar
-                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

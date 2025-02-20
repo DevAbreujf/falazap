@@ -1,4 +1,3 @@
-
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Info, ArrowLeft, MessageSquare, StickyNote, Bot, Clock } from "lucide-react";
 import { ChatContact, ChatMessage } from "@/types/chat";
@@ -144,7 +143,7 @@ export function ChatWindow({
   };
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className="flex flex-col h-screen max-h-screen">
       <div className="p-5 border-b bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm flex items-center justify-between gap-4 shadow-sm transition-all duration-300">
         <div className="flex items-center gap-4">
           <HoverCard>
@@ -206,7 +205,7 @@ export function ChatWindow({
         </div>
       </div>
 
-      <ScrollArea className="flex-1" ref={scrollRef}>
+      <ScrollArea className="flex-1 h-[calc(100vh-180px)]" ref={scrollRef}>
         <div className="p-4 space-y-4">
           {hoveredDate && (
             <TooltipProvider>
@@ -245,7 +244,7 @@ export function ChatWindow({
         </div>
       </ScrollArea>
 
-      <div className="border-t border-primary/10 bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-sm">
+      <div className="border-t border-primary/10 bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-sm mt-auto">
         <ChatInput
           onSendMessage={handleSendMessage}
           isSignatureEnabled={isSignatureEnabled}
@@ -324,4 +323,3 @@ export function ChatWindow({
     </div>
   );
 }
-
