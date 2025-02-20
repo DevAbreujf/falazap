@@ -7,7 +7,7 @@ import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
 import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 import { ThemeToggle } from "./dashboard/ThemeToggle";
-import { MessageSquare, RefreshCw, BookOpen } from "lucide-react";
+import { RefreshCw, BookOpen } from "lucide-react";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
@@ -26,7 +26,6 @@ export function DashboardSidebar() {
     <Sidebar className="border-r border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700">
       <div className="flex flex-col h-full justify-between">
         <div>
-          {/* Logo Section with Notifications */}
           <div className="border-b border-slate-200 dark:border-slate-700">
             <SidebarLogo />
           </div>
@@ -56,29 +55,22 @@ export function DashboardSidebar() {
         </div>
 
         <div>
-          {/* Support Section */}
+          {/* Updates and Tutorial Section */}
           <div className="px-3 py-2 border-t border-slate-200 dark:border-slate-700">
-            <div className="grid grid-cols-3 gap-2">
+            <div className="flex flex-col gap-2">
               <Button
                 variant="ghost"
-                className="flex flex-col items-center justify-center p-1.5 h-auto hover:bg-primary/5"
+                className="flex items-center justify-start gap-2 p-2 w-full hover:bg-primary/5"
               >
-                <MessageSquare className="h-4 w-4 text-slate-600 mb-1" />
-                <span className="text-[10px] text-slate-600 font-medium">Suporte</span>
+                <RefreshCw className="h-4 w-4 text-slate-600" />
+                <span className="text-sm text-slate-600 font-medium">Atualizações</span>
               </Button>
               <Button
                 variant="ghost"
-                className="flex flex-col items-center justify-center p-1.5 h-auto hover:bg-primary/5"
+                className="flex items-center justify-start gap-2 p-2 w-full hover:bg-primary/5"
               >
-                <RefreshCw className="h-4 w-4 text-slate-600 mb-1" />
-                <span className="text-[10px] text-slate-600 font-medium">Atualizações</span>
-              </Button>
-              <Button
-                variant="ghost"
-                className="flex flex-col items-center justify-center p-1.5 h-auto hover:bg-primary/5"
-              >
-                <BookOpen className="h-4 w-4 text-slate-600 mb-1" />
-                <span className="text-[10px] text-slate-600 font-medium">Tutorial</span>
+                <BookOpen className="h-4 w-4 text-slate-600" />
+                <span className="text-sm text-slate-600 font-medium">Tutorial</span>
               </Button>
             </div>
           </div>

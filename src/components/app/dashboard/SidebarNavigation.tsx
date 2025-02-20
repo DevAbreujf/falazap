@@ -1,4 +1,3 @@
-
 import { useNavigate, useLocation } from "react-router-dom";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar";
 import { BarChart3, Filter, MessageSquare, Phone, Send, Bell, Calendar, Home, Bot, Tag, ChevronDown, Users } from "lucide-react";
@@ -12,15 +11,18 @@ export function SidebarNavigation() {
 
   useEffect(() => {
     const currentPath = location.pathname;
+    
+    // Reset all expanded items first
+    setExpandedItems([]);
+    
+    // Check each menu item
     menuItems.forEach(item => {
-      if (item.children?.some(child => currentPath.includes(child.path))) {
-        setExpandedItems(prev => 
-          prev.includes(item.label) ? prev : [...prev, item.label]
-        );
-      } else if (!currentPath.includes(item.path)) {
-        setExpandedItems(prev => 
-          prev.filter(label => label !== item.label)
-        );
+      // If the item has children and either the parent path or any child path matches
+      if (item.children && (
+        currentPath.includes(item.path) || 
+        item.children.some(child => currentPath.includes(child.path))
+      )) {
+        setExpandedItems(prev => [...prev, item.label]);
       }
     });
   }, [location.pathname]);
@@ -28,7 +30,7 @@ export function SidebarNavigation() {
   const handleItemClick = (item: any) => {
     if (item.children) {
       setExpandedItems(prev => 
-        prev.includes(item.label) ? prev : [...prev, item.label]
+        prev.includes(item.label) ? prev.filter(i => i !== item.label) : [...prev, item.label]
       );
     }
     item.onClick();
@@ -139,7 +141,6 @@ export function SidebarNavigation() {
             </div>
             {item.children && (
               <ChevronDown 
-                onClick={(e) => toggleExpanded(e, item.label)}
                 className={cn(
                   "h-4 w-4 text-slate-400 hover:text-primary transition-all duration-200",
                   expandedItems.includes(item.label) && "transform rotate-180"
