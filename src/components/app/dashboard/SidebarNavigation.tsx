@@ -120,19 +120,19 @@ export function SidebarNavigation() {
           <SidebarMenuButton 
             onClick={() => handleItemClick(item)}
             className={cn(
-              "group relative flex w-full items-center gap-3 rounded-lg p-2.5 transition-all duration-200 mx-0 my-[4px] cursor-pointer",
+              "group relative flex w-full items-center gap-2 rounded-lg p-2 transition-all duration-200 mx-0 my-[2px] cursor-pointer",
               item.children && "justify-between"
             )}
           >
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
+            <div className="flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
                 <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-slate-900 leading-tight group-hover:text-primary transition-colors">
                   {item.label}
                 </span>
-                <span className="text-xs text-slate-500 leading-tight group-hover:text-slate-600 transition-colors">
+                <span className="text-[11px] text-slate-500 leading-tight group-hover:text-slate-600 transition-colors">
                   {item.description}
                 </span>
               </div>
