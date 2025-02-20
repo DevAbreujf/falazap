@@ -23,6 +23,7 @@ function DashboardContent() {
   const [isConnected] = useState(false);
   const navigate = useNavigate();
   const { setOpenMobile } = useSidebar();
+  const [isPricingOpen, setIsPricingOpen] = useState(false);
 
   return (
     <div className="flex-1 overflow-hidden relative flex flex-col">
@@ -42,7 +43,7 @@ function DashboardContent() {
         <div className="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start gap-6">
             <div className="w-full md:w-auto">
-              <div className="flex items-center gap-4 pl-12 md:pl-0">
+              <div className="flex items-center gap-4">
                 <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
                   Olá, João!
                 </h1>
@@ -54,13 +55,19 @@ function DashboardContent() {
             </div>
 
             <div className="w-full md:w-auto flex items-center gap-4">
-              <div className="text-center">
-                <p className="text-sm text-slate-600 mb-2">
-                  Plano atual: <span className="font-medium text-primary">Pro</span>
-                </p>
-                <PricingDialog />
-              </div>
+              <Button
+                variant="default"
+                onClick={() => setIsPricingOpen(true)}
+                className="w-full md:w-auto"
+              >
+                Atualizar plano
+              </Button>
             </div>
+          </div>
+          <div className="mt-4 text-center">
+            <p className="text-sm text-slate-600">
+              Plano atual: <span className="font-medium text-primary">Pro</span>
+            </p>
           </div>
         </div>
 
@@ -128,6 +135,8 @@ function DashboardContent() {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+
+      <PricingDialog open={isPricingOpen} onOpenChange={setIsPricingOpen} />
     </div>
   );
 }

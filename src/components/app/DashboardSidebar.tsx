@@ -31,16 +31,18 @@ export function DashboardSidebar() {
           
           <SidebarHeader className="py-0">
             <div className="p-3">
-              <SidebarUserProfile />
-              <div className="mt-2 grid grid-cols-2 gap-2">
-                <Button variant="outline" size="sm" onClick={() => navigate('/departments')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
-                  <span className="truncate">Setores</span>
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => navigate('/users')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
-                  <span className="truncate">Usuários</span>
-                </Button>
-              </div>
               <SidebarPhoneSection connectedPhones={connectedPhones} />
+              <div className="mt-4">
+                <SidebarUserProfile />
+                <div className="mt-2 grid grid-cols-2 gap-2">
+                  <Button variant="outline" size="sm" onClick={() => navigate('/departments')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
+                    <span className="truncate">Setores</span>
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => navigate('/users')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
+                    <span className="truncate">Usuários</span>
+                  </Button>
+                </div>
+              </div>
             </div>
           </SidebarHeader>
           

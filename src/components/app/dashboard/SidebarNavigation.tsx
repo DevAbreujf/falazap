@@ -1,3 +1,4 @@
+
 import { useNavigate, useLocation } from "react-router-dom";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar";
 import { BarChart3, Filter, MessageSquare, Phone, Send, Bell, Calendar, Home, Bot, Tag, ChevronDown, Users } from "lucide-react";
@@ -11,13 +12,8 @@ export function SidebarNavigation() {
 
   useEffect(() => {
     const currentPath = location.pathname;
-    
-    // Reset all expanded items first
     setExpandedItems([]);
-    
-    // Check each menu item
     menuItems.forEach(item => {
-      // If the item has children and either the parent path or any child path matches
       if (item.children && (
         currentPath.includes(item.path) || 
         item.children.some(child => currentPath.includes(child.path))
@@ -85,14 +81,14 @@ export function SidebarNavigation() {
     icon: Send,
     label: "Disparos em massa",
     description: "Gerencie seus disparos",
-    path: "/broadcasts/list",
-    onClick: () => navigate("/broadcasts/list"),
+    path: "/disparos",
+    onClick: () => navigate("/disparos"),
     children: [{
       icon: Send,
       label: "Lista de disparos",
       description: "Visualize seus disparos",
-      path: "/broadcasts/list",
-      onClick: () => navigate("/broadcasts/list")
+      path: "/disparos",
+      onClick: () => navigate("/disparos")
     }]
   }, {
     icon: Bell,
