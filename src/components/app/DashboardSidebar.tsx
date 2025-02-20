@@ -4,22 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader } from "@/components/ui/sidebar";
 import { SidebarLogo } from "./dashboard/SidebarLogo";
 import { SidebarUserProfile } from "./dashboard/SidebarUserProfile";
-import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 import { RefreshCw, BookOpen } from "lucide-react";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
-  const connectedPhones = [{
-    number: "+55 11 99999-9999",
-    isConnected: true
-  }, {
-    number: "+55 11 88888-8888",
-    isConnected: true
-  }, {
-    number: "+55 11 77777-7777",
-    isConnected: true
-  }];
 
   return (
     <Sidebar className="border-r border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700">
@@ -31,17 +20,14 @@ export function DashboardSidebar() {
           
           <SidebarHeader className="py-0">
             <div className="p-3">
-              <SidebarPhoneSection connectedPhones={connectedPhones} />
-              <div className="mt-4">
-                <SidebarUserProfile />
-                <div className="mt-2 grid grid-cols-2 gap-2">
-                  <Button variant="outline" size="sm" onClick={() => navigate('/departments')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
-                    <span className="truncate">Setores</span>
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => navigate('/users')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
-                    <span className="truncate">Usuários</span>
-                  </Button>
-                </div>
+              <SidebarUserProfile />
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                <Button variant="outline" size="sm" onClick={() => navigate('/departments')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
+                  <span className="truncate">Setores</span>
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => navigate('/users')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
+                  <span className="truncate">Usuários</span>
+                </Button>
               </div>
             </div>
           </SidebarHeader>
@@ -59,18 +45,14 @@ export function DashboardSidebar() {
           {/* Updates and Tutorial Section */}
           <div className="px-3 py-2">
             <div className="flex flex-col gap-3">
-              <button
-                className="relative w-full h-20 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-slate-800"
-              >
+              <button className="relative w-full h-20 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-slate-800">
                 <div className="relative h-full flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-white">
                   <RefreshCw className="h-5 w-5 group-hover:rotate-180 transition-all duration-500" />
                   <span className="text-sm font-medium">Atualizações</span>
                 </div>
               </button>
 
-              <button
-                className="relative w-full h-20 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-slate-800"
-              >
+              <button className="relative w-full h-20 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-slate-800">
                 <div className="relative h-full flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-white">
                   <BookOpen className="h-5 w-5 group-hover:scale-110 transition-all duration-300" />
                   <span className="text-sm font-medium">Tutorial</span>
