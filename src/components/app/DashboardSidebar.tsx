@@ -8,7 +8,7 @@ import { SidebarPhoneSection } from "./dashboard/SidebarPhoneSection";
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
 import { SidebarNotifications } from "./dashboard/SidebarNotifications";
 import { ThemeToggle } from "./dashboard/ThemeToggle";
-import { MessageSquare, ArrowClockwise, BookOpen } from "lucide-react";
+import { MessageSquare, RefreshCw, BookOpen } from "lucide-react";
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ export function DashboardSidebar() {
               variant="ghost"
               className="flex flex-col items-center justify-center p-2 h-auto hover:bg-primary/5"
             >
-              <ArrowClockwise className="h-5 w-5 text-slate-600 mb-1" />
+              <RefreshCw className="h-5 w-5 text-slate-600 mb-1" />
               <span className="text-xs text-slate-600 font-medium">Atualizações</span>
             </Button>
             <Button
