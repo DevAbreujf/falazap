@@ -122,7 +122,9 @@ const Index = () => {
         <TransformResults />
         <HighScale />
         <Functionalities />
-        <Pricing />
+        <section id="pricing">
+          <Pricing />
+        </section>
         <FAQ />
         <SalesCTA />
       </main>
