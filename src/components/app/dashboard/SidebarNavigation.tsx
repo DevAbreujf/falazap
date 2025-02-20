@@ -118,12 +118,12 @@ export function SidebarNavigation() {
           <SidebarMenuButton 
             onClick={() => handleItemClick(item)}
             className={cn(
-              "group relative flex w-full items-center gap-2 rounded-lg p-1.5 transition-all duration-200 mx-0 my-[1px] cursor-pointer",
+              "group relative flex w-full items-center gap-2 rounded-lg p-1.5 transition-all duration-300 ease-in-out mx-0 my-[1px] cursor-pointer",
               item.children && "justify-between"
             )}
           >
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-200">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-300">
                 <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
               </div>
               <div className="flex flex-col">
@@ -138,7 +138,7 @@ export function SidebarNavigation() {
             {item.children && (
               <ChevronDown 
                 className={cn(
-                  "h-4 w-4 text-slate-400 hover:text-primary transition-all duration-200",
+                  "h-4 w-4 text-slate-400 hover:text-primary transition-all duration-300 ease-in-out",
                   expandedItems.includes(item.label) && "transform rotate-180"
                 )}
               />
@@ -151,7 +151,7 @@ export function SidebarNavigation() {
                 <SidebarMenuSubItem key={child.label}>
                   <SidebarMenuSubButton
                     onClick={child.onClick}
-                    className="flex items-center gap-2 p-1.5 rounded-md hover:bg-slate-100 cursor-pointer transition-all duration-200 text-slate-600 hover:text-primary"
+                    className="flex items-center gap-2 p-1.5 rounded-md hover:bg-slate-100 cursor-pointer transition-all duration-300 ease-in-out text-slate-600 hover:text-primary"
                   >
                     <child.icon className="h-4 w-4" />
                     <span className="text-sm">{child.label}</span>

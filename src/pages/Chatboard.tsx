@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { ChatSidebar } from "@/components/app/chat/ChatSidebar";
 import { ChatWindow } from "@/components/app/chat/ChatWindow";
 import { ChatIntro } from "@/components/app/chat/ChatIntro";
 import { ChatDialogs } from "@/components/app/chat/dialogs/ChatDialogs";
@@ -424,17 +423,9 @@ export default function Chatboard() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="min-h-screen flex w-full">
         <DashboardSidebar />
-        <div className="flex-1 flex">
-          <ChatSidebar
-            contacts={currentContacts}
-            departments={departments}
-            currentDepartment={currentDepartment}
-            onDepartmentChange={handleDepartmentChange}
-            selectedContactId={selectedContactId}
-            onSelectContact={(contact: ChatContact) => setSelectedContactId(contact.id)}
-          />
+        <div className="flex-1">
           {selectedContactId ? (
             <ChatWindow
               contact={currentContacts.find(

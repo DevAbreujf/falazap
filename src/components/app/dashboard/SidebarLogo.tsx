@@ -4,7 +4,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export function SidebarLogo() {
   return (
-    <div className="w-full flex items-center justify-center py-2 relative">
+    <div className="w-full flex items-center justify-center py-4 pt-6 relative">
       <div className="absolute left-4 top-1/2 -translate-y-1/2">
         <ThemeToggle />
       </div>
