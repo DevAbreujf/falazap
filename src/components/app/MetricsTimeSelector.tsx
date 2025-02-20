@@ -14,21 +14,21 @@ export function MetricsTimeSelector({ selected, onChange }: MetricsTimeSelectorP
       <Button
         variant={selected === "day" ? "default" : "secondary"}
         onClick={() => onChange("day")}
-        className={selected === "day" ? "" : "border border-slate-200 hover:bg-slate-100"}
+        className={`${selected === "day" ? "" : "border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"}`}
       >
         Dia
       </Button>
       <Button
         variant={selected === "week" ? "default" : "secondary"}
         onClick={() => onChange("week")}
-        className={selected === "week" ? "" : "border border-slate-200 hover:bg-slate-100"}
+        className={`${selected === "week" ? "" : "border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"}`}
       >
         Semana
       </Button>
       <Button
         variant={selected === "month" ? "default" : "secondary"}
         onClick={() => onChange("month")}
-        className={selected === "month" ? "" : "border border-slate-200 hover:bg-slate-100"}
+        className={`${selected === "month" ? "" : "border border-slate-200 hover:bg-primary/10 hover:text-primary hover:border-primary/20"}`}
       >
         Mês
       </Button>
