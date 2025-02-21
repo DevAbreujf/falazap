@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
@@ -31,7 +30,7 @@ function DashboardContent() {
   }];
 
   return (
-    <div className="flex-1 relative flex flex-col">
+    <div className="flex-1 flex flex-col relative">
       {/* Header Mobile Fixo */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b md:hidden">
         <div className="flex items-center justify-between px-4 h-14">
@@ -45,7 +44,7 @@ function DashboardContent() {
         </div>
       </div>
 
-      <main className="container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 pt-16 md:pt-6">
+      <main className="flex-1 container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 pt-16 md:pt-6">
         {/* Header Section */}
         <div className="bg-white rounded-xl p-4 mb-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start gap-4">
@@ -134,7 +133,7 @@ function DashboardContent() {
 export default function Dashboard() {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-slate-50 overflow-auto">
+      <div className="flex w-full bg-slate-50">
         <DashboardSidebar />
         <DashboardContent />
       </div>
