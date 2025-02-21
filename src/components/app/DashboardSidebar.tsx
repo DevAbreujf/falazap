@@ -27,7 +27,7 @@ export function DashboardSidebar() {
           <ArrowLeft className="h-4 w-4 text-slate-600 dark:text-slate-200" />
         </Button>
 
-        <div className="flex-1 bg-slate-50">
+        <div className="flex-1 overflow-y-auto bg-slate-50 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-200">
           <div className="border-b border-slate-200 dark:border-slate-700">
             <SidebarLogo />
           </div>
