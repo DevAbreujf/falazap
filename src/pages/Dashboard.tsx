@@ -1,5 +1,5 @@
+
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
 import { MetricsTimeSelector } from "@/components/app/MetricsTimeSelector";
@@ -7,6 +7,7 @@ import { Menu } from "lucide-react";
 import { PricingDialog } from "@/components/app/PricingDialog";
 import { MetricsGrid } from "@/components/app/dashboard/MetricsGrid";
 import { AnalyticsChart } from "@/components/app/dashboard/AnalyticsChart";
+import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SidebarPhoneSection } from "@/components/app/dashboard/SidebarPhoneSection";
@@ -30,7 +31,7 @@ function DashboardContent() {
   }];
 
   return (
-    <div className="flex-1 flex flex-col relative">
+    <div className="flex-1 flex flex-col">
       {/* Header Mobile Fixo */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b md:hidden">
         <div className="flex items-center justify-between px-4 h-14">
@@ -133,7 +134,7 @@ function DashboardContent() {
 export default function Dashboard() {
   return (
     <SidebarProvider>
-      <div className="flex w-full bg-slate-50">
+      <div className="flex min-h-screen w-full bg-slate-50">
         <DashboardSidebar />
         <DashboardContent />
       </div>

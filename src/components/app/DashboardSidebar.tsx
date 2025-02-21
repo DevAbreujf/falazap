@@ -12,8 +12,8 @@ export function DashboardSidebar() {
   const { setOpenMobile } = useSidebar();
 
   return (
-    <Sidebar className="sticky top-0 h-screen border-r border-slate-200 bg-white dark:bg-[#03201E] dark:border-slate-700 hidden md:block">
-      <div className="flex flex-col h-full relative">
+    <Sidebar className="border-r border-slate-200 bg-white dark:bg-[#03201E] dark:border-slate-700 hidden md:block">
+      <div className="flex flex-col h-full">
         {/* Floating Close Button */}
         <Button
           variant="ghost"
