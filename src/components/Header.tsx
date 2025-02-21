@@ -77,7 +77,7 @@ export function Header() {
             </Button>
           </Link>
           <Button 
-            onClick={() => navigate("/auth")} 
+            onClick={() => scrollToSection('pricing')}
             className="bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-xl hover:shadow-teal-500/30 transition-all duration-300"
           >
             Começar Agora
