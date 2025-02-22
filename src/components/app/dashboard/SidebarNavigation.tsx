@@ -50,8 +50,8 @@ export function SidebarNavigation() {
     icon: MessageSquare,
     label: "Conversas",
     description: "Chat em tempo real",
-    path: "/chatboard",
-    onClick: () => navigate("/chatboard")
+    path: "/conversas",
+    onClick: () => navigate("/conversas")
   }, {
     icon: Bot,
     label: "Agentes",
@@ -111,19 +111,19 @@ export function SidebarNavigation() {
           <SidebarMenuButton 
             onClick={() => handleItemClick(item)}
             className={cn(
-              "group relative flex w-full items-center gap-2 rounded-lg p-1.5 transition-all duration-300 ease-in-out mx-0 my-[1px] cursor-pointer",
+              "group relative flex w-full items-center gap-2 rounded-lg p-1.5 transition-all duration-300 ease-in-out mx-0 my-[1px] cursor-pointer bg-white/5 hover:bg-teal-400/10",
               item.children && "justify-between"
             )}
           >
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 group-hover:border-slate-300 transition-all duration-300">
-                <item.icon className="h-4 w-4 text-slate-600 group-hover:text-primary transition-colors" />
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 shadow-sm border border-white/10 group-hover:border-teal-400/30 transition-all duration-300">
+                <item.icon className="h-4 w-4 text-white/60 group-hover:text-teal-400 transition-colors" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-slate-900 leading-tight group-hover:text-primary transition-colors">
+                <span className="text-sm font-medium text-white/90 leading-tight group-hover:text-teal-400 transition-colors">
                   {item.label}
                 </span>
-                <span className="text-[11px] text-slate-500 leading-tight group-hover:text-slate-600 transition-colors">
+                <span className="text-[11px] text-white/60 leading-tight group-hover:text-teal-400/60 transition-colors">
                   {item.description}
                 </span>
               </div>
@@ -131,7 +131,7 @@ export function SidebarNavigation() {
             {item.children && (
               <ChevronDown 
                 className={cn(
-                  "h-4 w-4 text-slate-400 hover:text-primary transition-all duration-300 ease-in-out",
+                  "h-4 w-4 text-white/40 hover:text-teal-400 transition-all duration-300 ease-in-out",
                   expandedItems.includes(item.label) && "transform rotate-180"
                 )}
               />
@@ -144,7 +144,7 @@ export function SidebarNavigation() {
                 <SidebarMenuSubItem key={child.label}>
                   <SidebarMenuSubButton
                     onClick={child.onClick}
-                    className="flex items-center gap-2 p-1.5 rounded-md hover:bg-slate-100 cursor-pointer transition-all duration-300 ease-in-out text-slate-600 hover:text-primary"
+                    className="flex items-center gap-2 p-1.5 rounded-md hover:bg-teal-400/10 cursor-pointer transition-all duration-300 ease-in-out text-white/60 hover:text-teal-400"
                   >
                     <child.icon className="h-4 w-4" />
                     <span className="text-sm">{child.label}</span>
