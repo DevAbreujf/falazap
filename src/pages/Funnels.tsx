@@ -8,24 +8,19 @@ import { FunnelCard } from "@/components/app/FunnelCard";
 import { Menu, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { DeleteFunnelDialog } from "@/components/app/funnels/DeleteFunnelDialog";
-
-const mockFunnels = [
-  {
-    id: 1,
-    name: "Funil de Vendas Principal",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-03-10"),
-    isActive: true,
-  },
-  {
-    id: 2,
-    name: "Funil de Captação de Leads",
-    createdAt: new Date("2024-02-20"),
-    updatedAt: new Date("2024-03-08"),
-    isActive: false,
-  },
-];
-
+const mockFunnels = [{
+  id: 1,
+  name: "Funil de Vendas Principal",
+  createdAt: new Date("2024-01-15"),
+  updatedAt: new Date("2024-03-10"),
+  isActive: true
+}, {
+  id: 2,
+  name: "Funil de Captação de Leads",
+  createdAt: new Date("2024-02-20"),
+  updatedAt: new Date("2024-03-08"),
+  isActive: false
+}];
 export default function Funnels() {
   const [funnels, setFunnels] = useState(mockFunnels);
   const [deleteDialogState, setDeleteDialogState] = useState<{
@@ -33,23 +28,21 @@ export default function Funnels() {
     funnelId: number | null;
   }>({
     isOpen: false,
-    funnelId: null,
+    funnelId: null
   });
   const navigate = useNavigate();
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
   const handleCreateFunnel = () => {
     navigate("/funnels/editor");
   };
-
   const handleEditFunnel = (id: number) => {
     navigate(`/funnels/editor/${id}`);
   };
-
   const handleMetrics = (id: number) => {
     navigate(`/funnels/metrics/${id}`);
   };
-
   const handleDuplicateFunnel = (id: number) => {
     const funnelToDuplicate = funnels.find(f => f.id === id);
     if (funnelToDuplicate) {
@@ -58,47 +51,45 @@ export default function Funnels() {
         id: Math.max(...funnels.map(f => f.id)) + 1,
         name: `${funnelToDuplicate.name} (Cópia)`,
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       };
       setFunnels([...funnels, newFunnel]);
       toast({
         title: "Funil duplicado",
-        description: "O funil foi duplicado com sucesso!",
+        description: "O funil foi duplicado com sucesso!"
       });
     }
   };
-
   const handleDeleteFunnel = useCallback((id: number) => {
-    setDeleteDialogState({ isOpen: true, funnelId: id });
+    setDeleteDialogState({
+      isOpen: true,
+      funnelId: id
+    });
   }, []);
-
   const handleConfirmDelete = useCallback(() => {
     if (deleteDialogState.funnelId) {
-      setFunnels(prevFunnels => 
-        prevFunnels.filter(funnel => funnel.id !== deleteDialogState.funnelId)
-      );
+      setFunnels(prevFunnels => prevFunnels.filter(funnel => funnel.id !== deleteDialogState.funnelId));
       toast({
         title: "Funil excluído",
-        description: "O funil foi excluído com sucesso!",
+        description: "O funil foi excluído com sucesso!"
       });
-      setDeleteDialogState({ isOpen: false, funnelId: null });
+      setDeleteDialogState({
+        isOpen: false,
+        funnelId: null
+      });
     }
   }, [deleteDialogState.funnelId, toast]);
-
   const handleToggleFunnel = useCallback((id: number) => {
-    setFunnels(prevFunnels =>
-      prevFunnels.map(funnel =>
-        funnel.id === id ? { ...funnel, isActive: !funnel.isActive } : funnel
-      )
-    );
+    setFunnels(prevFunnels => prevFunnels.map(funnel => funnel.id === id ? {
+      ...funnel,
+      isActive: !funnel.isActive
+    } : funnel));
     toast({
       title: "Status atualizado",
-      description: "O status do funil foi atualizado com sucesso!",
+      description: "O status do funil foi atualizado com sucesso!"
     });
   }, [toast]);
-
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="flex min-h-screen w-full bg-slate-50">
         <DashboardSidebar />
         <div className="flex-1 overflow-auto">
@@ -111,12 +102,7 @@ export default function Funnels() {
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent mt-2" />
               </div>
               <div className="lg:hidden">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  asChild 
-                  className="hover:bg-primary/20 bg-black/50"
-                >
+                <Button variant="ghost" size="icon" asChild className="hover:bg-primary/20 bg-black/50">
                   <SidebarTrigger>
                     <Menu className="h-6 w-6 text-primary" />
                   </SidebarTrigger>
@@ -139,21 +125,14 @@ export default function Funnels() {
               <p className="text-lg font-medium text-primary">
                 Clique em '+ Novo Funil' para criar um novo fluxo
               </p>
-              <Button
-                onClick={handleCreateFunnel}
-                size="lg"
-                className="text-white hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-primary/20 bg-gradient-primary"
-              >
+              <Button onClick={handleCreateFunnel} size="lg" className="text-white hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-primary/20 bg-gradient-primary bg-emerald-400 hover:bg-emerald-300">
                 <Plus className="h-5 w-5 mr-2" />
                 Novo Funil
               </Button>
             </div>
 
             <div className="space-y-4 max-w-4xl mx-auto">
-              <div 
-                onClick={handleCreateFunnel}
-                className="group border-2 border-dashed border-primary/20 hover:border-primary/40 rounded-lg p-8 flex flex-col items-center justify-center gap-4 cursor-pointer transition-all duration-300 hover:bg-primary/5"
-              >
+              <div onClick={handleCreateFunnel} className="group border-2 border-dashed border-primary/20 hover:border-primary/40 rounded-lg p-8 flex flex-col items-center justify-center gap-4 cursor-pointer transition-all duration-300 hover:bg-primary/5">
                 <div className="rounded-full bg-primary/10 p-4 group-hover:bg-primary/20 transition-colors duration-300">
                   <Plus className="h-8 w-8 text-primary" />
                 </div>
@@ -162,31 +141,19 @@ export default function Funnels() {
                 </span>
               </div>
 
-              {funnels.map((funnel) => (
-                <FunnelCard
-                  key={funnel.id}
-                  funnel={funnel}
-                  onEdit={handleEditFunnel}
-                  onMetrics={handleMetrics}
-                  onDuplicate={handleDuplicateFunnel}
-                  onDelete={handleDeleteFunnel}
-                  onToggle={handleToggleFunnel}
-                />
-              ))}
+              {funnels.map(funnel => <FunnelCard key={funnel.id} funnel={funnel} onEdit={handleEditFunnel} onMetrics={handleMetrics} onDuplicate={handleDuplicateFunnel} onDelete={handleDeleteFunnel} onToggle={handleToggleFunnel} />)}
             </div>
           </main>
         </div>
       </div>
 
-      <DeleteFunnelDialog 
-        isOpen={deleteDialogState.isOpen}
-        onOpenChange={(isOpen) => {
-          if (!isOpen) {
-            setDeleteDialogState({ isOpen: false, funnelId: null });
-          }
-        }}
-        onDelete={handleConfirmDelete}
-      />
-    </SidebarProvider>
-  );
+      <DeleteFunnelDialog isOpen={deleteDialogState.isOpen} onOpenChange={isOpen => {
+      if (!isOpen) {
+        setDeleteDialogState({
+          isOpen: false,
+          funnelId: null
+        });
+      }
+    }} onDelete={handleConfirmDelete} />
+    </SidebarProvider>;
 }
