@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/app/DashboardSidebar";
@@ -31,15 +30,14 @@ function DashboardContent() {
   }];
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-auto bg-[#03201E]">
+    <div className="flex-1 flex flex-col h-screen overflow-auto bg-slate-50">
       {/* Header Mobile Fixo */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white/5 backdrop-blur-md border-b border-white/10 md:hidden">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b md:hidden">
         <div className="flex items-center justify-between px-4 h-14">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setOpenMobile(true)}
-            className="text-white/80 hover:text-teal-400"
           >
             <Menu className="h-5 w-5" />
           </Button>
@@ -48,19 +46,19 @@ function DashboardContent() {
 
       <div className="flex-1 container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 pt-16 md:pt-6">
         {/* Header Section */}
-        <div className="glass-card p-4 mb-6">
+        <div className="bg-white rounded-xl p-4 mb-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start gap-4">
             <div className="w-full md:w-auto">
               <div className="mb-4">
                 <SidebarPhoneSection connectedPhones={connectedPhones} />
               </div>
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl md:text-3xl font-bold text-white/90">
+                <h1 className="text-2xl md:text-3xl font-bold text-slate-900">
                   Olá, João!
                 </h1>
               </div>
-              <div className="h-px w-full bg-white/10 mt-3" />
-              <p className="text-white/60 text-base mt-3">
+              <div className="h-px w-full bg-slate-200 mt-3" />
+              <p className="text-slate-600 text-base mt-3">
                 Bem-vindo ao seu painel de controle
               </p>
             </div>
@@ -68,12 +66,12 @@ function DashboardContent() {
               <Button
                 variant="default"
                 onClick={() => setIsPricingOpen(true)}
-                className="w-full md:w-auto bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600"
+                className="w-full md:w-auto bg-emerald-400 hover:bg-emerald-300"
               >
                 Atualizar plano
               </Button>
-              <p className="text-sm text-white/60 mt-2">
-                Plano atual: <span className="font-medium text-teal-400">Pro</span>
+              <p className="text-sm text-slate-600 mt-2">
+                Plano atual: <span className="font-medium text-primary">Pro</span>
               </p>
             </div>
           </div>
@@ -92,7 +90,7 @@ function DashboardContent() {
           </div>
 
           {/* Analytics Chart */}
-          <div className="glass-card p-4">
+          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
             <AnalyticsChart />
           </div>
         </div>
@@ -105,7 +103,7 @@ function DashboardContent() {
             <Button
               variant="default"
               size="icon"
-              className="fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 bg-gradient-to-r from-teal-400 to-teal-500 hover:from-teal-500 hover:to-teal-600"
+              className="fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 bg-primary hover:bg-primary/90"
               onClick={() => {/* Add support action here */}}
             >
               <svg
