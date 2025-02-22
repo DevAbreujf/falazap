@@ -29,16 +29,9 @@ export function SidebarNavigation() {
         prev.includes(item.label) ? prev.filter(i => i !== item.label) : [...prev, item.label]
       );
     }
-    item.onClick();
-  };
-
-  const toggleExpanded = (e: React.MouseEvent, label: string) => {
-    e.stopPropagation();
-    setExpandedItems(prev => 
-      prev.includes(label) 
-        ? prev.filter(item => item !== label)
-        : [...prev, label]
-    );
+    if (!item.children) {
+      item.onClick();
+    }
   };
 
   const menuItems = [{
@@ -81,14 +74,14 @@ export function SidebarNavigation() {
     icon: Send,
     label: "Disparos em massa",
     description: "Gerencie seus disparos",
-    path: "/disparos",
-    onClick: () => navigate("/disparos"),
+    path: "/broadcasts",
+    onClick: () => navigate("/broadcasts"),
     children: [{
       icon: Send,
       label: "Lista de disparos",
       description: "Visualize seus disparos",
-      path: "/disparos",
-      onClick: () => navigate("/disparos")
+      path: "/broadcasts-list",
+      onClick: () => navigate("/broadcasts-list")
     }]
   }, {
     icon: Bell,
