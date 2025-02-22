@@ -23,6 +23,9 @@ export {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   sidebarMenuButtonVariants,
 } from "./sidebar-menu"
 
