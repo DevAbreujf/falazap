@@ -27,7 +27,7 @@ export function DashboardSidebar() {
           <ArrowLeft className="h-4 w-4 text-slate-600 dark:text-slate-200" />
         </Button>
 
-        <div className="flex-grow bg-slate-50 dark:bg-[#03201E]">
+        <div className="bg-slate-50 dark:bg-[#03201E]">
           <div className="border-b border-slate-200 dark:border-slate-700">
             <SidebarLogo />
           </div>
@@ -55,7 +55,7 @@ export function DashboardSidebar() {
           </SidebarContent>
         </div>
 
-        <div className="border-t border-slate-200 dark:border-slate-700">
+        <div className="mt-auto border-t border-slate-200 dark:border-slate-700">
           <div className="px-3 py-2 bg-slate-50 dark:bg-[#03201E]">
             <div className="flex flex-col gap-3">
               <button className="relative w-full h-20 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-[#03201E]">
