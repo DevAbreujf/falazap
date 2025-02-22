@@ -12,8 +12,8 @@ export function DashboardSidebar() {
   const { setOpenMobile } = useSidebar();
 
   return (
-    <Sidebar className="border-r border-slate-200 bg-white dark:bg-[#03201E] dark:border-slate-700 hidden md:block">
-      <div className="flex h-full flex-col">
+    <Sidebar className="border-r border-slate-200 bg-white dark:bg-[#03201E] dark:border-slate-700 hidden md:block min-h-screen">
+      <div className="flex flex-col h-screen sticky top-0">
         {/* Floating Close Button */}
         <Button
           variant="ghost"
@@ -33,14 +33,24 @@ export function DashboardSidebar() {
             <SidebarLogo />
           </div>
           
-          <SidebarHeader className="py-0">
-            <div className="p-3">
+          <SidebarHeader className="py-4">
+            <div className="px-4">
               <SidebarUserProfile />
-              <div className="mt-2 grid grid-cols-2 gap-2">
-                <Button variant="outline" size="sm" onClick={() => navigate('/departments')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => navigate('/departments')} 
+                  className="w-full justify-center h-10 dark:border-slate-700 dark:hover:bg-slate-800"
+                >
                   <span className="truncate">Setores</span>
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => navigate('/users')} className="w-full justify-center dark:border-slate-700 dark:hover:bg-slate-800">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => navigate('/users')} 
+                  className="w-full justify-center h-10 dark:border-slate-700 dark:hover:bg-slate-800"
+                >
                   <span className="truncate">Usuários</span>
                 </Button>
               </div>
@@ -49,10 +59,10 @@ export function DashboardSidebar() {
         </div>
 
         {/* Navigation Section */}
-        <div className="flex-1 min-h-0 overflow-y-auto bg-slate-50 dark:bg-[#03201E] scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
-          <SidebarContent className="px-2">
+        <div className="flex-1 overflow-y-auto bg-slate-50 dark:bg-[#03201E] scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
+          <SidebarContent className="p-4">
             <SidebarGroup>
-              <SidebarGroupContent>
+              <SidebarGroupContent className="space-y-1">
                 <SidebarNavigation />
               </SidebarGroupContent>
             </SidebarGroup>
@@ -61,18 +71,26 @@ export function DashboardSidebar() {
 
         {/* Footer Section */}
         <div className="flex-none border-t border-slate-200 dark:border-slate-700">
-          <div className="p-3 bg-slate-50 dark:bg-[#03201E]">
-            <div className="flex flex-col gap-3">
-              <button className="relative w-full h-20 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-[#03201E]">
-                <div className="relative h-full flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-white">
-                  <RefreshCw className="h-5 w-5 group-hover:rotate-180 transition-all duration-500" />
+          <div className="p-4 bg-slate-50 dark:bg-[#03201E]">
+            <div className="flex flex-col gap-4">
+              <button 
+                className="relative w-full h-24 rounded-xl overflow-hidden group 
+                  transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-slate-800/50
+                  hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700"
+              >
+                <div className="relative h-full flex flex-col items-center justify-center gap-3 text-slate-700 dark:text-white">
+                  <RefreshCw className="h-6 w-6 group-hover:rotate-180 transition-all duration-500" />
                   <span className="text-sm font-medium">Atualizações</span>
                 </div>
               </button>
 
-              <button className="relative w-full h-20 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-[#03201E]">
-                <div className="relative h-full flex flex-col items-center justify-center gap-2 text-slate-700 dark:text-white">
-                  <BookOpen className="h-5 w-5 group-hover:scale-110 transition-all duration-300" />
+              <button 
+                className="relative w-full h-24 rounded-xl overflow-hidden group 
+                  transition-all duration-300 hover:shadow-lg bg-slate-100 dark:bg-slate-800/50
+                  hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700"
+              >
+                <div className="relative h-full flex flex-col items-center justify-center gap-3 text-slate-700 dark:text-white">
+                  <BookOpen className="h-6 w-6 group-hover:scale-110 transition-all duration-300" />
                   <span className="text-sm font-medium">Tutorial</span>
                 </div>
               </button>
