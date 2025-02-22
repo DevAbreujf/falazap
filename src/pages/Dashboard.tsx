@@ -31,7 +31,7 @@ function DashboardContent() {
   }];
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 flex flex-col min-h-screen">
       {/* Header Mobile Fixo */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b md:hidden">
         <div className="flex items-center justify-between px-4 h-14">
@@ -45,54 +45,56 @@ function DashboardContent() {
         </div>
       </div>
 
-      <main className="container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 pt-16 md:pt-6">
-        {/* Header Section */}
-        <div className="bg-white rounded-xl p-4 mb-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-            <div className="w-full md:w-auto">
-              <div className="mb-4">
-                <SidebarPhoneSection connectedPhones={connectedPhones} />
+      <main className="flex-1 overflow-auto">
+        <div className="container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 pt-16 md:pt-6">
+          {/* Header Section */}
+          <div className="bg-white rounded-xl p-4 mb-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+              <div className="w-full md:w-auto">
+                <div className="mb-4">
+                  <SidebarPhoneSection connectedPhones={connectedPhones} />
+                </div>
+                <div className="flex items-center gap-3">
+                  <h1 className="text-2xl md:text-3xl font-bold text-slate-900">
+                    Olá, João!
+                  </h1>
+                </div>
+                <div className="h-px w-full bg-slate-200 mt-3" />
+                <p className="text-slate-600 text-base mt-3">
+                  Bem-vindo ao seu painel de controle
+                </p>
               </div>
-              <div className="flex items-center gap-3">
-                <h1 className="text-2xl md:text-3xl font-bold text-slate-900">
-                  Olá, João!
-                </h1>
+              <div className="flex flex-col items-end">
+                <Button
+                  variant="default"
+                  onClick={() => setIsPricingOpen(true)}
+                  className="w-full md:w-auto bg-emerald-400 hover:bg-emerald-300"
+                >
+                  Atualizar plano
+                </Button>
+                <p className="text-sm text-slate-600 mt-2">
+                  Plano atual: <span className="font-medium text-primary">Pro</span>
+                </p>
               </div>
-              <div className="h-px w-full bg-slate-200 mt-3" />
-              <p className="text-slate-600 text-base mt-3">
-                Bem-vindo ao seu painel de controle
-              </p>
-            </div>
-            <div className="flex flex-col items-end">
-              <Button
-                variant="default"
-                onClick={() => setIsPricingOpen(true)}
-                className="w-full md:w-auto bg-emerald-400 hover:bg-emerald-300"
-              >
-                Atualizar plano
-              </Button>
-              <p className="text-sm text-slate-600 mt-2">
-                Plano atual: <span className="font-medium text-primary">Pro</span>
-              </p>
             </div>
           </div>
-        </div>
 
-        {/* Metrics Time Selector */}
-        <div className="mb-6">
-          <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
-        </div>
-
-        {/* Dashboard Content */}
-        <div className="space-y-6">
-          {/* Metrics Grid */}
-          <div className="grid gap-4">
-            <MetricsGrid timeRange={timeRange} />
+          {/* Metrics Time Selector */}
+          <div className="mb-6">
+            <MetricsTimeSelector selected={timeRange} onChange={setTimeRange} />
           </div>
 
-          {/* Analytics Chart */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
-            <AnalyticsChart />
+          {/* Dashboard Content */}
+          <div className="space-y-6">
+            {/* Metrics Grid */}
+            <div className="grid gap-4">
+              <MetricsGrid timeRange={timeRange} />
+            </div>
+
+            {/* Analytics Chart */}
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+              <AnalyticsChart />
+            </div>
           </div>
         </div>
       </main>
@@ -134,7 +136,7 @@ function DashboardContent() {
 export default function Dashboard() {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-slate-50">
+      <div className="flex h-screen w-full bg-slate-50 overflow-hidden">
         <DashboardSidebar />
         <DashboardContent />
       </div>
