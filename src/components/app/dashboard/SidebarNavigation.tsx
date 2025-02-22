@@ -74,14 +74,14 @@ export function SidebarNavigation() {
     icon: Send,
     label: "Disparos em massa",
     description: "Gerencie seus disparos",
-    path: "/broadcasts",
-    onClick: () => navigate("/broadcasts"),
+    path: "/disparos",
+    onClick: () => navigate("/disparos"),
     children: [{
       icon: Send,
       label: "Lista de disparos",
       description: "Visualize seus disparos",
-      path: "/broadcasts-list",
-      onClick: () => navigate("/broadcasts-list")
+      path: "/disparos/lista",
+      onClick: () => navigate("/disparos/lista")
     }]
   }, {
     icon: Bell,
