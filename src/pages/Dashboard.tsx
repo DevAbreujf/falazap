@@ -31,7 +31,7 @@ function DashboardContent() {
   }];
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen">
+    <div className="flex-1 flex flex-col">
       {/* Header Mobile Fixo */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b md:hidden">
         <div className="flex items-center justify-between px-4 h-14">
@@ -45,7 +45,7 @@ function DashboardContent() {
         </div>
       </div>
 
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1">
         <div className="container mx-auto p-4 md:p-6 lg:px-8 xl:px-10 pt-16 md:pt-6">
           {/* Header Section */}
           <div className="bg-white rounded-xl p-4 mb-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
@@ -136,7 +136,7 @@ function DashboardContent() {
 export default function Dashboard() {
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-full bg-slate-50 overflow-hidden">
+      <div className="flex min-h-screen w-full bg-slate-50">
         <DashboardSidebar />
         <DashboardContent />
       </div>
